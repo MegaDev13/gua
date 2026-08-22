@@ -50,6 +50,7 @@ export function computeAll(db, personagem) {
   const htAtual = personagem.atributos.HT - (personagem.combate?.ferimentos || 0);
 
   return {
+    _db: db,
     atributos: personagem.atributos,
     custoAtributos: Object.fromEntries(Object.entries(personagem.atributos).map(([k, v]) => [k, custoAtributo(db, v)])),
     velocidadeBasica: vel,

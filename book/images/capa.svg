@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="GUA — capa do livro">
+  <defs>
+    <linearGradient id="fundo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a1512"/>
+      <stop offset="1" stop-color="#120806"/>
+    </linearGradient>
+    <linearGradient id="ouro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f4d58d"/>
+      <stop offset=".5" stop-color="#c9a227"/>
+      <stop offset="1" stop-color="#8a6d1d"/>
+    </linearGradient>
+  </defs>
+  <!-- moldura do livro -->
+  <rect x="4" y="4" width="192" height="192" rx="14" fill="url(#fundo)" stroke="url(#ouro)" stroke-width="4"/>
+  <rect x="14" y="14" width="172" height="172" rx="8" fill="none" stroke="#c9a227" stroke-opacity=".45" stroke-width="1.5"/>
+  <!-- d20 estilizado -->
+  <g transform="translate(100 88)">
+    <polygon points="0,-46 40,-18 26,32 -26,32 -40,-18" fill="none" stroke="url(#ouro)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M0,-46 L0,14 M40,-18 L0,14 M-40,-18 L0,14 M0,14 L26,32 M0,14 L-26,32" stroke="url(#ouro)" stroke-width="2" stroke-opacity=".7" fill="none"/>
+    <circle r="17" fill="#120806" stroke="url(#ouro)" stroke-width="3"/>
+    <text x="0" y="7" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="bold" fill="url(#ouro)">3d</text>
+  </g>
+  <!-- espadas cruzadas -->
+  <g stroke="url(#ouro)" stroke-width="4" stroke-linecap="round" transform="translate(100 150)">
+    <path d="M-30,-16 L30,14 M30,-16 L-30,14"/>
+    <path d="M-34,10 L-26,2 M34,10 L26,2" stroke-width="3"/>
+  </g>
+  <text x="100" y="180" text-anchor="middle" font-family="Georgia, serif" font-size="21" font-weight="bold" fill="url(#ouro)" letter-spacing="6">G U A</text>
+</svg>
