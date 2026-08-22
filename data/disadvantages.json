@@ -1,0 +1,576 @@
+[
+ {
+  "id": "h-bitos-detest-veis",
+  "nome": "Hábitos Detestáveis",
+  "custo": "-5, -10, -15 pontos",
+  "descricao": "O personagem se comporta parte do (ou todo o) tempo de maneira repugnante aos outros. Quanto pior o seu comportamento, maior o número de pontos. Pode-se especificar o comportamento no momento em que o personagem é criado e estimar o bônus junto com o Mestre. Alguns exemplos: Odor de suor, coceira crônica e cantarolar o tempo todo fora de tom poderiam valer -5 pontos cada.",
+  "fonte": "p. 42"
+ },
+ {
+  "id": "primitivismo",
+  "nome": "Primitivismo",
+  "custo": "-5 pontos por nível Tecnológico",
+  "descricao": "Você pertence a uma cultura com NT mais baixo que o da campanha e, por isso, não tem nenhum conhecimento (ou nível pré-definido para testes de habilidade) relacionado com equipamentos de nível tecnológico maior do que o seu. Só lhe é permitido começar com perícias ou equipamentos de sua cultura.",
+  "fonte": "p. 42"
+ },
+ {
+  "id": "estigma-social",
+  "nome": "Estigma Social",
+  "custo": "-5, -10, -15 pontos",
+  "descricao": "Você pertence a uma raça, classe ou sexo que sua cultura considera inferior. O “estigma” deve ser óbvio para todos os que o encontram, caso contrário ele não passaria de uma má reputação. O valor do bônus depende do redutor que será utilizado nos testes de reação: Cidadão de segunda categoria (ex.: uma mulher do século XIX ou seguidores de algumas religiões nos EUA ): - 5 pontos.",
+  "fonte": "p. 43"
+ },
+ {
+  "id": "idade",
+  "nome": "Idade",
+  "custo": "-3 pontos para cada ano acima de 50",
+  "descricao": "Seu personagem tem mais de 50 anos de idade no momento de sua criação. Isto significa que você deverá fazer uma série de jogadas (veja Idade e Envelhecimento) a fim de verificar uma possível diminuição do valor de seus atributos devido à idade avançada. Lembre-se que a criação de um personagem muito velho poderá vir a ser frustrante.",
+  "fonte": "p. 44"
+ },
+ {
+  "id": "disopia",
+  "nome": "Disopia",
+  "custo": "-10 pontos",
+  "descricao": "O personagem pode tanto ser míope, quanto hipermétrope, a escolha é sua. Se for míope, ele não será capaz de ler letras pequenas, etc., a uma distância maior do que 30 cm, ou placas de estrada, etc., a mais de 10 m. Estará sempre submetido a um redutor de -2 em testes de habilidade com armas de mão.",
+  "fonte": "p. 44"
+ },
+ {
+  "id": "albinismo",
+  "nome": "Albinismo",
+  "custo": "-10 pontos",
+  "descricao": "O Personagem não possui a pigmentação natural no corpo; seus pelos, cabelos e pele são brancos e os olhos são cor-de-rosa. Quando estivermos escolhendo a aparência do personagem ele poderá ser atraente ou feio, mas nunca será considerado “comum”. Um albino será sempre lembrado e não é capaz de se misturar em uma multidão. Eles devem evitar o sol direto e não têm resistência à queimadura solar.",
+  "fonte": "p. 45"
+ },
+ {
+  "id": "cegueira",
+  "nome": "Cegueira",
+  "custo": "-50 pontos",
+  "descricao": "O personagem não enxerga. Como uma compensação parcial, ele poderia começar com o Ouvido Aguçado e/ou Olfato/Paladar Apurado, pagando somente a metade dos pontos necessários. Além disso, ele não estará submetido a nenhuma penalidade por atuar no escuro. O personagem deverá viajar mais lenta e cuidadosamente em terreno desconhecido, ou ser guiado por um companheiro ou animal.",
+  "fonte": "p. 45"
+ },
+ {
+  "id": "daltonismo",
+  "nome": "Daltonismo",
+  "custo": "-10 pontos",
+  "descricao": "O personagem não é capaz de distinguir nenhuma cor (i.e. acromatopsia). No dia-a-dia, esta anomalia não é mais do que um transtorno. No entanto, em situações que exijam a identificação das cores (compra de pedras preciosas, identificação de um uniforme ou apertar o botão vermelho para dar a partida num motor), o GM deverá lhe impor as dificuldades adequadas ao caso.",
+  "fonte": "p. 46"
+ },
+ {
+  "id": "surdez",
+  "nome": "Surdez",
+  "custo": "-20 pontos",
+  "descricao": "Você não é capaz de ouvir nada. Qualquer informação deve lhe ser transmitida através da escrita (se você for alfabetizado) ou linguagem de sinais. Estará também submetido a um redutor de -3 em seu atributo IQ quando estiver aprendendo qualquer língua que não seja a sua. No entanto, receberá um bônus de +3 em todos os testes de Mímica/Pantomima, Linguagem de Sinais ou Leitura Labial.",
+  "fonte": "p. 46"
+ },
+ {
+  "id": "nanismo",
+  "nome": "Nanismo",
+  "custo": "-15 pontos",
+  "descricao": "O personagem é um anão por motivos genéticos, anormalmente baixo para a sua espécie. Determine sua altura normalmente, e depois reduza-a a 60%. Ele também não poderá ter uma Aparência Física igual à média e será considerado “atraente e charmoso” ou particularmente desagradável. Qualquer oponente que o ataque com uma arma de arremesso ou de projétil estará submetido a um redutor de -1 (ele é um alvo difícil).",
+  "fonte": "p. 46"
+ },
+ {
+  "id": "epilepsia",
+  "nome": "Epilepsia",
+  "custo": "-30 pontos",
+  "descricao": "O personagem está sujeito a crises, durante as quais seus membros ficam imobilizados e ele é incapaz de falar ou pensar claramente. (Esta é uma doença grave.) Sempre que ele estiver numa situação de tensão (principalmente se sua vida, ou a de um companheiro, estiver em perigo), deverá fazer um teste de HT. Uma falha causará a crise que terá 1D minutos de duração.",
+  "fonte": "p. 47"
+ },
+ {
+  "id": "eunuco",
+  "nome": "Eunuco",
+  "custo": "-5 pontos",
+  "descricao": "O personagem (homens apenas) perdeu sua masculinidade através de um acidente ou de uma ação hostil. Ele estará imune à sedução e será incapaz de seduzir outros. Qualquer pessoa ciente de sua condição estará submetida a um redutor de -1 nos testes de reação.",
+  "fonte": "p. 47"
+ },
+ {
+  "id": "obesidade",
+  "nome": "Obesidade",
+  "custo": "-10/-20 pontos",
+  "descricao": "O personagem será extraordinariamente gordo para sua raça. (Um personagem pode ser simplesmente “gordo”, situação descrita separadamente mais adiante.) Para uma obesidade equivalente a -10 pontos, determine seu peso normalmente a partir de sua Força e depois aumente-o em 50%. Isto resultará em um redutor de -1 em todos os testes de reação e sua HT nunca poderá ser maior do que 15.",
+  "fonte": "p. 48"
+ },
+ {
+  "id": "gigantismo",
+  "nome": "Gigantismo",
+  "custo": "-10 pontos",
+  "descricao": "O personagem é um gigante por questões genéticas, anormalmente grande para a sua espécie. Determine sua altura normalmente e depois aumente-a em 20%. Se ele ainda tiver menos do que 2,10 m de altura (para os humanos), aumente-a para este mínimo. O tamanho mínimo para gigantes de outras raças é deixado a cargo do GM. O peso deve ser determinado em proporção à altura. Força e Vitalidade não são afetadas.",
+  "fonte": "p. 48"
+ },
+ {
+  "id": "duro-de-ouvido",
+  "nome": "Duro de Ouvido",
+  "custo": "-10 pontos",
+  "descricao": "O personagem não é surdo, mas perdeu uma parte da audição. Ele estará submetido a um redutor de - 4 em todos os testes de Audição e nos de perícias com línguas (nas situações em que ele precisa entender o que alguém esta dizendo). Isso significa que as jogadas acima serão feitas contra IQ-4. Esta desvantagem não o afeta, quando é ele quem está falando.",
+  "fonte": "p. 49"
+ },
+ {
+  "id": "hemofilia",
+  "nome": "Hemofilia",
+  "custo": "-30 pontos",
+  "descricao": "O personagem é um hemofílico. Um ferimento, por menor que seja, não cicatrizará, a menos que seja enfaixado, e o personagem sangrará até morrer. Qualquer ferimento não tratado sangrará numa taxa igual ao número de pontos de dano original por minuto.",
+  "fonte": "p. 49"
+ },
+ {
+  "id": "deficiente-f-sico",
+  "nome": "Deficiente Físico",
+  "custo": "-15,-25 ou -35 pontos",
+  "descricao": "O personagem tem um certo grau de redução em sua mobilidade. O valor do bônus depende da lesão, como a seguir: Perna Mutilada: O personagem tem uma perna ruim. Seu Deslocamento fica reduzido em 3 pontos e ele estará submetido a um redutor de -3 em todos os testes de habilidade que exigem andar ou correr.",
+  "fonte": "p. 49"
+ },
+ {
+  "id": "mudez",
+  "nome": "Mudez",
+  "custo": "-25 pontos",
+  "descricao": "O personagem não é capaz de falar. Toda a comunicação com outros (e a comunicação do jogador com os outros jogadores) deverá ser feita por escrito ou com linguagem de sinais. (O GM e o jogador poderão ir a uma outra sala, se necessário, para falar sobre o que o personagem está fazendo.) Um personagem Mudo recebe um bônus de +3 em todos os testes de Mímica/ Pantomima ou Linguagem de Sinais.",
+  "fonte": "p. 50"
+ },
+ {
+  "id": "disosmia-ageusia",
+  "nome": "Disosmia/Ageusia",
+  "custo": "-5 pontos",
+  "descricao": "Esta é uma doença rara... o personagem não é capaz de sentir nem o cheiro nem o sabor de nada. Será, portanto, incapaz de detectar certos perigos que as pessoas normais percebem rapidamente. No entanto, esta deficiência tem suas vantagens. Um personagem que a tenha nunca será afetado por gambás e sempre será capaz de comer qualquer coisa que lhe ponham na frente.",
+  "fonte": "p. 50"
+ },
+ {
+  "id": "zarolho",
+  "nome": "Zarolho",
+  "custo": "-15 pontos",
+  "descricao": "O personagem tem apenas um olho bom. Ele pode usar um olho de vidro ou cobrir a vista defeituosa com um tapa-olho. Seu atributo DX estará submetido a um redutor de -1 em situações de combate e/ou que envolvam a coordenação entre mãos e olhos, e -3 em situações que envolvam armas de projétil, arremesso de objetos ou a condução de qualquer veículo mais rápido que um cavalo ou uma charrete.",
+  "fonte": "p. 51"
+ },
+ {
+  "id": "magreza",
+  "nome": "Magreza",
+  "custo": "-5 pontos",
+  "descricao": "O personagem é excessivamente magro. Depois de descobrir sua altura, verifique o peso “médio” para aquela altura e diminua-o em 1/3. Ele nunca poderá ser Elegante ou Muito Elegante e seu atributo HT nunca poderá ser maior do que 14. Roupas e armaduras normais não lhe servirão, e seu atributo ST estará submetido a um redutor de -2 quando ele tentar dar (ou resistir a) um Encontrão.",
+  "fonte": "p. 52"
+ },
+ {
+  "id": "gagueira",
+  "nome": "Gagueira",
+  "custo": "-10 pontos",
+  "descricao": "O personagem sofre de gagueira ou outro problema de fala que o GM pode pedir para o jogador representar. Ele estará submetido a um redutor de -2 em todos os testes de reação onde for necessária uma conversa, e certas ocupações e perícias como Diplomacia, Lábia, Oratória, Atuação ou Noticiarista, são impossíveis. Juventude -2 a -6 pontos O personagem é menor de idade segundo os padrões de sua cultura.",
+  "fonte": "p. 52"
+ },
+ {
+  "id": "distra-o",
+  "nome": "Distração",
+  "custo": "-15 pontos",
+  "descricao": "A desvantagem clássica dos gênios excêntricos. O personagem tem dificuldade em prestar atenção a qualquer coisa que não seja de interesse imediato. Um personagem distraído estará submetido a um redutor de -5 em qualquer teste de IQ, com exceção daqueles ligados ao trabalho no qual ele está concentrado no momento.",
+  "fonte": "p. 53"
+ },
+ {
+  "id": "alcoolismo",
+  "nome": "Alcoolismo",
+  "custo": "-15 ou -20 pontos",
+  "descricao": "O personagem é um viciado em álcool. O alcoolismo é tratado como um vício (veja acima). Ele é barato, incapacitante e (normalmente) legal. Por isso vale -10 pontos. Mas o álcool é traiçoeiro, por ser diferente da maioria dos outros vícios. Por isso ele vale -15 pontos, ou - 20 se for ilegal.",
+  "fonte": "p. 55"
+ },
+ {
+  "id": "mau-humor",
+  "nome": "Mau Humor",
+  "custo": "-10 pontos",
+  "descricao": "O personagem não tem um controle total de suas emoções. Ele deverá fazer um teste de Vontade em qualquer situação de tensão. Uma falha significa que ele perdeu a paciência e deve insultar, atacar ou agir de alguma maneira contra a causa de sua explosão.",
+  "fonte": "p. 56"
+ },
+ {
+  "id": "f-ria",
+  "nome": "Fúria",
+  "custo": "-15 pontos",
+  "descricao": "Como o Mau Humor, só que pior. O personagem tende a perder o controle de si próprio quando submetido a alguma tensão, passando a atacar freneticamente quem ou o que quer que creia ser a causa de seu problema. (Não se pode assumir as duas desvantagens, Fúria e Mau Humor.) Sempre que ele for atingido por mais de 3 vezes numa rodada, deverá fazer um teste de Vontade. Uma falha significa que ele ficou enfurecido.",
+  "fonte": "p. 56"
+ },
+ {
+  "id": "sanguinol-ncia",
+  "nome": "Sanguinolência",
+  "custo": "-10 pontos",
+  "descricao": "O personagem deseja ver seus oponentes mortos. Em uma batalha ele preferirá os golpes mortais, dará um tiro a mais para ter certeza de ter matado um oponente vencido, atacará guardas quando isto poderia ser evitado, etc. Ele precisará ser bem sucedido em um teste de Vontade para aceitar a rendição de um inimigo ou mesmo fazer um prisioneiro quando isto lhe for ordenado.",
+  "fonte": "p. 57"
+ },
+ {
+  "id": "fanfarronice",
+  "nome": "Fanfarronice",
+  "custo": "-10 pontos",
+  "descricao": "Você gosta de intimidar as pessoas sempre que é possível fazê-lo impunemente. Dependendo de sua personalidade e de sua posição, isto pode tomar a forma de agressões físicas, hostilidade intelectual ou “gelo” social.",
+  "fonte": "p. 57"
+ },
+ {
+  "id": "c-digo-de-honra",
+  "nome": "Código de Honra",
+  "custo": "-5 a -15 pontos",
+  "descricao": "O personagem tem orgulho de um conjunto de princípios que ele segue todo o tempo. Os Códigos de Honra diferem entre si, mas todos eles exigem um comportamento (segundo seus próprios padrões) “viril”, “corajoso” e “honrado”. Um código de honra pode também ser chamado de “orgulho”, “machismo” ou “fachada”. Não importa o nome, ele significa a disposição de arriscar a vida ao invés de ser considerado desonrado...",
+  "fonte": "p. 57"
+ },
+ {
+  "id": "paralisia-frente-ao-combate",
+  "nome": "Paralisia Frente ao Combate",
+  "custo": "-15 pontos",
+  "descricao": "Este é a situação oposta a Reflexos em Combate; o personagem tende a ficar paralisado quando se vê em um combate. Não é Covardia, você não deve representar medo. Pelo contrário, deve ser corajoso, mas é atraiçoado pelo corpo. Em qualquer situação onde uma lesão física parecer iminente, o personagem deverá fazer um teste de HT (não IQ).",
+  "fonte": "p. 59"
+ },
+ {
+  "id": "compuls-o",
+  "nome": "Compulsão",
+  "custo": "-5 a -15 pontos",
+  "descricao": "Você tem algum hábito (geralmente, mas nem sempre, um vício) que se sente compelido a praticar diariamente. Você gasta uma boa parte de seu tempo satisfazendo esta tendência. Entre os exemplos de Compulsão incluem-se o jogo, atração por uma outra pessoa, discutir (ou mesmo brigar). Em geral, é exigido um teste de Vontade no caso do jogador querer evitar sua compulsão numa determinada situação (ou num dia específico).",
+  "fonte": "p. 59"
+ },
+ {
+  "id": "mentir-compulsivamente",
+  "nome": "Mentir Compulsivamente",
+  "custo": "-15 pontos",
+  "descricao": "O personagem mente constantemente, por nenhuma outra razão que não seja a alegria de mentir. Um mentiroso compulsivo se delicia inventando histórias sobre suas façanhas, linhagem, riqueza — qualquer coisa que possa impressionar sua audiência. Mesmo quando desmascarado, ele se apega tenazmente a suas histórias, chamando seu denunciador de mentiroso e salafrário.",
+  "fonte": "p. 59"
+ },
+ {
+  "id": "covardia",
+  "nome": "Covardia",
+  "custo": "-10 pontos",
+  "descricao": "O personagem é extremamente cuidadoso com relação ao seu bem estar físico. Toda vez que surgir a necessidade de se arriscar fisicamente, ele deverá fazer um teste de Vontade. Se houver risco de vida, a jogada será feita com um redutor de -5. Se o resultado for um fracasso, ele deverá se recusar a se arriscar, a menos que seja ameaçado com um perigo maior.",
+  "fonte": "p. 60"
+ },
+ {
+  "id": "fantasias",
+  "nome": "Fantasias",
+  "custo": "-1, -5, -10 ou -15 pontos",
+  "descricao": "O personagem acredita em alguma coisa (ou em várias) que simplesmente não é (são) de verdade. Isto pode levar os outros a pensarem que ele é maluco. Eles podem ter razão. Se o personagem tiver uma fantasia, o jogador deverá atuar segundo sua crença todo o tempo.",
+  "fonte": "p. 60"
+ },
+ {
+  "id": "dislexia",
+  "nome": "Dislexia",
+  "custo": "-5 ou -15 pontos",
+  "descricao": "Você tem uma deficiência grave. (Formas mais amenas de dislexia que não incapacitam são comuns, mas pouco significativas em termos de jogo, a não ser, talvez, como uma peculiaridades.) Você é incapaz de aprender a ler ou escrever; até mesmo mapas simples e placas de estrada estão além de sua compreensão. Você é capaz de estudar qualquer perícia na velocidade normal se tiver um professor.",
+  "fonte": "p. 62"
+ },
+ {
+  "id": "fanatismo",
+  "nome": "Fanatismo",
+  "custo": "-15 pontos",
+  "descricao": "Você crê intensamente em um país, religião, etc., e isto é mais importante do que qualquer outra coisa. Pode ser que você não morra por ela (depende de sua coragem pessoal), mas certamente a colocará à frente de todo o resto. Se seu país/religião/sei-lá-o-quê exigir obediência a um determinado código de comportamento, você o seguirá rigidamente.",
+  "fonte": "p. 62"
+ },
+ {
+  "id": "gula",
+  "nome": "Gula",
+  "custo": "-5 pontos",
+  "descricao": "Você gosta demais de boa comida e bebida. Se tiver chance, você sempre se sobrecarregará com provisões extras e não deverá nunca perder uma refeição por vontade própria. Você precisa de um sucesso em um teste de Vontade para resistir a uma iguaria tentadora ou a um bom vinho, se por alguma razão precisar fazê-lo. A Gula não é uma fraqueza terrível, mas sua natureza ficará logo óbvia para todos que o conhecerem.",
+  "fonte": "p. 63"
+ },
+ {
+  "id": "cobi-a",
+  "nome": "Cobiça",
+  "custo": "-15 pontos",
+  "descricao": "Você tem paixão por dinheiro. Toda vez que algum patrimônio for oferecido como pagamento por um trabalho lícito, proventos de uma aventura, pilhagem ou apenas isca, você terá que conseguir um sucesso em um teste de Vontade para resistir à tentação. O GM pode modificar esta jogada se a soma envolvida for pequena em comparação com seus bens. Pequenas quantias não tentarão (muito) um personagem rico.",
+  "fonte": "p. 63"
+ },
+ {
+  "id": "credulidade",
+  "nome": "Credulidade",
+  "custo": "-10 pontos",
+  "descricao": "Nasce um crédulo por minuto e o seu personagem é um deles. Uma pessoa crédula acredita em tudo o que ouvir. Ela engolirá a história mais absurda, se ela for contada com convicção. Para não acreditar em uma mentira ou em uma verdade improvável, ele deverá ser bem sucedido em um teste de IQ modificado segundo a plausibilidade da história.",
+  "fonte": "p. 63"
+ },
+ {
+  "id": "honestidade",
+  "nome": "Honestidade",
+  "custo": "-10 pontos",
+  "descricao": "O personagem DEVE obedecer a lei sempre e dar o melhor de si para que os outros também o façam. Ele será compulsivo com relação à lei. Em sua essência, é um outro tipo de Código de Honra. Numa região onde exista pouca ou nenhuma lei, ele não ficará fora de si, mas agirá como se as leis de seu lugar de origem estivessem em vigor. Isto é uma desvantagem, porque frequentemente limitará suas opções.",
+  "fonte": "p. 64"
+ },
+ {
+  "id": "analfabetismo",
+  "nome": "Analfabetismo",
+  "custo": "0 ou -10 pontos",
+  "descricao": "Esta é a condição normal em uma cultura de baixo NT e neste caso não oferece nenhum bônus. Em culturas com NT 5+, onde a imprensa é comum, ela será uma desvantagem.",
+  "fonte": "p. 64"
+ },
+ {
+  "id": "impulsividade",
+  "nome": "Impulsividade",
+  "custo": "-10 pontos",
+  "descricao": "O personagem odeia falar e pensar. Ele prefere a ação. Quando estiver só, ele agirá primeiro e pensará depois. Em um grupo, quando seus companheiros quiserem parar e discutir uma situação, ele dará sua opinião rapidamente, se o fizer, e depois partirá para a ação. Represente esta característica.",
+  "fonte": "p. 65"
+ },
+ {
+  "id": "intoler-ncia",
+  "nome": "Intolerância",
+  "custo": "-5/-10 pontos",
+  "descricao": "Você não gosta e não confia em pessoas que são diferentes de você. Um personagem completamente intolerante (-10 pontos) terá um redutor de -3 em seus testes de reação frente a qualquer pessoa que não pertença à sua raça e/ou classe. No caso de uma reação “boa” ele tolerará a pessoa e será tão cortês quanto possível (apesar de frio e reservado).",
+  "fonte": "p. 65"
+ },
+ {
+  "id": "inveja",
+  "nome": "Inveja",
+  "custo": "-10 pontos",
+  "descricao": "O personagem terá, automaticamente, uma reação ruim frente a qualquer um que pareça mais inteligente, mais atraente ou em melhor situação do que ele. Pode também se opor a qualquer plano proposto por um “rival”, e odiará se alguma outra pessoa estiver em evidência. (Esta desvantagem combina bem com Megalomania).",
+  "fonte": "p. 65"
+ },
+ {
+  "id": "cleptomania",
+  "nome": "Cleptomania",
+  "custo": "-15 pontos",
+  "descricao": "O personagem se sente compelido a roubar, não necessariamente coisas de valor, mas qualquer coisa que ele possa levar. Sempre que tiver uma chance de roubar, o personagem deverá fazer um teste de Vontade com um redutor que pode ir até -3, se o objeto tiver um interesse especial para ele (não necessariamente valor, a menos que ele seja pobre ou ambicioso, mas simplesmente “interesse”).",
+  "fonte": "p. 66"
+ },
+ {
+  "id": "pregui-a",
+  "nome": "Preguiça",
+  "custo": "-10 pontos",
+  "descricao": "O personagem tem uma aversão muito grande pelo trabalho físico. Suas chances de conseguir um aumento ou promoção em qualquer emprego são reduzidas à metade. Se ele trabalhar por conta própria, sua renda mensal cairá para a metade. O personagem deve tentar evitar o trabalho, principalmente trabalho duro, a qualquer custo. Represente!",
+  "fonte": "p. 66"
+ },
+ {
+  "id": "lux-ria",
+  "nome": "Luxúria",
+  "custo": "-15 pontos",
+  "descricao": "O personagem sofre de um desejo incontrolável por romance. Em qualquer contato com um membro atraente do sexo oposto, o personagem deverá fazer um teste de Vontade (com um redutor de -5 se a outra pessoa for bonita ou -10 se for muito bonita). Uma falha significa que ele deverá tentar uma “cantada”, usando todos os artifícios e perícias de que for capaz.",
+  "fonte": "p. 66"
+ },
+ {
+  "id": "megalomania",
+  "nome": "Megalomania",
+  "custo": "-10 pontos",
+  "descricao": "Você acredita que é o super-homem, ou que foi o escolhido para uma grande tarefa, ou que seu destino é conquistar. Comece por adotar a desvantagem do Fanatismo, sendo que você é fanático por si próprio! Você deve escolher algum objetivo muito grande — normalmente conquistar ou terminar uma tarefa fantástica, e jamais permitirá que algo se interponha entre você e seu objetivo.",
+  "fonte": "p. 66"
+ },
+ {
+  "id": "avareza",
+  "nome": "Avareza",
+  "custo": "-10 pontos",
+  "descricao": "Semelhante à Cobiça exceto que o personagem está muito mais interessado naquilo que ele já tem. Um personagem pode ser ambicioso e avarento. Ele deverá conseguir um sucesso em um teste de Vontade, toda vez que tiver que gastar algum dinheiro, e deverá procurar sempre o melhor preço. Se a despesa for grande, o teste de Vontade deverá estar submetido a um redutor de -5 (ou até maior).",
+  "fonte": "p. 67"
+ },
+ {
+  "id": "excesso-de-confian-a",
+  "nome": "Excesso de Confiança",
+  "custo": "-10 pontos",
+  "descricao": "Você acha que é mais poderoso, inteligente e/ou competente do que realmente é, e deverá se comportar desta maneira. Toda vez que (na opinião do GM) você demonstrar um grau de cautela exagerado, deverá fazer um teste de IQ. Uma falha significará que você não pode ser cauteloso e deve ir em frente como se fosse capaz de dominar a situação.",
+  "fonte": "p. 67"
+ },
+ {
+  "id": "pacifismo",
+  "nome": "Pacifismo",
+  "custo": "-15 ou -30 pontos",
+  "descricao": "O personagem se opõe à violência. Esta oposição pode assumir 3 formas, cada uma com um valor em pontos: Não-violência total significa exatamente isto. Você não levantará a mão contra outra criatura inteligente, por razão nenhuma e deve dar o melhor de sua não- violência para desencorajar o comportamento violento dos outros. Você pode se defender contra o ataque de alimais, mosquitos, etc. -30 pontos.",
+  "fonte": "p. 67"
+ },
+ {
+  "id": "paran-ia",
+  "nome": "Paranóia",
+  "custo": "-10 pontos",
+  "descricao": "Você perdeu o contato com a realidade. Especificamente, você acredita que alguém está planejando alguma coisa contra sua pessoa, e nunca confiará em ninguém exceto seus velhos amigos — assim mesmo, sem perdê-los de vista. Os outros personagens, compreensivelmente, terão suas reações submetidas a um redutor de -2.",
+  "fonte": "p. 68"
+ },
+ {
+  "id": "piromania",
+  "nome": "Piromania",
+  "custo": "-5 pontos",
+  "descricao": "Você ama o fogo e gosta de acendê-lo. Para uma boa atuação, você não deveria perder nenhuma oportunidade de começar um incêndio ou apreciar um, quando encontrar. Faça um teste de Vontade quando for absolutamente necessário reprimir seu amor pelas chamas.",
+  "fonte": "p. 73"
+ },
+ {
+  "id": "sadismo",
+  "nome": "Sadismo",
+  "custo": "-15 pontos",
+  "descricao": "Você se delicia com a crueldade... física, mental, ou ambas. (Esta é uma característica particularmente “maligna”, mais adequada para vilões NPCs do que para personagens heróicos.) O GM pode proibir terminantemente esta desvantagem (ou qualquer outra vantagem ou desvantagem), se ele não desejar que ninguém a represente em sua campanha.",
+  "fonte": "p. 73"
+ },
+ {
+  "id": "desdobramento-de-personalidade",
+  "nome": "Desdobramento de Personalidade",
+  "custo": "-10 ou -15 pontos",
+  "descricao": "Você tem duas ou mais personalidades, cada uma das quais pode ter seu próprio conjunto de problemas mentais ou padrão de comportamento. Isto permite que você tenha Desvantagens Mentais que seriam incompatíveis de outra maneira (ex.: Pacifismo e Fúria, ou Paranóia e Luxúria). Cada personalidade deveria ter sua própria planilha. Devem existir pelo menos 50 pontos de diferenças.",
+  "fonte": "p. 74"
+ },
+ {
+  "id": "teimosia",
+  "nome": "Teimosia",
+  "custo": "-5 pontos",
+  "descricao": "Você sempre quer fazer as coisas a seu modo e deverá ser uma pessoal difícil de se conviver. Represente! Seus amigos podem vir a ter de fazer um bocado de testes de Lábia para conseguir que você os acompanhe em planos perfeitamente razoáveis. A reação das outras pessoas com relação a você estará submetida a um redutor de -1 ponto.",
+  "fonte": "p. 74"
+ },
+ {
+  "id": "veracidade",
+  "nome": "Veracidade",
+  "custo": "-5 pontos",
+  "descricao": "Você odeia dizer uma mentira ou o faz muito mal. Para conseguir se manter calado sobre a uma verdade desconfortável (mentir por omissão), você precisa de um sucesso em um teste de Vontade. Para chegar a realmente dizer uma mentira o teste precisará ser feito com um redutor de -5. Uma falha significará que você deixou escapar a verdade ou gaguejou tanto que sua mentira ficou óbvia.",
+  "fonte": "p. 75"
+ },
+ {
+  "id": "azar",
+  "nome": "Azar",
+  "custo": "-10 pontos",
+  "descricao": "O personagem é simplesmente um azarado. Tudo dá errado para ele e, normalmente, na pior hora possível. O GM irá, arbitrária e maliciosamente fazer alguma coisa sair errada para você uma vez em cada sessão de jogo. Você fracassará numa jogada de importância vital, ou o inimigo irá aparecer (contra todas as chances do mundo) na pior hora.",
+  "fonte": "p. 75"
+ },
+ {
+  "id": "voto",
+  "nome": "Voto",
+  "custo": "-1 a -15 pontos",
+  "descricao": "Você fez um juramento de que faria (ou não faria) uma determinada coisa. Esta desvantagem é especialmente adequada para cavaleiros, homens santos e fanáticos. Lembre-se que, qualquer que seja o voto, você o levará a sério. Se você não agir assim, ele não será uma desvantagem. O valor preciso de um voto é decidido pelo Mestre, mas deveria estar diretamente relacionado ao transtorno que ele causa ao personagem.",
+  "fonte": "p. 75"
+ },
+ {
+  "id": "vontade-fraca",
+  "nome": "Vontade Fraca",
+  "custo": "-8 pontos/nível",
+  "descricao": "Você é facilmente persuadido, atemorizado, intimidado, coagido, tentado, etc. Para cada nível adotado, seu atributo IQ será efetivamente diminuído em 1 ponto sempre que você fizer um teste de Vontade, inclusive tentativas de resistir à Diplomacia, Lábia, Sex-appeal, Interrogatório, Hipnotismo ou tentativas mágicas ou psíquicas de assumir o comando, ler ou influenciar sua mente.",
+  "fonte": "p. 76"
+ },
+ {
+  "id": "senso-do-dever",
+  "nome": "Senso do Dever",
+  "custo": "-5, -10, -15, -20 pontos",
+  "descricao": "Esta desvantagem é diferente de um dever de verdade. Um Dever pode ser imposto a você. O Senso do Dever vem de dentro. Não é, também, a mesma coisa que Honestidade. Uma pessoa desonesta pode ter um senso do dever. Robin Hood era desonesto; ele roubava! Mas tinha um forte Senso do Dever com relação a seus homens e aos pobres de sua região.",
+  "fonte": "p. 80"
+ },
+ {
+  "id": "alergia-ao-sexo-oposto",
+  "nome": "Alergia ao Sexo Oposto",
+  "custo": "variável",
+  "descricao": "-10 pontos: o Personagem se sente desconfortável e desajeitado na presença de qualquer membro do sexo oposto. Impondo um redutor de -2 em todos os seus testes. -20 pontos: igual ao anterior, mas o Personagem fica tonto e muito mais nervoso em qualquer situação que envolva qualquer membro do sexo oposto. O redutor passa para -4 em seus testes.",
+  "fonte": "p. 84"
+ },
+ {
+  "id": "apresenta-o-indispens-vel",
+  "nome": "Apresentação Indispensável",
+  "custo": "-5 pontos",
+  "descricao": "Seu Personagem deve SEMPRE fazer uma apresentação mirabolante no início do combate ou em qualquer situação de introdução. Caso todos os Personagens do grupo comprem este Aprimoramento teremos um show de bizarrices, pois todos devem-se apresentar juntos.",
+  "fonte": "p. 84"
+ },
+ {
+  "id": "alter-ego",
+  "nome": "Alter Ego",
+  "custo": "variável",
+  "descricao": "O personagem com esta desvantagem tem duas formas distintas: Uma poderosa e outra normal. Em sua vida diária, ele mantém-se em sua forma normal. A transformação de uma forma para outra leva uma rodada completa, durante a qual o personagem nada pode fazer. Quando adotando esta desvantagem, o jogador deve especificar se o Alter Ego é Controlável ou Incontrolável.",
+  "fonte": "p. 84"
+ },
+ {
+  "id": "har-m-indesejado",
+  "nome": "Harém indesejado",
+  "custo": "-20 pontos",
+  "descricao": "Você estranhamente é atraído por pessoas que não chamam sua atenção de nenhuma maneira. E essas pessoas são bastante incisivas em conseguir uma chance com você.",
+  "fonte": "p. 85"
+ },
+ {
+  "id": "c-digo-de-honra-teridian",
+  "nome": "Código de Honra Teridian",
+  "custo": "-5 pontos",
+  "descricao": "Nunca deixar de cumprimentar, olhar, cantar, azarar qualquer ser que seja da sua “espécie”.",
+  "fonte": "p. 85"
+ },
+ {
+  "id": "idade",
+  "nome": "Idade",
+  "custo": "-10 pontos",
+  "descricao": "O personagem com essa desvantagem é consideravelmente mais jovem ou mais velho que os personagens tradicionais. Quando comprada esta desvantagem, deve-se especificar Velho ou Jovem. Velho: Personagens com mais de 50 anos subtraem permanentemente -2 de sua Iniciativa.",
+  "fonte": "p. 85"
+ },
+ {
+  "id": "inocente",
+  "nome": "Inocente",
+  "custo": "-10 pontos",
+  "descricao": "O personagem é extremamente leigo nos caminhos da sociedade e desejos da humanidade. Um personagem Inocente acredita na inerente bondade de todas as criaturas e acredita que todas as pessoas acreditam no mesmo; ele enxerga o mundo em óculos cor- de-rosa e não pode entender o mal ou atitudes inconsideradas.",
+  "fonte": "p. 85"
+ },
+ {
+  "id": "fan-tico",
+  "nome": "Fanático",
+  "custo": "-15 pontos",
+  "descricao": "Você é um Fanático e tudo na sua vida está relacionado com a sua fé, senão é \"coisa do diabo\". Um fanático é uma pessoa que só pensa nele mesmo e vive acusando os outros.",
+  "fonte": "p. 85"
+ },
+ {
+  "id": "fan-tico-por-um-hobby",
+  "nome": "Fanático por um Hobby",
+  "custo": "-5 pontos",
+  "descricao": "Igual ao Fanático, mas desta vez o Personagem não se devota a algum culto religioso e sim ao algo mais \"leve\", como um hobby próprio que o Personagem tenha (explicado com firmeza em seu background). O Personagem SÓ fala do hobby, todo dia, TODA HORA e mistura qualquer de seus assuntos em qualquer conversa com sua \"paixão\".",
+  "fonte": "p. 86"
+ },
+ {
+  "id": "h-lito-inflam-vel",
+  "nome": "Hálito Inflamável",
+  "custo": "-10 pontos",
+  "descricao": "Seu Personagem tem um MAU HÁLITO tão forte que ele é inflamável! Isso o faz perder pontos com seus relacionamentos interpessoais. No entanto, pode ser usado como uma Arma de Sopro se você tiver um isqueiro nas mãos e assoprar (dano igual a 1D+2/3 de sua HT).",
+  "fonte": "p. 86"
+ },
+ {
+  "id": "inimigo-das-armas",
+  "nome": "Inimigo das Armas",
+  "custo": "-20 pontos",
+  "descricao": "Devido a treinamentos ou dogmas, seu Personagem não conseguiu adquirir habilidades de empunhar uma arma cortante ou que pode machucar seu oponente. Quando ele empunha uma arma desta, todos os seus testes de Ataque e Defesa recebem uma penalidade de -10, a não ser que seja uma arma que não machuque, como bastões de madeira e similares. NOTA: um Personagem com Inimigo das Armas NÃO pode comprar Armas Improvisadas!",
+  "fonte": "p. 86"
+ },
+ {
+  "id": "atra-o-irracional",
+  "nome": "Atração Irracional",
+  "custo": "-5 pontos",
+  "descricao": "O personagem com Atração Irracional é atraído a certos objetos, materiais, animais, tipos de expressão, etc. O personagem deve costumeiramente dedicar algum de seu tempo a procura da causa de sua Atração; se a Atração é por um objeto, o personagem deve ser incapaz de agir na presença daquele objeto; se a Atração é por um manerismo, ele deve constantemente manifestar tal maneirismo.",
+  "fonte": "p. 86"
+ },
+ {
+  "id": "maldi-o-de-ali-bab",
+  "nome": "Maldição de Ali-Babá",
+  "custo": "-40 pontos",
+  "descricao": "Uma nova forma de maldição: essa maldição permite ao seu Personagem ser uma MULHER durante o dia e HOMEM durante a noite (ou vice-versa). A transformação é instantânea e nada poderá mudá-la (você vai permanecer com as mesmas roupas e o que estiver fazendo).",
+  "fonte": "p. 86"
+ },
+ {
+  "id": "flashbacks-traum-ticos",
+  "nome": "Flashbacks Traumáticos",
+  "custo": "variável",
+  "descricao": "O personagem revive um certo trauma quando exposto a uma certa condição, que deve ser especificada na adoção da desvantagem. Exemplos incluem: Menção duma certa palavra, ver um objeto específico, ouvir certa música, cheirar certo odor, ou a presença do personagem num certo local. Quando exposto a causa do Flashback, o personagem deve rolar 4 ou mais em dois dados d6 (jogada de 3d6).",
+  "fonte": "p. 86"
+ },
+ {
+  "id": "culpa",
+  "nome": "Culpa",
+  "custo": "-5 pontos",
+  "descricao": "O personagem é atormentado por sua consciência devido a alguma falha passada ou uma série de falhas em sua vida pessoal. Isto inclui o caso em que o personagem é assombrado por fantasmas de companheiros mortos por exemplo. Um personagem com culpa vive sendo atormentado por esse sentimento e recebe -4 em seus testes quando esse sentimento vem à tona.",
+  "fonte": "p. 87"
+ },
+ {
+  "id": "preso-a-este-mundo",
+  "nome": "Preso a este Mundo",
+  "custo": "-30 pontos",
+  "descricao": "Seu Personagem não é nativo do mundo de Campanha, e sim foi parar lá por causa de alguma mágica ou falha em um experimento. Ele usa roupas de seu mundo e possui o mesmo linguajar. O seu objetivo maior é voltar ao seu mundo nativo, nem que seja da pior forma.",
+  "fonte": "p. 87"
+ },
+ {
+  "id": "s-ndrome-do-bator",
+  "nome": "Síndrome do Batoré",
+  "custo": "-10 pontos",
+  "descricao": "O Personagem é viciado em CONTAR PIADAS! Não importa qual for a situação (velório, cultos religiosos, compras, aniversários, brigas...) a primeira coisa que o Personagem entra no recinto é contar qualquer piada (preferencialmente aquela que \"combina\" com a situação, como contar uma piada de morte num velório, de sexo quando estiver num prostíbulo, de super-heróis quando estiver num aniversário e assim por diante!)",
+  "fonte": "p. 87"
+ },
+ {
+  "id": "s-ndrome-do-dudu",
+  "nome": "Síndrome do Dudu",
+  "custo": "-5 pontos",
+  "descricao": "Você tem um medo fervoroso de bonecas, isso mesmo, BONECAS! Qualquer boneca que estiver perto do seu personagem, ele fica apavorado e sai correndo. Com um sucesso em um teste de Verificação de Pânico, o personagem fica apenas com um pouco de medo paranóico diante da boneca. O medo consiste em apenas bonecas, principalmente as de pano.",
+  "fonte": "p. 87"
+ },
+ {
+  "id": "desmaio-s-bito",
+  "nome": "Desmaio Súbito",
+  "custo": "-20 pontos",
+  "descricao": "Você tem uma doença rara no coração: toda vez que você se esforça muito você desmaia e fica por um bom tempo neste estado (determinado pelo Mestre). Toda vez que seu personagem se emocionar demais com algumas coisa, ele deverá ser bem sucedido em um teste HT para não desmaiar a longo prazo.",
+  "fonte": "p. 87"
+ },
+ {
+  "id": "instabilidade-psicol-gica",
+  "nome": "Instabilidade Psicológica",
+  "custo": "-10 pontos",
+  "descricao": "O personagem é mentalmente instável, alterando dramaticamente de humor, ou tendo lapsos de memória, depressão, ou até violentos ataques esquizofrênicos. A frequências desses ataques é determinada pelo mestre.",
+  "fonte": "p. 88"
+ },
+ {
+  "id": "dio-irracional",
+  "nome": "Ódio Irracional",
+  "custo": "variável",
+  "descricao": "O personagem tem ódio a certos objetos, materiais, animais, locais, personagem ou povo específico, etc.",
+  "fonte": "p. 88"
+ }
+]

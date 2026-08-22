@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GUA — Sistema de Personagens & Livro de Regras</title>
+  <meta name="description" content="Ecossistema digital do RPG GUA: livro ilustrado navegável, ficha de personagem automatizada, combate, inventário e economia — tudo sobre a mesma base de regras.">
+  <link rel="icon" href="book/images/capa.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <header class="topbar">
+    <div class="brand" id="brand">
+      <img src="book/images/capa.svg" alt="" class="brand-logo" width="34" height="34">
+      <div>
+        <strong>GUA</strong>
+        <span class="brand-sub">Sistema de Personagens &amp; Livro de Regras</span>
+      </div>
+    </div>
+    <nav class="tabs" id="nav" aria-label="Seções do sistema"></nav>
+    <div class="topbar-actions">
+      <label class="char-select-wrap" title="Meus personagens">
+        <span class="sr-only">Personagem ativo</span>
+        <select id="charSelect" class="char-select"></select>
+      </label>
+      <button id="btnSave" class="btn btn-ghost" title="Salvar agora (autosave ativo)">💾</button>
+      <button id="btnMenu" class="btn btn-ghost only-mobile" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <main id="main" class="main" tabindex="-1"></main>
+
+  <div id="modal-root"></div>
+  <div id="toast-root" aria-live="polite"></div>
+
+  <noscript>
+    <div style="padding:2rem;font-family:sans-serif">Este sistema precisa de JavaScript ativado.</div>
+  </noscript>
+
+  <script type="module" src="app/main.js"></script>
+</body>
+</html>
