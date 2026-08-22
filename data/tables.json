@@ -1,0 +1,187 @@
+{
+  "_fonte": "Transcrito do material (docs/fonte-gua-material.pdf); páginas citadas por tabela.",
+  "custoAtributos": {
+    "fonte": "p. 1-2",
+    "tabela": {"1": -80, "2": -70, "3": -60, "4": -50, "5": -40, "6": -30, "7": -20, "8": -15, "9": -10, "10": 0, "11": 10, "12": 20, "13": 30, "14": 45, "15": 60, "16": 80, "17": 100, "18": 125, "19": 150, "20": 175},
+    "progressao": "Acima de 20: REGRA NÃO DEFINIDA (tabela original vai até 20 e diz 'não existe limite superior', sem publicar custos além de 20)."
+  },
+  "danoBasico": {
+    "fonte": "p. 190",
+    "tabela": {
+      "4": {"gdp": "0", "bal": "0"}, "5": {"gdp": "1D-5", "bal": "1D-5"}, "6": {"gdp": "1D-4", "bal": "1D-4"},
+      "7": {"gdp": "1D-3", "bal": "1D-3"}, "8": {"gdp": "1D-3", "bal": "1D-2"}, "9": {"gdp": "1D-2", "bal": "1D-1"},
+      "10": {"gdp": "1D-2", "bal": "1D"}, "11": {"gdp": "1D-1", "bal": "1D+1"}, "12": {"gdp": "1D-1", "bal": "1D+2"},
+      "13": {"gdp": "1D", "bal": "2D-1"}, "14": {"gdp": "1D", "bal": "2D"}, "15": {"gdp": "1D+1", "bal": "2D+1"},
+      "16": {"gdp": "1D+1", "bal": "2D+2"}, "17": {"gdp": "1D+2", "bal": "3D-1"}, "18": {"gdp": "1D+2", "bal": "3D"},
+      "19": {"gdp": "2D-1", "bal": "3D+1"}, "20": {"gdp": "2D-1", "bal": "3D+2"}
+    },
+    "progressao": "'...e assim por diante, sendo óbvia a progressão.' (p. 190). Acima de 20: extrapolável pela progressão — marcado como estimativa."
+  },
+  "custoPericias": {
+    "fonte": "p. 104-105",
+    "fisicas": {
+      "colunas": ["Fácil", "Média", "Difícil"],
+      "linhas": {"-3": [null, null, 0.5], "-2": [null, 0.5, 1], "-1": [0.5, 1, 2], "0": [1, 2, 4], "1": [2, 4, 8], "2": [4, 8, 16], "3": [8, 16, 24], "4": [16, 24, 32], "5": [24, 32, 40]},
+      "acrescimoPorNivel": 8
+    },
+    "mentais": {
+      "colunas": ["Fácil", "Média", "Difícil", "Muito Difícil"],
+      "linhas": {"-4": [null, null, null, 0.5], "-3": [null, null, 0.5, 1], "-2": [null, 0.5, 1, 2], "-1": [0.5, 1, 2, 4], "0": [1, 2, 4, 8], "1": [2, 4, 6, 12], "2": [4, 6, 8, 16], "3": [6, 8, 10, 20], "4": [8, 10, 12, 24], "5": [10, 12, 14, 28]},
+      "acrescimoPorNivel": 2,
+      "acrescimoPorNivelMuitoDificil": 4
+    }
+  },
+  "carga": {
+    "fonte": "p. 195-197",
+    "niveis": [
+      {"nivel": 0, "nome": "Nenhuma", "limite": "ST", "penalidadeMovimento": 0},
+      {"nivel": 1, "nome": "Leve", "limite": "2xST", "penalidadeMovimento": 1},
+      {"nivel": 2, "nome": "Média", "limite": "3xST", "penalidadeMovimento": 2},
+      {"nivel": 3, "nome": "Pesada", "limite": "6xST", "penalidadeMovimento": 3},
+      {"nivel": 4, "nome": "Muito Pesada", "limite": "10xST", "penalidadeMovimento": 4}
+    ],
+    "maximoCarregavel": "15xST; acima de 10xST só 1-2 m por vez; fadiga 1/turno acima de 10xST"
+  },
+  "ferimentos": {
+    "fonte": "p. 230-232, 277-279",
+    "choque": "-(PV perdidos) em IQ/DX/perícias no turno seguinte (cumulativo na rodada)",
+    "ht3ouMenos": "Movimento e Esquiva pela metade (arredondar para baixo)",
+    "ht0ouMenos": "Teste de HT (com Força de Vontade/Vontade Fraca) no início de cada turno ou desmaia",
+    "testesMorte": "HT = -HT: teste de HT ou morre; novo teste a cada 5 PV perdidos (6+ PV num golpe = 2 testes)",
+    "morteAutomatica": "HT = -5xHT (perdeu 6xHT pontos de vida)",
+    "corpoDestruido": "HT < -10xHT",
+    "prostracao": "Perda > HT/2 num só golpe: teste HT; falha = cai e fica atordoado; sucesso = atordoado",
+    "nocauteCabeca": "Golpe na cabeça/cérebro com dano >= RD: teste HT ou inconsciente; cérebro com perda > HT/2 = nocaute automático",
+    "atordoamento": "Defesas ativas -4; recupera com teste de HT (físico) ou IQ (mental) no início do turno",
+    "lesoesIncapacitantes": {"maosPes": ">= HT/3 em um golpe", "bracosPernas": ">= HT/2 em um golpe"}
+  },
+  "fadiga": {
+    "fonte": "p. 298-300",
+    "luta": "Custo por luta (>10 s) = nível de Carga + 1 (1 a 5); +1 dia quente; +2 armadura de placas/sobretudo",
+    "marcha": "Mesmo custo da luta por hora de marcha",
+    "corridaNatacao": "Teste de HT a cada 100 m; falha = -1 fadiga",
+    "estafa": "Carga acima de muito pesada ou puxar/empurrar muito pesado: 1 fadiga/turno",
+    "esforcoExtra": "1 fadiga por tentativa",
+    "sono": "Noite sem dormir 5; meia noite 2",
+    "efeitos": {
+      "st3": "Movimento pela metade (arredondar para baixo)",
+      "st1": "Desfalece: só fala/magia/poderes; continua se afogando",
+      "st0": "Desmaia; descansa até ST 1",
+      "nota": "Fadiga reduz ST para testes de força e perícias baseadas em ST; dano básico de armas NÃO muda; nunca negativa"
+    },
+    "recuperacao": {"descanso": "1 ponto de ST por 10 minutos de descanso (recuperação da fadiga, p. 300)", "nota": "Fadiga por inanição só recupera com 1 dia de descanso e 3 refeições (recupera 3/refeições perdidas por dia)"}
+  },
+  "primeirosSocorros": {
+    "fonte": "p. 282-283",
+    "tabela": [
+      {"nt": 0, "tempo": "30 min", "pv": "Nenhuma solução, só bandagem (1 PV)"},
+      {"nt": 1, "tempo": "30 min", "pv": "1D-4"},
+      {"nt": "2-3", "tempo": "30 min", "pv": "1D-3"},
+      {"nt": 4, "tempo": "30 min", "pv": "1D-2"},
+      {"nt": 5, "tempo": "20 min", "pv": "1D-2"},
+      {"nt": "6-7", "tempo": "20 min", "pv": "1D-1"},
+      {"nt": 8, "tempo": "10 min", "pv": "1D"},
+      {"nt": "9+", "tempo": "10 min", "pv": "como NT8 + drogas/dispositivos"}
+    ],
+    "notas": "Mínimo 1 PV recuperado; sucesso decisivo recupera toda a HT; falha crítica: vítima perde 2 PV. Ataduras simples: 1 PV (30 min), não acumulável."
+  },
+  "queda": {"fonte": "p. 289", "dano": ["1-2 m: (1D-4) por metro", "3-4 m: (1D-3) por metro", "5+ m: (1D-2) por metro"], "notas": "Acrobacia reduz altura efetiva em até 5 m; máx. 45 m; macio -1/m; água: teste de Natação; armaduras: RD normal (máx 3, roupas/couro/plástico), ½ RD (metal), 1/3 RD (combate NT8+)"},
+  "locaisImpacto": {
+    "fonte": "p. 241-246",
+    "redutores": {"Tronco": 0, "Braço": -2, "Perna": -2, "Mão": -4, "Pé": -4, "Cabeça (não cérebro)": -5, "Cérebro": -7, "Órgãos vitais (só perfurante)": -4, "Arma (pequena)": -5, "Arma (média: lança/haste/rifle/espadão)": -3, "Arma (outra)": -4},
+    "tabelaAleatoria3d": "REGRA NÃO DEFINIDA — tabela no caderno Quadros e Tabelas não fornecido",
+    "vitals": "Bala/perfurante nos vitais: dano que passa a RD é TRIPLICADO (x3)",
+    "membrosSemBonus": "Bala/perfurante em braços/pernas/mãos/pés: sem bônus de dano",
+    "trespassar": "Mão/pé: dano > HT/3 perdido; braço/perna: > HT/2 perdido; tronco (bala/ponta): > HT perdido; cabeça/vitais: > 3xHT perdido; feixe/bola de fogo/elétrico: máximo dobrado; cérebro e armas 15D+: sem máximo"
+  },
+  "tiposDano": {
+    "fonte": "p. 188-191",
+    "contusao": "Sem bônus; pode causar 0 pontos",
+    "corte": "Dano que passa a RD +50% (arredondar para baixo); mínimo 1 ponto de dano básico",
+    "perfuracao": "Dano que passa a RD DOBRADO (x2); mínimo 1 ponto de dano básico",
+    "balas": "Multiplicador conforme munição (Dum-Dum = perfurante; perfurante de arma de fogo: dano básico alto, dano que passa a RD DIVIDIDO pela metade)"
+  },
+  "modificadoresVelocidadeDistancia": {
+    "fonte": "p. 256-258 — tabela original ausente; RECONSTRUÍDA dos 6 exemplos numéricos do material (7 m→-3, 70→-9, 100→-10, 200→-12, 1500→-17; escala ±6 por década)",
+    "_aviso": "TABELA RECONSTRUÍDA A PARTIR DE EXEMPLOS — confirmar quando a tabela oficial for fornecida",
+    "tabela": {"2.5": 1, "3": 0, "4": -1, "5": -2, "7": -3, "10": -4, "15": -5, "20": -6, "30": -7, "50": -8, "70": -9, "100": -10, "150": -11, "200": -12, "300": -13, "500": -14, "700": -15, "1000": -16, "1500": -17, "2000": -18, "3000": -19, "5000": -20, "7000": -21, "10000": -22, "15000": -23, "20000": -24, "30000": -25, "50000": -26, "70000": -27, "100000": -28, "150000": -29, "200000": -30},
+    "uso": "Parâmetro = distância (m) + velocidade (m/s); usar a menor entrada da tabela >= parâmetro"
+  },
+  "modificadoresTamanho": {
+    "fonte": "p. 256-258 — mesma escala geométrica; exemplos do material: humano = 0; carro 5 m = +3; tonel 30 cm = -5",
+    "_aviso": "TABELA RECONSTRUÍDA A PARTIR DE EXEMPLOS",
+    "tabela": {"0.05": -9, "0.07": -8, "0.1": -7, "0.15": -6, "0.2": -5.5, "0.3": -5, "0.5": -4, "0.7": -3, "1": -2, "1.5": -1, "2": 0, "3": 1, "5": 2, "7": 3, "10": 4, "15": 5, "20": 6, "30": 7, "50": 8, "70": 9, "100": 10},
+    "uso": "Tamanho em metros (maior dimensão); usar a menor entrada >= tamanho"
+  },
+  "mana": {
+    "fonte": "p. 305-306",
+    "niveis": {
+      "Muito Alta": "Qualquer um faz magia; magos sem gasto de energia; falha comum = crítica",
+      "Alta": "Qualquer um que saiba faz magia",
+      "Normal": "Só magos (com Aptidão Mágica); regras normais",
+      "Baixa": "Só magos, NH -5; itens com potência < 20 não funcionam; falhas críticas suavizadas",
+      "Nula": "Ninguém; itens não funcionam (recuperam poder onde há mana)"
+    }
+  },
+  "rituaisMagia": {
+    "fonte": "p. 307-308",
+    "faixas": [
+      {"nhMax": 11, "ritual": "Mãos e pés livres, palavras em voz firme; 2x tempo"},
+      {"nh": "12-14", "ritual": "Poucas palavras + gesto"},
+      {"nh": "15-17", "ritual": "1-2 palavras e gesto; move 1 hex; custo -1"},
+      {"nh": "18-20", "ritual": "Palavra OU gesto; custo -2 a partir de 20"},
+      {"nh": "21-24", "ritual": "Sem ritual; ½ tempo (arredondar p/ cima)"},
+      {"nhMin": 25, "ritual": "¼ tempo; custo -3; a cada +5 NH: ½ tempo e -1 energia"}
+    ]
+  },
+  "reducaoCustoEnergia": {"fonte": "p. 311", "regra": "NH >= 15: custo -1; NH >= 20: -2; NH >= 25: -3. Calcular o total antes da redução. Válido também para manutenção."},
+  "choquesRetorno": {
+    "fonte": "p. 305",
+    "tabela3d": {
+      "3": "Mágica falhou; operador sofre 1D de dano",
+      "4": "O feitiço vira contra o feiticeiro",
+      "5": "Efeito sobre um companheiro (aleatório)",
+      "6": "Atinge um inimigo próximo (aleatório)",
+      "7": "Só som pungente e cheiro de enxofre",
+      "8": "Atinge alguém/coisa diferente (aleatório)",
+      "9": "Falhou; operador sofre 1 ponto de dano",
+      "10": "Falhou; operador atordoado (IQ para recuperar)",
+      "11": "Só ruído intenso e lampejo de luz",
+      "12": "Pálida amostra do efeito desejado",
+      "13": "Efeito inverso",
+      "14": "Efeito inverso no alvo errado",
+      "15": "Operador esquece a magia temporariamente (IQ/semana)",
+      "16": "Parece funcionar, mas é ilusão inútil",
+      "17": "Falhou; braço do operador incapacitado (1 semana)",
+      "18": "Falhou; demônio aparece e ataca o operador (a critério do GM)"
+    }
+  },
+  "alturaPeso": {
+    "fonte": "p. 7 (coluna ST corrompida na exportação original — transcrita como está)",
+    "tabela": [
+      {"st": "1- (<=6)", "altura": "1,57 m ou menos", "peso": "54,5 kg"},
+      {"st": "1- (7)", "altura": "1,60 m", "peso": "59,0 kg"},
+      {"st": "15 ou menos (8-9)", "altura": "1,63 m", "peso": "59,0 kg"},
+      {"st": "16 (10)", "altura": "1,65 m", "peso": "61,3 kg"},
+      {"st": "17 (11)", "altura": "1,68 m", "peso": "61,3 kg"},
+      {"st": "18 (12)", "altura": "1,70 m", "peso": "63,6 kg"},
+      {"st": "19 (13)", "altura": "1,73 m", "peso": "65,8 kg"},
+      {"st": "10 (14)", "altura": "1,75 m", "peso": "68,1 kg"},
+      {"st": "11 (15)", "altura": "1,78 m", "peso": "70,4 kg"},
+      {"st": "12 (16)", "altura": "1,80 m", "peso": "72,6 kg"},
+      {"st": "13 (17)", "altura": "1,83 m", "peso": "74,9 kg"},
+      {"st": "14 (18)", "altura": "1,85 m", "peso": "77,2 kg"},
+      {"st": "15 (19)", "altura": "1,88 m", "peso": "81,7 kg"},
+      {"st": "16 ou mais (20+)", "altura": "1,90 m", "peso": "82,3 kg"}
+    ],
+    "notas": "+1,8 kg por cm acima de 1,90 m; mulher: -5 cm / -4,5 kg; séc. XIX: -7,5 cm",
+    "modificacao3d": {"3": "-15 cm ou -18,2 kg", "4": "-13 ou -13,6", "5": "-10 ou -9,1", "6": "-8 ou -4,5", "7": "-5 ou -2,2", "8": "-2 ou -2,2", "9-11": "sem modificação", "12": "+2 ou +2,2", "13": "+5 ou +2,2", "14": "+8 ou +4,5", "15": "+10 ou +9,1", "16": "+13 ou +13,6", "17": "+15 ou +18,2", "18": "+15 ou +22,7"}
+  },
+  "aparenciaAleatoria": {
+    "fonte": "p. 9-10",
+    "pele": {"3": "Azeviche", "4-6": "Negra", "7": "Sardenta", "8": "Bronzeada", "9-10": "Branca", "11-12": "Mulata", "13-15": "Amarela", "16": "Trigueira", "17-18": "Vermelha"},
+    "cabelos": {"3": "Preto-azulados", "4-5": "Pretos", "6": "Louros", "7": "Careca (homens)", "8": "Castanho-avermelhados", "9": "Castanho-claros", "10-11": "Castanhos", "12-13": "Castanho-escuros", "14": "Grisalhos", "15": "Louro-arruivados", "16": "Ruivos", "17": "Dourados", "18": "Brancos"},
+    "olhos": {"3": "Violeta", "4": "Negros", "5": "Azul-claros", "6": "Cinzentos", "7-8": "Azuis", "9-11": "Castanhos", "12": "Castanho-claros", "13": "Verdes", "14": "Azul-escuros", "15-16": "Verde-escuros", "17": "Caramelo", "18": "Cores diferentes (role um por olho)"}
+  },
+  "probabilidades3d": {"fonte": "p. 110", "tabela": {"3": "0,5%", "4": "1,9%", "5": "4,6%", "6": "9,3%", "7": "16,2%", "8": "25,9%", "9": "37,5%", "10": "50,0%", "11": "62,5%", "12": "74,1%", "13": "83,8%", "14": "90,7%", "15": "95,4%", "16+": "98,1%"}}
+}

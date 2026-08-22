@@ -1,0 +1,40 @@
+{
+  "_fonte": "Sistema Básico de Combate (p. 221-224) e Sistema Avançado (p. 233-241). Turno = 1 segundo.",
+  "inicioRodada": {
+    "modoSimples": "Cada jogador lança 1 dado; vencedor começa; depois sentido horário (p. 220)",
+    "modoRealista": "Maior Deslocamento primeiro; empate: maior Velocidade Básica; persistindo: dados (p. 221)"
+  },
+  "manobras": [
+    {"id": "deslocamento", "nome": "Deslocamento", "basico": "Mover até o valor de Movimento; nada mais.", "avancado": "Mover; para trás custa o dobro; pode usar arma de mão; disparar com penalidade de precisão.", "defesas": "qualquer defesa ativa"},
+    {"id": "mudanca-posicao", "nome": "Mudança de Posição", "basico": "Deitar/ajoelhar/levantar etc. Deitado→em pé: 2 turnos (ajoelha, depois levanta). Ajoelhado↔em pé + atacar no mesmo turno.", "avancado": "Não pode se deslocar; agachar é livre no início/fim do turno.", "defesas": "qualquer (algumas posições impõem redutores)"},
+    {"id": "preparar", "nome": "Preparar / Avançar e Preparar", "basico": "Preparar arma/objeto (sacar, içar machado etc.); recarregar projéteis (recarga = só Esquiva; esquivar interrompe).", "avancado": "Mover 1 m antes/depois; escudo no chão/costas: nº de turnos = DP do escudo; apanhar do chão: 2 turnos.", "defesas": "qualquer (pode aparar/bloquear no mesmo turno em que preparou)"},
+    {"id": "recarregar", "nome": "Recarregar", "basico": "Usa Preparar; funda 2 s (preparar pedra + colocar); besta: 2 s engatilhar (ST<=sua) + 1 virote + 1 posicionar; ST+1/+2: 6 s; ST+3/+4: pé-de-cabra 20 s; >+4: impossível sem dispositivos.", "avancado": "", "defesas": "esquiva"},
+    {"id": "apontar", "nome": "Apontar", "basico": "Mirar arma preparada em alvo específico: +Prec da arma (máx = seu NH); até +3 turnos extras: +1 cada; Tiro Rápido (sem apontar) = -4, exceto se NH >= TR da arma.", "avancado": "Mover até 2 m ou ½ Mov; apoio (deitado/junto a parede): +1; defender estraga a mira; ferido: teste de Vontade.", "defesas": "qualquer (mas perde a pontaria)"},
+    {"id": "ataque", "nome": "Ataque / Avançar e Atacar", "basico": "Atacar qualquer oponente com arma preparada.", "avancado": "Avançar 1 m (antes ou depois); atacar através de hex aliado: sem penalidade; de hex inimigo: -4; arma 2-3 m alcança através de hexes.", "defesas": "qualquer (arma desbalanceada fica despreparada após golpe)"},
+    {"id": "ataque-total", "nome": "Ataque Total", "basico": "(a) 2 ataques (2 armas preparadas ou arma sem preparo); (b) finta + ataque; (c) 1 ataque +4; (d) 1 ataque NH normal +2 dano. NENHUMA defesa ativa até o próximo turno.", "avancado": "Mover antes: até 2 m (ou ½ Mov, o que for MAIOR); sem mudança de direção no fim.", "defesas": "nenhuma ativa (só passiva)"},
+    {"id": "finta", "nome": "Finta / Avançar e Fintar", "basico": "Disputa Rápida: sua perícia vs perícia/DX do oponente; margem vira redutor na defesa dele contra SEU próximo ataque (1 rodada). Não vale contra quem não o vê.", "avancado": "Mover 1 metro.", "defesas": "qualquer"},
+    {"id": "aguardar", "nome": "Aguardar / Avançar e Aguardar", "basico": "Atacar (normal) quem entrar no alcance antes do próximo turno; arma mais longa golpeia primeiro; usada para Tiro de Tocaia.", "avancado": "Mover 1 m ou ficar parado (se parado, pode avançar 1 m e atacar).", "defesas": "qualquer"},
+    {"id": "defesa-total", "nome": "Defesa Total", "basico": "Só defender; se falhar defesa, tentar OUTRA defesa diferente contra o mesmo ataque; limite 2 bloqueios + 2 aparos por rodada.", "avancado": "Mover 1 m.", "defesas": "2 jogadas por ataque (defesas distintas)"},
+    {"id": "concentrar", "nome": "Concentrar / Avançar e se Concentrar", "basico": "Concentrar-se em magia/poder (1+ turnos); defesa atrapalha: teste de Vontade -3.", "avancado": "Mover 1 m; teste IQ-3 para manter concentração ao defender.", "defesas": "qualquer (teste p/ manter)"},
+    {"id": "acao-demorada", "nome": "Ação Demorada", "basico": "1 segundo de tarefa longa (exemplos: apanhar objeto pesado 2 s; abrir caixa 1 s; achar objeto 2D s; bolso 1D s; bilhete curto 5 s/frase; ler 2 s/frase; engolir poção 2 s; acender fósforo 2 s; guardar arma 2 s; trocar roupa 1 min; revistar 1 min; traje de combate 5 min; armadura completa 10 min).", "avancado": "", "defesas": "esquiva (GM pode alterar)"},
+    {"id": "acoes-independentes", "nome": "Ações Independentes", "basico": "Falar; largar objeto preparado; manter magia; negar alucinação.", "avancado": "Agachar no início do turno (custo de movimento +50%).", "defesas": "-"}
+  ],
+  "defesas": {
+    "esquiva": {"valor": "Deslocamento atual", "notas": "Ilimitada por rodada; animal: ½ Mov ou ½ DX (máx 10); Esquiva Acrobática com perícia Acrobacia"},
+    "aparar": {"valor": "½ NH da arma (arredondar p/ baixo); 2/3 para Bastão; 2/3 para Esgrima com equipamento adequado (arma leve, escudo <= pequeno, carga <= leve)", "notas": "1x/rodada (2x com 2 armas, ou Defesa Total, ou Esgrima); arma desbalanceada desprepara-se; armas arremessadas -1; facas arremessadas -2; faca na mão -1; mangual -4; improvisada -4; aparar arma 3x mais pesada: 1/3 de quebrar (barata 2/3; superior 1/6); aparar desarmado: ½ DX (2/3 c/ Briga/Judô/Caratê), -3 vs arma (Judô/Caratê sem penalidade)"},
+    "bloqueio": {"valor": "½ NH Escudo/Broquel (arredondar p/ baixo)", "notas": "1x/rodada (2x em Defesa Total); não bloqueia balas/armas de feixe; flechas/quadrelos/fundas bloqueáveis; escudo improvisado: DX-4"},
+    "recuar": {"valor": "+3 para a defesa ativa contra ataques de perto", "notas": "1x/rodada; impossível sentado/ajoelhado/atordoado; impossível contra ataques à distância; deitado: rolando, permitido"},
+    "defesaPassiva": "Armour DP + escudo DP + magias; sempre ativa; escudo não protege ataque pelas costas",
+    "regrasGerais": "Defesa 3-4 sempre sucesso; 17-18 sempre falha; atordoado: -4; Reflexos em Combate: +1; choque do ferimento NÃO afeta defesas ativas"
+  },
+  "combatDePerto": {
+    "fonte": "p. 246-253",
+    "ataques": ["Segurar (Disputa Rápida de DX; +3; 1 mão livre; ST 2x maior escapa)", "Agarrar arma (Disputa DX; depois Disputa ST p/ arrebatar)", "Agarrar braço armado", "Arma em combate de perto: -2", "Soco/mordida/chute", "Derrubar (Disputa: melhor ST/DX/Judô(-5 no chão) vs ST)", "Imobilizar (Disputa ST; +1 por 5 kg de vantagem; até 3 vs 1 somando 1/5 dos auxiliares)", "Sufocar (Disputa Rápida ST vs HT; dano = margem)", "Desvencilhar-se (Disputa ST; +5/+10 se imobilizado c/ 1/2 mãos; 1 tentativa/10 s se 2 mãos)"],
+    "escudo": "Após o 1º turno de combate de perto: subtrair a DP do escudo de defesas e testes de DX; escudo grande: -2 NH arma, -1 Aparar"
+  },
+  "ataqueDesarmado": {
+    "soco": "NH: DX (ou Briga/Caratê); dano GDP-2 contusão; soqueiras +2; objeto pequeno +1; caneca +2",
+    "chute": "NH: DX-2 (Briga-2, Caratê); dano GDP contusão, GDP+1 com botas; falha = teste p/ não cair",
+    "mordida": "1D-4 contusão (humanos)"
+  }
+}

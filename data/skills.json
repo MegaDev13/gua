@@ -1,0 +1,2345 @@
+[
+ {
+  "id": "adestramento-de-animais",
+  "nome": "Adestramento de Animais",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias com Animais",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de treinar e trabalhar com todos os tipos de animais. Para treinar um animal, o adestrador deve ser bem sucedido em um teste de habilidade em cada dia de treinamento. Uma falha significa que o animal não aprendeu nada. Uma falha crítica significa que o animal atacou o adestrador. O tempo que se leva para adestrar um animal depende da sua inteligência e afabilidade. Veja Animais.",
+  "fonte": "p. 111"
+ },
+ {
+  "id": "falcoaria",
+  "nome": "Falcoaria",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Animais",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de caçar pequenos animais usando um falcão treinado. Um bom falcoeiro conhecerá técnicas de caça e treinamento, além de saber como cuidar de um falcão (veja mais a frente). Descobrir um ninho de falcão na primavera exige uma semana de busca e um sucesso em um teste de falcoaria. O ninho terá 1D-3 filhotes.",
+  "fonte": "p. 112"
+ },
+ {
+  "id": "carregamento",
+  "nome": "Carregamento",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias com Animais",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Adestramento de Animais-6"
+  ],
+  "prereqs": [
+   "Adestramento de Animais"
+  ],
+  "descricao": "Esta é a habilidade de carregar e descarregar animais com rapidez e eficiência. Ela inclui a habilidade de avaliar corretamente os animais antes da compra, conseguir deles o melhor rendimento possível e selecionar as melhores rotas para as récuas. Sempre haverá demanda de peritos neste assunto em áreas comerciais com NT menor que 6. O ganho será sempre da ordem do salário de um comandante de mercenários.",
+  "fonte": "p. 112"
+ },
+ {
+  "id": "cavalgar",
+  "nome": "Cavalgar",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Animais",
+  "defaults": [
+   "Pré-definido como Adestramento de Animais-3 ou DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta perícia é diferente para cada tipo de animal (em outras palavras, você precisa escolher um animal no qual deseja se especializar). Se você encontrar um tipo de montaria com o qual não está familiarizado, deverá usar seu nível de habilidade com o tipo de animal mais próximo.",
+  "fonte": "p. 113"
+ },
+ {
+  "id": "carreiro",
+  "nome": "Carreiro",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Animais",
+  "defaults": [
+   "Pré-definido como Adestramento de Animais -4 ou Cavalgar-2"
+  ],
+  "prereqs": [
+   "Adestramento de Animais"
+  ],
+  "descricao": "Esta é a perícia na condução de juntas de animais, como uma carroça. Ela inclui a habilidade de atrelar e cuidar dos animais, e de avaliá-los antes de uma compra. Conduzir um grupo com mais de 4 animais, ou um grupo com animais desconhecidos, submete o NH do personagem a um redutor de -2. Cada espécie de animal exige uma perícia diferente.",
+  "fonte": "p. 113"
+ },
+ {
+  "id": "veterinaria",
+  "nome": "Veterinária",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias com Animais",
+  "defaults": [
+   "Pré-definido como qualquer perícia Médica apropriada -5 ou Adestramento de Animais -5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em cuidar de animais feridos ou doentes. Trata-se de uma perícia Médica. Modificadores: +5 se o animal já o conhece e confia em você; -2 ou pior se o animal for de um tipo com o qual você não está familiarizado. É permitida uma Especialização opcional.",
+  "fonte": "p. 113",
+  "nt": true,
+  "especializacao": "opcional"
+ },
+ {
+  "id": "artista",
+  "nome": "Artista",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de desenhar e pintar com beleza e precisão. Um sucesso num teste desta perícia poderia significar (por exemplo) que você fez um desenho bom o suficiente para ajudar na identificação de uma pessoa, desenhar um mapa fácil de seguir ou mesmo pintar um quadro bom o suficiente para trocar por uma refeição.",
+  "fonte": "p. 114"
+ },
+ {
+  "id": "trovador",
+  "nome": "Trovador",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Atuação-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de contar histórias e falar de improviso. O bom uso deste talento permitirá (por exemplo) que você faça um bom discurso político; entretenha um grupo de pessoas ao redor de uma fogueira; incite (ou acalme) um tumulto ou tenha sucesso no papel de “bobo da corte”. Modificadores: +2 se você tiver a vantagem Voz Melodiosa e qualquer bônus devido ao seu Carisma, se o tiver.",
+  "fonte": "p. 114"
+ },
+ {
+  "id": "caligrafia",
+  "nome": "Caligrafia",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como Artista-2 ou DX-5"
+  ],
+  "prereqs": [
+   "Alfabetização"
+  ],
+  "descricao": "Esta é a arte da escrita manual bela e decorativa. Ela serve principalmente para ganhar a vida.",
+  "fonte": "p. 115"
+ },
+ {
+  "id": "danca",
+  "nome": "Dança",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de executar danças peculiares à sua própria cultura e de aprender novos estilos rapidamente. Modificadores: -5 se a dança for desconhecida. Uma dança ser- lhe-á familiar depois que você conseguir executá-la com sucesso por 3 vezes. Note que algumas deficiências físicas tornam esta perícia completamente impossível!",
+  "fonte": "p. 115"
+ },
+ {
+  "id": "instrumento-musical",
+  "nome": "Instrumento Musical",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como qualquer instrumento similar-3"
+  ],
+  "prereqs": [],
+  "descricao": "Cada instrumento musical é um talento à parte. O uso da perícia permitir-lhe-á apresentar- se com competência com o instrumento em questão. Faça um teste para cada nova performance.",
+  "fonte": "p. 115"
+ },
+ {
+  "id": "fotografia",
+  "nome": "Fotografia",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de usar uma máquina fotográfica e uma câmara escura adequadamente, para produzir fotos reconhecíveis e atraentes. Pode-se usar o valor pré- definido para testar a habilidade no uso de máquina fotográfica, mas nunca para a revelação do filme em uma câmara escura. Modificadores: -3 para uma máquina fotográfica desconhecida; -3 para uma máquina de filmar.",
+  "fonte": "p. 115",
+  "nt": true
+ },
+ {
+  "id": "poesia",
+  "nome": "Poesia",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Língua-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de compor qualquer tipo de poesia conhecido em sua civilização com “boa” qualidade, em qualquer língua em que você tenha fluência. Um teste de Poesia bem sucedido significa que você compôs um bom poema, num espaço de tempo adequado (determinado pelo GM).",
+  "fonte": "p. 115"
+ },
+ {
+  "id": "escultura",
+  "nome": "Escultura",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como DX-5 ou IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de moldar uma imagem razoavelmente semelhante a um ser humano ou um objeto, usando argila, madeira, marfim ou o que lhe venha às mãos. Para se produzir uma escultura em metal é necessário ter habilidade com forjaria. O tempo necessário é decidido pelo GM. O uso principal da escultura é como meio de vida, mas ela pode ser muito útil para aventureiros.",
+  "fonte": "p. 116"
+ },
+ {
+  "id": "canto",
+  "nome": "Canto",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como HT-4"
+  ],
+  "prereqs": [],
+  "descricao": "O estudo desta perícia está baseado em HT, e não DX. Esta é a habilidade de cantar de modo agradável. Um sucesso em um teste de habilidade significa que a audiência gostou de sua canção. Modificadores: -2 se audiência não entender a língua em que você está cantando; +2 se você tiver a vantagem de Voz Melodiosa.",
+  "fonte": "p. 116"
+ },
+ {
+  "id": "escrita",
+  "nome": "Escrita",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Artísticas",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Língua-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de escrever de maneira clara e/ou divertida. Um sucesso em um teste de habilidade significa que o trabalho é legível e acurado. Modificadores: -3 se você estava com pressa; +3 se tinha bastante tempo à disposição; -5 se você estava escrevendo sobre um assunto com o qual não está familiarizado.",
+  "fonte": "p. 116"
+ },
+ {
+  "id": "acrobacia",
+  "nome": "Acrobacia",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Pré-definido como DX-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de realizar proezas acrobáticas e ginásticas, rolar, tomar tombos, etc. Deve-se fazer um teste para cada truque que você tenta. Esta perícia pode ser conveniente em uma aventura; andar na corda bamba, pirâmides humanas e trapézio, todos têm aplicações práticas.",
+  "fonte": "p. 117"
+ },
+ {
+  "id": "controle-da-respiracao",
+  "nome": "Controle da Respiração",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a habilidade de respirar com a maior eficiência possível. No caso de um sucesso em um teste de habilidade o personagem pode triplicar o tempo que ele é capaz de prender a respiração por qualquer razão (por ex., debaixo d’água).",
+  "fonte": "p. 117"
+ },
+ {
+  "id": "gravidade-zero",
+  "nome": "Gravidade Zero",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Pré-definido como DX-5 ou HT-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia de lidar com um ambiente de gravidade zero (queda livre). É necessário um teste quando você entra pela primeira vez em queda livre. Uma falha significa que você se sente enjoado, e será necessário um sucesso em um novo teste de HT para evitar uma sufocação. Trate este caso como se fosse afogamento. Um novo teste será exigido toda vez que o personagem tentar alguma manobra complicada em queda livre.",
+  "fonte": "p. 117",
+  "nt": true
+ },
+ {
+  "id": "salto",
+  "nome": "Salto",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a perícia de fazer o melhor uso possível de sua força quando você salta. Quando o personagem tenta um salto difícil, ele poderá substituir seu NH em Salto por sua ST ou DX.",
+  "fonte": "p. 117"
+ },
+ {
+  "id": "para-quedismo",
+  "nome": "Pára-quedismo",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Pré-definido como DX-4 ou IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de sobreviver a um salto de paraquedas. Uma falha em um teste desta perícia poderia significar desde um pequeno desvio na rota até o pânico que faria o personagem deixar seu equipamento cair — o GM decide. Uma falha crítica significa que o paraquedas não abriu ou as cordas estavam completamente embaraçadas.",
+  "fonte": "p. 118"
+ },
+ {
+  "id": "corrida",
+  "nome": "Corrida",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta perícia está baseada em HT, não DX. Ela representa o treino em corridas de curta e longa distância. Se você estudou este assunto, divida o seu NH por 8 (não arredonde) e some o resultado a seu parâmetro Velocidade quando for calcular seu Deslocamento. (Isto afeta o movimento em terra somente).",
+  "fonte": "p. 118"
+ },
+ {
+  "id": "mergulho",
+  "nome": "Mergulho",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Natação-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em usar equipamentos para respirar debaixo d’água. Para evitar a ingestão de água (o que acarretaria na perda de 1 ponto de ST e em risco de afogamento), é necessário ter êxito no teste feito logo que você entra na água e nos subsequentes, feitos a cada 30 minutos.",
+  "fonte": "p. 118"
+ },
+ {
+  "id": "esqui",
+  "nome": "Esqui",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Pré-definido como DX-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de esquiar. Um teste de habilidade é requerido quando você começa uma descida, exceto em uma rampa muito fácil, e outro a cada 30 minutos. Uma falha significa que você cai. No caso de uma falha crítica, você sofrerá 1D-1 pontos de dano em um membro escolhido aleatoriamente, e receberá a lesão incapacitante até que o ferimento sare.",
+  "fonte": "p. 118"
+ },
+ {
+  "id": "esportes",
+  "nome": "Esportes",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Varia Cada esporte é uma perícia diferente. A maioria tem um nível predefinido igual a DX-5. Aqueles que dependem da força (ex.: futebol, rugby) têm nível pré-definido igual a ST-5. Estas perícias são usadas na maior parte dos casos para construir uma boa história para o personagem e/ou ganhar o sustento, mas um jogador ou GM inteligente pode fazer com que o conhecimento de esportes seja útil em suas aventuras.",
+  "fonte": "p. 119"
+ },
+ {
+  "id": "natacao",
+  "nome": "Natação",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Pré-definido como ST-5 ou DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta perícia é usada tanto para nadar (ou boiar em casos de emergência), como para salvar uma vítima de afogamento. Veja Natação, para as regras completas sobre natação, afogamento e salvamento de vidas.",
+  "fonte": "p. 119"
+ },
+ {
+  "id": "arremesso",
+  "nome": "Arremesso",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Atléticas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a perícia geral de arremessar qualquer coisa que você consiga apanhar. Ela ajuda tanto na precisão (faça testes contra sua perícia em Arremesso para qualquer coisa que você seja capaz de erguer), quanto na distância (adicione 1/6 de seu NH em Arremesso à sua ST quando for determinar a distância). Veja o parágrafo Arremessando Objetos.",
+  "fonte": "p. 119"
+ },
+ {
+  "id": "machado-maca",
+  "nome": "Machado/Maça",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Habilidade no uso de qualquer arma pequena e desbalanceada como um machado, machadinha, maça, picareta etc...",
+  "fonte": "p. 120"
+ },
+ {
+  "id": "arremesso-de-machado",
+  "nome": "Arremesso de Machado",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "Habilidade no arremesso de qualquer machado de arremesso equilibrado, mas não um machado de guerra desbalanceado.",
+  "fonte": "p. 120"
+ },
+ {
+  "id": "traje-de-combate",
+  "nome": "Traje de Combate",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como IQ-5, DX-5 ou Traje Pressurizado-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em usar um traje blindado autopropelido, incluindo o armamento correspondente.",
+  "fonte": "p. 120",
+  "nt": true
+ },
+ {
+  "id": "armas-de-feixe",
+  "nome": "Armas de Feixe",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4 ou (outra Arma de Feixe)-4",
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade no uso de qualquer tipo de Arma de Feixes Iônicos, laser, atordoadores, etc. Ela inclui tanto armas do tipo pistola, com o fuzil, visto que nenhum deles sofre recuo. Se sua IQ for igual a 10 ou 11, some 1 ponto ao seu NH. Se for maior do que 11, some 2 pontos. Os modificadores são iguais aos descritos para a perícia Armas de Fogo.",
+  "fonte": "p. 120",
+  "nt": true
+ },
+ {
+  "id": "armas-de-polvora",
+  "nome": "Armas de Pólvora",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de armas de pólvora, incluindo mosquetões, pistolas e fuzis. Adicione 1 a seu NH, se sua IQ for igual a 10 ou 11, e 2 para o caso de IQ maior ou igual a 12. Os modificadores são iguais aos encontrados em Armas de Fogo.",
+  "fonte": "p. 120"
+ },
+ {
+  "id": "zarabatana",
+  "nome": "Zarabatana",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso da zarabatana, para lançar pequenos dardos (normalmente envenenados). Estes dardos não são capazes de furar as roupas normais, a não ser no caso de um sucesso decisivo, e nunca penetram na roupa ou numa armadura. Se um dardo atinge a pele ou roupa leve, o veneno poderá ter efeito. Modificadores: -2 ou mais no caso de vento.",
+  "fonte": "p. 121"
+ },
+ {
+  "id": "boleadeiras",
+  "nome": "Boleadeiras",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a perícia no lançamento de boleadeiras (uma tira de couro com dois ou mais pesos atados a suas pontas) para enredar a vítima. São usadas principalmente para parar animais numa tropa, ou na caça de pequenos animais selvagens ou pássaros. Podem também ser usadas em combate.",
+  "fonte": "p. 121"
+ },
+ {
+  "id": "arco",
+  "nome": "Arco",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de arcos em geral. Ela cobre também os arcos compostos, apesar de que uma pessoa que nunca tenha visto um antes precisará de um sucesso em um teste de IQ para descobrir como usá-lo corretamente.",
+  "fonte": "p. 121"
+ },
+ {
+  "id": "briga",
+  "nome": "Briga",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a “perícia”, nada científica, de “sair-no-tapa” num combate de perto. Faça um teste de Briga sempre que atacar o adversário com as mãos ou pés para ver se consegue atingi- lo. Some 1/10 de seu NH em Briga (arredondado para baixo) ao dano provocado.",
+  "fonte": "p. 122"
+ },
+ {
+  "id": "espadas-de-lamina-larga",
+  "nome": "Espadas de Lâmina Larga",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5/Espadas Curtas-2 ou Espada de Luz-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de qualquer arma para ser empunhada com uma só mão, balanceada, medindo entre 60 e 120 cm (entre elas Montantes, Cimitarras, bastões de baseball e coisas similares).",
+  "fonte": "p. 122"
+ },
+ {
+  "id": "broquel",
+  "nome": "Broquel",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4 ou Escudo-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em usar um broquel (um pequeno escudo seguro com a mão ou preso ao braço) de estilo medieval. Esta perícia é usada exatamente da mesma maneira que a Perícia Escudo, e pode ser usada para calcular um Bloqueio se você tiver um broquel ao invés de um escudo.",
+  "fonte": "p. 122"
+ },
+ {
+  "id": "besta",
+  "nome": "Besta",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de bestas, incluindo as bestas de balas ou de pedras. Se você tiver esta perícia, saberá como funcionam as máquinas do tipo da besta usadas para sitiar castelos, mas não terá nenhuma habilidade especial no seu uso.",
+  "fonte": "p. 122"
+ },
+ {
+  "id": "sacar-rapido",
+  "nome": "Sacar Rápido",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Existe uma perícia independente para cada tipo de arma. Ela está disponível para as seguintes armas: Faca, Cassetete, Espada (uma só mão), Espada de Duas Mãos, Flecha (inclusive os virotes de besta), Pistola, Fuzil (incluindo metralhadoras de mão, etc...), pentes, municiador rápido.",
+  "fonte": "p. 122"
+ },
+ {
+  "id": "esgrima",
+  "nome": "Esgrima",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de usar as armas dos esgrimistas (rapieira, espadim e sabre). A rapieira é uma arma perfurante longa (alcance 2 metros) e leve. O espadim é uma arma leve, perfurante, mais curta (alcance 1 m) relativamente parecida com um florete moderno com uma ponta. O sabre é uma arma leve, cortante e perfurante.",
+  "fonte": "p. 123"
+ },
+ {
+  "id": "mangual",
+  "nome": "Mangual",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de armas desbalanceadas, com a cabeça ligada ao cabo por uma corrente ou corda, tal como o mangual, morningstar ou o nunchaku. O mangual é difícil de se usar, mas difícil de se oferecer defesa também. Qualquer tentativa de bloquear uma destas armas está submetida a um redutor de -2. Qualquer tentativa de aparar tem um redutor de -4. Facas e armas de Esgrima não podem aparar um Mangual.",
+  "fonte": "p. 123"
+ },
+ {
+  "id": "escudo-de-forca",
+  "nome": "Escudo de Força",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso do Escudo de Força, um aparelho de alta tecnologia que é usado no punho e projeta um círculo de força que bloqueia como um Escudo comum. Veja Escudo. Todos os que têm a perícia Escudo podem usar um escudo de força depois de apenas uma hora de prática (ou usá-lo com um redutor de -2 sem prática nenhuma).",
+  "fonte": "p. 124"
+ },
+ {
+  "id": "espada-de-luz",
+  "nome": "Espada de Luz",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5 ou qualquer outra perícia com Espada-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade no uso de todas as espadas de luz (NT 11+). Uma espada de luz típica parece uma lanterna e pesa 1 kg. Em NT11 ela custa aproximadamente $3.000. Ela leva um turno para ser ativada, mais um para a lâmina se formar e estabilizar. Permanece operante por 5 minutos com uma célula de energia tipo C. Uma espada de luz tem um alcance de 1 metro e provoca 8D por corte e 4D se usada para perfurar.",
+  "fonte": "p. 124"
+ },
+ {
+  "id": "artilharia",
+  "nome": "Artilharia",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5 ou outra perícia de Artilharia-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia na operação de uma arma pesada, incluindo uma arma montada em um veículo. Faça um teste de Artilharia toda vez que disparar sua arma. Modificadores: Veja Familiaridade.",
+  "fonte": "p. 124",
+  "nt": true
+ },
+ {
+  "id": "armas-de-fogo",
+  "nome": "Armas de Fogo",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4 ou outra perícia com Arma de Fogo-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de qualquer tipo de arma de cartucho do séc. XX. Some 1 a seu nível de habilidade, se tiver IQ igual a 10 ou 11, e 2 para IQ 12+. Modificadores: Veja Familiaridade. -2 para uma arma de um tipo conhecido com a qual não se está familiarizado (ex.: calibre .",
+  "fonte": "p. 125",
+  "nt": true
+ },
+ {
+  "id": "judo",
+  "nome": "Judô",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta perícia representa uma habilidade geral em tombos e chaves e não uma escola específica de combate desarmado. Não é possível usar Judô se tiver alguma coisa nas mãos ou se sua Carga for maior do que Leve. Usando Judô, será possível aparar com qualquer uma das mãos como se ela fosse uma arma, usando 2/3 de seu NH em Judô como seu Aparar.",
+  "fonte": "p. 125"
+ },
+ {
+  "id": "carate",
+  "nome": "Caratê",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta perícia não representa nenhuma escola específica de combate desarmado e sim uma habilidade geral com socos e chutes. Não existe penalidade para o uso da mão esquerda. Qualquer mão que venha a ser usada deverá estar vazia, e sua Carga deve ser Leve ou menos. É possível aparar com qualquer uma das mãos como se ela fosse uma arma, usando 2/3 de seu NH em Caratê como seu Aparar.",
+  "fonte": "p. 126"
+ },
+ {
+  "id": "faca",
+  "nome": "Faca",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "A perícia no uso, mas não no arremesso, de qualquer tipo de faca, adaga ou estilete.",
+  "fonte": "p. 126"
+ },
+ {
+  "id": "arremesso-de-faca",
+  "nome": "Arremesso de Faca",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "A habilidade de arremessar qualquer espécie de faca.",
+  "fonte": "p. 127"
+ },
+ {
+  "id": "lanca-de-justa",
+  "nome": "Lança de Justa",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como Lança-3 para aqueles que têm Cavalgar em nível 12+ e DX-6 para os"
+  ],
+  "prereqs": [
+   "Cavalgar"
+  ],
+  "descricao": "outros. Esta é a perícia no uso da lança de justa, uma arma parecida com uma lança normal, com um comprimento maior ou igual a 3,5 m, usada a cavalo. Não é comum aparar em um combate com lanças de justa; é preciso Bloquear ou se Esquivar dos ataques do inimigo.",
+  "fonte": "p. 127"
+ },
+ {
+  "id": "laco",
+  "nome": "Laço",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a perícia no arremesso do laço ou reata. Ela é usada principalmente para laçar animais. Pode-se tentar laçar uma parte específica do corpo, ou escolher uma aleatoriamente na Tabela de Partes do Corpo. Faça uma Disputa Rápida de ST, se o laço tiver prendido um braço ou o tronco do adversário. Se o laçador vencer, a vítima estará imobilizada, mas se ele perder, terá perdido a corda.",
+  "fonte": "p. 127"
+ },
+ {
+  "id": "rede",
+  "nome": "Rede",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a perícia no uso da rede como uma arma em uma luta. É possível se esquivar de uma rede, mas não bloquear nem aparar. No caso de um arremesso bem sucedido, a vítima estará envolvida e incapaz de se mover ou atacar até a rede ser removida. Para remover uma rede você precisa de três sucessos, não necessariamente consecutivos, em testes de DX.",
+  "fonte": "p. 128"
+ },
+ {
+  "id": "armas-de-haste",
+  "nome": "Armas de Haste",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Perícia no uso de armas de haste muito longas e desbalanceadas, incluindo a acha d’armas, a alabarda, a bisarma e as centenas de variações do tipo.",
+  "fonte": "p. 128"
+ },
+ {
+  "id": "escudo",
+  "nome": "Escudo",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4 ou Broquel-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de um escudo do tipo medieval ou daqueles usados pelas tropas de choque. Esta perícia é necessária para atacar com o Escudo. No entanto a defesa passiva oferecida pelo escudo (1 a 4 pontos) protege quem o carrega, mesmo que ele não saiba como usá-lo. A defesa ativa de um escudo (no Bloqueio) é 1/2 de seu NH com o Escudo.",
+  "fonte": "p. 128"
+ },
+ {
+  "id": "espadas-curtas",
+  "nome": "Espadas Curtas",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5, Espada de Lâmina Larga-2 ou Espada de Luz-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de qualquer tipo de arma balanceada com 30 a 60 cm de comprimento, incluindo o terçado, o gládio e o bastão.",
+  "fonte": "p. 128"
+ },
+ {
+  "id": "funda",
+  "nome": "Funda",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso da funda ou fustíbalo.",
+  "fonte": "p. 129"
+ },
+ {
+  "id": "lanca",
+  "nome": "Lança",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5 ou Bastão-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso (mas não arremesso) de qualquer tipo de lança, dardo, tridente, baioneta, pique ou arma longa, leve e pontuda.",
+  "fonte": "p. 129"
+ },
+ {
+  "id": "arremessador-de-lanca",
+  "nome": "Arremessador de Lança",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX -4 ou Arremesso de Lança-4"
+  ],
+  "prereqs": [],
+  "descricao": "Este aparelho, e a perícia em sua utilização, são diferentes da perícia Arremesso de Lanças, mas o nível pré-definido de uma é igual ao da outra - 4. Um Arremessador de Lança é uma vara longa e chata com um entalhe e uma alça em uma das pontas. Ela aumenta a força com que um dardo, ou outra arma similar, é arremessado, aumentando a ST efetiva de quem usa (para determinação de alcance e dano provocado) em 5 pontos.",
+  "fonte": "p. 129"
+ },
+ {
+  "id": "arremesso-de-lanca",
+  "nome": "Arremesso de Lança",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4 ou Arremessador de Lança-4"
+  ],
+  "prereqs": [],
+  "descricao": "Habilidade no arremesso de qualquer tipo de lança, dardo, etc.",
+  "fonte": "p. 129"
+ },
+ {
+  "id": "rapidez-de-recarga",
+  "nome": "Rapidez de Recarga",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a habilidade em carregar rapidamente uma arma de fogo. Não é a mesma coisa que Sacar Rápido, mas você poderia, usando as perícias certas, recarregar muito rapidamente sacando um municiador rápido ou um pente de seu cinto ou bolso e colocando na arma.",
+  "fonte": "p. 129"
+ },
+ {
+  "id": "bastao",
+  "nome": "Bastão",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5 ou Lança-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso do Bastão ou de qualquer haste ou vara improvisada como Bastão. Este é um tipo de arma empunhada com as duas mãos. Seu Aparar será 2/3 de seu nível de habilidade.",
+  "fonte": "p. 130"
+ },
+ {
+  "id": "armas-arremessadas",
+  "nome": "Armas Arremessadas",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "É a perícia no arremesso de qualquer tipo de arma “arremessável”. Esta perícia é diferente para cada tipo de arma. Exs.: arremesso de faca, arremesso de machado, arremesso de lança. Veja também Arremesso.",
+  "fonte": "p. 130"
+ },
+ {
+  "id": "machado-de-duas-maos-maca",
+  "nome": "Machado de Duas Mãos/Maça",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Habilidade na utilização de qualquer arma longa, pesada e não balanceada como, por exemplo, o machado de batalha ou a marreta.",
+  "fonte": "p. 130"
+ },
+ {
+  "id": "espadas-de-duas-maos",
+  "nome": "Espadas de Duas Mãos",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Pré-definido como DX-5 ou Espada de Luz -3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no manuseio de uma arma de lâmina longa (1m a 1,5m) com as duas mãos. Note que a cimitarra é usada com esta perícia quando empunhada com as duas mãos, mas com o NH em Espadas de Lâmina Larga quando empunhada com apenas uma.",
+  "fonte": "p. 130"
+ },
+ {
+  "id": "chicote",
+  "nome": "Chicote",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Combate",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a habilidade em usar um chicote como uma arma. Existem chicotes de vários comprimentos. Em termos de jogo, um chicote com 1 m de comprimento tem um alcance de 1 m. Na verdade, ele deveria ter 1,20 m de comprimento.",
+  "fonte": "p. 131"
+ },
+ {
+  "id": "armeiro",
+  "nome": "Armeiro",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-5, (NH com armas) -6 ou Ferreiro-3 (para armas em NT 4 e abaixo)"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade na construção e conserto de armas e armaduras no nível tecnológico apropriado. É necessário um sucesso em um teste para descobrir qual o problema com a arma (a menos que ele seja óbvio). Um segundo sucesso permitirá que o personagem a conserte. O GM deve determinar um período de tempo razoável para cada tentativa de conserto.",
+  "fonte": "p. 132",
+  "nt": true
+ },
+ {
+  "id": "ferreiro",
+  "nome": "Ferreiro",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Joalheiro-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de trabalhar manualmente com ferro e outros metais não-preciosos. Para este trabalho é necessário uma forja, mas dispondo do material adequado, um ferreiro é capaz de construir uma em mais ou menos 30 dias. Modificador: -1 para cada ponto de ST abaixo de 13.",
+  "fonte": "p. 132",
+  "nt": true
+ },
+ {
+  "id": "carpintaria",
+  "nome": "Carpintaria",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-4 ou DX-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia na fabricação de objetos de madeira. Um sucesso em uma jogada de teste permite a realização de uma hora de trabalho competente de carpintaria. Uma falha significa que o resultado do trabalho foi ruim. Modificadores: +5 se você estiver sendo supervisionado ou assistido por alguém com NH 15+; -5 se não tiver boas ferramentas.",
+  "fonte": "p. 133"
+ },
+ {
+  "id": "culinaria",
+  "nome": "Culinária",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade no preparo de uma refeição agradável, a partir da matéria prima (não apenas água, calor e lataria). Em qualquer sociedade “ao ar livre”, esta perícia incluirá a habilidade de limpar a caça, ou seja, preparar um animal recém abatido para o cozimento.",
+  "fonte": "p. 133"
+ },
+ {
+  "id": "joalheiro",
+  "nome": "Joalheiro",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Ferreiro-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade no trabalho com metais preciosos de todos os tipos, fabricação de jóias, decoração de armas e assim por diante. É necessário uma forja (veja Ferreiro, acima) para trabalhar o metal. Um joalheiro é capaz de identificar qualquer metal precioso, ou determinar o valor de qualquer bugiganga preciosa, se conseguir um sucesso em um teste de habilidade.",
+  "fonte": "p. 133",
+  "nt": true
+ },
+ {
+  "id": "trabalhos-em-couro",
+  "nome": "Trabalhos em Couro",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-4 ou DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia em se trabalhar com couro para fazer cintos, selas, armaduras, etc... Alguém que tenha esta perícia será capaz de fabricar objetos novos ou consertar usados. Com um sucesso em um teste de habilidade, ele é capaz de determinar o valor de um objeto de couro. Perícias Artesanais",
+  "fonte": "p. 133"
+ },
+ {
+  "id": "mecanica",
+  "nome": "Mecânica",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Engenharia-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em diagnosticar e resolver problemas mecânicos comuns, geralmente, mas nem sempre, no motor de um veículo.",
+  "fonte": "p. 133",
+  "nt": true
+ },
+ {
+  "id": "ceramica",
+  "nome": "Cerâmica",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no trabalho com vários tipos de cerâmica. Um oleiro é capaz de fazer potes e outros utensílios de argila. Com um sucesso em um teste de habilidade, ele será capaz de identificar a argila apropriada (para tijolos ou utensílios domésticos); determinar a origem ou o valor de um objeto de cerâmica; etc...",
+  "fonte": "p. 134"
+ },
+ {
+  "id": "construcao-de-naves",
+  "nome": "Construção de Naves",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no projeto e construção de barcos, navios, etc. Um sucesso em um teste de habilidade, permitir-lhe-á determinar se uma embarcação foi bem construída, e seu valor aproximado. Em NT 8+, a construção de naves e astronaves são duas perícias diferentes, ambas mais fáceis devido à ajuda dos computadores;",
+  "fonte": "p. 134",
+  "nt": true
+ },
+ {
+  "id": "marcenaria",
+  "nome": "Marcenaria",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Ofício",
+  "defaults": [
+   "Pré-definido como DX-5 ou Carpintaria-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia na execução de trabalhos “finos” em madeira; construção de móveis, entalhes decorativos, etc. Com um sucesso em um teste de habilidade, um marceneiro é capaz de determinar a origem e o valor justo de um entalhe em madeira, ou identificar o tipo de madeira usado.",
+  "fonte": "p. 135"
+ },
+ {
+  "id": "mimica-pantomima",
+  "nome": "Mímica/Pantomima",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Comunicação",
+  "defaults": [
+   "Pré-definido como IQ-4 ou Linguagem de Sinais"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de se comunicar através de simples sinais improvisados com as mãos. Indivíduos surdos e/ou mudos têm um bônus de +3 no uso desta perícia. Um sucesso em um teste de Mímica/Pantomima permitir-lhe-á comunicar uma ideia simples para uma outra pessoa, ou entender uma comunicada por outrem. Para “conversas” mais longas, use as regras de comunicação descritas em Línguas.",
+  "fonte": "p. 137"
+ },
+ {
+  "id": "linguagem-de-sinais",
+  "nome": "Linguagem de Sinais",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Comunicação",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é qualquer uma das verdadeiras linguagens de gestos. Uma das mais conhecidas é a American Sign Language (Ameslan). Outros exemplos poderiam ser a língua de uma raça alienígena sem fala, um código de sinais usado por espiões ou revolucionários, etc. Uma linguagem de sinais é complexa, estilizada e pode comunicar praticamente qualquer conceito.",
+  "fonte": "p. 138"
+ },
+ {
+  "id": "telegrafia",
+  "nome": "Telegrafia",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Comunicação",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a habilidade de enviar e receber em código Morse, realizar pequenos reparos em sistemas de telegrafia e reconhecer outros operadores de telégrafo pela sua “caligrafia”, i.e., a sua maneira característica de enviar uma mensagem. Esta perícia é encontrada normalmente entre os níveis tecnológicos 5 e 7.",
+  "fonte": "p. 138",
+  "especializacao": "opcional"
+ },
+ {
+  "id": "diagnose",
+  "nome": "Diagnose",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Médicas",
+  "defaults": [
+   "Pré-definido como IQ-6, Primeiros Socorros-8, Veterinária-5 ou Medicina-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em dizer o que está errado com uma pessoa doente ou ferida, ou o que matou uma pessoa. Um sucesso em um teste de habilidade trará alguma informação sobre o problema do paciente (limitado realisticamente ao conhecimento que se poderia obter no nível tecnológico do personagem.",
+  "fonte": "p. 140",
+  "nt": true
+ },
+ {
+  "id": "primeiros-socorros",
+  "nome": "Primeiros Socorros",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias Médicas",
+  "defaults": [
+   "Pré-definido como Medicina, IQ-5, Veterinária-5 ou Fisiologia-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de fazer um curativo rápido num ferimento no campo. Um sucesso em um teste de habilidade estancará uma hemorragia, neutralizará total ou parcialmente um veneno, fará respiração artificial em uma vítima de afogamento, etc. Se o problema for incomum, ele deverá ser antes identificado através da Diagnose. Modificadores: +1 ou mais no caso de ter equipamento de primeiros socorros ou outros recursos.",
+  "fonte": "p. 140",
+  "nt": true
+ },
+ {
+  "id": "hipnotismo",
+  "nome": "Hipnotismo",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Médicas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a perícia em afetar a mente de uma outra pessoa através de meios mecânicos ou verbais. Uma vez hipnotizado, um indivíduo se torna extremamente sugestionável. Faça uma Disputa entre o NH em Hipnotismo vs. a Vontade da vítima-1, para cada ordem que for dada. Todas as ordens que puserem em risco a vida da vítima ou de pessoas amadas serão resistidas com um bônus de +4 à sua Vontade.",
+  "fonte": "p. 140"
+ },
+ {
+  "id": "medicina",
+  "nome": "Medicina",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Médicas",
+  "defaults": [
+   "Pré-definido como Vet-5 Primeiros Socorros-11 ou IQ-7"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade profissional genérica de socorrer doentes, prescrever medicamentos e tratamentos, etc. Quando um GM exigir um teste de Competência ou do conhecimento médico geral, ele será feito contra esta perícia. Um médico tem a opção de adotar uma especialização. Em sociedades com NT 4 e abaixo, a Medicina inclui a capacidade de encontrar ervas medicinais silvestres.",
+  "fonte": "p. 141",
+  "nt": true
+ },
+ {
+  "id": "cirurgia",
+  "nome": "Cirurgia",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como Vet-5, Medicina-5, Fisiologia-8 ou Primeiros-Socorros-12."
+  ],
+  "prereqs": [
+   "Medicina"
+  ],
+  "descricao": "Esta perícia é usada quando alguém tenta operar um personagem para curar doenças, ferimentos ou disfunções do organismo. Um cirurgião pode, opcionalmente, se especializar em uma determinada parte do organismo. Um sucesso em uma jogada de teste significará que a operação transcorreu sem complicações. Uma falha significa que o paciente sofreu algum dano (2D para amputações simples, 3D para tentativas mais complexas).",
+  "fonte": "p. 142",
+  "nt": true
+ },
+ {
+  "id": "escalada",
+  "nome": "Escalada",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como DX-5 ou ST-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em escalar montanhas, muros de pedra, árvores, paredes de edifícios e qualquer outra coisa que apareça em seu caminho. Modificadores: +3 se você tiver a vantagem de ter Ultra flexibilidade das Juntas; menos seu nível de Carga.",
+  "fonte": "p. 142"
+ },
+ {
+  "id": "pescaria",
+  "nome": "Pescaria",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em pegar um peixe (com uma rede, anzol e linha ou qualquer outro método usado pela sua cultura). Se você tiver o equipamento apropriado e peixes para serem apanhados, um sucesso em um teste de habilidade os trará a você. Quando não há material de pesca à disposição, pode-se improvisar.",
+  "fonte": "p. 142"
+ },
+ {
+  "id": "naturalista",
+  "nome": "Naturalista",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta perícia compreende o conhecimento dos animais, das plantas e da natureza em suas várias formas. É o tipo de conhecimento que se esperaria de um bom professor de biologia do século XX. Um sucesso em um teste de habilidade permitirá a identificação de uma planta e sua aplicação, ou lhe dirá algo sobre um animal e seus hábitos.",
+  "fonte": "p. 143"
+ },
+ {
+  "id": "navegacao",
+  "nome": "Navegação",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como Astronomia-5 ou Marinhagem-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em saber qual a sua posição (na Terra e não no espaço) pelas estrelas, correntes oceânicas, etc. Um sucesso em um teste de habilidade dirá onde você está, no mar ou em terra. Note que, se você não tiver a perícia e estiver tentando um teste com o nível pré-definido, você não poderá usar seu NH em Marinhagem se não estiver de fato no mar!",
+  "fonte": "p. 143",
+  "nt": true
+ },
+ {
+  "id": "marinhagem",
+  "nome": "Marinhagem",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de tripular uma nave de longo curso. Você precisará tripular um navio (ou capitaneá-lo!). Modificadores: os redutores padrão relacionados com o NT",
+  "fonte": "p. 143",
+  "nt": true
+ },
+ {
+  "id": "sobrevivencia",
+  "nome": "Sobrevivência",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como IQ-5, Naturalista-3 ou Sobrevivência (em outro tipo de área)-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia em “viver da terra”, encontrar água e comida de boa qualidade, evitar os perigos, construir abrigos, etc... Cada tipo de terreno exige uma perícia diferente: Deserto Floresta Planície Selva Ártico Ilha/Litoral Montanha Pântano Radioativo (sem uso de valor pré-definido) Um teste bem sucedido por dia garante uma vida segura (se não confortável) em uma região inculta.",
+  "fonte": "p. 144"
+ },
+ {
+  "id": "rastreamento",
+  "nome": "Rastreamento",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Sobrevivência/Natureza",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Naturalista-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em seguir o rastro deixado por um homem ou animal. Faça um teste de Rastreamento para achar uma pista e mais um a cada 5 minutos de viagem. Modificadores: -5 se a pista tiver mais de uma dia; -10 se tiver mais de uma semana; +5 se estiver seguindo um homem; +10 se estiver seguindo um grupo de homens.",
+  "fonte": "p. 144"
+ },
+ {
+  "id": "contabilidade",
+  "nome": "Contabilidade",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Conhecimento",
+  "defaults": [
+   "Pré-definido como IQ-10,"
+  ],
+  "prereqs": [
+   "Alfabetização"
+  ],
+  "descricao": "Comércio-5 ou Matemática-5. Esta é a capacidade de manter atualizados os livros de uma empresa, examinar as condições de um negócio, etc., sendo útil principalmente como um meio de conseguir um emprego. No entanto, um sucesso num teste de Contabilidade (que exigirá mais ou menos 2 horas de estudo) poderá lhe dizer se os registros de uma empresa estão corretos (o que pode ser importante de vez em quando).",
+  "fonte": "p. 146"
+ },
+ {
+  "id": "operacao-de-computadores",
+  "nome": "Operação de Computadores",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Conhecimento",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de operar um computador, extrair dados, executar programas já existentes, jogar video-games, etc... Isto não é a mesma coisa que programação (que é uma perícia à parte e mais difícil). Modificadores: -3 ou mais no caso de um computador ou um programa estranhos. Esta perícia está disponível apenas em NT 7+.",
+  "fonte": "p. 146",
+  "nt": true
+ },
+ {
+  "id": "operacao-de-aparelhos-eletronicos",
+  "nome": "Operação de Aparelhos Eletrônicos",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Conhecimento",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Eletrônica Adequada-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta perícia permite a utilização de equipamento eletrônico dentro de uma especialidade conhecida. Não há necessidade de testes de habilidade para a utilização normal diária do equipamento. Eles são necessários apenas nas situações de emergência, nos casos de uso “anormal” do equipamento ou na utilização de equipamentos complexos por pessoas inexperientes.",
+  "fonte": "p. 146",
+  "nt": true
+ },
+ {
+  "id": "heraldica",
+  "nome": "Heráldica",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Conhecimento",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Trato Social-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia em projetar e reconhecer escudos de armas, cores e divisas de um clã e outros emblemas. Se tiver sucesso em um teste de habilidade, um heráldico será capaz de reconhecer um cavaleiro ou um nobre pelo estandarte ou escudo que está sendo conduzido e descrevê-los apropriadamente em termos de heráldica.",
+  "fonte": "p. 147"
+ },
+ {
+  "id": "jurisprudencia",
+  "nome": "Jurisprudência",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Conhecimento",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Modificadores: +4 se o personagem estiver lidando com a Jurisprudência de uma área específica. Um sucesso em um teste de habilidade permitirlhe-á lembrar, deduzir ou conceber uma resposta para uma pergunta sobre a lei. Lembre-se, no entanto, que poucas perguntas legais têm uma resposta precisa (até mesmo um especialista será vago ou ambíguo em seus conselhos).",
+  "fonte": "p. 148"
+ },
+ {
+  "id": "agronomia",
+  "nome": "Agronomia",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a ciência do cultivo de vegetais. Um agrônomo poderia responder a perguntas ou resolver problemas relacionados com a agricultura e a pecuária. Um fazendeiro experiente é um agrônomo, quer ele conheça a palavra, quer não.",
+  "fonte": "p. 149",
+  "nt": true
+ },
+ {
+  "id": "alquimia",
+  "nome": "Alquimia",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a ciência das transmutações mágicas. Ela é coberta em detalhes na parte de Magia.",
+  "fonte": "p. 149",
+  "nt": true
+ },
+ {
+  "id": "antropologia",
+  "nome": "Antropologia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo da cultura e evolução da humanidade. Um antropólogo conhece os costumes dos grupos primitivos (e não-tão-primitivos) de seres humanos (ou de outras criaturas inteligentes que eles estudem). Os testes de Antropologia poderiam ser usados para explicar, ou até predizer, os rituais e costumes estranhos que um viajante poderia encontrar.",
+  "fonte": "p. 149"
+ },
+ {
+  "id": "arqueologia",
+  "nome": "Arqueologia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo das civilizações antigas. Um arqueólogo se sente em casa com escavações, cacos de louça de barro, inscrições, etc. No caso de um sucesso em um teste de habilidade, um arqueólogo é capaz de responder perguntas sobre história antiga, identificar artefatos e línguas mortas, etc.",
+  "fonte": "p. 149"
+ },
+ {
+  "id": "arquitetura",
+  "nome": "Arquitetura",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no projeto de edifícios e a inferência da forma dos edifícios a partir de sua função e vice-versa. Um sucesso em um teste de Arquitetura lhe permitiria tirar conclusões sobre um edifício desconhecido, encontrar um aposento ou passagem secreta, etc. Modificadores: -2 se o edifício for de um tipo desconhecido; -5 se for alienígena.",
+  "fonte": "p. 150",
+  "nt": true
+ },
+ {
+  "id": "astronavegacao",
+  "nome": "Astronavegação",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como Navegação-5, Astronomia-4 ou Matemática-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta perícia está relacionada com a navegação espacial e interestelar. Existe uma perícia diferente para cada tipo de propulsão mais rápida do que a luz. Cada uma destas perícias pode ter seu nível pré-definido por uma outra com um redutor que pode ir até -4, dependendo de quão diferentes são os sistemas de propulsão.",
+  "fonte": "p. 150"
+ },
+ {
+  "id": "astronomia",
+  "nome": "Astronomia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo das estrelas e outros corpos siderais. Um astrônomo seria capaz de resolver problemas relacionados com o Sol, os planetas do sistema solar, meteoritos e assim por diante. Em NT 4 e abaixo, esta perícia se confunde com a Astrologia, combinando o conhecimento das estrelas e constelações com uma grande quantidade de mitologia e previsão do futuro.",
+  "fonte": "p. 150",
+  "nt": true
+ },
+ {
+  "id": "bioquimica",
+  "nome": "Bioquímica",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como Química-5"
+  ],
+  "prereqs": [
+   "NH 12+ em Química"
+  ],
+  "descricao": "Este é o estudo da química dos seres vivos. Um bioquímico é um especialista nas reações químicas que sustentam a vida. Biologia Este é um campo tão amplo que NÃO existe uma perícia “geral” em Biologia. Suas especialidades são perícias independentes como a Bioquímica, Botânica, Ecologia, Genética, Fisiologia, e Zoologia. Um “biólogo” geral teria estudado algumas ou todas estas especialidades.",
+  "fonte": "p. 151",
+  "nt": true
+ },
+ {
+  "id": "botanica",
+  "nome": "Botânica",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Agronomia-5"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo das plantas. Um botânico seria capaz de identificar plantas, fazer suposições quanto ao habitat e propriedades de uma planta desconhecida, etc... ##",
+  "fonte": "p. 151",
+  "nt": true
+ },
+ {
+  "id": "quimica",
+  "nome": "Química",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo da matéria. Um químico seria capaz de identificar os elementos, compostos simples (não necessariamente medicamentos ou substâncias mágicas, etc.). De posse do equipamento adequado ele seria capaz de realizar análises e sínteses complexas.",
+  "fonte": "p. 151",
+  "nt": true
+ },
+ {
+  "id": "programacao-de-computadores",
+  "nome": "Programação de Computadores",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [
+   "Operação de Computadores"
+  ],
+  "descricao": "Sem nível pré-definido Esta é a habilidade de escrever e depurar programas de computador. Um sucesso em um teste de habilidade (entre outras coisas) permitir-lhe-ia descobrir um “pau” em um programa; descobrir qual o objetivo do programa a partir de uma listagem; resolver problemas relacionados com computadores ou programação de computadores e, tendo tempo suficiente, escrever programas novos.",
+  "fonte": "p. 151",
+  "nt": true
+ },
+ {
+  "id": "criminologia",
+  "nome": "Criminologia",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo do crime e da mente criminosa. Um criminologista usaria sua perícia para encontrar e interpretar pistas, fazer suposições quanto ao comportamento dos criminosos, etc. Apesar desta perícia não usar o NH em Manha como nível pré-definido, o GM poderá permitir sua substituição por um teste de sua perícia Manha em certas situações, principalmente quando se tratar de adivinhar as intenções de um criminoso.",
+  "fonte": "p. 151",
+  "nt": true
+ },
+ {
+  "id": "economia",
+  "nome": "Economia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Comércio-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo do dinheiro, câmbio e transações bancárias. Um economista poderia responder a questões sobre investimentos, programas econômicos, etc. Ele seria capaz também de predizer os efeitos locais de mudanças econômicas (introdução de novos materiais ou técnicas, destruição de uma usina elétrica ou mercado e situações similares).",
+  "fonte": "p. 152"
+ },
+ {
+  "id": "ecologia",
+  "nome": "Ecologia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Naturalista-3"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo das relações entre os seres vivos, ou de todo o ambiente. Esta ciência não existe em NT abaixo de 6. Use Naturalista em seu lugar.",
+  "fonte": "p. 152",
+  "nt": true
+ },
+ {
+  "id": "eletronica",
+  "nome": "Eletrônica",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como (outra Eletrônica)-4"
+  ],
+  "prereqs": [
+   "Matemática"
+  ],
+  "descricao": "Esta é a engenharia eletrônica, a habilidade de projetar e construir aparelhos eletrônicos. Um teste bem sucedido permitiria, p.ex., determinar o propósito de um dispositivo desconhecido, diagnosticar uma falha, realizar um conserto, projetar novos sistemas, desenvolver um artifício para resolver um problema.",
+  "fonte": "p. 152",
+  "nt": true
+ },
+ {
+  "id": "engenharia-mecanica",
+  "nome": "Engenharia Mecânica",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como Especialidade Mecânica-6"
+  ],
+  "prereqs": [],
+  "descricao": "Os pré-requisitos variam com a especialidade escolhida (veja abaixo) Esta é a perícia no projeto e construção de mecanismos complexos. Um sucesso em um teste permitirá (por exemplo) determinar o propósito de um mecanismo desconhecido, diagnosticar um problema elétrico ou mecânico, fazer um reparo, projetar um novo mecanismo, improvisar um aparelho para resolver um problema.",
+  "fonte": "p. 152",
+  "nt": true
+ },
+ {
+  "id": "tecnicas-judiciais",
+  "nome": "Técnicas Judiciais",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como Criminologia-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a ciência geral da criminologia “laboratorial”: cálculo da trajetória de balas, análise química ou microscópica de pistas, etc. Dependendo da situação o GM poderá permitir o uso de Química ou outro campo de estudo apropriado como nível pré-definido para Técnicas Judiciais em uma investigação particular.",
+  "fonte": "p. 153",
+  "nt": true
+ },
+ {
+  "id": "genetica",
+  "nome": "Genética",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como Bioquímica-5 ou Fisiologia -5"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo da hereditariedade. Um geneticista seria capaz de identificar doenças genéticas, saberia como cruzar os animais a fim de desenvolver determinadas características além de impedir que as moscadas-frutas devastem seu laboratório. A especialidade Engenharia Genética passa a existir em NT9+.",
+  "fonte": "p. 153",
+  "nt": true
+ },
+ {
+  "id": "geologia",
+  "nome": "Geologia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Prospecção-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a ciência que estuda a Terra. Um geólogo estuda os minérios, rochas, petróleo, conhece terremotos, vulcões e fósseis. Em Campanha, ele seria capaz de achar água usando sua “sensibilidade para o campo” como na Perícia Sobrevivência.",
+  "fonte": "p. 153",
+  "nt": true
+ },
+ {
+  "id": "historia",
+  "nome": "História",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Arqueologia-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo do passado registrado (em oposição à arqueologia que estuda o passado pré-histórico). Um historiador seria capaz de dirimir dúvidas sobre história e poderia ter permissão para (a critério do GM) fazer um teste para ver se lembra de um paralelo histórico útil: - “Bom, Aníbal enfrentou uma situação parecida com esta uma vez e fez o seguinte...”.",
+  "fonte": "p. 154"
+ },
+ {
+  "id": "linguistica",
+  "nome": "Lingüística",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Este é o estudo dos princípios nos quais as línguas estão baseadas. Um linguista seria capaz de identificar um idioma pouco conhecido a partir de um fragmento de um texto escrito ou falado, se for bem sucedido em seu teste de habilidade.",
+  "fonte": "p. 154"
+ },
+ {
+  "id": "literatura",
+  "nome": "Literatura",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo das grandes obras literárias. Um estudante de literatura teria conhecimento dos domínios da poesia antiga, volumes empoeirados, filosofia, crítica, etc. Isto pode ser útil para achar pistas de tesouros escondidos, continentes submersos, segredos para os quais os homens não estão preparados e coisas similares. O trabalho em questão deve estar escrito em uma língua conhecida pelo personagem.",
+  "fonte": "p. 154"
+ },
+ {
+  "id": "matematica",
+  "nome": "Matemática",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Isto representa o conhecimento geral de matemática. Apesar de existirem dezenas de especialidades, é pouco provável que a diferença entre elas afete o jogo. Um matemático pode fazer testes de habilidade para responder qualquer tipo de problema relacionado com matemática. Se o problema for simplesmente um cálculo ou avaliação, o GM poderá estipular um modificador devido aos recursos de computação disponíveis.",
+  "fonte": "p. 154"
+ },
+ {
+  "id": "metalografia",
+  "nome": "Metalografia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como Ferreiro-8, Joalheiro-8, Armeiro-8 ou Química-5"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo dos metais e suas propriedades. Um metalógrafo seria capaz de identificar metais ou ligas e resolver problemas relacionados aos metais, sua mineração e refino.",
+  "fonte": "p. 155",
+  "nt": true
+ },
+ {
+  "id": "metereologia",
+  "nome": "Metereologia",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo do clima e a possibilidade de predizê-lo. O GM sempre faz testes de habilidade em Meteorologia para o jogador. Um bom resultado significa que ele dirá a verdade, enquanto uma falha implicará em uma resposta aleatória ou uma mentira. Em sociedades com nível tecnológico baixo, esta perícia pode ser chamada “Sentido do Clima”.",
+  "fonte": "p. 155",
+  "nt": true
+ },
+ {
+  "id": "fisica-nuclear",
+  "nome": "Física Nuclear",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [
+   "Física 15+ e Matemática 15+"
+  ],
+  "descricao": "Sem nível pré-definido Este é o estudo dos processos nucleares. Um físico nuclear seria capaz de responder perguntas sobre o interior do sol, armas e/ou usinas nucleares.",
+  "fonte": "p. 155",
+  "nt": true
+ },
+ {
+  "id": "ocultismo",
+  "nome": "Ocultismo",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo do inexplicável e/ou sobrenatural. Um ocultista tem um conhecimento muito intenso de misticismo, doutrinas mágicas primitivas, rituais antigos, obsessões, etc... Lembre-se que um ocultista não tem que necessariamente acreditar no material que ele estuda. Em mundos onde a magia é comum, o “ocultismo” deverá ser substituído pelo conhecimento profissional dos magos.",
+  "fonte": "p. 156"
+ },
+ {
+  "id": "fisica",
+  "nome": "Física",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a ciência da força e do movimento. Um físico seria capaz de responder a questões sobre o mecanismo básico do universo, o comportamento dos corpos em movimento e a matéria e energia.",
+  "fonte": "p. 156",
+  "nt": true
+ },
+ {
+  "id": "fisiologia",
+  "nome": "Fisiologia",
+  "tipo": "Mental",
+  "dificuldade": "Muito Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-7 ou qualquer perícia Médica-5"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo do corpo humano e suas funções. Um fisiologista sabe onde estão localizados e como funcionam os músculos, ossos e órgãos. *Observe que esta perícia não pode ser condicionada ao Hipinotismo.",
+  "fonte": "p. 156",
+  "nt": true
+ },
+ {
+  "id": "prospeccao",
+  "nome": "Prospecção",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Geologia-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a geologia aplicada: a habilidade de descobrir minerais valiosos através da inspeção local. A prospecção à distância, com o uso de mapas e instrumentos, exige o conhecimento de Geologia. Um prospector estará submetido a um redutor de -1 em uma área nova de tipo familiar, e -2 ou mais em uma área de um tipo com o qual ele não está familiarizado, até que ele fique ali por tempo suficiente (um mês de trabalho).",
+  "fonte": "p. 156"
+ },
+ {
+  "id": "psicologia",
+  "nome": "Psicologia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo do comportamento. Um psicólogo lida com a mente humana (e possivelmente com outros tipos também). Um sucesso em um teste de Psicologia pode predizer, em termos gerais, o comportamento de um indivíduo ou grupo pequeno em uma situação definida, principalmente em uma situação de tensão.",
+  "fonte": "p. 156"
+ },
+ {
+  "id": "pesquisa",
+  "nome": "Pesquisa",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Escrita-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta perícia pode também ter seu nível pré-definido por qualquer perícia científica (submetida a um redutor de -2), se você estiver pesquisando material relacionado com ela. Pesquisa é a capacidade geral de fazer uma investigação em uma biblioteca ou arquivo. Um sucesso em um teste de Pesquisa num lugar apropriado permitirá que você descubra algum fragmento de informação útil, se for algo para ser descoberto.",
+  "fonte": "p. 157"
+ },
+ {
+  "id": "teologia",
+  "nome": "Teologia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Este é o estudo da religião. Um teólogo tem conhecimentos sobre credos religiosos antigos e modernos, história das religiões, etc. Você deveria considerar a hipótese de ter esta perícia, com especialização em sua própria religião, se seu personagem for um sacerdote ou santo.",
+  "fonte": "p. 157"
+ },
+ {
+  "id": "zoologia",
+  "nome": "Zoologia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-6 ou qualquer Perícia com Animais-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é o estudo dos animais. Um zoólogo é capaz de identificar animais, ter uma boa ideia sobre sua dieta natural, seus hábitos e habitat, e prever seu comportamento. Perícias Sociais",
+  "fonte": "p. 157"
+ },
+ {
+  "id": "dissimulacao",
+  "nome": "Dissimulação",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Científicas",
+  "defaults": [
+   "Pré-definido como IQ-5, Trovador-5 ou Atuação-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de simular estados de ânimo, emoções e vozes e de mentir convincentemente por um período de tempo. Não é a mesma coisa que Disfarce e Atuação. Um sucesso em um teste de habilidade lhe permitirá fingir que pensa ou sente alguma coisa que você não sente.",
+  "fonte": "p. 157"
+ },
+ {
+  "id": "administracao",
+  "nome": "Administração",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Comércio-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de dirigir uma grande organização. Ela é útil principalmente para ganhar dinheiro ou se qualificar para ocupar altos postos. Um administrador treinado (nível maior ou igual a 15) receberá um bônus de +2 quando estiver lidando com um burocrata e, no caso de um sucesso em um teste de habilidade, será capaz de prognosticar qual a melhor forma de lidar com uma burocracia.",
+  "fonte": "p. 158"
+ },
+ {
+  "id": "conhecimento-do-terreno",
+  "nome": "Conhecimento do Terreno",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Será permitido usar o nível pré-definido desta perícia no caso de um teste de habilidade relacionado com a área onde você vive ou já viveu alguma vez. Veja o último parágrafo. Esta é a familiaridade com o povo, política e geografia de uma determinada área. Normalmente um personagem terá Conhecimento do Terreno apenas da área que ele considera sua “base”, seja isto uma simples fazenda ou todo um sistema solar.",
+  "fonte": "p. 158"
+ },
+ {
+  "id": "trovador",
+  "nome": "Trovador",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "",
+  "fonte": "p. 160"
+ },
+ {
+  "id": "boemia",
+  "nome": "Boemia",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como HT-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta perícia é “comprada” com base no seu atributo HT e não DX. É a habilidade em participar de atividades sociais, festas, etc... Um sucesso em um teste de Boemia, feito sob as circunstâncias adequadas, lhe dará um bônus de +2 num pedido de ajuda ou informação, ou apenas numa reação geral.",
+  "fonte": "p. 160"
+ },
+ {
+  "id": "diplomacia",
+  "nome": "Diplomacia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em negociar, fazer acordos e conviver com os outros. Um teste de Diplomacia pode ser substituído por qualquer teste de reação numa situação em que não haja iminência de combate. Um teste bem sucedido lhe permitirá predizer os possíveis resultados de um curso de ação enquanto está negociando, ou escolher a melhor abordagem a fazer.",
+  "fonte": "p. 160"
+ },
+ {
+  "id": "labia",
+  "nome": "Lábia",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Dissimulação-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de persuadir os outros a fazerem coisas contra seu bom-senso. Ela não é ensinada (pelo menos intencionalmente) nas escolas; ela é aprendida enquanto se trabalha como vendedor, vigarista, advogado, etc. Se seu NH em Lábia for maior ou igual a 20 (especialista), você receberá um bônus de +2 em todos os testes de reação em que conseguir falar.",
+  "fonte": "p. 160"
+ },
+ {
+  "id": "jogo",
+  "nome": "Jogo",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Matemática-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade com jogos de azar. Um sucesso em um teste de Jogo poderá lhe dizer, entre outras coisas, se o jogo é limpo ou não, identificar um jogador em meio a um grupo de estranhos, ou avaliar as chances em uma situação complicada. Quando estiver jogando contra a casa, faça somente seu teste de habilidade (com um modificador, se o GM disser que a chance é pequena).",
+  "fonte": "p. 161"
+ },
+ {
+  "id": "lideranca",
+  "nome": "Liderança",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como ST-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia na coordenação de um grupo de pessoas em uma situação de tensão ou perigo. É necessário algum nível de liderança para conseguir um posto numa organização militar ou paramilitar. É preciso um sucesso em um teste de Liderança para conduzir os NPCs a uma situação de perigo (os jogadores poderão decidir por seus personagens, se eles o seguirão ou não).",
+  "fonte": "p. 161"
+ },
+ {
+  "id": "comercio",
+  "nome": "Comércio",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no trato comercial, comprando e vendendo mercadorias. Ela envolve um talento para vendas, compreensão das práticas comerciais e psicologia. No caso de um sucesso em um teste de habilidade, um Comerciante será capaz (entre outras coisas) de, em termos de sua cultura, avaliar um bem, descobrir onde um determinado artigo é comprado ou vendido, descobrir o valor local de mercado de qualquer artigo, etc.",
+  "fonte": "p. 162"
+ },
+ {
+  "id": "atuacao",
+  "nome": "Atuação",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-5, Dissimulação-2 ou Trovador-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de atuar num palco ou na tela. Ela é diferente de Dissimulação pelo fato de você estar tentando entreter as pessoas, mas não necessariamente enganá-las. Se esta perícia for estudada, ela incluirá também o conhecimento profissional do tipo de atuação apropriado para o período (direção de cena, relação entre ator/agente/produtor, tipos de câmera, etc...).",
+  "fonte": "p. 162"
+ },
+ {
+  "id": "politica",
+  "nome": "Política",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Diplomacia-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de subir ao poder e se dar bem com outros políticos. Ela não tem nada a ver com Administração. Esta perícia é aprendida num partido político ou trabalhando para alguém que está no poder. Um sucesso em um teste de Política dar-lhe-á um bônus de +2 a ser aplicado às reações de outros políticos. Faça uma Disputa de Habilidades quando estiver se candidatando a um cargo público.",
+  "fonte": "p. 162"
+ },
+ {
+  "id": "trato-social",
+  "nome": "Trato Social",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia das “boas maneiras” (seja lá o que elas forem em sua cultura). Será necessário um sucesso num teste de habilidade para se dar bem na alta sociedade (faça um teste para cada festa ou encontro). Um sucesso poderá também detectar alguém que esteja fingindo ter um bom berço ou uma boa posição social.",
+  "fonte": "p. 163"
+ },
+ {
+  "id": "sex-appeal",
+  "nome": "Sex-Appeal",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como HT-3"
+  ],
+  "prereqs": [],
+  "descricao": "Baseada em HT e não IQ. Esta é a capacidade de impressionar o sexo oposto. Ela pode ser estudada somente nas horas de folga (um máximo de 3 horas por dia), a menos que você faça parte de um harém ou coisa parecida. O Sex Appeal tem tanto a ver com suas atitudes, quanto com a aparência. Se não desejar “seduzir” alguém para obter o que quer, você não terá, nem desejará, este talento.",
+  "fonte": "p. 163"
+ },
+ {
+  "id": "estrategia",
+  "nome": "Estratégia",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-6, Tática-6 ou outro tipo de Estratégia-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de planejar ações militares e prever as do inimigo. Normalmente é ensinada apenas por militares. Um sucesso em um teste de habilidade lhe permitirá deduzir os planos militares do inimigo, a menos que eles sejam liderados por alguém que tenha esta perícia. Neste caso, o GM deverá fazer uma Disputa de Habilidades entre os 2 estrategistas.",
+  "fonte": "p. 164"
+ },
+ {
+  "id": "tatica",
+  "nome": "Tática",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias Sociais",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Estratégia-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de adivinhar as intenções do inimigo quando a luta for homem-a- homem ou em pequenos grupos. Normalmente é ensinada apenas por militares. Um sucesso em um teste de Tática poderá dar (a critério do GM) informações sobre os planos imediatos do inimigo. Se você tiver estudado esta perícia, terá um bônus de +1 em testes de iniciativa.",
+  "fonte": "p. 164"
+ },
+ {
+  "id": "pedagogia",
+  "nome": "Pedagogia",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "É a habilidade em ensinar outras pessoas. Para poder ensinar alguém, você precisa conhecer a perícia que está sendo estudada num nível maior do que o de seu aluno. Para fins de jogo, qualquer um com um nível maior ou igual a 12 deveria poder agir como um professor na maioria das situações. Se for vital para a aventura que um assunto difícil seja ensinado a alguém, deverá ser exigido um teste.",
+  "fonte": "p. 165"
+ },
+ {
+  "id": "camuflagem",
+  "nome": "Camuflagem",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-4 ou Sobrevivência-2"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no uso de elementos naturais e/ou pintura para se disfarçar e esconder sua posição, equipamento, etc. Para determinar se a camuflagem foi bem feita, deve-se fazer uma Disputa de Habilidades (Visão vs. Camuflagem).",
+  "fonte": "p. 165"
+ },
+ {
+  "id": "demolicao",
+  "nome": "Demolição",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Engenharia-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de explodir coisas. Toda vez que você for usar explosivos, será necessário um teste de Demolição. São necessários de 15 a 60 minutos para instalar explosivos de maneira adequada e detoná-los. Um sucesso em um teste de habilidade significa que tudo foi bem. Uma falha indicará que você cometeu um engano; quanto pior o resultado do teste, pior o erro.",
+  "fonte": "p. 166",
+  "nt": true
+ },
+ {
+  "id": "deteccao-de-mentiras",
+  "nome": "Detecção de Mentiras",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Psicologia-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de dizer se alguém está mentindo ou não. Não é a mesma coisa que Interrogatório; a Detecção de Mentiras funciona em situações informais e sociais. Quando você pedir para usar esta perícia, o GM fará uma Disputa Rápida de Habilidades entre sua Detecção de Mentiras e a IQ de seu alvo (ou Lábia, ou Dissimulação). Se você vencer, o GM lhe dirá se ele estava mentindo.",
+  "fonte": "p. 166"
+ },
+ {
+  "id": "disfarce",
+  "nome": "Disfarce",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de se fazer parecer com uma outra pessoa, através do uso de roupas, maquiagem, etc. São necessários 30 a 60 minutos para preparar um bom disfarce. Faça uma Disputa Rápida de Habilidades (normalmente Disfarce vs. IQ) para cada pessoa (ou grupo) que seu disfarce precisa enganar.",
+  "fonte": "p. 166"
+ },
+ {
+  "id": "fuga",
+  "nome": "Fuga",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como DX-6"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em se soltar de cordas, algemas e atilhos semelhantes. A primeira tentativa de escapar leva 1 minuto; cada tentativa subsequente levará 10 minutos. Modificadores: Quanto mais cuidadosamente você estiver preso, maior será o redutor que o GM aplicará ao teste: No caso de algemas modernas, por exemplo, o redutor seria igual a -5.",
+  "fonte": "p. 167"
+ },
+ {
+  "id": "falsificacao",
+  "nome": "Falsificação",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-6, DX-8 ou Artista-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de falsificar uma cédula, passaporte ou outro documento similar. Ela não é ensinada a não ser por organizações de espionagem e pelo submundo, apesar de que você sempre pode estudá-la sozinho. Será necessário um teste de habilidade toda vez que um documento falsificado que você está usando for inspecionado (a menos que você consiga um sucesso decisivo na primeira tentativa).",
+  "fonte": "p. 167",
+  "nt": true
+ },
+ {
+  "id": "ocultamento",
+  "nome": "Ocultamento",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5 ou Prestidigitação-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de esconder objetos em seu corpo ou no de outras pessoas (normalmente com a cooperação delas). É também a habilidade de encontrar estes objetos escondidos por outrem. Detecção Encontrar um objeto escondido em uma pessoa é uma Disputa de Habilidades; o resultado do teste de Visão (ou perícia Ocultamento +/- modificadores de Visão) daquele que procura vs. a perícia Ocultamento de quem escondeu.",
+  "fonte": "p. 168"
+ },
+ {
+  "id": "servico-secreto",
+  "nome": "Serviço Secreto",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-6"
+  ],
+  "prereqs": [],
+  "descricao": "A capacidade de analisar e interpretar informações secretas (normalmente militares) a fim de avaliar os planos e recursos do inimigo.",
+  "fonte": "p. 170"
+ },
+ {
+  "id": "interrogatorio",
+  "nome": "Interrogatório",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a capacidade de interrogar um prisioneiro. Só é ensinada nos serviços secretos, polícias, penitenciárias, unidades militares e submundo. Para interrogar um prisioneiro é necessário vencer uma Disputa de Habilidades: sua perícia Interrogatório vs. a IQ do prisioneiro. O GM representará o prisioneiro (ou o interrogador, se você for o prisioneiro) e fará todas as jogadas em segredo.",
+  "fonte": "p. 170"
+ },
+ {
+  "id": "leitura-labial",
+  "nome": "Leitura Labial",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como Visão-10"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de ver o que os outros estão dizendo. Para realizá-la é necessário estar a uma distância menor do que 6 metros, ou usar magia ou binóculos para fazer uma aproximação visual. Cada teste bem sucedido permitirá que você capte uma frase da conversa (presumindo, é claro, que você entende o idioma que está sendo falado).",
+  "fonte": "p. 170"
+ },
+ {
+  "id": "arrombamento",
+  "nome": "Arrombamento",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de abrir fechaduras, cadeados e cofres sem ter a chave ou a combinação. Cada tentativa gasta 1 minuto. Se você for bem sucedido e conseguir abrir o cadeado/fechadura, cada ponto da sua margem de sucesso diminuirá 5 segundos do tempo gasto.",
+  "fonte": "p. 171",
+  "nt": true
+ },
+ {
+  "id": "punga",
+  "nome": "Punga",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como DX-6 ou Prestidigitação- 4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de tirar uma carteira, faca, etc., de alguém, ou “plantar” alguma coisa nele. Modificadores: +5 se a vítima estiver distraída; + 10 se ela estiver adormecida ou bêbada; até -5 para valores em um bolso interno e até -10 para um anel ou joia similar.",
+  "fonte": "p. 171"
+ },
+ {
+  "id": "veneficio",
+  "nome": "Venefício",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-6, Química-5 ou Medicina-3"
+  ],
+  "prereqs": [],
+  "descricao": "Tem também como nível pré-definido Culinária-3 ou Trato Social- 3 na cultura adequada. Este é o conhecimento prático geral de venenos.",
+  "fonte": "p. 171"
+ },
+ {
+  "id": "captacao",
+  "nome": "Captação",
+  "tipo": "Mental",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-4"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em encontrar, recuperar ou improvisar objetos úteis que outros não são capazes de localizar. Cada tentativa leva uma hora. O parasita não rouba necessariamente seu butim — ele apenas o localiza (de algum modo) e depois o obtém pelos meios que forem necessários.",
+  "fonte": "p. 172"
+ },
+ {
+  "id": "sombra",
+  "nome": "Sombra",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-6 ou Furtividade-4 (a pé apenas)"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de seguir uma outra pessoa em uma multidão sem ser notado. (Use Rastreamento e Furtividade quando estiver no campo.) Faça uma Disputa entre sua Sombra e a Visão da vítima a cada 10 minutos. Se ela vencer, você a terá perdido de vista. Se vencer por mais de 5 pontos, você terá sido visto. Modificadores: -2 ou mais (decisão do GM) se sua aparência for ímpar e -3 se a vítima o conhecer.",
+  "fonte": "p. 172"
+ },
+ {
+  "id": "prestidigitacao",
+  "nome": "Prestidigitação",
+  "tipo": "Física",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a habilidade de “empalmar” pequenos objetos, fazer truques com moedas e cartas, etc. Cada sucesso em um teste de habilidade permitir-lhe-á fazer um pequeno “truque de mágica”. Uma falha significa que você errou o truque.",
+  "fonte": "p. 173"
+ },
+ {
+  "id": "furtividade",
+  "nome": "Furtividade",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5 ou DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em se esconder e mover silenciosamente. Um sucesso em uma jogada de teste indicará que você é capaz de se esconder em qualquer lugar, menos num aposento completamente vazio, ou se movimentar tão quietamente que ninguém irá escutá-lo, ou seguir alguém sem ser notado (para seguir alguém no meio de uma multidão use a perícia Sombra já descrita).",
+  "fonte": "p. 173"
+ },
+ {
+  "id": "manha",
+  "nome": "Manha",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de conviver bem com “má-companhia”. Um sucesso em um teste desta perícia pode (entre outras coisas) permitir que você descubra onde qualquer tipo de “ato” ilegal está ocorrendo; quais policiais ou burocratas locais podem ser comprados e por quanto; como contatar o submundo local, etc.",
+  "fonte": "p. 173"
+ },
+ {
+  "id": "armadilhas",
+  "nome": "Armadilhas",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias de Espionagem/Furtividade",
+  "defaults": [
+   "Pré-definido como IQ-5, DX-5 ou Arrombamento-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia na construção de armadilhas e aparelhos de detecção e como anulá-los. Um sucesso em um teste de Armadilhas possibilitará (entre outras coisas) a detecção de uma armadilha, se você estiver procurando por isso; desarmar uma armadilha depois de descoberta, rearmá-la depois de passar; ou (tendo o material apropriado) construir uma nova.",
+  "fonte": "p. 174",
+  "nt": true
+ },
+ {
+  "id": "demolicao-subaquatica",
+  "nome": "Demolição Subaquática",
+  "tipo": "Mental",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Pré-definido como Demolição-2"
+  ],
+  "prereqs": [
+   "Mergulho e Demolição Ou a Engenharia apropriada"
+  ],
+  "descricao": "Habilidade na preparação e detonação de uma carga explosiva debaixo d’água. De resto, igual à Demolição (acima). Se um engenheiro de demolição estiver usando o nível pré- definido nesta perícia, o teste só servirá para avaliar a preparação da carga.",
+  "fonte": "p. 175"
+ },
+ {
+  "id": "ventriloquismo",
+  "nome": "Ventriloquismo",
+  "tipo": "Mental",
+  "dificuldade": "Difícil",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Sem nível pré-definido"
+  ],
+  "prereqs": [],
+  "descricao": "Sem nível pré-definido Esta é a habilidade em disfarçar e “lançar” sua voz a uma pequena distância. Um sucesso em um teste de habilidade permitirá que você lance sua voz bem o suficiente para enganar sua audiência.",
+  "fonte": "p. 175"
+ },
+ {
+  "id": "ciclismo",
+  "nome": "Ciclismo",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Pré-definido como DX-4 ou Motociclismo"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em andar de bicicleta sem cair. Pode-se também fazer uma jogada de teste com redutor de -5 para tentar consertar uma bicicleta avariada, admitindo-se que as ferramentas e partes sobressalentes estão à disposição.",
+  "fonte": "p. 175"
+ },
+ {
+  "id": "remo-vela",
+  "nome": "Remo/Vela",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Pré-definido como IQ-5, DX-5 ou Motonáutica-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a perícia no trato com canoas, barcos a remos, pequenos barcos a vela, etc. Por definição, é necessário uma jogada de teste quando se entra no bote (para evitar cair n’água) e outra para pôr o bote em movimento. O GM pode exigir novos testes sempre que surgir um perigo.",
+  "fonte": "p. 176"
+ },
+ {
+  "id": "conducao",
+  "nome": "Condução",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Pré-definido como IQ-5 ou DX-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade em conduzir um tipo específico de veículo (é necessário uma especialização).",
+  "fonte": "p. 176"
+ },
+ {
+  "id": "motociclismo",
+  "nome": "Motociclismo",
+  "tipo": "Física",
+  "dificuldade": "Fácil",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Pré-definido como DX-5, IQ-5 ou Ciclismo-5"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de conduzir uma motocicleta. É necessário se especializar em lambretas/motos leves, ou em motos médias e pesadas.",
+  "fonte": "p. 177"
+ },
+ {
+  "id": "pilotagem",
+  "nome": "Pilotagem",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Pré-definido como IQ-6",
+   "Pré-definido como IQ-5, DX-5 ou Remo/Vela-3"
+  ],
+  "prereqs": [],
+  "descricao": "Esta é a habilidade de pilotar um tipo específico de aeronave ou espaçonave. É necessário uma especialização. O nível prédefinido usa IQ, pois é preciso inteligência para entender os controles em uma emergência. Mas quando a perícia é aprendida normalmente, ela está baseada em DX como as outras perícias físicas. Um teste de Pilotagem é exigido na decolagem e na aterrisagem, e outro em situações de perigo.",
+  "fonte": "p. 177"
+ },
+ {
+  "nome": "Motonáutica",
+  "tipo": "Física",
+  "dificuldade": "Média",
+  "categoria": "Perícias com Veículos",
+  "defaults": [
+   "Pré-definido como IQ-5, DX-5 ou Remo/Vela-3"
+  ],
+  "descricao": "Habilidade para dirigir pequenas embarcações motorizadas. Teste ao entrar no barco e em situações de perigo.",
+  "fonte": "p. 178 (grafia original \"Fisico\")",
+  "id": "motonautica"
+ },
+ {
+  "nome": "Língua (cada uma)",
+  "tipo": "Mental",
+  "dificuldade": "Variável",
+  "categoria": "Perícias com Línguas",
+  "defaults": [
+   "Língua nativa: IQ automático; línguas relacionadas: NH-4; dialeto: NH-1 a -3"
+  ],
+  "descricao": "Cada língua é uma perícia independente. Fácil (jargões), Média (maioria), Difícil (basco, navajo), Muito Difícil (alienígenas não-faláveis). Língua nativa IQ+1 custa 1 ponto, IQ+2 custa 2 etc. Sem professor: 4× mais difícil.",
+  "fonte": "p. 135–136",
+  "id": "lingua-cada-uma"
+ }
+]
