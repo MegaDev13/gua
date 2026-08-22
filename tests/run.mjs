@@ -211,5 +211,16 @@ t('computeAll: deslocamento 6 (sem carga)', snap.deslocamento.valor === 6);
 t('computeAll: esquiva = deslocamento', snap.esquiva === 6);
 t('computeAll ST8: dano GDP 1D-3 / Bal 1D-2 (p. 190)', snap.danoBasico.gdp === '1D-3' && snap.danoBasico.bal === '1D-2');
 
+
+/* ---------------------------------------------------------- avaliarDano modo bruto (dano já rolado) */
+t('avaliarDano bruto: corte 8 vs RD 3 = 7', () => {
+  const av = avaliarDano(DB, { bruto: 8, tipoDano: 'corte', rd: 3, local: 'Tronco' });
+  ok(av.final === 7, `esperado 7, veio ${av.final}`);
+});
+t('avaliarDano bruto: perfurante vísceras 6 vs RD 2 = 12 (×3)', () => {
+  const av = avaliarDano(DB, { bruto: 6, tipoDano: 'perfuração', rd: 2, local: 'Órgãos vitais' });
+  ok(av.final === 12, `esperado 12, veio ${av.final}`);
+});
+
 console.log(`\n===== RESULTADO: ${pass} passou, ${fail} falhou =====`);
 if (failures.length) { console.log(failures.join('\n')); process.exit(1); }

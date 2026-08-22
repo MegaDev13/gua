@@ -197,18 +197,14 @@ function aplicarDanoDireto(db, registrar) {
     acoes: [el('button', { class: 'btn primary', onclick: () => {
       const bruto = parseInt(inpDano.value, 10) || 0;
       const rd = parseInt(inpRd.value, 10) || 0;
-      const tipo = selTipo.value;
-      let mult = 1;
-      if (tipo === 'corte') mult = 1.5;
-      if (tipo === 'perfuração') mult = selLocal.value === 'Órgãos vitais' ? 3 : (['Braço', 'Perna', 'Mão', 'Pé'].includes(selLocal.value) ? 1 : 2);
-      const final = Math.max(0, Math.floor((bruto - rd) * mult));
-      let res = null;
+      let av = null, res = null;
       store.update(p => {
-        const av = { final, tipoDano: tipo, local: selLocal.value, detalhes: [] };
+        av = avaliarDano(db, { bruto, tipoDano: selTipo.value, rd, local: selLocal.value });
         res = aplicarFerimento(db, p, av);
         p.combate.ferimentos = res.ferimentos;
       });
-      registrar(`Dano sofrido: ${bruto} − RD ${rd} × ${mult} = <b>${final} PV</b>. ${res.eventos.join(' ')} ${res.efeitos.map(e => `[${e.tipo}]`).join(' ')}`);
+      const multTxt = av.detalhes.find(d => d.fator) ? ` (×${av.detalhes.find(d => d.fator).fator})` : '';
+      registrar(`Dano sofrido: ${bruto} − RD ${rd}${multTxt} = <b>${av.final} PV</b>. ${res.eventos.join(' ')} ${res.efeitos.map(e => `[${e.tipo}]`).join(' ')}`);
       document.querySelector('.modal-back')?.remove();
     } }, 'Aplicar')],
   });
