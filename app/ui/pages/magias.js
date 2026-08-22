@@ -6,6 +6,7 @@ import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { iqMagico, nivelMagia, custoBase, custoManutencao, conjurar, parsePrereqs, reducaoCusto } from '../../engine/spells.js';
 import { dice } from '../../engine/combat.js';
+import { gastarFadiga } from '../../engine/fatigue.js';
 
 const semAcento = s => String(s || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
@@ -100,10 +101,7 @@ export function renderMagias(main, { db }) {
       if (r.resultado) txt = `${dadosVisual(r.resultado.rolls, { crit: r.resultado.critico && r.resultado.sucesso, fail: r.resultado.critico && !r.resultado.sucesso })} ${txt}<br>Resultado: <b>${r.resultado.descricao}</b>`;
       txt += `<br>Gasto de energia: <b>${r.gasto}</b> ST`;
       if (r.gasto > 0) {
-        store.update(p => {
-          const atual = p.combate.fadiga || 0;
-          p.combate.fadiga = Math.min(p.atributos.ST, atual + r.gasto);
-        });
+        store.update(p => { p.combate.fadiga = gastarFadiga(p, r.gasto).fadiga; });
       }
       r.erros.filter(e => e.aviso).forEach(e => { txt += `<br><span class="pill warn">${e.aviso}</span>`; });
       saida.innerHTML = '';

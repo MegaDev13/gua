@@ -5,7 +5,7 @@
 import { el, toast, fmtMoney, fmtKg, modal, valorCalculado, confirmar } from '../ui.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
-import { novoItem, podeComprar, comprar, vender } from '../../engine/economy.js';
+import { novoItem, podeComprar, comprar, vender, recursosIniciais } from '../../engine/economy.js';
 import { custoFadiga } from '../../engine/fatigue.js';
 
 const slug = s => String(s || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -28,7 +28,7 @@ export function renderEquipamentos(main, { db }) {
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Nível de Riqueza'), selRiqueza),
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Dinheiro ($)'), inpDinheiro),
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Recursos iniciais (média × nível)'),
-        el('div', { class: 'value' }, fmtMoney(Math.round((pc.riqueza?.recursosBase || 0) * (pc.riqueza?.multiplicador ?? 1))))),
+        el('div', { class: 'value' }, fmtMoney(recursosIniciais(pc, pc.riqueza?.recursosBase ?? 1000)))),
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Peso carregado'),
         valorCalculado(fmtKg(snap.carga.peso.kg), snap.carga.peso.detalhes.map(d => ({ fonte: `${d.qtd}× ${d.nome}`, valor: d.peso })))),
     ),

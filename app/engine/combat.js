@@ -110,9 +110,12 @@ function combinar(baseExpr, mod) {
 }
 
 /** Avaliação de dano completa: rola dados, aplica RD e multiplicador por tipo (p. 188-191, 230). */
-export function avaliarDano(db, { danoExpr, tipoDano = 'contusão', rd = 0, local = 'Tronco', dm = null, perfuranteArmaDeFogo = false }) {
-  const rolado = dice.damage(danoExpr);
-  let detalhes = [{ passo: `Dano rolado (${danoExpr})`, valor: rolado.total, dados: rolado.rolls }];
+export function avaliarDano(db, { danoExpr, bruto = null, tipoDano = 'contusão', rd = 0, local = 'Tronco', dm = null, perfuranteArmaDeFogo = false }) {
+  // bruto = dano já rolado fora (ex.: mestre informa o total); senão rola a expressão
+  const rolado = bruto !== null ? { total: bruto, rolls: [] } : dice.damage(danoExpr);
+  let detalhes = [bruto !== null
+    ? { passo: 'Dano informado (já rolado)', valor: bruto, dados: [] }
+    : { passo: `Dano rolado (${danoExpr})`, valor: rolado.total, dados: rolado.rolls }];
   let dano = rolado.total;
   if (dm !== null && dano > dm) { dano = dm; detalhes.push({ passo: 'DM — dano máximo da arma', valor: dm }); }
   const passa = dano - rd;
