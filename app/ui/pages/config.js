@@ -107,14 +107,7 @@ export function renderConfig(main, { db }) {
     el('h3', {}, 'Regras não definidas no material'),
     el('p', {}, 'Por decisão de projeto, nada foi inventado. Estes pontos estão marcados e a arquitetura aceita a regra quando for publicada:'),
     el('ul', { style: 'padding-left:1.2rem;line-height:1.7' },
-      ...['Tabela de armas corpo-a-corpo (cadastro manual na aba Equipamentos)',
-        'Golpes Fulminantes / Erros Críticos (tabelas 3d)',
-        'Local de impacto aleatório 3d — tabela reconstruída em tables.json com aviso',
-        'Modificadores Velocidade/Distance e Tamanho — reconstruídos com aviso',
-        'Preços da Lista de Equipamentos (só itens citados no texto existem)',
-        'Economia de empregos e venda (fator configurável)',
-        'Evolução pós-criação (XP registrado no Histórico)',
-        'Poderes não-mágicos (módulo pronto, vazio)'].map(t => el('li', {}, t))),
+      ...(db.rules?.naoDefinidas || []).map(t => el('li', {}, t))),
     el('p', { class: 'fonte' }, 'Base: ' + (db.tables._fonte || '')),
   );
 

@@ -1,0 +1,28 @@
+{
+  "_fonte": "Manifesto do banco de regras. Constantes de jogo vivem em tables.json/equipment.json; nada aqui duplica valores.",
+  "projeto": "GUA — Ecossistema Digital (livro + ficha sobre a mesma base)",
+  "material": "GURPS® Basic Set 3ª edição (PT-BR, 370 pp.) — única fonte de verdade",
+  "versao": 1,
+  "moeda": "$",
+  "principios": [
+    "O material é a única fonte de verdade: nada inventado, nada 'melhorado'",
+    "Regra ausente = REGRA NÃO DEFINIDA (bloqueio com explicação, nunca chute)",
+    "Todo cálculo no Rule Engine (app/engine); a interface não contém fórmulas",
+    "Números intermediários nunca são arredondados, exceto onde o material manda",
+    "Banco único (data/*.json) serve ao livro digital e à ficha"
+  ],
+  "naoDefinidas": [
+    "Tabela de armas corpo-a-corpo (Quadros e Tabelas não fornecidos — cadastro manual na aba Equipamentos)",
+    "Golpes Fulminantes / Erros Críticos (tabelas 3d não incluídas no material)",
+    "Local de impacto aleatório 3d — tabela reconstruída em tables.json com aviso _aviso",
+    "Modificadores Velocidade/Distance e Tamanho — reconstruídos por regra textual, com aviso",
+    "Preços da Lista de Equipamentos (somente itens citados no texto existem)",
+    "Economia de empregos e preço de revenda (fator de venda configurável; padrão = valor integral)",
+    "Evolução pós-criação de perícias/atributos (XP registrável no Histórico)",
+    "Poderes não-mágicos (módulo pronto e vazio)"
+  ],
+  "configuraveis": {
+    "fatorVenda": { "default": 1, "nota": "REGRA NÃO DEFINIDA — multiplicador do preço na venda de itens" },
+    "riquezaMediaCenario": { "default": 1000, "nota": "média multiplicada pelo nível de Riqueza (p. 12)" }
+  }
+}

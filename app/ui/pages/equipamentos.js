@@ -6,6 +6,7 @@ import { el, toast, fmtMoney, fmtKg, modal, valorCalculado, confirmar } from '..
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { novoItem, podeComprar, comprar, vender } from '../../engine/economy.js';
+import { custoFadiga } from '../../engine/fatigue.js';
 
 const slug = s => String(s || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
@@ -172,7 +173,10 @@ export function renderEquipamentos(main, { db }) {
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Peso'), el('div', { class: 'value' }, fmtKg(c.peso.kg))),
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Nível'), valorCalculado(c.nome, [{ fonte: `ST ${pc.atributos.ST}` }, { fonte: `Peso ${fmtKg(c.peso.kg)} vs limites ST / 2×ST / 3×ST / 6×ST / 10×ST` }])),
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Penalidade no Movimento'), el('div', { class: 'value' }, c.penalidade === null ? '—' : `−${c.penalidade}`)),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Fadiga extra por luta'), el('div', { class: 'value' }, c.penalidade === null ? '—' : `+${c.penalidade + 1}`)),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Fadiga por luta'), el('div', { class: 'value' }, (() => {
+        const cf = custoFadiga(db, pc, 'luta', { nivelCarga: snap.carga.nivel });
+        return cf.erro ? '—' : `+${cf.custo}`;
+      })())),
     ),
     c.nota ? el('p', { class: 'pill bad', style: 'margin-top:.5rem' }, '⚠ ' + c.nota) : '',
     el('p', { class: 'fonte' }, 'Fluxo automático: peso total → relação com ST → nível de carga → penalidade → Deslocamento → Esquiva → fadiga em combate.'),

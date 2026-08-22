@@ -1,0 +1,8 @@
+{
+  "_fonte": "Metadados do livro digital. O conteúdo dos capítulos é gerado ao vivo de tables/skills/advantages/disadvantages/spells/equipment.json — nada é duplicado aqui.",
+  "titulo": "GUA — Livro de Regras Digital",
+  "subtitulo": "Gerado da mesma base de regras da ficha de personagem",
+  "versao": 1,
+  "capituloFonte": "docs/analise/01-mapa-de-regras.md",
+  "ilustracoes": ["book/images/capa.svg"]
+}

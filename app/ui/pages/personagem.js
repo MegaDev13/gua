@@ -2,6 +2,7 @@
 import { el, fmtMoney, toast, baixar, valorCalculado, modal, confirmar } from '../ui.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
+import { exportarPDF, exportarPNG } from '../exportar.js';
 import { APARENCIA } from '../../engine/attributes.js';
 
 export function renderPersonagem(main, { db }) {
@@ -53,7 +54,8 @@ export function renderPersonagem(main, { db }) {
   const acoes = el('div', { class: 'btn-row' },
     el('button', { class: 'btn', onclick: () => exportar(pc) }, '⬇ Exportar JSON'),
     el('button', { class: 'btn', onclick: () => janelaImportar() }, '⬆ Importar JSON'),
-    el('button', { class: 'btn', onclick: () => store.update(p => { p.pontos.extrasGanhos = (p.pontos.extrasGanhos || 0); }) || toast('Use Histórico para registrar XP.', '') }, '＋ Registr. XP'),
+    el('button', { class: 'btn primary', title: 'Abre o diálogo de impressão — escolha "Salvar como PDF"', onclick: () => exportarPDF(computeAll(DB, store.atual)) }, '🖨 Exportar PDF'),
+    el('button', { class: 'btn primary', title: 'Baixa uma ficha resumida em imagem', onclick: () => exportarPNG(computeAll(DB, store.atual)) }, '🖼 Exportar PNG'),
   );
 
   main.append(

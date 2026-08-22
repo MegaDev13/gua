@@ -51,6 +51,7 @@ export function computeAll(db, personagem) {
 
   return {
     _db: db,
+    _pc: personagem,
     atributos: personagem.atributos,
     custoAtributos: Object.fromEntries(Object.entries(personagem.atributos).map(([k, v]) => [k, custoAtributo(db, v)])),
     velocidadeBasica: vel,

@@ -1,5 +1,5 @@
 /* Aba PERÍCIAS — catálogo completo com compra de níveis, defaults e pré-requisitos. */
-import { el, toast, requisitoBadge, valorCalculado, modal } from '../ui.js';
+import { el, toast, valorCalculado, modal } from '../ui.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { nivelParaPontos, custoNivel, attrPadrao, melhorDefault } from '../../engine/skills.js';
@@ -83,7 +83,7 @@ function linhaPericia(s, entry, ef, snap) {
       : (df ? valorCalculado(df.valor, [{ fonte: `Default: ${df.origem}` }]) : '—')),
     el('td', { class: 'num' }, entry ? String(entry.pontos) : '—'),
     el('td', { style: 'font-size:.75rem;color:var(--ink-dim)' }, (s.defaults || []).join(' | ').replace(/Pré-definido:? como:? ?/g, '').slice(0, 90)),
-    el('td', {}, pre ? requisitoBadge(preOk(s, snap), pre.slice(0, 80)) : el('span', { class: 'pill' }, '—')),
+    el('td', {}, pre ? el('span', { class: 'pill warn', title: pre }, pre.slice(0, 80)) : el('span', { class: 'pill' }, '—')),
     el('td', {},
       el('div', { class: 'btn-row', style: 'margin:0' },
         el('button', { class: 'btn small', onclick: () => comprar(0.5), title: 'Comprar ½ ponto' }, '+½'),
@@ -99,17 +99,6 @@ function linhaPericia(s, entry, ef, snap) {
   );
 }
 
-function preOk(s, snap) {
-  // pré-requisito aproximado: existe perícia treinada com nome citado
-  const txt = (s.prereqs || []).join(' ');
-  if (!txt) return true;
-  for (const nome of Object.keys(snap.niveis)) {
-    if (nome.length > 3 && txt.toLowerCase().includes(nome.toLowerCase())) {
-      if ((snap.niveis[nome] || 0) >= 12) return true;
-    }
-  }
-  return false;
-}
 
 function detalhar(s, entry, ef) {
   const df = ef?.default;

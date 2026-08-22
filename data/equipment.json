@@ -448,8 +448,28 @@
     "custo": 1790
    },
    {
+    "potencia": 210,
+    "custo": 2065
+   },
+   {
+    "potencia": 220,
+    "custo": 2615
+   },
+   {
+    "potencia": 230,
+    "custo": 3275
+   },
+   {
+    "potencia": 240,
+    "custo": 3650
+   },
+   {
     "potencia": 250,
     "custo": 4510
+   },
+   {
+    "potencia": 260,
+    "custo": 5520
    },
    {
     "potencia": 270,

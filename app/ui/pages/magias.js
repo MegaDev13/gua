@@ -4,7 +4,7 @@
 import { el, toast, modal, valorCalculado, dadosVisual, requisitoBadge } from '../ui.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
-import { iqMagico, nivelMagia, custoBase, custoManutencao, conjurar, parsePrereqs } from '../../engine/spells.js';
+import { iqMagico, nivelMagia, custoBase, custoManutencao, conjurar, parsePrereqs, reducaoCusto } from '../../engine/spells.js';
 import { dice } from '../../engine/combat.js';
 
 const semAcento = s => String(s || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -149,7 +149,8 @@ function reducaoTxt(snap) {
     const nm = snap.magias.find(x => x.entry === m);
     if (nm && nm.nivel > max) max = nm.nivel;
   }
-  return max >= 30 ? '−4 (NH 30+)' : max >= 25 ? '−3 (NH 25+)' : max >= 20 ? '−2 (NH 20+)' : max >= 15 ? '−1 (NH 15+)' : 'nenhuma';
+  const r = reducaoCusto(max);
+  return r ? `−${r} (NH ${max})` : 'nenhuma';
 }
 
 function checarPrereqs(reqs, db, pc) {

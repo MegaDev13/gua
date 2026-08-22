@@ -98,18 +98,21 @@ json.dump({'maximo': 5, 'custoCada': -1, 'regra': 'Máximo de 5 peculiaridades, 
           open(f'{OUT}/quirks.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 # ------------------------------------------------------------------ magias
-SCHOOL_FIX = [(330, 'Mágicas Sobre Animais'), (332, 'Mágicas para Comunicação e Empatia'),
-              (334, 'Mágicas Elementais'), (337, 'Mágicas com Elementais'), (339, 'Mágicas do Ar'),
-              (343, 'Mágicas do Fogo'), (347, 'Mágicas da Água'), (358, 'Mágicas de Cura'),
-              (361, 'Mágicas de Reconhecimento'), (364, 'Mágicas de Luz e Trevas'),
-              (368, 'Mágicas de Controle da Mente'), (314, 'Mágicas de Informação')]
+# Fronteiras escola→página verificadas contra o material (ordem de página conferida).
+# Escopo da extração: p. 331-370. Magias de Informação (p. 314+) = default p/ páginas anteriores.
+ESCOLAS = [(331, 'Mágicas Sobre Animais'), (332, 'Mágicas para Comunicação e Empatia'),
+           (334, 'Mágicas de Terra (Elementais)'), (337, 'Mágicas com Elementais'),
+           (339, 'Mágicas do Ar'), (344, 'Mágicas do Fogo'), (347, 'Mágicas da Água'),
+           (358, 'Mágicas de Cura'), (361, 'Mágicas de Reconhecimento'),
+           (364, 'Mágicas de Luz e Trevas'), (368, 'Mágicas de Controle da Mente')]
 spells = []
 cur_school = 'Mágicas de Informação'
-for i, s in enumerate(spells_raw):
+escola_idx = 0
+for s in spells_raw:
     p = s['pagina']
-    for pg, sc in SCHOOL_FIX:
-        if pg <= p and (i == 0 or spells_raw[i-1]['pagina'] < pg <= p):
-            cur_school = sc
+    while escola_idx < len(ESCOLAS) and ESCOLAS[escola_idx][0] <= p:
+        cur_school = ESCOLAS[escola_idx][1]
+        escola_idx += 1
     c = s['campos']
     ent = {'id': slug(s['nome']),
            'nome': s['nome'], 'classes': s['classes'], 'escola': cur_school, 'fonte': f"p. {s['pagina']}",
@@ -185,7 +188,9 @@ equipment = {
       {'potencia': 105, 'custo': 180}, {'potencia': 110, 'custo': 205}, {'potencia': 120, 'custo': 235},
       {'potencia': 130, 'custo': 320}, {'potencia': 140, 'custo': 435}, {'potencia': 150, 'custo': 505},
       {'potencia': 160, 'custo': 685}, {'potencia': 170, 'custo': 915}, {'potencia': 180, 'custo': 1055},
-      {'potencia': 190, 'custo': 1385}, {'potencia': 200, 'custo': 1790}, {'potencia': 250, 'custo': 4510},
+      {'potencia': 190, 'custo': 1385}, {'potencia': 200, 'custo': 1790}, {'potencia': 210, 'custo': 2065},
+      {'potencia': 220, 'custo': 2615}, {'potencia': 230, 'custo': 3275}, {'potencia': 240, 'custo': 3650},
+      {'potencia': 250, 'custo': 4510}, {'potencia': 260, 'custo': 5520},
       {'potencia': 270, 'custo': 6090}], 'fonte': 'p. 322–323'},
 }
 json.dump(equipment, open(f'{OUT}/equipment.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
