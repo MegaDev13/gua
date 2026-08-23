@@ -10,11 +10,13 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 
 | | |
 |---|---|
-| 📖 **Livro digital** | 9 capítulos navegáveis, gerados ao vivo do banco de regras (abas **Livro**) |
-| 🧑 **Ficha de personagem** | 11 abas: personagem, atributos, perícias, vantagens/desvantagens, equipamentos, combate, magias, livro, dados, histórico, configurações |
-| ⚙️ **Rule Engine** | 13 módulos ES puros (`app/engine/`) — **100% dos cálculos** vivem aqui; a interface não contém fórmulas |
+| 📖 **Livro digital** | Produto de leitura próprio em `#/livro`: capa, 9 capítulos, sumário, pesquisa, progresso, consulta rápida e exportação |
+| 🧑 **Ficha de personagem** | Navegação independente com personagem, atributos, perícias, vantagens/desvantagens, equipamentos, magias, dados, histórico e configurações |
+| ⚔️ **Combate** | Espaço global próprio, acessível diretamente do livro ou da ficha |
+| ⚙️ **Rule Engine** | Módulos ES puros (`app/engine/`) — **100% dos cálculos** vivem aqui; a interface não contém fórmulas |
+| ☷ **FilterEngine** | Filtros reutilizáveis com `(A OU B) E C`, NOT, intervalos, relações com o personagem, favoritos e combinações salvas |
 | 🗄️ **Banco único** | `data/*.json` serve ao livro **e** à ficha (fonte única da verdade) |
-| ✅ **Testes** | 72 testes do engine contra exemplos do próprio material + smoke test das 11 páginas |
+| ✅ **Testes** | 75 testes do engine + 17 do FilterEngine + smoke test das 11 experiências |
 | 💾 **Dados do jogador** | localStorage do navegador — nada sai do dispositivo; import/export JSON, backup completo, PDF e PNG |
 
 ### Conteúdo do banco (extraído do material)
@@ -63,7 +65,7 @@ app/engine/*.js      ← TODO cálculo (atributos, perícias, carga, combate,
 app/engine/engine.js ← computeAll(db, personagem) — fachada única da UI
       │
 app/ui/              ← desenha e chama o engine. Zero fórmulas.
-app/main.js          ← SPA hash-routing (11 abas), sem frameworks
+app/main.js          ← SPA hash-routing (Livro · Ficha · Combate), sem frameworks
 ```
 
 - Mudou um atributo → perícias, dano, carga, deslocamento, esquiva, defesa passiva, fadiga e magia **recalcular sozinhos**.
@@ -79,8 +81,9 @@ app/main.js          ← SPA hash-routing (11 abas), sem frameworks
 ### Testes
 
 ```bash
-node tests/run.mjs        # 72 testes do engine vs. exemplos do material
-node tests/smoke_ui.mjs   # renderiza as 11 páginas em DOM falso
+node tests/run.mjs        # 75 testes do engine vs. exemplos do material
+node tests/filters.mjs    # 17 testes de AND/OR/NOT, texto, intervalos e presets
+node tests/smoke_ui.mjs   # renderiza as 11 experiências em DOM falso
 ```
 
 Exemplos validados: personagem-modelo Dai (ST8/DX15/IQ12/HT12 = 85 pts), montante ST10 = 1D+1, corte 8 vs RD 3 → 7, níveis de carga p. 195–197, fadiga p. 298–300, custos de magia p. 300–314, encantamento p. 322–323.

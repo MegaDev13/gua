@@ -1,8 +1,163 @@
 {
-  "_fonte": "Metadados do livro digital. O conteúdo dos capítulos é gerado ao vivo de tables/skills/advantages/disadvantages/spells/equipment.json — nada é duplicado aqui.",
-  "titulo": "GUA — Livro de Regras Digital",
-  "subtitulo": "Gerado da mesma base de regras da ficha de personagem",
-  "versao": 1,
+  "_fonte": "Manifesto editorial. O texto de regras continua vindo de tables/skills/advantages/disadvantages/spells/equipment.json; nenhuma regra é duplicada aqui.",
+  "titulo": "GUA",
+  "subtitulo": "Livro de Regras Digital",
+  "descricao": "Um guia de mesa para criar personagens, resolver ações e consultar regras sem interromper a aventura. Esta edição digital compartilha a mesma base de dados e os mesmos cálculos da ficha.",
+  "edicao": "Edição Digital 1.1",
+  "versao": "1.1.0",
+  "atualizadoEm": "2026-08-23",
   "capituloFonte": "docs/analise/01-mapa-de-regras.md",
-  "ilustracoes": ["book/images/capa.svg"]
+  "capa": "book/images/capa-livro.jpg",
+  "ilustracoes": {
+    "combate": "book/images/abertura-combate.jpg",
+    "magia": "book/images/abertura-magia.jpg"
+  },
+  "alteracoes": [
+    "Experiência de leitura independente da ficha",
+    "Sumário, pesquisa, filtros e referências cruzadas",
+    "Progresso local, continuar lendo e modos de leitura",
+    "Exportação editorial para PDF e PNG"
+  ],
+  "capitulos": [
+    {
+      "id": "apresentacao",
+      "numero": "I",
+      "ordem": 1,
+      "titulo": "Apresentação",
+      "subtitulo": "Como usar este livro",
+      "resumo": "Entenda a fonte das regras, a organização da edição digital e o compromisso de não inventar lacunas do material.",
+      "categorias": ["Introdução", "Referência"],
+      "fonte": "Manifesto do banco de regras",
+      "secoes": [
+        { "id": "bem-vindo", "titulo": "Bem-vindo ao GUA", "tipo": "texto", "categorias": ["Introdução"] },
+        { "id": "fonte-verdade", "titulo": "Uma única fonte de verdade", "tipo": "regra", "categorias": ["Regras", "Referência"] },
+        { "id": "como-consultar", "titulo": "Como consultar", "tipo": "nota", "categorias": ["Consulta"] }
+      ]
+    },
+    {
+      "id": "criacao",
+      "numero": "II",
+      "ordem": 2,
+      "titulo": "Criação de Personagem",
+      "subtitulo": "Dos pontos ao conceito",
+      "resumo": "A estrutura de atributos e os custos usados pela ficha para transformar um conceito em personagem.",
+      "categorias": ["Criação", "Atributos", "Regras", "Tabelas"],
+      "fonte": "Atributos (p. 1–5) · Perícias (p. 104–112)",
+      "secoes": [
+        { "id": "atributos", "titulo": "Atributos", "tipo": "tabela", "ref": "tables.custoAtributos", "categorias": ["Criação", "Atributos"] },
+        { "id": "custos-pericias", "titulo": "Custos de perícias", "tipo": "tabela", "ref": "tables.custoPericias", "categorias": ["Criação", "Perícias"] },
+        { "id": "fluxo-criacao", "titulo": "Fluxo de criação", "tipo": "dica", "categorias": ["Criação"] }
+      ]
+    },
+    {
+      "id": "pericias",
+      "numero": "III",
+      "ordem": 3,
+      "titulo": "Perícias",
+      "subtitulo": "Treinamento, dificuldade e defaults",
+      "resumo": "O catálogo de perícias com atributo-base, dificuldade, pré-requisitos e níveis predefinidos.",
+      "categorias": ["Perícias", "Criação", "Regras", "Catálogo"],
+      "fonte": "p. 104–180",
+      "secoes": [
+        { "id": "ler-pericia", "titulo": "Como ler uma perícia", "tipo": "regra", "categorias": ["Perícias", "Regras"] },
+        { "id": "catalogo-pericias", "titulo": "Catálogo de perícias", "tipo": "catalogo", "ref": "skills", "categorias": ["Perícias", "Catálogo"] }
+      ]
+    },
+    {
+      "id": "vantagens",
+      "numero": "IV",
+      "ordem": 4,
+      "titulo": "Vantagens & Desvantagens",
+      "subtitulo": "Aquilo que torna cada personagem único",
+      "resumo": "Vantagens, desvantagens e peculiaridades organizadas para criação e consulta.",
+      "categorias": ["Criação", "Vantagens", "Desvantagens", "Catálogo"],
+      "fonte": "p. 17–103",
+      "secoes": [
+        { "id": "vantagens", "titulo": "Vantagens", "tipo": "catalogo", "ref": "advantages", "categorias": ["Vantagens", "Criação"] },
+        { "id": "desvantagens", "titulo": "Desvantagens", "tipo": "catalogo", "ref": "disadvantages", "categorias": ["Desvantagens", "Criação"] },
+        { "id": "peculiaridades", "titulo": "Peculiaridades", "tipo": "regra", "ref": "quirks", "categorias": ["Criação"] }
+      ]
+    },
+    {
+      "id": "combate",
+      "numero": "V",
+      "ordem": 5,
+      "titulo": "Combate",
+      "subtitulo": "Decisões sob pressão",
+      "resumo": "Rodadas, manobras, defesas, ferimentos e tipos de dano em uma referência tática integrada ao estado atual da ficha.",
+      "categorias": ["Combate", "Ações", "Dano", "Defesa", "Regras", "Tabelas"],
+      "fonte": "Sistema Básico (p. 220–233) · Avançado (p. 233–275) · Ferimentos (p. 276–300)",
+      "ilustracao": "book/images/abertura-combate.jpg",
+      "secoes": [
+        { "id": "rodada", "titulo": "Início da rodada", "tipo": "regra", "ref": "maneuvers.inicioRodada", "categorias": ["Combate", "Ações"] },
+        { "id": "manobras", "titulo": "Manobras", "tipo": "tabela", "ref": "maneuvers.manobras", "categorias": ["Combate", "Ações"] },
+        { "id": "defesas", "titulo": "Defesas", "tipo": "regra", "ref": "maneuvers.defesas", "categorias": ["Combate", "Defesa"] },
+        { "id": "ferimentos", "titulo": "Ferimentos", "tipo": "referencia", "ref": "tables.ferimentos", "categorias": ["Combate", "Dano"] },
+        { "id": "tipos-dano", "titulo": "Tipos de dano", "tipo": "referencia", "ref": "tables.tiposDano", "categorias": ["Combate", "Dano"] }
+      ]
+    },
+    {
+      "id": "equipamento",
+      "numero": "VI",
+      "ordem": 6,
+      "titulo": "Carga & Equipamento",
+      "subtitulo": "O peso de cada escolha",
+      "resumo": "Carga, armaduras, escudos, itens e encantamentos com atalhos para o banco de equipamentos e a ficha ativa.",
+      "categorias": ["Equipamentos", "Carga", "Armaduras", "Escudos", "Tabelas"],
+      "fonte": "p. 181–200 · Encantamento p. 323",
+      "secoes": [
+        { "id": "carga", "titulo": "Níveis de carga", "tipo": "regra", "ref": "tables.carga", "categorias": ["Carga", "Regras"] },
+        { "id": "armaduras", "titulo": "Armaduras", "tipo": "tabela", "ref": "equipment.armaduras", "categorias": ["Equipamentos", "Armaduras"] },
+        { "id": "escudos", "titulo": "Escudos", "tipo": "tabela", "ref": "equipment.escudos", "categorias": ["Equipamentos", "Escudos"] },
+        { "id": "itens", "titulo": "Itens citados", "tipo": "catalogo", "ref": "equipment.itensAvulsos", "categorias": ["Equipamentos"] },
+        { "id": "encantamento", "titulo": "Encantamento", "tipo": "tabela", "ref": "equipment.encantamentoCustoLento", "categorias": ["Equipamentos", "Magia"] }
+      ]
+    },
+    {
+      "id": "fadiga",
+      "numero": "VII",
+      "ordem": 7,
+      "titulo": "Fadiga",
+      "subtitulo": "Esforço, descanso e limites",
+      "resumo": "Custos de esforço e recuperação conectados ao estado de energia da ficha.",
+      "categorias": ["Fadiga", "Combate", "Regras", "Tabelas"],
+      "fonte": "p. 298–300",
+      "secoes": [
+        { "id": "custos-fadiga", "titulo": "Custos de fadiga", "tipo": "regra", "ref": "tables.fadiga", "categorias": ["Fadiga", "Combate"] },
+        { "id": "recuperacao", "titulo": "Recuperação", "tipo": "dica", "categorias": ["Fadiga"] }
+      ]
+    },
+    {
+      "id": "magia",
+      "numero": "VIII",
+      "ordem": 8,
+      "titulo": "Magia",
+      "subtitulo": "Energia, conhecimento e efeito",
+      "resumo": "Mana, rituais e o catálogo de magias com custos, duração, pré-requisitos e vínculos para a ficha.",
+      "categorias": ["Magia", "Regras", "Catálogo", "Pré-requisitos"],
+      "fonte": "p. 300–370",
+      "ilustracao": "book/images/abertura-magia.jpg",
+      "secoes": [
+        { "id": "mana", "titulo": "Níveis de mana", "tipo": "regra", "ref": "tables.mana", "categorias": ["Magia", "Regras"] },
+        { "id": "rituais", "titulo": "Rituais e custo", "tipo": "regra", "ref": "tables.rituaisMagia", "categorias": ["Magia", "Regras"] },
+        { "id": "catalogo-magias", "titulo": "Catálogo de magias", "tipo": "catalogo", "ref": "spells", "categorias": ["Magia", "Catálogo"] }
+      ]
+    },
+    {
+      "id": "referencia",
+      "numero": "IX",
+      "ordem": 9,
+      "titulo": "Referência de Mesa",
+      "subtitulo": "Tabelas para consulta rápida",
+      "resumo": "Quedas, primeiros socorros, distância, tamanho, altura, aparência e probabilidades reunidos para uso durante a sessão.",
+      "categorias": ["Referência", "Tabelas", "Consulta"],
+      "fonte": "Tabelas do material-base",
+      "secoes": [
+        { "id": "quedas", "titulo": "Quedas", "tipo": "tabela", "ref": "tables.queda", "categorias": ["Referência"] },
+        { "id": "primeiros-socorros", "titulo": "Primeiros socorros", "tipo": "tabela", "ref": "tables.primeirosSocorros", "categorias": ["Referência"] },
+        { "id": "modificadores", "titulo": "Modificadores", "tipo": "tabela", "categorias": ["Referência", "Tabelas"] },
+        { "id": "probabilidades", "titulo": "Probabilidades em 3d", "tipo": "tabela", "ref": "tables.probabilidades3d", "categorias": ["Referência", "Dados"] }
+      ]
+    }
+  ]
 }

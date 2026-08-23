@@ -1,118 +1,129 @@
-/* Aba PERÍCIAS — catálogo completo com compra de níveis, defaults e pré-requisitos. */
+/* Aba PERÍCIAS — catálogo com FilterEngine universal, níveis, defaults e requisitos. */
 import { el, toast, valorCalculado, modal } from '../ui.js';
+import { createFilterPanel } from '../filters.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
-import { nivelParaPontos, custoNivel, attrPadrao, melhorDefault } from '../../engine/skills.js';
-import { podeComprarMelhoria } from '../../engine/skills.js';
+import { attrPadrao, podeComprarMelhoria } from '../../engine/skills.js';
 
-export function renderPericias(main, { db, ir }) {
+export function renderPericias(main, { db }) {
   const pc = store.atual;
   const snap = computeAll(db, pc);
-  const porCategoria = {};
-  for (const s of db.skills) (porCategoria[s.categoria] ||= []).push(s);
+  const entries = new Map((pc.pericias || []).map(entry => [entry.id, entry]));
+  const catalog = db.skills.map(skill => {
+    const entry = entries.get(skill.id);
+    const effective = entry ? snap.pericias.find(item => item.entry === entry) : null;
+    let canImprove = true;
+    try { canImprove = podeComprarMelhoria(db, pc, entry || { id: skill.id, pontos: 0 }, .5).ok; } catch { canImprove = false; }
+    return {
+      ...skill, _skill: skill, _entry: entry, _effective: effective,
+      atributo: attrPadrao(skill),
+      status: entry ? 'Treinada' : 'Não treinada',
+      nivel: effective?.nivelEfetivo ?? null,
+      podeMelhorar: canImprove,
+      tags: [skill.tipo, skill.dificuldade, attrPadrao(skill), ...(skill.prereqs?.length ? ['Com pré-requisito'] : ['Sem pré-requisito'])],
+    };
+  });
 
-  const minhas = new Map((pc.pericias || []).map(e => [e.id + '::' + (e.especialidade || ''), e]));
-
-  const catSelect = el('select', { 'aria-label': 'Filtrar categoria' },
-    el('option', { value: '' }, 'Todas as categorias'),
-    Object.keys(porCategoria).map(c => el('option', { value: c }, c)));
-  const busca = el('input', { type: 'search', placeholder: 'Buscar perícia… (ex.: espadas)', 'aria-label': 'Buscar perícia' });
-  const soMinhas = el('label', { class: 'pill', style: 'cursor:pointer' }, 'Só as minhas ', el('input', { type: 'checkbox' }));
-
-  const lista = el('div', { class: 'list' });
-  const tbody = el('div');
-
-  function desenhar() {
+  const tbody = el('tbody');
+  function desenhar(items) {
     tbody.innerHTML = '';
-    const f = busca.value.trim().toLowerCase();
-    const cat = catSelect.value;
-    const rows = [];
-    for (const s of db.skills) {
-      if (cat && s.categoria !== cat) continue;
-      if (f && !s.nome.toLowerCase().includes(f) && !(s.defaults || []).some(d => d.toLowerCase().includes(f))) continue;
-      const entry = (pc.pericias || []).find(e => e.id === s.id);
-      const ef = snap.pericias.find(p => p.entry === entry);
-      if (soMinhas.querySelector('input').checked && !entry) continue;
-      rows.push(linhaPericia(s, entry, ef, snap));
-    }
-    tbody.append(...(rows.length ? rows : [el('div', { class: 'row' }, 'Nenhuma perícia encontrada.')]));
+    const rows = items.map(item => linhaPericia(item._skill, item._entry, item._effective, snap));
+    tbody.append(...(rows.length ? rows : [el('tr', {}, el('td', { colspan: 7, style: 'text-align:center' }, 'Nenhuma perícia corresponde aos filtros.'))]));
   }
-  busca.oninput = catSelect.onchange = () => desenhar();
-  soMinhas.querySelector('input').onchange = () => desenhar();
+
+  const filters = createFilterPanel({
+    id: 'skills', items: catalog,
+    searchFields: ['nome', 'descricao', 'defaults', 'prereqs', 'categoria', 'tags'],
+    searchPlaceholder: 'Pesquisar perícia, default ou característica…',
+    schema: [
+      { key: 'categoria', label: 'Categoria', type: 'multi' },
+      { key: 'tipo', label: 'Natureza', type: 'multi' },
+      { key: 'dificuldade', label: 'Dificuldade', type: 'multi' },
+      { key: 'atributo', label: 'Atributo-base', type: 'multi' },
+      { key: 'status', label: 'Treinamento', type: 'multi' },
+      { key: 'nivel', label: 'Nível efetivo', type: 'range' },
+      { key: 'podeMelhorar', label: 'Somente o que posso melhorar', type: 'relation' },
+      { key: 'tags', label: 'Tags', type: 'multi' },
+    ],
+    quickFilters: [
+      { label: 'Minhas', apply: state => state.groups.status.include = ['Treinada'] },
+      { label: 'Posso melhorar', apply: state => state.groups.podeMelhorar = true },
+      { label: 'Físicas', apply: state => state.groups.tipo.include = ['Física'] },
+      { label: 'Mentais', apply: state => state.groups.tipo.include = ['Mental'] },
+      { label: 'Base DX', apply: state => state.groups.atributo.include = ['DX'] },
+      { label: 'Base IQ', apply: state => state.groups.atributo.include = ['IQ'] },
+    ],
+    onChange: desenhar,
+  });
 
   main.append(
-    el('h1', { class: 'page-title' }, '📜 Perícias', el('small', {}, `${db.skills.length} perícias do material · pontos disponíveis: ${snap.contagem.disponiveis}`)),
-    el('div', { class: 'panel no-print' },
-      el('div', { class: 'btn-row', style: 'margin:0' }, catSelect, busca, soMinhas)),
+    el('h1', { class: 'page-title' }, '📜 Perícias', el('small', {}, `${db.skills.length} perícias · pontos disponíveis: ${snap.contagem.disponiveis}`)),
+    filters.node,
     el('div', { class: 'panel' },
-      el('table', { class: 'tbl' },
-        el('thead', {}, el('tr', {}, ['Perícia', 'Tipo', 'Nível', 'Pontos', 'Default', 'Pré-req.', 'Ações'].map(h => el('th', {}, h)))),
-        tbody)),
-    el('p', { class: 'fonte' }, 'Nível efetivo = atributo-base + pontos investidos (tabela p. 104–105) ou melhor default, aplicados modificadores (elmo, escudo grande, fadiga em perícias de ST). Clique nos valores para ver o cálculo.'),
-    lista,
+      el('div', { class: 'tbl-scroll' }, el('table', { class: 'tbl' },
+        el('thead', {}, el('tr', {}, ['Perícia', 'Tipo', 'Nível', 'Pontos', 'Default', 'Pré-req.', 'Ações'].map(title => el('th', {}, title)))),
+        tbody))),
+    el('p', { class: 'fonte' }, 'Dentro de cada filtro as opções são combinadas com OU; grupos diferentes são combinados com E. O nível continua sendo calculado exclusivamente pelo Rule Engine.'),
   );
-  desenhar();
 }
 
-function linhaPericia(s, entry, ef, snap) {
-  const nivelTxt = ef ? ef.nivelEfetivo : '—';
-  const base = ef ? ef.baseAttr : attrPadrao(s);
-  const df = ef?.default;
-  const pre = (s.prereqs || []).length ? (s.prereqs).join('; ') : '';
-  const comprar = (pontos) => {
-    const teste = podeComprarMelhoria(snap._db, store.atual, entry || { id: s.id, pontos: 0 }, pontos);
-    // _niveis para prereq check
-    if (!teste.ok) { toast(teste.erros[0] || 'Não é possível comprar.', 'bad'); return; }
-    store.update(p => {
-      const e = (p.pericias || []).find(x => x.id === s.id);
-      if (e) e.pontos += pontos; else p.pericias.push({ id: s.id, pontos, especialidade: null });
+function linhaPericia(skill, entry, effective, snap) {
+  const level = effective ? effective.nivelEfetivo : '—';
+  const base = effective ? effective.baseAttr : attrPadrao(skill);
+  const defaultValue = effective?.default;
+  const prereqs = (skill.prereqs || []).join('; ');
+  const comprar = points => {
+    const check = podeComprarMelhoria(snap._db, store.atual, entry || { id: skill.id, pontos: 0 }, points);
+    if (!check.ok) { toast(check.erros[0] || 'Não é possível comprar.', 'bad'); return; }
+    store.update(character => {
+      const current = (character.pericias || []).find(item => item.id === skill.id);
+      if (current) current.pontos += points;
+      else character.pericias.push({ id: skill.id, pontos: points, especialidade: null });
     });
   };
   return el('tr', {},
-    el('td', {}, el('strong', {}, s.nome + (s.nt ? '/NT' : '')),
-      s.especializacao ? el('span', { class: 'pill warn', title: `Especialização ${s.especializacao}` }, s.especializacao) : '',
-      el('div', { class: 'meta fonte' }, (s.descricao || '').slice(0, 110) + '…')),
-    el('td', {}, `${s.tipo === 'Física' ? 'Fís' : 'Men'}/${s.dificuldade} · ${base}`),
+    el('td', {}, el('strong', {}, skill.nome + (skill.nt ? '/NT' : '')),
+      skill.especializacao ? el('span', { class: 'pill warn', title: `Especialização ${skill.especializacao}` }, skill.especializacao) : '',
+      el('div', { class: 'meta fonte' }, (skill.descricao || '').slice(0, 110) + '…')),
+    el('td', {}, `${skill.tipo === 'Física' ? 'Fís' : 'Men'}/${skill.dificuldade} · ${base}`),
     el('td', {}, entry
-      ? (ef ? valorCalculado(nivelTxt, [
-          { fonte: `Atributo-base ${ef.baseAttr}`, valor: ef.attrValor },
-          { fonte: `Pontos investidos (${ef.pontos})`, valor: ef.offsetTreino !== null ? `offset ${ef.offsetTreino >= 0 ? '+' : ''}${ef.offsetTreino}` : 'abaixo do mínimo' },
-          ...(df ? [{ fonte: `Default ${df.origem}`, valor: df.valor }] : []),
-          ...ef.modificadores.map(m => ({ fonte: m.fonte, valor: m.valor })),
-        ]) : nivelTxt)
-      : (df ? valorCalculado(df.valor, [{ fonte: `Default: ${df.origem}` }]) : '—')),
+      ? (effective ? valorCalculado(level, [
+          { fonte: `Atributo-base ${effective.baseAttr}`, valor: effective.attrValor },
+          { fonte: `Pontos investidos (${effective.pontos})`, valor: effective.offsetTreino !== null ? `offset ${effective.offsetTreino >= 0 ? '+' : ''}${effective.offsetTreino}` : 'abaixo do mínimo' },
+          ...(defaultValue ? [{ fonte: `Default ${defaultValue.origem}`, valor: defaultValue.valor }] : []),
+          ...effective.modificadores.map(modifier => ({ fonte: modifier.fonte, valor: modifier.valor })),
+        ]) : level)
+      : (defaultValue ? valorCalculado(defaultValue.valor, [{ fonte: `Default: ${defaultValue.origem}` }]) : '—')),
     el('td', { class: 'num' }, entry ? String(entry.pontos) : '—'),
-    el('td', { style: 'font-size:.75rem;color:var(--ink-dim)' }, (s.defaults || []).join(' | ').replace(/Pré-definido:? como:? ?/g, '').slice(0, 90)),
-    el('td', {}, pre ? el('span', { class: 'pill warn', title: pre }, pre.slice(0, 80)) : el('span', { class: 'pill' }, '—')),
-    el('td', {},
-      el('div', { class: 'btn-row', style: 'margin:0' },
-        el('button', { class: 'btn small', onclick: () => comprar(0.5), title: 'Comprar ½ ponto' }, '+½'),
-        el('button', { class: 'btn small', onclick: () => comprar(1), title: 'Comprar 1 ponto' }, '+1'),
-        entry ? el('button', { class: 'btn small danger', title: 'Remover 1 ponto', onclick: () => store.update(p => {
-          const e = p.pericias.find(x => x.id === s.id);
-          if (!e) return;
-          e.pontos -= 1;
-          if (e.pontos < 0.5) p.pericias = p.pericias.filter(x => x !== e);
-        }) }, '−1') : '',
-        el('button', { class: 'btn small ghost', title: 'Ver detalhes e regra no livro', onclick: () => detalhar(s, entry, ef) }, '👁'),
-      )),
+    el('td', { style: 'font-size:.75rem;color:var(--ink-dim)' }, (skill.defaults || []).join(' | ').replace(/Pré-definido:? como:? ?/g, '').slice(0, 90)),
+    el('td', {}, prereqs ? el('span', { class: 'pill warn', title: prereqs }, prereqs.slice(0, 80)) : el('span', { class: 'pill' }, '—')),
+    el('td', {}, el('div', { class: 'btn-row', style: 'margin:0' },
+      el('button', { class: 'btn small', onclick: () => comprar(.5), title: 'Comprar ½ ponto' }, '+½'),
+      el('button', { class: 'btn small', onclick: () => comprar(1), title: 'Comprar 1 ponto' }, '+1'),
+      entry ? el('button', { class: 'btn small danger', title: 'Remover 1 ponto', onclick: () => store.update(character => {
+        const current = character.pericias.find(item => item.id === skill.id);
+        if (!current) return;
+        current.pontos -= 1;
+        if (current.pontos < .5) character.pericias = character.pericias.filter(item => item !== current);
+      }) }, '−1') : '',
+      el('button', { class: 'btn small ghost', title: 'Ver detalhes', onclick: () => detalhar(skill, entry, effective) }, '👁'),
+      el('a', { class: 'btn small ghost', title: 'Ler regra no livro', href: `#/livro/ler/pericias/pericia-${skill.id}` }, '📖'),
+    )),
   );
 }
 
-
-function detalhar(s, entry, ef) {
-  const df = ef?.default;
-  modal(`Perícia: ${s.nome}`, el('div', {},
-    el('p', {}, el('b', {}, `${s.tipo}/${s.dificuldade}`), ` · base ${attrPadrao(s)} · categoria ${s.categoria}`),
-    el('p', {}, s.descricao || ''),
+function detalhar(skill, entry, effective) {
+  const defaultValue = effective?.default;
+  modal(`Perícia: ${skill.nome}`, el('div', {},
+    el('p', {}, el('b', {}, `${skill.tipo}/${skill.dificuldade}`), ` · base ${attrPadrao(skill)} · categoria ${skill.categoria}`),
+    el('p', {}, skill.descricao || ''),
     el('table', { class: 'tbl' },
       el('tr', {}, el('th', {}, 'Campo'), el('th', {}, 'Valor')),
-      el('tr', {}, el('td', {}, 'Default'), el('td', {}, (s.defaults || []).join(' | ') || 'Sem default')),
-      (s.prereqs || []).map(p => el('tr', {}, el('td', {}, 'Pré-requisito'), el('td', {}, p))),
+      el('tr', {}, el('td', {}, 'Default'), el('td', {}, (skill.defaults || []).join(' | ') || 'Sem default')),
+      (skill.prereqs || []).map(prereq => el('tr', {}, el('td', {}, 'Pré-requisito'), el('td', {}, prereq))),
       entry ? el('tr', {}, el('td', {}, 'Pontos'), el('td', {}, String(entry.pontos))) : '',
-      ef && ef.nivelEfetivo !== null ? el('tr', {}, el('td', {}, 'Nível efetivo'), el('td', {}, String(ef.nivelEfetivo))) : '',
-      df ? el('tr', {}, el('td', {}, 'Default ativo'), el('td', {}, `${df.valor} (${df.origem})`)) : '',
-    ),
-    el('p', { class: 'fonte' }, `Fonte: material, ${s.fonte || ''}`),
-  ));
+      effective?.nivelEfetivo != null ? el('tr', {}, el('td', {}, 'Nível efetivo'), el('td', {}, String(effective.nivelEfetivo))) : '',
+      defaultValue ? el('tr', {}, el('td', {}, 'Default ativo'), el('td', {}, `${defaultValue.valor} (${defaultValue.origem})`)) : ''),
+    el('p', { class: 'fonte' }, `Fonte: material, ${skill.fonte || ''}`),
+    el('a', { class: 'btn', href: `#/livro/ler/pericias/pericia-${skill.id}` }, '📖 Ver no livro')));
 }

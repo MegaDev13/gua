@@ -79,21 +79,54 @@ export function conjurar(db, personagem, magiaEntry, { mana = 'Normal', energiaE
   return { spell, nivel, nhEfetivo, custoBase: base, reducao: red, custoFinal: custo, gasto, resultado, erros };
 }
 
-/** Pré-requisitos estruturados de uma magia (parse do texto). */
-export function parsePrereqs(spell) {
-  const txt = spell['Pré-requisitos'] || '';
-  const reqs = [];
-  for (const m of txt.matchAll(/([A-ZÀ-Ü][\wÀ-ü' ]{2,40}?)(?:\s+em n[íi]vel\s+)?(?:12|maior ou igual a 12)?/g)) {
-    const nome = m[1].trim();
-    if (nome.length > 2 && !['Pré', 'IQ', 'DX', 'Aptid', 'Utiliz'].some(x => nome.startsWith(x))) {
-      reqs.push({ tipo: 'magia', nome });
+/**
+ * Pré-requisitos estruturados de uma magia.
+ * Quando recebe o banco, resolve nomes contra IDs reais em vez de tentar adivinhar
+ * palavras por expressão regular. Trechos que ainda não podem ser automatizados
+ * ficam como `texto` e devem ser exibidos como "verificação manual".
+ */
+export function parsePrereqs(spell, db = null) {
+  const text = String(spell['Pré-requisitos'] || '').trim();
+  if (!text) return [];
+  const normalized = value => String(value || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const haystack = ` ${normalized(text)} `;
+  const resolved = [];
+
+  if (db) {
+    // Nomes maiores primeiro evitam registrar "Empatia" dentro de "Empatia com Animais".
+    const candidates = [
+      ...(db.spells || []).filter(item => item.id !== spell.id).map(item => ({ tipo: 'magia', id: item.id, nome: item.nome })),
+      ...(db.advantages || []).map(item => ({ tipo: 'vantagem', id: item.id, nome: item.nome })),
+    ].sort((a, b) => normalized(b.nome).length - normalized(a.nome).length);
+    const occupied = [];
+    for (const candidate of candidates) {
+      const needle = normalized(candidate.nome);
+      if (needle.length < 3) continue;
+      const start = haystack.indexOf(` ${needle} `);
+      if (start < 0 || occupied.some(range => start >= range[0] && start < range[1])) continue;
+      occupied.push([start, start + needle.length + 2]);
+      resolved.push(candidate);
     }
   }
-  if (/Aptid[ãa]o M[áa]gica/i.test(txt)) {
-    const n = txt.match(/Aptid[ãa]o M[áa]gica\s*(\d)/i);
-    reqs.push({ tipo: 'potencial', niveis: n ? parseInt(n[1], 10) : 1 });
+
+  // Aptidão e atributos são requisitos próprios, não referências a verbetes.
+  if (/Aptid[ãa]o M[áa]gica/i.test(text)) {
+    const match = text.match(/Aptid[ãa]o M[áa]gica\s*(\d)/i);
+    // Remove a vantagem de mesmo nome para não exigir duas vezes.
+    for (let index = resolved.length - 1; index >= 0; index--) if (resolved[index].tipo === 'vantagem' && /aptid/i.test(normalized(resolved[index].nome))) resolved.splice(index, 1);
+    resolved.push({ tipo: 'potencial', niveis: match ? parseInt(match[1], 10) : 1 });
   }
-  const iqMin = txt.match(/IQ\s*(?:maior ou igual a\s*)?(\d+)/i);
-  if (iqMin) reqs.push({ tipo: 'atributo', key: 'IQ', min: parseInt(iqMin[1], 10) });
-  return reqs;
+  const iqMin = text.match(/IQ\s*(?:maior ou igual a\s*)?(\d+)/i);
+  if (iqMin) resolved.push({ tipo: 'atributo', key: 'IQ', min: parseInt(iqMin[1], 10) });
+  const dxMin = text.match(/DX\s*(?:maior ou igual a\s*)?(\d+)/i);
+  if (dxMin) resolved.push({ tipo: 'atributo', key: 'DX', min: parseInt(dxMin[1], 10) });
+
+  const hasOr = /\bou\b/i.test(text);
+  if (hasOr && resolved.length > 1) return [{ tipo: 'grupo-ou', requisitos: resolved, texto: text }];
+  if (resolved.length) {
+    // Se há quantificadores/escolas não estruturados, preserva também o texto para revisão.
+    if (/pelo menos|m[aá]gicas? de|qualquer|uma das/i.test(text)) resolved.push({ tipo: 'texto', texto: text });
+    return resolved;
+  }
+  return [{ tipo: 'texto', texto: text }];
 }

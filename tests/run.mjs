@@ -9,7 +9,7 @@ import { nivelCarga, deslocamento, defesaPassiva } from '../app/engine/encumbran
 import { Dice as D } from '../app/engine/dice.js';
 import { aparar, avaliarDano, danoArma, nhAtaque, aplicarFerimento } from '../app/engine/combat.js';
 import { custoFadiga, gastarFadiga, estadoFadiga, recuperarFadiga } from '../app/engine/fatigue.js';
-import { iqMagico, nivelMagia, reducaoCusto, custoBase, custoManutencao } from '../app/engine/spells.js';
+import { iqMagico, nivelMagia, reducaoCusto, custoBase, custoManutencao, parsePrereqs } from '../app/engine/spells.js';
 import { podeComprar, comprar, vender } from '../app/engine/economy.js';
 import { checkRequirement } from '../app/engine/requirements.js';
 import { novoPersonagem, contagemDePontos } from '../app/engine/character.js';
@@ -176,6 +176,8 @@ const sonho = DB.spells.find(s => s.nome === 'Sono');
 t('Sono: custo base 4', sonho && custoBase(sonho) === 4, sonho && sonho.Custo);
 const inepcia = DB.spells.find(s => /In[ée]pcia/.test(s.nome));
 t('Inépcia: manutenção = metade de custo arredondado p/ cima (texto) — parse custo', inepcia && custoBase(inepcia) === 1);
+const reqAcalmar = parsePrereqs(DB.spell('acalmar-animais'), DB);
+t('Pré-req. Acalmar Animais resolve grupo OU sem fragmentos falsos', reqAcalmar.length === 1 && reqAcalmar[0].tipo === 'grupo-ou' && reqAcalmar[0].requisitos.some(r => r.id === 'empatia-com-animais') && reqAcalmar[0].requisitos.some(r => r.id === 'persuasao') && !reqAcalmar[0].requisitos.some(r => r.nome?.length < 4), JSON.stringify(reqAcalmar));
 
 /* ---------------------------------------------------------- Economia (p. 181) */
 const comprador = novoPersonagem('Comprador');
