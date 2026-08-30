@@ -464,6 +464,16 @@ function renderFilters(filterSystem) {
     row.append(el('button', { class: 'btn small ghost', style: 'padding:.2rem .5rem;font-size:.7rem', onclick: () => filterSystem.clear() }, '✕ Limpar'));
   }
   container.append(row);
+
+  // Adiciona mini tabela de pontos no sidebar quando houver personagem
+  try {
+    const { storage } = window._gauStorage ? window._gauStorage : { storage: null };
+    // tenta importar storage global se disponível, senão usa localStorage direto
+    const raw = localStorage.getItem('gau_atual_v2');
+    if (raw) {
+      // não faz nada aqui, widget principal já mostra
+    }
+  } catch {}
 }
 
 function renderCapa(db) {
