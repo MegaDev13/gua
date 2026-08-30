@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GAU — Grimório Digital & Forja de Personagens</title>
+  <meta name="description" content="GAU — Sistema Universal: livro digital imersivo, motor de regras d20 com margens, árvores de manobras táticas e forja de personagens automatizada.">
+  <link rel="icon" href="./book/images/capa.svg" type="image/svg+xml">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Styles - caminhos relativos para GitHub Pages subdiretório -->
+  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="./styles/book.css">
+  <link rel="stylesheet" href="./styles/character-sheet.css">
+  <link rel="stylesheet" href="./styles/animations.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para conteúdo</a>
+
+  <!-- Topbar -->
+  <header class="topbar" id="topbar">
+    <div class="brand" id="brand" tabindex="0" role="button" aria-label="Ir para capa">
+      <img src="./book/images/capa.svg" alt="" class="brand-logo" width="40" height="40">
+      <div class="brand-text">
+        <strong>GAU</strong>
+        <span class="brand-sub">Grimório Digital • Sistema Universal</span>
+      </div>
+    </div>
+
+    <nav class="tabs" id="nav" aria-label="Navegação principal">
+      <!-- Fallback estático para caso JS falhe - GitHub Pages -->
+      <a href="#/livro/testes" class="tab">📖 O Livro</a>
+      <a href="#/criar/novo/identidade" class="tab">⚔️ Criar Personagem</a>
+      <a href="#/personagens" class="tab">👥 Meus Personagens</a>
+      <a href="#/glossario" class="tab">📚 Glossário</a>
+      <a href="#/config" class="tab">⚙️ Config</a>
+    </nav>
+
+    <div class="topbar-actions">
+      <button id="btnSearch" class="btn icon" title="Busca global ( / )" aria-label="Buscar">🔍</button>
+      <button id="btnTheme" class="btn icon" title="Alternar tema" aria-label="Tema">🌙</button>
+      <label class="char-select-wrap" title="Meus personagens">
+        <span class="sr-only">Personagem ativo</span>
+        <select id="charSelect" class="char-select"><option>Carregando...</option></select>
+      </label>
+      <button id="btnMenu" class="btn icon only-mobile" aria-label="Menu">☰</button>
+    </div>
+  </header>
+
+  <!-- Layout -->
+  <div class="app-layout">
+    <!-- Sidebar livro (desktop) -->
+    <aside class="sidebar" id="sidebar" aria-label="Índice do livro" style="display:none">
+      <div class="sidebar-header">
+        <h2 class="sidebar-title">Index Librorum</h2>
+        <button id="btnCloseSidebar" class="btn icon small only-mobile">✕</button>
+      </div>
+      <div class="sidebar-filters" id="sidebarFilters"></div>
+      <nav class="toc" id="toc"></nav>
+      <div class="sidebar-footer">
+        <div class="ornament">❧</div>
+        <p class="sidebar-note">GAU v2.0 • Edição Digital<br>Margem 10 = referência humana</p>
+      </div>
+    </aside>
+
+    <main id="main" class="main" tabindex="-1">
+      <!-- CONTEÚDO ESTÁTICO DE FALLBACK - aparece mesmo sem JS, corrige primeira página bugada no Pages -->
+      <div class="capa-hero" id="capaFallback">
+        <img src="./book/images/capa.svg" alt="Capa GAU" class="capa-logo" width="180" height="180">
+        <h1 class="capa-title">GAU</h1>
+        <p class="capa-subtitle">Sistema Universal — Testes de Habilidade, Combate Tático e Graus de Dano</p>
+        <div class="capa-meta">
+          <span class="meta-item">📖 4 Capítulos</span>
+          <span class="meta-item">⚔️ Árvores Táticas</span>
+          <span class="meta-item">🎲 d20 Margens</span>
+          <span class="meta-item">🗡️ 64 Armas</span>
+        </div>
+        <div class="capa-actions">
+          <a href="#/livro/testes" class="btn primary large">📖 Entrar no Grimório</a>
+          <a href="#/criar/novo/identidade" class="btn large">⚔️ Forjar Personagem</a>
+          <a href="#/personagens" class="btn large ghost">👥 Meus Personagens</a>
+        </div>
+        <div class="capa-ornament">❦</div>
+        <div class="capa-quote">
+          “Atributo determina a capacidade, categoria determina a escala e a margem determina o resultado necessário. Os dados determinam a capacidade de alcançar essa margem.”
+          <div style="text-align:right;margin-top:.6rem;font-size:.8rem;color:var(--ink-faint)">— Princípio Fundamental de GAU</div>
+        </div>
+        <div class="grid cols-3" style="margin-top:2.5rem;max-width:800px;width:100%;text-align:left">
+          <div class="panel">
+            <h3>📜 Testes com Margens</h3>
+            <p style="font-size:.9rem;color:var(--ink-dim)">Sistema d20 onde margem expande com atributo. Valor 10 = referência humana 8–12 crítico 10. 1 e 20 não são automáticos.</p>
+          </div>
+          <div class="panel">
+            <h3>⚔️ Combate Tático</h3>
+            <p style="font-size:.9rem;color:var(--ink-dim)">Árvores de manobras: Movimento Linear/Difuso/Acrobático/Atlético, Ataque Simples/Acrobático/Pesado/Distância, Preparar, Apontar com PREC, Analisar.</p>
+          </div>
+          <div class="panel">
+            <h3>🎲 Graus de Dano</h3>
+            <p style="font-size:.9rem;color:var(--ink-dim)">GD1 Raspão 1–20, GD2 Em Cheio 21–64, GD3 Letal 65+. Tabelas mundanas, modernas e futuristas.</p>
+          </div>
+        </div>
+        <div class="ornament-divider" style="margin-top:2.5rem;width:100%;max-width:500px"><span>◈</span></div>
+        <div style="margin-top:1rem;font-size:.8rem;color:var(--ink-faint)">GAU v2.0 • GitHub Pages • 100% client-side • Se esta página não carregar interativa, verifique se JavaScript está ativo e recarregue.</div>
+      </div>
+      <div id="loadingIndicator" style="text-align:center;padding:2rem;color:var(--ink-dim);display:none">
+        <div class="loading" style="margin:0 auto 1rem"></div>
+        <div>Conjurando grimório...</div>
+        <div id="loadingError" style="margin-top:1rem;color:var(--bad);font-size:.9rem;display:none"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Search Modal -->
+  <div id="searchModal" class="modal-back" hidden>
+    <div class="modal search-modal" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="modal-header">
+        <h3>🔍 Buscar no Grimório</h3>
+        <button class="btn icon small" id="btnCloseSearch">✕</button>
+      </div>
+      <div class="search-input-wrap">
+        <input id="searchInput" type="search" placeholder="Buscar regras, manobras, armas, margens, pânico..." autocomplete="off" spellcheck="false">
+        <span class="search-hint">Pressione / para buscar • ESC para fechar</span>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toast-root" aria-live="polite"></div>
+  <div id="ficha-print"></div>
+
+  <!-- Libs CDN com fallback -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js" onerror="console.warn('html2canvas CDN falhou')"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" onerror="console.warn('jspdf CDN falhou')"></script>
+
+  <!-- App principal - caminho relativo robusto para GitHub Pages -->
+  <script type="module">
+    // Loader robusto que funciona em subdiretório GitHub Pages
+    const base = document.currentScript ? document.currentScript.src.replace(/\/js\/app\.js.*$/,'/') : './';
+    console.log('GAU base:', base);
+    // Tenta carregar app.js com fallback
+    import('./js/app.js').catch(err => {
+      console.error('Falha ao carregar js/app.js:', err);
+      const errEl = document.getElementById('loadingError');
+      if (errEl) {
+        errEl.style.display = 'block';
+        errEl.innerHTML = `Falha ao carregar sistema: ${err.message}<br>Verifique se está em servidor (não file://) e se GitHub Pages está configurado para esta branch.<br><br>Caminhos tentados: ./js/app.js<br>Base detectada: ${base}<br><br><a href="#/livro/testes" style="color:var(--link)">Tentar entrar no livro mesmo assim</a>`;
+      }
+      const loading = document.getElementById('loadingIndicator');
+      if (loading) loading.style.display = 'block';
+    });
+  </script>
+
+  <noscript>
+    <div style="padding:2rem;font-family:serif;text-align:center;max-width:600px;margin:2rem auto;background:var(--panel);border:1px solid var(--border);border-radius:12px">
+      <h1>GAU exige JavaScript</h1>
+      <p>Este grimório digital precisa de JavaScript para conjurar suas páginas interativas.</p>
+      <p>Ative JavaScript e recarregue, ou acesse o conteúdo estático em <code>data/book.json</code>.</p>
+      <div style="margin-top:1.5rem">
+        <a href="./data/book.json" class="btn">📖 Ver JSON do livro</a>
+      </div>
+    </div>
+  </noscript>
+</body>
+</html>
