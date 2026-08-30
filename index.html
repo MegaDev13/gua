@@ -140,16 +140,17 @@
 
   <!-- App principal - caminho relativo robusto para GitHub Pages -->
   <script type="module">
-    // Loader robusto que funciona em subdiretório GitHub Pages
-    const base = document.currentScript ? document.currentScript.src.replace(/\/js\/app\.js.*$/,'/') : './';
-    console.log('GAU base:', base);
-    // Tenta carregar app.js com fallback
-    import('./js/app.js').catch(err => {
+    // Loader robusto que funciona em subdiretório GitHub Pages + cache bust
+    const APP_VERSION = 'v2.1-pontos-3';
+    const base = './';
+    console.log('GAU base:', base, 'version', APP_VERSION);
+    // Tenta carregar app.js com cache bust para evitar Pages cache
+    import(`./js/app.js?v=${APP_VERSION}`).catch(err => {
       console.error('Falha ao carregar js/app.js:', err);
       const errEl = document.getElementById('loadingError');
       if (errEl) {
         errEl.style.display = 'block';
-        errEl.innerHTML = `Falha ao carregar sistema: ${err.message}<br>Verifique se está em servidor (não file://) e se GitHub Pages está configurado para esta branch.<br><br>Caminhos tentados: ./js/app.js<br>Base detectada: ${base}<br><br><a href="#/livro/testes" style="color:var(--link)">Tentar entrar no livro mesmo assim</a>`;
+        errEl.innerHTML = `Falha ao carregar sistema: <b>${err.message}</b><br><pre style="font-size:.7rem;overflow:auto;max-height:200px;text-align:left;background:var(--bg);padding:.5rem;border-radius:6px;margin-top:.5rem">${(err.stack||'').slice(0,2000)}</pre><br>Verifique se está em servidor (não file://) e se GitHub Pages está configurado para esta branch.<br><br>Caminhos tentados: ./js/app.js?v=${APP_VERSION}<br>Base detectada: ${base}<br>Versão: ${APP_VERSION}<br><br><a href="#/livro/testes" style="color:var(--link)">Tentar entrar no livro mesmo assim</a> • <button onclick="location.reload(true)" class="btn small">Recarregar forçado</button>`;
       }
       const loading = document.getElementById('loadingIndicator');
       if (loading) loading.style.display = 'block';
