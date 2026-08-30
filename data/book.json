@@ -772,6 +772,166 @@
           "tipo": "destaque"
         }
       ]
+    },
+    {
+      "id": "magias",
+      "numero": 6,
+      "titulo": "Magias & Escolas",
+      "descricao": "Sistema de magia: escolas elementais e superiores, custo e criação custom.",
+      "secoes": [
+        {
+          "id": "conceito",
+          "titulo": "Magia — Sistema GAU",
+          "conteudo": "Magia é poder sobrenatural que canaliza mana, chi, divino ou outras fontes externas. Cada escola tem nível de poder e magias individuais.\n\nRegras:\n- Escola custa 3 pts/nível (Tempo 5), magia individual 2 pts/nível. Mana gasta PF igual nível da magia, falha crítica causa dano.\n- Manobra Concentração 1 turno, depois teste da magia (IQ + nível).\n- Precisa grimório ou foco para conjurar, salvo vantagem Mago Nato.\n- undefined\n- Tempo é mais caro (5 pts/nível).\n- Pode criar escola/magia própria."
+        },
+        {
+          "id": "fogo",
+          "titulo": "Fogo (FOG) — 3 pts/nível — Fonte mágica",
+          "conteudo": "Manipulação de chamas, calor e combustão. Ataques diretos, áreas, luz.\n\nFoco: fogo. Custo base: 3 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Bola de Fogo — Nv 1 — 3 pts",
+              "conteudo": "Projétil flamejante, dano em área. Alcance = nível*10m, dano = nível d6. Tipo: ataque. Alcance: 10m/nível."
+            },
+            {
+              "titulo": "Muralha de Fogo — Nv 2 — 3 pts",
+              "conteudo": "Cria barreira de fogo que bloqueia passagem e causa dano. Tipo: defesa. Alcance: ver escola."
+            },
+            {
+              "titulo": "Chama Contínua — Nv 1 — 2 pts",
+              "conteudo": "Mantém fogo aceso sem combustível. Tipo: utilidade. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "agua",
+          "titulo": "Água (AGU) — 3 pts/nível — Fonte mágica",
+          "conteudo": "Controle de líquidos, gelo, cura, purificação.\n\nFoco: água. Custo base: 3 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Jato d'Água — Nv 1 — 3 pts",
+              "conteudo": "Jato de alta pressão que empurra e causa dano. Tipo: ataque. Alcance: ver escola."
+            },
+            {
+              "titulo": "Cura pelas Águas — Nv 2 — 3 pts",
+              "conteudo": "Restaura PV usando água benta. Tipo: cura. Alcance: ver escola."
+            },
+            {
+              "titulo": "Névoa — Nv 1 — 2 pts",
+              "conteudo": "Cria névoa que obscurece visão. Tipo: obscurecer. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "ar",
+          "titulo": "Ar (AR) — 3 pts/nível — Fonte mágica",
+          "conteudo": "Vento, voo, relâmpagos, invisibilidade.\n\nFoco: ar. Custo base: 3 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Rajada de Vento — Nv 1 — 3 pts",
+              "conteudo": "Empurra alvos e objetos. Tipo: controle. Alcance: ver escola."
+            },
+            {
+              "titulo": "Voo — Nv 3 — 4 pts",
+              "conteudo": "Permite voar por nível minutos. Tipo: movimento. Alcance: ver escola."
+            },
+            {
+              "titulo": "Relâmpago — Nv 2 — 4 pts",
+              "conteudo": "Ataque elétrico em linha. Tipo: ataque. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "terra",
+          "titulo": "Terra (TER) — 3 pts/nível — Fonte mágica",
+          "conteudo": "Pedra, metal, proteção, força.\n\nFoco: terra. Custo base: 3 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Pele de Pedra — Nv 2 — 3 pts",
+              "conteudo": "+RD igual nível. Tipo: defesa. Alcance: ver escola."
+            },
+            {
+              "titulo": "Terremoto — Nv 3 — 5 pts",
+              "conteudo": "Abala área causando dano e queda. Tipo: area. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "luz",
+          "titulo": "Luz (LUZ) — 3 pts/nível — Fonte divino",
+          "conteudo": "Cura, proteção, banir trevas, bençãos.\n\nFoco: luz. Custo base: 3 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Cura pela Luz — Nv 1 — 3 pts",
+              "conteudo": "Restaura PV = nível*2. Tipo: cura. Alcance: ver escola."
+            },
+            {
+              "titulo": "Escudo de Luz — Nv 2 — 3 pts",
+              "conteudo": "Barreira contra trevas e mortos-vivos. Tipo: defesa. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "trevas",
+          "titulo": "Trevas (TRE) — 3 pts/nível — Fonte mágica",
+          "conteudo": "Sombras, medo, necromancia, drenar.\n\nFoco: trevas. Custo base: 3 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Toque Sombrio — Nv 1 — 3 pts",
+              "conteudo": "Drena PF do alvo. Tipo: ataque. Alcance: ver escola."
+            },
+            {
+              "titulo": "Invocar Sombra — Nv 2 — 4 pts",
+              "conteudo": "Cria servo de sombra. Tipo: invocação. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "mente",
+          "titulo": "Mente (MEN) — 3 pts/nível — Fonte psíquica",
+          "conteudo": "Ilusão, controle, leitura, semelhante a telepatia mas via mana.\n\nFoco: mente. Custo base: 3 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Ilusão — Nv 1 — 3 pts",
+              "conteudo": "Cria ilusão visual/auditiva. Tipo: ilusão. Alcance: ver escola."
+            },
+            {
+              "titulo": "Sono — Nv 1 — 3 pts",
+              "conteudo": "Faz alvo dormir. Tipo: controle. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "tempo",
+          "titulo": "Tempo (TEM) — 5 pts/nível — Fonte cósmico",
+          "conteudo": "Acelerar, desacelerar, parar tempo. Alto custo.\n\nFoco: tempo. Custo base: 5 pts/nível. Magias custam 2 pts/nível individual.",
+          "subsecoes": [
+            {
+              "titulo": "Acelerar — Nv 2 — 5 pts",
+              "conteudo": "Dobra ações por nível turnos. Tipo: HAX. Alcance: ver escola."
+            },
+            {
+              "titulo": "Parar Tempo — Nv 5 — 10 pts",
+              "conteudo": "Para tempo em área. HAX alto. Tipo: HAX. Alcance: ver escola."
+            }
+          ]
+        },
+        {
+          "id": "avulsas",
+          "titulo": "Magias Avulsas (sem escola)",
+          "conteudo": "Magias que não pertencem a escola específica, custam direto.",
+          "subsecoes": [
+            {
+              "titulo": "Teleporte Mágico — 5 pts",
+              "conteudo": "Teleporta como psi mas via mana."
+            },
+            {
+              "titulo": "Invisibilidade — 4 pts",
+              "conteudo": "Fica invisível por nível minutos."
+            }
+          ]
+        }
+      ]
     }
   ]
 }

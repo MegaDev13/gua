@@ -1,0 +1,123 @@
+{
+  "titulo": "Magia — Sistema GAU",
+  "descricao": "Magia é poder sobrenatural que canaliza mana, chi, divino ou outras fontes externas. Cada escola tem nível de poder e magias individuais.",
+  "custo_padrao": 3,
+  "escolas": [
+    {
+      "id": "fogo",
+      "nome": "Fogo",
+      "sigla": "FOG",
+      "custo": 3,
+      "fonte": "mágica",
+      "foco": "fogo",
+      "descricao": "Manipulação de chamas, calor e combustão. Ataques diretos, áreas, luz.",
+      "magias": [
+        { "id": "bola_fogo", "nome": "Bola de Fogo", "nivel": 1, "custo": 3, "descricao": "Projétil flamejante, dano em área. Alcance = nível*10m, dano = nível d6.", "tipo": "ataque", "alcance": "10m/nível" },
+        { "id": "muralha_fogo", "nome": "Muralha de Fogo", "nivel": 2, "custo": 3, "descricao": "Cria barreira de fogo que bloqueia passagem e causa dano.", "tipo": "defesa" },
+        { "id": "chama_continua", "nome": "Chama Contínua", "nivel": 1, "custo": 2, "descricao": "Mantém fogo aceso sem combustível.", "tipo": "utilidade" }
+      ]
+    },
+    {
+      "id": "agua",
+      "nome": "Água",
+      "sigla": "AGU",
+      "custo": 3,
+      "fonte": "mágica",
+      "foco": "água",
+      "descricao": "Controle de líquidos, gelo, cura, purificação.",
+      "magias": [
+        { "id": "jato_agua", "nome": "Jato d'Água", "nivel": 1, "custo": 3, "descricao": "Jato de alta pressão que empurra e causa dano.", "tipo": "ataque" },
+        { "id": "cura_agua", "nome": "Cura pelas Águas", "nivel": 2, "custo": 3, "descricao": "Restaura PV usando água benta.", "tipo": "cura" },
+        { "id": "nevoa", "nome": "Névoa", "nivel": 1, "custo": 2, "descricao": "Cria névoa que obscurece visão.", "tipo": "obscurecer" }
+      ]
+    },
+    {
+      "id": "ar",
+      "nome": "Ar",
+      "sigla": "AR",
+      "custo": 3,
+      "fonte": "mágica",
+      "foco": "ar",
+      "descricao": "Vento, voo, relâmpagos, invisibilidade.",
+      "magias": [
+        { "id": "rajada_vento", "nome": "Rajada de Vento", "nivel": 1, "custo": 3, "descricao": "Empurra alvos e objetos.", "tipo": "controle" },
+        { "id": "voo", "nome": "Voo", "nivel": 3, "custo": 4, "descricao": "Permite voar por nível minutos.", "tipo": "movimento" },
+        { "id": "relampago", "nome": "Relâmpago", "nivel": 2, "custo": 4, "descricao": "Ataque elétrico em linha.", "tipo": "ataque" }
+      ]
+    },
+    {
+      "id": "terra",
+      "nome": "Terra",
+      "sigla": "TER",
+      "custo": 3,
+      "fonte": "mágica",
+      "foco": "terra",
+      "descricao": "Pedra, metal, proteção, força.",
+      "magias": [
+        { "id": "pele_pedra", "nome": "Pele de Pedra", "nivel": 2, "custo": 3, "descricao": "+RD igual nível.", "tipo": "defesa" },
+        { "id": "terremoto", "nome": "Terremoto", "nivel": 3, "custo": 5, "descricao": "Abala área causando dano e queda.", "tipo": "area" }
+      ]
+    },
+    {
+      "id": "luz",
+      "nome": "Luz",
+      "sigla": "LUZ",
+      "custo": 3,
+      "fonte": "divino",
+      "foco": "luz",
+      "descricao": "Cura, proteção, banir trevas, bençãos.",
+      "magias": [
+        { "id": "cura_luz", "nome": "Cura pela Luz", "nivel": 1, "custo": 3, "descricao": "Restaura PV = nível*2.", "tipo": "cura" },
+        { "id": "escudo_luz", "nome": "Escudo de Luz", "nivel": 2, "custo": 3, "descricao": "Barreira contra trevas e mortos-vivos.", "tipo": "defesa" }
+      ]
+    },
+    {
+      "id": "trevas",
+      "nome": "Trevas",
+      "sigla": "TRE",
+      "custo": 3,
+      "fonte": "mágica",
+      "foco": "trevas",
+      "descricao": "Sombras, medo, necromancia, drenar.",
+      "magias": [
+        { "id": "toque_sombrio", "nome": "Toque Sombrio", "nivel": 1, "custo": 3, "descricao": "Drena PF do alvo.", "tipo": "ataque" },
+        { "id": "invocar_sombra", "nome": "Invocar Sombra", "nivel": 2, "custo": 4, "descricao": "Cria servo de sombra.", "tipo": "invocação" }
+      ]
+    },
+    {
+      "id": "mente",
+      "nome": "Mente",
+      "sigla": "MEN",
+      "custo": 3,
+      "fonte": "psíquica",
+      "foco": "mente",
+      "descricao": "Ilusão, controle, leitura, semelhante a telepatia mas via mana.",
+      "magias": [
+        { "id": "ilusao", "nome": "Ilusão", "nivel": 1, "custo": 3, "descricao": "Cria ilusão visual/auditiva.", "tipo": "ilusão" },
+        { "id": "sono_magia", "nome": "Sono", "nivel": 1, "custo": 3, "descricao": "Faz alvo dormir.", "tipo": "controle" }
+      ]
+    },
+    {
+      "id": "tempo",
+      "nome": "Tempo",
+      "sigla": "TEM",
+      "custo": 5,
+      "fonte": "cósmico",
+      "foco": "tempo",
+      "descricao": "Acelerar, desacelerar, parar tempo. Alto custo.",
+      "magias": [
+        { "id": "acelerar", "nome": "Acelerar", "nivel": 2, "custo": 5, "descricao": "Dobra ações por nível turnos.", "tipo": "HAX" },
+        { "id": "parar_tempo", "nome": "Parar Tempo", "nivel": 5, "custo": 10, "descricao": "Para tempo em área. HAX alto.", "tipo": "HAX" }
+      ]
+    }
+  ],
+  "magias_avulsas": [
+    { "id": "teleporte_magia", "nome": "Teleporte Mágico", "escola": "ar", "custo": 5, "descricao": "Teleporta como psi mas via mana." },
+    { "id": "invisibilidade", "nome": "Invisibilidade", "escola": "luz", "custo": 4, "descricao": "Fica invisível por nível minutos." }
+  ],
+  "regras": {
+    "custo": "Escola custa 3 pts/nível (Tempo 5), magia individual 2 pts/nível. Mana gasta PF igual nível da magia, falha crítica causa dano.",
+    "concentracao": "Manobra Concentração 1 turno, depois teste da magia (IQ + nível).",
+    "grimorio": "Precisa grimório ou foco para conjurar, salvo vantagem Mago Nato."
+  }
+}

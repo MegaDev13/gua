@@ -712,16 +712,37 @@ function renderFichaPage(main, id) {
       computed.poderes && computed.poderes.length ? el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '🧠'), `Poderes Psíquicos (${computed.poderes.length}) — ${computed.custoPoderes} pts`),
         el('div', { class: 'sheet-section-body' },
-          ...computed.poderes.map(p => el('div', { class: 'panel', style: 'margin-bottom:.8rem;border-color:var(--gold)' },
-            el('h3', {}, `${p.nome} (${p.sigla}) — Potência ${p.potencia} — ${p.custoPot} pts — Alcance ${p.alcance}`),
+          ...computed.poderes.map(p => el('div', { class: 'panel', style: `margin-bottom:.8rem;border-color:${p.custom?'var(--accent)':'var(--gold)'}` },
+            el('h3', {}, `${p.custom?'🧩 ':''}${p.nome} (${p.sigla}) — Pot ${p.potencia} — ${p.custoPot} pts — Alcance ${p.alcance} ${p.custom?'• custom':''}`),
+            p.descricao ? el('p', { style: 'font-size:.8rem;color:var(--ink-dim);margin:.3rem 0' }, p.descricao.slice(0,200)) : '',
             el('div', { class: 'skill-list' },
               ...p.pericias.map(per => el('div', { class: 'skill-item' },
-                el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, per.nome), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, per.descricao.slice(0,120))),
+                el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, `${per.nome} ${per.custom?'🧩':''}`), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, (per.descricao||'').slice(0,120))),
                 el('span', { class: 'skill-value' }, String(per.nivel)),
                 el('span', { class: 'skill-margin' }, per.margemTexto),
                 el('button', { class: 'btn small ghost', onclick: () => {
                   const res = testarMargem(per.nivel, DB);
                   toast(`${per.nome}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}${res.critico ? ' CRÍTICO!' : ''}`, res.sucesso ? 'ok' : 'bad');
+                }}, '🎲')
+              ))
+            )
+          ))
+        )
+      ) : '',
+      computed.magias && computed.magias.length ? el('div', { class: 'sheet-section' },
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '🔮'), `Magias (${computed.magias.length}) — ${computed.custoMagias} pts`),
+        el('div', { class: 'sheet-section-body' },
+          ...computed.magias.map(e => el('div', { class: 'panel', style: `margin-bottom:.8rem;border-color:${e.custom?'var(--accent)':'var(--gold)'}` },
+            el('h3', {}, `${e.custom?'🧩 ':''}${e.nome} (${e.sigla}) — Nv ${e.nivel} — ${e.custoNivel} pts ${e.custom?'• custom':''}`),
+            e.descricao ? el('p', { style: 'font-size:.8rem;color:var(--ink-dim);margin:.3rem 0' }, e.descricao.slice(0,200)) : '',
+            el('div', { class: 'skill-list' },
+              ...e.magias.map(mm => el('div', { class: 'skill-item' },
+                el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, `${mm.nome} ${mm.custom?'🧩':''}`), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, (mm.descricao||'').slice(0,120))),
+                el('span', { class: 'skill-value' }, String(mm.nivel)),
+                el('span', { class: 'skill-margin' }, mm.margemTexto),
+                el('button', { class: 'btn small ghost', onclick: () => {
+                  const res = testarMargem(mm.nivel, DB);
+                  toast(`${mm.nome}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}`, res.sucesso ? 'ok' : 'bad');
                 }}, '🎲')
               ))
             )
@@ -771,9 +792,10 @@ function renderFichaPage(main, id) {
             el('tr', {}, el('th', {}, 'Categoria'), el('th', {}, 'Custo')),
             el('tr', {}, el('td', {}, 'Atributos (ST,DX,IQ,HT) 10pts/nível'), el('td', { class: 'num' }, `${computed.pontos.breakdown.atributos.total} pts`)),
             el('tr', {}, el('td', {}, 'Perícias 2pts/nível'), el('td', { class: 'num' }, `${computed.pontos.breakdown.pericias.total} pts`)),
-            el('tr', {}, el('td', {}, `Manobras ${computed.pontos.breakdown.manobras.quantidade}×5 pts`), el('td', { class: 'num' }, `${computed.pontos.breakdown.manobras.total} pts`)),
-            el('tr', {}, el('td', {}, `Empunhadura ${char.empunhadura ? '5 pts' : '0'}`), el('td', { class: 'num' }, `${computed.pontos.breakdown.empunhadura.total} pts`)),
+            el('tr', {}, el('td', {}, `Manobras GRÁTIS ${computed.pontos.breakdown.manobras.quantidade}`), el('td', { class: 'num' }, `0 pts`)),
+            el('tr', {}, el('td', {}, `Empunhadura GRÁTIS ${char.empunhadura||''}`), el('td', { class: 'num' }, `0 pts`)),
             el('tr', {}, el('td', {}, 'Poderes (Pot 5/3 + per 2)'), el('td', { class: 'num' }, `${computed.pontos.breakdown.poderes.total} pts`)),
+            el('tr', {}, el('td', {}, 'Magias (Escola 3 + magia 2)'), el('td', { class: 'num' }, `${computed.pontos.breakdown.magias.total} pts`)),
             el('tr', { style: 'font-weight:700;background:var(--panel2)' }, el('td', {}, 'TOTAL'), el('td', { class: 'num' }, `${computed.pontos.totalGasto}/${computed.pontos.pontosTotais}`))
           ),
           el('div', { class: 'btn-row', style: 'margin-top:.6rem' },
@@ -813,10 +835,17 @@ function renderGlossario(main) {
     { termo: 'Disputa', def: 'Vence quem está mais próximo do próprio crítico.' },
     { termo: 'Combate Impacto vs Mortal', def: 'Impacto = sem intenção de matar. Mortal = tentativa de matar.' },
     { termo: 'GD', def: 'Grau Dano: GD1 1–20 Raspão, GD2 21–64 Em cheio, GD3 65+ Letal.' },
-    { termo: 'Empunhadura', def: 'Uma Mão, Bastarda, Duas Mãos +1 Força, Tsuka +1 Mov, Zatoichi +2 pós-saque, Anatômica +1 Acrobático.' },
-    { termo: 'PSIQUISMO', def: 'Habilidades da mente que exigem poder inato. Potência = força bruta (alcance/dano), Habilidade = controle (Mental/Difícil). TP/PK/Teleporte 5 pts/nível, PES/Cura/Anti-Psi 3 pts/nível.' },
+    { termo: 'Empunhadura GRÁTIS', def: 'Uma Mão, Bastarda, Duas Mãos +1 Força, Tsuka +1 Mov, Zatoichi +2 pós-saque, Anatômica +1 Acrobático. Não custa pontos.' },
+    { termo: 'Manobras GRÁTIS', def: 'Árvore tática não custa pontos. Movimento, Atacar, Preparar, Apontar, Analisar, Fazer Nada.' },
+    { termo: 'PSIQUISMO', def: 'Habilidades da mente que exigem poder inato. Potência = força bruta (alcance/dano), Habilidade = controle (Mental/Difícil). TP/PK/Teleporte 5 pts/nível, PES/Cura/Anti-Psi 3 pts/nível. Travado: não deixa aumentar sem pontos.' },
     { termo: 'Potência', def: 'Força bruta do psiquismo. Igual para todas perícias de um poder. Controla alcance, dano, peso.' },
-    { termo: 'Habilidade Psi', def: 'Controle da perícia psi, tipo Mental/Difícil, baseada em IQ.' },
+    { termo: 'Habilidade Psi', def: 'Controle da perícia psi, tipo Mental/Difícil, baseada em IQ. 2 pts/nível.' },
+    { termo: 'Poder Custom', def: 'Crie seu próprio poder: nome, sigla, custo 5/3 pts, potência, fonte (psíquica/mágica/chi/divino/cósmico), foco, descrição. Entra no cálculo e ficha.' },
+    { termo: 'Magia & Escolas', def: 'Escola = afinidade (Fogo, Água, Ar, Terra, Luz, Trevas, Mente, Tempo). Custo 3 pts/nível (Tempo 5). Magia individual 2 pts/nível. Pode criar escola/magia custom.' },
+    { termo: 'Escolas Elementais', def: 'Fogo (dano), Água (cura/controle), Ar (movimento/ilusão), Terra (defesa). Custo 3 pts/nível.' },
+    { termo: 'Escolas Luz/Trevas/Mente/Tempo', def: 'Luz (proteção), Trevas (debuff/necromancia), Mente (controle), Tempo 5 pts/nível (mais cara, manipula tempo).' },
+    { termo: 'Magia Custom', def: 'Crie sua escola: nome, sigla, custo, nível, fonte, foco, descrição. E magias individuais dentro da escola. Tudo entra no custo.' },
+    { termo: 'Pontos Travados', def: 'Sistema impede aumentar atributo/perícia/poder/magia se pontos livres insuficientes. Mostra toast e desabilita botão. Manobras e equipamentos grátis.' },
     { termo: 'Telepatia', def: 'Comunicação e controle mental. Alcance dobra por nível após 11. Não afetada por barreiras físicas.' },
     { termo: 'Escudo Mental', def: 'Defesa telepática. Força = Potência TP. Níveis 8- a 20+ determinam filtragem amistoso/hostil e disfarce.' },
     { termo: 'Psicocinese (PK)', def: 'Mover objetos à distância. Peso por Potência: 1=7g até 22=1 ton, +125kg/nível após.' },

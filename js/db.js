@@ -12,7 +12,8 @@ const FILES = [
   'attributes',
   'categories',
   'rules',
-  'powers'
+  'powers',
+  'magics'
 ];
 
 class Database {
@@ -281,6 +282,32 @@ class Database {
         }
       }
     }
+    // Magias
+    const magics = this._data.magics;
+    if (magics?.escolas) {
+      for (const esc of magics.escolas) {
+        idx.push({
+          id: `magia-escola/${esc.id}`,
+          titulo: esc.nome,
+          capitulo: 'Magias',
+          caminho: `Magias > ${esc.nome}`,
+          conteudo: (esc.descricao || '').slice(0, 400),
+          tipo: 'magia',
+          ref: `#/livro/magias/${esc.id}`
+        });
+        for (const m of esc.magias || []) {
+          idx.push({
+            id: `magia/${m.id}`,
+            titulo: m.nome,
+            capitulo: esc.nome,
+            caminho: `Magias > ${esc.nome} > ${m.nome}`,
+            conteudo: (m.descricao || '').slice(0, 400),
+            tipo: 'magia',
+            ref: `#/livro/magias/${m.id}`
+          });
+        }
+      }
+    }
 
     this._index = idx;
   }
@@ -295,6 +322,7 @@ class Database {
   get categories() { return this._data.categories || { categorias: [] }; }
   get rules() { return this._data.rules || {}; }
   get powers() { return this._data.powers || { poderes: [] }; }
+  get magics() { return this._data.magics || { escolas: [] }; }
   get searchIndex() { return this._index; }
 
   getMarginForValue(val) {

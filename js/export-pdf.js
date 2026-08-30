@@ -297,15 +297,32 @@ export async function exportarPDFFicha(computed, db) {
     for (const p of computed.poderes) {
       checkPage(14);
       doc.setFillColor(...colors.bg2);
-      doc.setDrawColor(...colors.gold);
+      doc.setDrawColor(p.custom ? colors.accent : colors.gold);
       doc.roundedRect(margin, y, contentW, 9, 1.5, 1.5, 'FD');
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
       doc.setTextColor(...colors.gold2);
-      doc.text(`${p.nome} (${p.sigla}) — Pot ${p.potencia} — ${p.custoPot} pts — Alc ${p.alcance}`, margin + 2, y + 5.5);
+      doc.text(`${p.custom?'🧩 ':''}${p.nome} (${p.sigla}) — Pot ${p.potencia} — ${p.custoPot} pts — Alc ${p.alcance} ${p.custom?'(custom)':''}`, margin + 2, y + 5.5);
       y += 12;
       const rows = p.pericias.map(per => [per.nome, String(per.nivel), per.margemTexto || '—', (per.descricao || '').slice(0,35)]);
-      addTable(['Perícia', 'Nível', 'Margem', 'Descrição'], rows);
+      if (rows.length) addTable(['Perícia', 'Nível', 'Margem', 'Descrição'], rows);
+    }
+  }
+  // ================= MAGIAS =================
+  if (computed.magias && computed.magias.length) {
+    addSectionTitle('🔮', `Magias (${computed.magias.length})`, `${computed.custoMagias || 0} pts em magias`);
+    for (const e of computed.magias) {
+      checkPage(14);
+      doc.setFillColor(...colors.bg2);
+      doc.setDrawColor(e.custom ? colors.accent : colors.gold);
+      doc.roundedRect(margin, y, contentW, 9, 1.5, 1.5, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(...colors.gold2);
+      doc.text(`${e.custom?'🧩 ':''}${e.nome} (${e.sigla}) — Nv ${e.nivel} — ${e.custoNivel} pts ${e.custom?'(custom)':''}`, margin + 2, y + 5.5);
+      y += 12;
+      const rows = e.magias.map(mm => [mm.nome, String(mm.nivel), mm.margemTexto || '—', (mm.descricao || '').slice(0,35)]);
+      if (rows.length) addTable(['Magia', 'Nível', 'Margem', 'Descrição'], rows);
     }
   }
 

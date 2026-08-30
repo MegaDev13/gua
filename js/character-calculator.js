@@ -76,41 +76,85 @@ export function computeCharacter(db, char) {
   // Manobras: verifica se personagem tem atributos mínimos?
   const manobras = char.manobras || [];
 
-  // Poderes
+  // Poderes (inclui custom)
   const poderesRaw = char.poderes || {};
   const poderesCalc = [];
   let custoPoderes = 0;
   for (const [poderId, dados] of Object.entries(poderesRaw)) {
     const def = (db.powers?.poderes || []).find(p => p.id === poderId);
-    if (!def) continue;
+    const isCustom = !!dados.custom || !def;
     const potencia = dados.potencia || 0;
-    const custoPot = potencia * (def.custo || 5);
+    const custoPorNivel = dados.custo ?? def?.custo ?? 5;
+    const custoPot = potencia * custoPorNivel;
     custoPoderes += custoPot;
     const periciasPsi = (dados.pericias || []).map(pp => {
-      const perDef = (def.pericias || []).find(pd => pd.id === pp.id);
+      const perDef = (def?.pericias || []).find(pd => pd.id === pp.id);
       const nivel = pp.nivel || 0;
       const margem = db.getMarginForValue(nivel);
-      const custoHab = nivel * 2; // Mental/Difícil aproximado
+      const custoHab = nivel * 2;
       custoPoderes += custoHab;
       return {
         ...pp,
         poderId,
-        poderNome: def.nome,
+        poderNome: dados.nome || def?.nome || poderId,
         potencia,
         margem,
         margemTexto: margem?.margemTexto || '—',
         custo: custoHab,
-        descricao: perDef?.descricao || ''
+        descricao: perDef?.descricao || pp.descricao || ''
       };
     });
     poderesCalc.push({
       id: poderId,
-      nome: def.nome,
-      sigla: def.sigla,
+      nome: dados.nome || def?.nome || poderId,
+      sigla: dados.sigla || def?.sigla || 'CUS',
       potencia,
       custoPot,
       pericias: periciasPsi,
-      alcance: def.alcance?.find(a => a.potencia === potencia)?.alcance || (potencia>0 ? `${potencia*10}m estimado` : '—')
+      alcance: def?.alcance?.find(a => a.potencia === potencia)?.alcance || (potencia>0 ? `${potencia*10}m estimado` : '—'),
+      custom: isCustom,
+      descricao: dados.descricao || def?.descricao || ''
+    });
+  }
+
+  // Magias (inclui custom)
+  const magiasRaw = char.magias || {};
+  const magiasCalc = [];
+  let custoMagias = 0;
+  const magiasEntries = Object.entries(magiasRaw);
+  for (const [magiaId, dados] of magiasEntries) {
+    const defEsc = (db.magics?.escolas || []).find(e => e.id === magiaId);
+    const isCustom = !!dados.custom || !defEsc;
+    const nivel = dados.nivel || dados.potencia || 0;
+    const custoPorNivel = dados.custo ?? defEsc?.custo ?? 3;
+    const custoNivel = nivel * custoPorNivel;
+    custoMagias += custoNivel;
+    const magiasList = (dados.magias || []).map(mm => {
+      const mDef = (defEsc?.magias || []).find(m => m.id === mm.id);
+      const mnivel = mm.nivel || 0;
+      const margem = db.getMarginForValue(mnivel);
+      const custoM = mnivel * 2;
+      custoMagias += custoM;
+      return {
+        ...mm,
+        escolaId: magiaId,
+        escolaNome: dados.nome || defEsc?.nome || magiaId,
+        nivelEscola: nivel,
+        margem,
+        margemTexto: margem?.margemTexto || '—',
+        custo: custoM,
+        descricao: mDef?.descricao || mm.descricao || ''
+      };
+    });
+    magiasCalc.push({
+      id: magiaId,
+      nome: dados.nome || defEsc?.nome || magiaId,
+      sigla: dados.sigla || defEsc?.sigla || 'CUS',
+      nivel,
+      custoNivel,
+      magias: magiasList,
+      custom: isCustom,
+      descricao: dados.descricao || defEsc?.descricao || ''
     });
   }
 
@@ -120,11 +164,10 @@ export function computeCharacter(db, char) {
   // Pontos
   const pontos = calcularCustoTotal(char, db);
 
-  // Validação
-  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc, poderesCalc, custoPoderes, pontos });
-
   // Categoria
   const categoria = (db.categories.categorias || []).find(c => c.id === (char.categoria || 'mundano')) || { id: 'mundano', nome: 'Mundano', dados: '1d20' };
+
+  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc, poderesCalc, magiasCalc, custoPoderes, custoMagias, pontos });
 
   return {
     identidade: {
@@ -150,7 +193,9 @@ export function computeCharacter(db, char) {
     pericias: periciasCalc,
     manobras,
     poderes: poderesCalc,
+    magias: magiasCalc,
     custoPoderes,
+    custoMagias,
     pontos,
     empunhadura,
     equipamentos: char.equipamentos || [],
@@ -164,7 +209,7 @@ function validarPersonagem(db, char, calc) {
   const erros = [];
   const infos = [];
 
-  const { atributos, carga, poderesCalc, custoPoderes, pontos } = calc;
+  const { atributos, carga, poderesCalc, magiasCalc, custoPoderes, custoMagias, pontos } = calc;
 
   // Atributos fora do limite mundano
   for (const [k, v] of Object.entries(atributos)) {
@@ -216,7 +261,13 @@ function validarPersonagem(db, char, calc) {
         if (per.nivel < 8) avisos.push({ tipo: 'aviso', msg: `${per.nome} NH ${per.nivel} baixo — controle ruim.`, campo: 'poderes' });
       }
     }
-    infos.push({ tipo: 'info', msg: `Custo estimado poderes: ${custoPoderes} pts (Potência + perícias).`, campo: 'poderes' });
+    infos.push({ tipo: 'info', msg: `Custo poderes: ${custoPoderes} pts.`, campo: 'poderes' });
+  }
+  if (magiasCalc && magiasCalc.length > 0) {
+    for (const e of magiasCalc) {
+      if (e.nivel === 0) avisos.push({ tipo: 'aviso', msg: `Escola ${e.nome} Nv 0 — sem efeito.`, campo: 'magias' });
+    }
+    infos.push({ tipo: 'info', msg: `Custo magias: ${custoMagias} pts.`, campo: 'magias' });
   }
 
   // Pontos

@@ -21,8 +21,8 @@ export const CUSTOS = {
   atributo: { base: 10, porNivel: 10 }, // (valor-10)*10, negativo se abaixo de 10
   pericia: { porNivel: 2, minimo: 1 }, // (valor - baseAttr)*2, mas mínimo 1 se treinada
   periciaPsi: { porNivel: 2 },
-  manobra: 5,
-  empunhadura: 5,
+  manobra: 0, // manobras de combate NÃO custam pontos (regra do usuário)
+  empunhadura: 0, // empunhadura também não custa
   poder: {
     telepatia: 5,
     psicocinese: 5,
@@ -32,6 +32,10 @@ export const CUSTOS = {
     antipsi: 3,
     // fallback
     default: 5
+  },
+  magia: {
+    porNivel: 3, // magia custa 3 pts por nível de poder + 2 por perícia
+    pericia: 2
   }
 };
 
@@ -91,7 +95,8 @@ export function custoPoderes(poderesRaw, powersDef) {
   const detalhe = [];
   for (const [poderId, dados] of Object.entries(poderesRaw || {})) {
     const def = (powersDef?.poderes || []).find(p => p.id === poderId);
-    const custoPorNivel = def?.custo ?? CUSTOS.poder.default;
+    // custom poderes podem ter custo próprio
+    const custoPorNivel = dados.custo ?? def?.custo ?? CUSTOS.poder.default;
     const pot = dados.potencia || 0;
     const custoPot = pot * custoPorNivel;
     let custoPer = 0;
@@ -102,7 +107,31 @@ export function custoPoderes(poderesRaw, powersDef) {
       custoPer += c;
     }
     const subtotal = custoPot + custoPer;
-    detalhe.push({ id: poderId, nome: def?.nome || poderId, potencia: pot, custoPorNivel, custoPot, pericias: perDetalhe, custoPer, subtotal });
+    detalhe.push({ id: poderId, nome: dados.nome || def?.nome || poderId, potencia: pot, custoPorNivel, custoPot, pericias: perDetalhe, custoPer, subtotal, custom: !!dados.custom });
+    total += subtotal;
+  }
+  return { total, detalhe };
+}
+
+export function custoMagias(magiasRaw, magicsDef) {
+  let total = 0;
+  const detalhe = [];
+  // magiasRaw pode ser objeto { fogo: { nivel: 5, magias: [{id,nivel}] } } ou array
+  const entries = Array.isArray(magiasRaw) ? magiasRaw.map(m => [m.id || m.escola || 'custom', m]) : Object.entries(magiasRaw || {});
+  for (const [magiaId, dados] of entries) {
+    const def = (magicsDef?.escolas || []).find(e => e.id === magiaId) || (magicsDef?.magias || []).find(m => m.id === magiaId);
+    const custoPorNivel = dados.custo ?? def?.custo ?? CUSTOS.magia.porNivel;
+    const nivel = dados.nivel || dados.potencia || 0;
+    const custoNivel = nivel * custoPorNivel;
+    let custoPer = 0;
+    const perDetalhe = [];
+    for (const pp of dados.magias || dados.pericias || []) {
+      const c = (pp.nivel || 0) * CUSTOS.magia.pericia;
+      perDetalhe.push({ nome: pp.nome || pp.id, nivel: pp.nivel, custo: c });
+      custoPer += c;
+    }
+    const subtotal = custoNivel + custoPer;
+    detalhe.push({ id: magiaId, nome: dados.nome || def?.nome || magiaId, nivel, custoPorNivel, custoNivel, pericias: perDetalhe, custoPer, subtotal, custom: !!dados.custom });
     total += subtotal;
   }
   return { total, detalhe };
@@ -115,8 +144,9 @@ export function calcularCustoTotal(char, db) {
   const cm = custoManobras(char.manobras || []);
   const ce = custoEmpunhadura(char.empunhadura);
   const cpod = custoPoderes(char.poderes || {}, db?.powers);
+  const cmag = custoMagias(char.magias || {}, db?.magics);
 
-  const totalGasto = ca.total + cp.total + cm.total + ce + cpod.total;
+  const totalGasto = ca.total + cp.total + cm.total + ce + cpod.total + cmag.total;
   const pontosTotais = char.pontosTotais ?? 150;
   const disponivel = pontosTotais - totalGasto;
 
@@ -129,7 +159,8 @@ export function calcularCustoTotal(char, db) {
       pericias: cp,
       manobras: cm,
       empunhadura: { total: ce },
-      poderes: cpod
+      poderes: cpod,
+      magias: cmag
     }
   };
 }
