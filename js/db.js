@@ -13,7 +13,11 @@ const FILES = [
   'categories',
   'rules',
   'powers',
-  'magics'
+  'magics',
+  'vantagens',
+  'desvantagens',
+  'peculiaridades',
+  'pericias_catalog'
 ];
 
 class Database {
@@ -308,6 +312,63 @@ class Database {
         }
       }
     }
+    // Vantagens
+    const vant = this._data.vantagens;
+    if (vant?.vantagens) {
+      for (const v of vant.vantagens) {
+        idx.push({
+          id: `vantagem/${v.id}`,
+          titulo: v.nome,
+          capitulo: 'Vantagens',
+          caminho: `Vantagens > ${v.categoria} > ${v.nome}`,
+          conteudo: `${v.descricao} Custo ${v.custo} pts`,
+          tipo: 'vantagem',
+          ref: `#/criar/novo/vantagens`
+        });
+      }
+    }
+    const desv = this._data.desvantagens;
+    if (desv?.desvantagens) {
+      for (const d of desv.desvantagens) {
+        idx.push({
+          id: `desvantagem/${d.id}`,
+          titulo: d.nome,
+          capitulo: 'Desvantagens',
+          caminho: `Desvantagens > ${d.categoria} > ${d.nome}`,
+          conteudo: `${d.descricao} Custo ${d.custo} pts`,
+          tipo: 'desvantagem',
+          ref: `#/criar/novo/desvantagens`
+        });
+      }
+    }
+    const pec = this._data.peculiaridades;
+    if (pec?.peculiaridades) {
+      for (const p of pec.peculiaridades) {
+        idx.push({
+          id: `peculiaridade/${p.id}`,
+          titulo: p.nome,
+          capitulo: 'Peculiaridades',
+          caminho: `Peculiaridades > ${p.categoria} > ${p.nome}`,
+          conteudo: p.descricao,
+          tipo: 'peculiaridade',
+          ref: `#/criar/novo/peculiaridades`
+        });
+      }
+    }
+    const perCat = this._data.pericias_catalog;
+    if (perCat?.pericias) {
+      for (const p of perCat.pericias) {
+        idx.push({
+          id: `pericia-cat/${p.id}`,
+          titulo: p.nome,
+          capitulo: 'Perícias',
+          caminho: `Perícias > ${p.categoria} > ${p.nome} (${p.atributo})`,
+          conteudo: `${p.descricao} ${p.tipo} ${p.dificuldade}`,
+          tipo: 'pericia',
+          ref: `#/criar/novo/pericias`
+        });
+      }
+    }
 
     this._index = idx;
   }
@@ -323,6 +384,10 @@ class Database {
   get rules() { return this._data.rules || {}; }
   get powers() { return this._data.powers || { poderes: [] }; }
   get magics() { return this._data.magics || { escolas: [] }; }
+  get vantagens() { return this._data.vantagens || { vantagens: [] }; }
+  get desvantagens() { return this._data.desvantagens || { desvantagens: [] }; }
+  get peculiaridades() { return this._data.peculiaridades || { peculiaridades: [] }; }
+  get periciasCatalog() { return this._data.pericias_catalog || { pericias: [] }; }
   get searchIndex() { return this._index; }
 
   getMarginForValue(val) {

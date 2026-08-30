@@ -15,6 +15,7 @@ import { exportarPDFFicha } from './export-pdf.js';
 import { exportarPNGFicha } from './export-png.js';
 import { testarMargem, getGrauDano } from './dice.js';
 import { calcularCustoTotal, PONTOS_PRESETS } from './points-system.js';
+import { supabaseService } from './supabase.js';
 
 const PAGES = [
   { id: 'capa', nome: 'Capa', icon: '🏰', showInNav: false },
@@ -44,6 +45,37 @@ async function init() {
     dbLoaded = true;
     console.log('GAU DB ok, entradas:', DB.searchIndex.length);
     searchEngine = new SearchEngine(DB);
+
+    // Supabase init e sync opcional
+    try {
+      await supabaseService.init();
+      console.log('Supabase status:', supabaseService.getStatus());
+      // Tenta carregar personagens da nuvem e mesclar com local
+      const remote = await supabaseService.carregar();
+      if (remote.ok && remote.data.length) {
+        const locais = storage.getPersonagens();
+        const mapaLocal = new Map(locais.map(c => [c.id, c]));
+        for (const r of remote.data) {
+          if (!mapaLocal.has(r.id)) {
+            // Novo da nuvem -> adiciona local
+            locais.push(r);
+          } else {
+            // Conflito: pega mais recente
+            const local = mapaLocal.get(r.id);
+            const remoteDate = new Date(r.atualizadoEm || r.atualizado_em || 0);
+            const localDate = new Date(local.atualizadoEm || 0);
+            if (remoteDate > localDate) {
+              const idx = locais.findIndex(c => c.id === r.id);
+              if (idx >= 0) locais[idx] = r;
+            }
+          }
+        }
+        storage.setPersonagens(locais);
+        console.log(`Supabase sync: ${remote.data.length} personagens da nuvem mesclados`);
+      }
+    } catch (e) {
+      console.warn('Supabase sync falhou, modo offline:', e);
+    }
 
     // Tema
     const temaSalvo = storage.getTema();
@@ -154,6 +186,14 @@ function montarSeletorPersonagens() {
     sel.append(el('option', { value: '' }, 'Erro storage'));
   }
   atualizarPontosWidget();
+  // Mostra badge Supabase no topo se online
+  try {
+    const status = supabaseService.getStatus();
+    const widget = document.getElementById('pontosWidget');
+    if (widget && status === 'ok') {
+      // já mostra no widget interno
+    }
+  } catch {}
 }
 
 function atualizarPontosWidget() {
@@ -521,9 +561,11 @@ function renderCapaPage(main) {
 
 function renderMeusPersonagens(main) {
   const lista = storage.getPersonagens();
+  const supaStatus = supabaseService.getStatus();
+  const userId = supabaseService.getLocalUserId();
   main.append(
-    el('h1', { class: 'page-title' }, '👥 Meus Personagens', el('small', {}, `${lista.length} forjados`)),
-    el('p', { class: 'page-subtitle' }, 'Personagens salvos localmente no navegador. Exporte JSON para transportar entre dispositivos.')
+    el('h1', { class: 'page-title' }, '👥 Meus Personagens', el('small', {}, `${lista.length} forjados • Supabase ${supaStatus} • ${userId.slice(0,12)}`)),
+    el('p', { class: 'page-subtitle' }, 'Salvos localmente + nuvem Supabase (sync automático por owner_id). Vantagens, desvantagens, perícias, magias tudo comprável com pontos ao vivo.')
   );
 
   if (lista.length === 0) {
@@ -531,9 +573,22 @@ function renderMeusPersonagens(main) {
       el('div', { class: 'empty-sheet panel' },
         el('div', { class: 'empty-icon' }, '⚔️'),
         el('h3', {}, 'Nenhum personagem forjado'),
-        el('p', {}, 'Seu grimório está vazio. Forje seu primeiro personagem e ele aparecerá aqui, salvo automaticamente neste dispositivo.'),
+        el('p', {}, 'Seu grimório está vazio. Forje seu primeiro personagem e ele aparecerá aqui, salvo local e na nuvem Supabase.'),
         el('div', { class: 'btn-row', style: 'justify-content:center' },
-          el('a', { href: '#/criar/novo/identidade', class: 'btn primary large' }, '⚔️ Forjar Primeiro Personagem')
+          el('a', { href: '#/criar/novo/identidade', class: 'btn primary large' }, '⚔️ Forjar Primeiro Personagem'),
+          el('button', { class: 'btn', onclick: async () => {
+            const res = await supabaseService.carregar();
+            if (res.ok && res.data.length) {
+              const locais = storage.getPersonagens();
+              const ids = new Set(locais.map(c=>c.id));
+              let added=0;
+              for (const r of res.data) if(!ids.has(r.id)) { locais.push(r); added++; }
+              storage.setPersonagens(locais);
+              montarSeletorPersonagens();
+              renderMeusPersonagens(main);
+              toast(`${added} da nuvem sincronizados`,'ok');
+            } else toast('Nenhum na nuvem ou erro: '+(res.error||''),'warn');
+          } }, '☁️ Sincronizar Supabase')
         )
       )
     );
@@ -543,13 +598,13 @@ function renderMeusPersonagens(main) {
   const grid = el('div', { class: 'grid cols-3' });
   for (const p of lista) {
     let computed;
-    try { computed = computeCharacter(DB, p); } catch { computed = { identidade: { categoria: { nome: p.categoria || 'mundano' } }, atributos: { margens: {} }, validacao: { nivel: 'ok' }, derivados: { pesoEquip: 0 } }; }
+    try { computed = computeCharacter(DB, p); } catch { computed = { identidade: { categoria: { nome: p.categoria || 'mundano' } }, atributos: { margens: {} }, validacao: { nivel: 'ok' }, derivados: { pesoEquip: 0 }, pontos: { totalGasto: p.pontosTotais||150, pontosTotais: p.pontosTotais||150 } }; }
     const card = el('div', { class: 'char-sheet', style: 'padding:0;cursor:pointer' },
       el('div', { class: 'sheet-header', style: 'padding:1rem' },
         el('div', { class: 'sheet-title-row' },
           el('div', {},
             el('h3', { class: 'sheet-char-name', style: 'font-size:1.3rem' }, p.nome || 'Sem nome'),
-            el('div', { class: 'sheet-char-concept', style: 'font-size:.85rem' }, p.conceito || 'Sem conceito')
+            el('div', { class: 'sheet-char-concept', style: 'font-size:.85rem' }, `${p.conceito||''} • V:${(p.vantagens||[]).length} D:${(p.desvantagens||[]).length} P:${(p.pericias||[]).length} M:${Object.keys(p.magias||{}).length}`)
           ),
           el('div', { class: 'sheet-meta' },
             el('span', { class: 'meta-badge gold' }, computed.identidade.categoria.nome),
@@ -562,12 +617,13 @@ function renderMeusPersonagens(main) {
           ...Object.entries(computed.atributos.margens || {}).map(([k,v]) => v ? el('div', { class: 'stat small' }, el('div', { class: 'label' }, k), el('div', { class: 'value' }, String(v.valor)), el('div', { class: 'hint' }, v.margemTexto)) : '')
         ),
         el('div', { class: 'btn-row' },
-          el('a', { href: `#/ficha/${p.id}`, class: 'btn small primary' }, '📜 Ver Ficha'),
+          el('a', { href: `#/ficha/${p.id}`, class: 'btn small primary' }, '📜 Ficha'),
           el('a', { href: `#/criar/${p.id}/identidade`, class: 'btn small' }, '✏️ Editar'),
-          el('button', { class: 'btn small', onclick: (e) => { e.stopPropagation(); const dup = storage.duplicar(p.id); montarSeletorPersonagens(); renderMeusPersonagens(main); toast(`Duplicado: ${dup.nome}`,'ok'); } }, '⎘ Duplicar'),
-          el('button', { class: 'btn small danger', onclick: (e) => { e.stopPropagation(); if (confirm(`Excluir ${p.nome}?`)) { storage.excluir(p.id); montarSeletorPersonagens(); renderMeusPersonagens(main); toast('Excluído','warn'); } } }, '🗑️ Excluir')
+          el('button', { class: 'btn small', onclick: async (e) => { e.stopPropagation(); const res=await supabaseService.salvar(p); toast(res.ok?'☁️ Enviado Supabase':'Erro Supabase '+(res.error||''), res.ok?'ok':'bad'); } }, '☁️ Supabase'),
+          el('button', { class: 'btn small', onclick: (e) => { e.stopPropagation(); const dup = storage.duplicar(p.id); montarSeletorPersonagens(); location.hash=`#/ficha/${dup.id}`; toast(`Duplicado: ${dup.nome}`,'ok'); } }, '⎘'),
+          el('button', { class: 'btn small danger', onclick: async (e) => { e.stopPropagation(); if (confirm(`Excluir ${p.nome}?`)) { storage.excluir(p.id); await supabaseService.excluir(p.id); montarSeletorPersonagens(); main.innerHTML=''; renderMeusPersonagens(main); toast('Excluído','warn'); } } }, '🗑️')
         ),
-        el('div', { style: 'font-size:.7rem;color:var(--ink-faint);margin-top:.4rem' }, `Atualizado: ${new Date(p.atualizadoEm).toLocaleString('pt-BR')} • ${p.equipamentos?.length || 0} equip • ${p.pericias?.length || 0} perícias • ${(() => { try { const c = computeCharacter(DB, p); return `${c.pontos.totalGasto}/${c.pontos.pontosTotais} pts`; } catch { return `${p.pontosTotais||150} pts`; } })()}`)
+        el('div', { style: 'font-size:.7rem;color:var(--ink-faint);margin-top:.4rem' }, `${new Date(p.atualizadoEm).toLocaleString('pt-BR')} • ${p.equipamentos?.length||0} equip • ${(() => { try { const c = computeCharacter(DB, p); return `${c.pontos.totalGasto}/${c.pontos.pontosTotais} pts livres ${c.pontos.disponivel}`; } catch { return `${p.pontosTotais||150} pts`; } })()}`)
       )
     );
     card.addEventListener('click', () => location.hash = `#/ficha/${p.id}`);
@@ -578,9 +634,9 @@ function renderMeusPersonagens(main) {
 
   main.append(
     el('div', { class: 'panel', style: 'margin-top:1.5rem' },
-      el('h3', {}, '💾 Backup & Transporte'),
-      el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, 'Seus personagens ficam no localStorage deste navegador. Exporte para levar para outro dispositivo.'),
-      el('div', { class: 'btn-row' },
+      el('h3', {}, '💾 Backup, Transporte & Supabase'),
+      el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, `Owner local: ${userId} • Supabase URL: ${supabaseService.url} • Status: ${supaStatus} • Rode supabase_schema.sql no dashboard se tabela não existir.`),
+      el('div', { class: 'btn-row', style: 'flex-wrap:wrap' },
         el('button', { class: 'btn', onclick: () => {
           const backup = storage.exportarBackup();
           downloadJSON(backup, `gau_backup_${new Date().toISOString().slice(0,10)}.json`);
@@ -596,11 +652,36 @@ function renderMeusPersonagens(main) {
               const obj = JSON.parse(text);
               storage.importarBackup(obj);
               montarSeletorPersonagens();
-              renderMeusPersonagens(main);
+              main.innerHTML=''; renderMeusPersonagens(main);
               toast('Backup importado!','ok');
-            } catch (err) { toast('Erro ao importar: '+err.message,'bad'); }
+            } catch (err) { toast('Erro: '+err.message,'bad'); }
           }})
-        )
+        ),
+        el('button', { class: 'btn', onclick: async () => {
+          const res = await supabaseService.carregar();
+          if (res.ok) {
+            const locais = storage.getPersonagens();
+            const mapa = new Map(locais.map(c=>[c.id,c]));
+            let added=0, updated=0;
+            for (const r of res.data) {
+              if (!mapa.has(r.id)) { locais.push(r); added++; }
+              else {
+                const local=mapa.get(r.id);
+                if (new Date(r.atualizadoEm||0) > new Date(local.atualizadoEm||0)) { const idx=locais.findIndex(c=>c.id===r.id); locais[idx]=r; updated++; }
+              }
+            }
+            storage.setPersonagens(locais);
+            montarSeletorPersonagens();
+            main.innerHTML=''; renderMeusPersonagens(main);
+            toast(`Supabase: ${added} novos, ${updated} atualizados`,'ok');
+          } else toast('Erro Supabase: '+(res.error||'offline'),'bad');
+        } }, '☁️ Sincronizar da Nuvem'),
+        el('button', { class: 'btn', onclick: async () => {
+          const lista = storage.getPersonagens();
+          let ok=0;
+          for (const p of lista) { const r=await supabaseService.salvar(p); if(r.ok) ok++; }
+          toast(`${ok}/${lista.length} enviados para Supabase`,'ok');
+        } }, '☁️ Enviar Todos p/ Nuvem')
       )
     )
   );
@@ -686,12 +767,40 @@ function renderFichaPage(main, id) {
           )
         )
       ),
+      computed.vantagens && computed.vantagens.length ? el('div', { class: 'sheet-section' },
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '✨'), `Vantagens (${computed.vantagens.length}) — ${computed.pontos.breakdown.vantagens.total} pts`),
+        el('div', { class: 'sheet-section-body' },
+          el('div', { class: 'skill-list' },
+            ...computed.vantagens.map(v => el('div', { class: 'skill-item' },
+              el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, `${v.custom?'🧩 ':''}${v.nome}`), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, `${v.tipo||''} • ${v.categoria||''} • ${v.descricao||''}`.slice(0,150))),
+              el('span', { class: 'pill gold small' }, `${v.custo} pts`)
+            ))
+          )
+        )
+      ) : '',
+      computed.desvantagens && computed.desvantagens.length ? el('div', { class: 'sheet-section' },
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '💀'), `Desvantagens (${computed.desvantagens.length}) — ${computed.pontos.breakdown.desvantagens.total} pts (ganha ${-computed.pontos.breakdown.desvantagens.total})`),
+        el('div', { class: 'sheet-section-body' },
+          el('div', { class: 'skill-list' },
+            ...computed.desvantagens.map(d => el('div', { class: 'skill-item' },
+              el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, `${d.custom?'🧩 ':''}${d.nome}`), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, `${d.tipo||''} • ${d.categoria||''} • ${d.descricao||''}`.slice(0,150))),
+              el('span', { class: 'pill bad small' }, `${d.custo} pts`)
+            ))
+          )
+        )
+      ) : '',
+      computed.peculiaridades && computed.peculiaridades.length ? el('div', { class: 'sheet-section' },
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '🌀'), `Peculiaridades (${computed.peculiaridades.length}) — ${computed.pontos.breakdown.peculiaridades.total} pts`),
+        el('div', { class: 'sheet-section-body' },
+          el('div', { class: 'maneuver-chips' }, ...computed.peculiaridades.map(p => el('span', { class: 'maneuver-chip active' }, `${p.nome} (${p.custo})`)))
+        )
+      ) : '',
       computed.pericias.length ? el('div', { class: 'sheet-section' },
-        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '📜'), `Perícias (${computed.pericias.length})`),
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '📜'), `Perícias (${computed.pericias.length}) — ${computed.pontos.breakdown.pericias.total} pts`),
         el('div', { class: 'sheet-section-body' },
           el('div', { class: 'skill-list' },
             ...computed.pericias.map(p => el('div', { class: 'skill-item' },
-              el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, p.nome), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, p.descricao || '')),
+              el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, `${p.custom?'🧩 ':''}${p.nome}`), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, `${p.atributoBase||''} • ${p.tipo||''} ${p.dificuldade||''} • ${p.categoria||''} • ${p.descricao||''}`.slice(0,150))),
               el('span', { class: 'skill-attr' }, p.atributoBase || ''),
               el('span', { class: 'skill-value' }, String(p.valor)),
               el('span', { class: 'skill-margin' }, p.margemTexto),
@@ -704,7 +813,7 @@ function renderFichaPage(main, id) {
         )
       ) : '',
       computed.manobras.length ? el('div', { class: 'sheet-section' },
-        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '⚔️'), `Manobras (${computed.manobras.length})`),
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '⚔️'), `Manobras (${computed.manobras.length}) — GRÁTIS`),
         el('div', { class: 'sheet-section-body' },
           el('div', { class: 'maneuver-chips' }, ...computed.manobras.map(m => el('span', { class: 'maneuver-chip active' }, m)))
         )
@@ -785,18 +894,21 @@ function renderFichaPage(main, id) {
         el('div', { class: 'sheet-section-body' }, el('p', { style: 'white-space:pre-wrap' }, computed.identidade.historia))
       ) : '',
       el('div', { class: 'sheet-section' },
-        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '💰'), `Pontos — ${computed.pontos.pontosTotais} totais | ${computed.pontos.totalGasto} gastos | ${computed.pontos.disponivel} livres`),
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '💰'), `Pontos — ${computed.pontos.pontosTotais} totais | ${computed.pontos.totalGasto} gastos | ${computed.pontos.disponivel} livres — Supabase ${supabaseService.getStatus()}`),
         el('div', { class: 'sheet-section-body' },
           el('div', { class: 'bar gold', style: 'height:14px;margin-bottom:.8rem' }, el('i', { style: `width:${Math.min(100, (computed.pontos.totalGasto/computed.pontos.pontosTotais)*100)}%` })),
           el('table', { class: 'pontos-table' },
             el('tr', {}, el('th', {}, 'Categoria'), el('th', {}, 'Custo')),
-            el('tr', {}, el('td', {}, 'Atributos (ST,DX,IQ,HT) 10pts/nível'), el('td', { class: 'num' }, `${computed.pontos.breakdown.atributos.total} pts`)),
-            el('tr', {}, el('td', {}, 'Perícias 2pts/nível'), el('td', { class: 'num' }, `${computed.pontos.breakdown.pericias.total} pts`)),
+            el('tr', {}, el('td', {}, 'Atributos 10pts/nível'), el('td', { class: 'num' }, `${computed.pontos.breakdown.atributos.total} pts`)),
+            el('tr', {}, el('td', {}, `Vantagens ${computed.pontos.breakdown.vantagens.detalhe.length} itens`), el('td', { class: 'num' }, `${computed.pontos.breakdown.vantagens.total} pts`)),
+            el('tr', {}, el('td', {}, `Desvantagens ${computed.pontos.breakdown.desvantagens.detalhe.length} (ganha)`), el('td', { class: 'num' }, `${computed.pontos.breakdown.desvantagens.total} pts`)),
+            el('tr', {}, el('td', {}, `Peculiaridades ${computed.pontos.breakdown.peculiaridades.detalhe.length} × -1`), el('td', { class: 'num' }, `${computed.pontos.breakdown.peculiaridades.total} pts`)),
+            el('tr', {}, el('td', {}, `Perícias ${computed.pontos.breakdown.pericias.detalhe.length} × 2pts/nível`), el('td', { class: 'num' }, `${computed.pontos.breakdown.pericias.total} pts`)),
             el('tr', {}, el('td', {}, `Manobras GRÁTIS ${computed.pontos.breakdown.manobras.quantidade}`), el('td', { class: 'num' }, `0 pts`)),
-            el('tr', {}, el('td', {}, `Empunhadura GRÁTIS ${char.empunhadura||''}`), el('td', { class: 'num' }, `0 pts`)),
-            el('tr', {}, el('td', {}, 'Poderes (Pot 5/3 + per 2)'), el('td', { class: 'num' }, `${computed.pontos.breakdown.poderes.total} pts`)),
-            el('tr', {}, el('td', {}, 'Magias (Escola 3 + magia 2)'), el('td', { class: 'num' }, `${computed.pontos.breakdown.magias.total} pts`)),
-            el('tr', { style: 'font-weight:700;background:var(--panel2)' }, el('td', {}, 'TOTAL'), el('td', { class: 'num' }, `${computed.pontos.totalGasto}/${computed.pontos.pontosTotais}`))
+            el('tr', {}, el('td', {}, `Empunhadura GRÁTIS`), el('td', { class: 'num' }, `0 pts`)),
+            el('tr', {}, el('td', {}, `Poderes ${computed.pontos.breakdown.poderes.detalhe.length} Pot 5/3 +2`), el('td', { class: 'num' }, `${computed.pontos.breakdown.poderes.total} pts`)),
+            el('tr', {}, el('td', {}, `Magias ${computed.pontos.breakdown.magias.detalhe.length} Escola 3 +2`), el('td', { class: 'num' }, `${computed.pontos.breakdown.magias.total} pts`)),
+            el('tr', { style: 'font-weight:700;background:var(--panel2)' }, el('td', {}, 'TOTAL'), el('td', { class: 'num' }, `${computed.pontos.totalGasto}/${computed.pontos.pontosTotais} = ${computed.pontos.disponivel} livres`))
           ),
           el('div', { class: 'btn-row', style: 'margin-top:.6rem' },
             el('button', { class: 'btn small', onclick: () => { char.pontosTotais = Math.max(0, (char.pontosTotais||150)-10); storage.salvarPersonagem(char); location.reload(); } }, '−10 Totais'),

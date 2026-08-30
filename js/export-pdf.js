@@ -284,9 +284,26 @@ export async function exportarPDFFicha(computed, db) {
     { label: 'Levantamento', value: `${der.levantamento.umaMao}/${der.levantamento.duasMaos}/${der.levantamento.costas}kg`, hint: '1 mão / 2 mãos / Costas' },
   ]);
 
+  // ================= VANTAGENS =================
+  if (computed.vantagens && computed.vantagens.length) {
+    addSectionTitle('✨', `Vantagens (${computed.vantagens.length})`, `${computed.pontos.breakdown.vantagens.total} pts`);
+    const rows = computed.vantagens.map(v => [v.nome, String(v.custo), v.tipo||'—', v.categoria||'—', (v.descricao||'').slice(0,30)]);
+    addTable(['Nome', 'Custo', 'Tipo', 'Cat', 'Descrição'], rows);
+  }
+  if (computed.desvantagens && computed.desvantagens.length) {
+    addSectionTitle('💀', `Desvantagens (${computed.desvantagens.length})`, `${computed.pontos.breakdown.desvantagens.total} pts (ganha)`);
+    const rows = computed.desvantagens.map(d => [d.nome, String(d.custo), d.tipo||'—', d.categoria||'—', (d.descricao||'').slice(0,30)]);
+    addTable(['Nome', 'Custo', 'Tipo', 'Cat', 'Descrição'], rows);
+  }
+  if (computed.peculiaridades && computed.peculiaridades.length) {
+    addSectionTitle('🌀', `Peculiaridades (${computed.peculiaridades.length})`, `${computed.pontos.breakdown.peculiaridades.total} pts`);
+    const rows = computed.peculiaridades.map(p => [p.nome, String(p.custo), (p.descricao||'').slice(0,50)]);
+    addTable(['Nome', 'Custo', 'Descrição'], rows);
+  }
+
   // ================= PERÍCIAS =================
   if (computed.pericias.length) {
-    addSectionTitle('📜', `Perícias (${computed.pericias.length})`);
+    addSectionTitle('📜', `Perícias (${computed.pericias.length})`, `${computed.pontos.breakdown.pericias.total} pts`);
     const rows = computed.pericias.map(p => [p.nome, p.atributoBase || '—', String(p.valor), p.margemTexto || '—', (p.descricao || '').slice(0,30)]);
     addTable(['Nome', 'Base', 'Valor', 'Margem', 'Descrição'], rows);
   }

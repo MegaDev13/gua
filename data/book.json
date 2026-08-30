@@ -932,6 +932,829 @@
           ]
         }
       ]
+    },
+    {
+      "id": "vantagens",
+      "numero": 7,
+      "titulo": "Vantagens",
+      "descricao": "Catálogo de 45 vantagens compráveis com pontos. Filtros por tipo, categoria, custo.",
+      "secoes": [
+        {
+          "id": "sentidos",
+          "titulo": "Sentidos — 5 itens",
+          "conteudo": "Acuidade Visual — 2 pts — Física — +1 em testes de Visão por nível. Máx +5.\n\nOuvido Aguçado — 2 pts — Física — +1 em testes de Audição por nível.\n\nOlfato/Paladar Apurado — 2 pts — Física — +1 em testes de olfato/paladar por nível.\n\nVisão Noturna — 10 pts — Física — Sem penalidade por escuridão parcial.\n\nVisão no Escuro — 25 pts — Sobrenatural — Enxerga no escuro total.",
+          "subsecoes": [
+            {
+              "titulo": "Acuidade Visual — 2 pts",
+              "conteudo": "+1 em testes de Visão por nível. Máx +5. Tipo: Física Categoria: Sentidos Atributo: IQ "
+            },
+            {
+              "titulo": "Ouvido Aguçado — 2 pts",
+              "conteudo": "+1 em testes de Audição por nível. Tipo: Física Categoria: Sentidos Atributo: IQ "
+            },
+            {
+              "titulo": "Olfato/Paladar Apurado — 2 pts",
+              "conteudo": "+1 em testes de olfato/paladar por nível. Tipo: Física Categoria: Sentidos Atributo: IQ "
+            },
+            {
+              "titulo": "Visão Noturna — 10 pts",
+              "conteudo": "Sem penalidade por escuridão parcial. Tipo: Física Categoria: Sentidos  "
+            },
+            {
+              "titulo": "Visão no Escuro — 25 pts",
+              "conteudo": "Enxerga no escuro total. Tipo: Sobrenatural Categoria: Sentidos  "
+            }
+          ]
+        },
+        {
+          "id": "mental",
+          "titulo": "Mental — 9 itens",
+          "conteudo": "Prontidão — 5 pts — Mental — +1 em todos testes de percepção (Visão, Audição etc) por nível.\n\nIntuição — 15 pts — Mental — GM faz teste IQ secreto quando há escolha importante.\n\nSenso de Direção — 5 pts — Mental — Sempre sabe norte, +3 em Navegação.\n\nMemória Fotográfica — 10 pts — Mental — Lembra de tudo que leu/viu. +10 em testes de memória.\n\nMemória Eidética — 30 pts — Mental — Memória perfeita, como fotográfica melhorada.\n\nTalento Matemático — 10 pts — Mental — +3 em Matemática, Contabilidade, etc. Calcula instantaneamente.\n\nTalento Musical — 2 pts — Mental — +1 por nível em perícias musicais.\n\nFacilidade para Línguas — 2 pts — Mental — +1 por nível para aprender línguas.\n\nForça de Vontade — 4 pts — Mental — +1 por nível em testes de Vontade.",
+          "subsecoes": [
+            {
+              "titulo": "Prontidão — 5 pts",
+              "conteudo": "+1 em todos testes de percepção (Visão, Audição etc) por nível. Tipo: Mental Categoria: Mental Atributo: IQ "
+            },
+            {
+              "titulo": "Intuição — 15 pts",
+              "conteudo": "GM faz teste IQ secreto quando há escolha importante. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Senso de Direção — 5 pts",
+              "conteudo": "Sempre sabe norte, +3 em Navegação. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Memória Fotográfica — 10 pts",
+              "conteudo": "Lembra de tudo que leu/viu. +10 em testes de memória. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Memória Eidética — 30 pts",
+              "conteudo": "Memória perfeita, como fotográfica melhorada. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Talento Matemático — 10 pts",
+              "conteudo": "+3 em Matemática, Contabilidade, etc. Calcula instantaneamente. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Talento Musical — 2 pts",
+              "conteudo": "+1 por nível em perícias musicais. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Facilidade para Línguas — 2 pts",
+              "conteudo": "+1 por nível para aprender línguas. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Força de Vontade — 4 pts",
+              "conteudo": "+1 por nível em testes de Vontade. Tipo: Mental Categoria: Mental  "
+            }
+          ]
+        },
+        {
+          "id": "social",
+          "titulo": "Social — 12 itens",
+          "conteudo": "Carisma — 5 pts — Social — +1 em testes de reação por nível. Máx 5.\n\nVoz — 10 pts — Social — +2 reação quando fala, +2 em Diplomacia, Oratória etc.\n\nEmpatia — 15 pts — Mental — +3 em Psicologia, Detectar Mentiras etc.\n\nIntuição Empática — 30 pts — Sobrenatural — Sente emoções.\n\nAliado — 5 pts — Social — Aliado de 75% dos seus pontos. Custo varia por frequência.\n\nContatos — 5 pts — Social — Contatos úteis, custo por nível de efetividade.\n\nPatrono — 10 pts — Social — Patrono poderoso.\n\nReputação — 5 pts — Social — +1 reação por nível com grupo.\n\nStatus — 5 pts — Social — +1 Status social por nível.\n\nRiqueza Confortável — 10 pts — Social — 2x riqueza inicial.\n\nRico — 20 pts — Social — 5x riqueza.\n\nMuito Rico — 30 pts — Social — 20x riqueza.",
+          "subsecoes": [
+            {
+              "titulo": "Carisma — 5 pts",
+              "conteudo": "+1 em testes de reação por nível. Máx 5. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Voz — 10 pts",
+              "conteudo": "+2 reação quando fala, +2 em Diplomacia, Oratória etc. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Empatia — 15 pts",
+              "conteudo": "+3 em Psicologia, Detectar Mentiras etc. Tipo: Mental Categoria: Social  "
+            },
+            {
+              "titulo": "Intuição Empática — 30 pts",
+              "conteudo": "Sente emoções. Tipo: Sobrenatural Categoria: Social  "
+            },
+            {
+              "titulo": "Aliado — 5 pts",
+              "conteudo": "Aliado de 75% dos seus pontos. Custo varia por frequência. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Contatos — 5 pts",
+              "conteudo": "Contatos úteis, custo por nível de efetividade. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Patrono — 10 pts",
+              "conteudo": "Patrono poderoso. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Reputação — 5 pts",
+              "conteudo": "+1 reação por nível com grupo. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Status — 5 pts",
+              "conteudo": "+1 Status social por nível. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Riqueza Confortável — 10 pts",
+              "conteudo": "2x riqueza inicial. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Rico — 20 pts",
+              "conteudo": "5x riqueza. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Muito Rico — 30 pts",
+              "conteudo": "20x riqueza. Tipo: Social Categoria: Social  "
+            }
+          ]
+        },
+        {
+          "id": "apar_ncia",
+          "titulo": "Aparência — 2 itens",
+          "conteudo": "Aparência Elegante — 15 pts — Social — +2 reação mesmo sexo, +4 sexo oposto.\n\nMuito Elegante — 25 pts — Social — +2 mesmo sexo, +6 oposto.",
+          "subsecoes": [
+            {
+              "titulo": "Aparência Elegante — 15 pts",
+              "conteudo": "+2 reação mesmo sexo, +4 sexo oposto. Tipo: Social Categoria: Aparência  "
+            },
+            {
+              "titulo": "Muito Elegante — 25 pts",
+              "conteudo": "+2 mesmo sexo, +6 oposto. Tipo: Social Categoria: Aparência  "
+            }
+          ]
+        },
+        {
+          "id": "f_sica",
+          "titulo": "Física — 9 itens",
+          "conteudo": "Ambidestria — 10 pts — Física — Sem penalidade -4 por usar mão inábil.\n\nAlta Tolerância à Dor — 10 pts — Física — +3 em testes de HT contra dor, choque, tortura.\n\nResistência a Doenças — 5 pts — Física — +8 em testes de HT contra doenças.\n\nRecuperação Rápida — 5 pts — Física — +5 em testes de HT para recuperar PV.\n\nResistência a Veneno — 5 pts — Física — +3 HT vs venenos.\n\nRD - Resistência a Dano — 10 pts — Física — RD 1 custa 10 pts, RD 2 custa 25 pts. Pele grossa.\n\nImunidade a Doença — 10 pts — Física — Imune a todas doenças mundanas.\n\nLongevidade — 5 pts — Física — Envelhece devagar.\n\nVelocidade Básica +1 — 10 pts — Física — +1 em Velocidade Básica.",
+          "subsecoes": [
+            {
+              "titulo": "Ambidestria — 10 pts",
+              "conteudo": "Sem penalidade -4 por usar mão inábil. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Alta Tolerância à Dor — 10 pts",
+              "conteudo": "+3 em testes de HT contra dor, choque, tortura. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Resistência a Doenças — 5 pts",
+              "conteudo": "+8 em testes de HT contra doenças. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Recuperação Rápida — 5 pts",
+              "conteudo": "+5 em testes de HT para recuperar PV. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Resistência a Veneno — 5 pts",
+              "conteudo": "+3 HT vs venenos. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "RD - Resistência a Dano — 10 pts",
+              "conteudo": "RD 1 custa 10 pts, RD 2 custa 25 pts. Pele grossa. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Imunidade a Doença — 10 pts",
+              "conteudo": "Imune a todas doenças mundanas. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Longevidade — 5 pts",
+              "conteudo": "Envelhece devagar. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Velocidade Básica +1 — 10 pts",
+              "conteudo": "+1 em Velocidade Básica. Tipo: Física Categoria: Física  "
+            }
+          ]
+        },
+        {
+          "id": "combate",
+          "titulo": "Combate — 1 itens",
+          "conteudo": "Reflexos em Combate — 15 pts — Física — +1 em defesas ativas, +1 em testes de surpresa, nunca congela.",
+          "subsecoes": [
+            {
+              "titulo": "Reflexos em Combate — 15 pts",
+              "conteudo": "+1 em defesas ativas, +1 em testes de surpresa, nunca congela. Tipo: Física Categoria: Combate  "
+            }
+          ]
+        },
+        {
+          "id": "mundana",
+          "titulo": "Mundana — 2 itens",
+          "conteudo": "Sorte — 15 pts — Mundana — Uma vez por hora, pode refazer um teste ruim.\n\nSorte Grande — 30 pts — Mundana — Como Sorte, mas a cada 15 min.",
+          "subsecoes": [
+            {
+              "titulo": "Sorte — 15 pts",
+              "conteudo": "Uma vez por hora, pode refazer um teste ruim. Tipo: Mundana Categoria: Mundana  "
+            },
+            {
+              "titulo": "Sorte Grande — 30 pts",
+              "conteudo": "Como Sorte, mas a cada 15 min. Tipo: Mundana Categoria: Mundana  "
+            }
+          ]
+        },
+        {
+          "id": "sobrenatural",
+          "titulo": "Sobrenatural — 2 itens",
+          "conteudo": "Imortalidade — 15 pts — Sobrenatural — Não envelhece, imune a envelhecimento.\n\nRegeneração — 10 pts — Sobrenatural — Cura 1 PV por dia extra por nível.",
+          "subsecoes": [
+            {
+              "titulo": "Imortalidade — 15 pts",
+              "conteudo": "Não envelhece, imune a envelhecimento. Tipo: Sobrenatural Categoria: Sobrenatural  "
+            },
+            {
+              "titulo": "Regeneração — 10 pts",
+              "conteudo": "Cura 1 PV por dia extra por nível. Tipo: Sobrenatural Categoria: Sobrenatural  "
+            }
+          ]
+        },
+        {
+          "id": "magia",
+          "titulo": "Magia — 1 itens",
+          "conteudo": "Aptidão Mágica — 15 pts — Sobrenatural — Permite aprender magias. 15 pts nível 1, 10 pts níveis seguintes. IQ + Aptidão para magias.",
+          "subsecoes": [
+            {
+              "titulo": "Aptidão Mágica — 15 pts",
+              "conteudo": "Permite aprender magias. 15 pts nível 1, 10 pts níveis seguintes. IQ + Aptidão para magias. Tipo: Sobrenatural Categoria: Magia  "
+            }
+          ]
+        },
+        {
+          "id": "psi",
+          "titulo": "Psi — 2 itens",
+          "conteudo": "Poder Psi Latente — 5 pts — Sobrenatural — Permite desenvolver poderes psi.\n\nResistência Psi — 5 pts — Sobrenatural — +3 por nível vs poderes psi.",
+          "subsecoes": [
+            {
+              "titulo": "Poder Psi Latente — 5 pts",
+              "conteudo": "Permite desenvolver poderes psi. Tipo: Sobrenatural Categoria: Psi  "
+            },
+            {
+              "titulo": "Resistência Psi — 5 pts",
+              "conteudo": "+3 por nível vs poderes psi. Tipo: Sobrenatural Categoria: Psi  "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desvantagens",
+      "numero": 8,
+      "titulo": "Desvantagens",
+      "descricao": "Catálogo de 44 desvantagens que dão pontos.",
+      "secoes": [
+        {
+          "id": "apar_ncia",
+          "titulo": "Aparência — 3 itens",
+          "conteudo": "Aparência Hedionda — -20 pts — Social — -4 em testes de reação, exceto alienígenas.\n\nFeio — -10 pts — Social — -2 em testes de reação.\n\nDesagradável — -5 pts — Social — -1 reação mesma raça.",
+          "subsecoes": [
+            {
+              "titulo": "Aparência Hedionda — -20 pts",
+              "conteudo": "-4 em testes de reação, exceto alienígenas. Tipo: Social Categoria: Aparência  "
+            },
+            {
+              "titulo": "Feio — -10 pts",
+              "conteudo": "-2 em testes de reação. Tipo: Social Categoria: Aparência  "
+            },
+            {
+              "titulo": "Desagradável — -5 pts",
+              "conteudo": "-1 reação mesma raça. Tipo: Social Categoria: Aparência  "
+            }
+          ]
+        },
+        {
+          "id": "f_sica",
+          "titulo": "Física — 8 itens",
+          "conteudo": "Mau Cheiro — -10 pts — Física — Cheira mal, -2 reação.\n\nHemofilia — -10 pts — Física — Sangra muito, HT máx 10.\n\nEpilepsia — -30 pts — Física — Ataques quando estressado, teste HT.\n\nAsma — -5 pts — Física — -2 HT em esforço, teste HT.\n\nVício — -10 pts — Física — Vício em droga, custo -5 a -20 por severidade.\n\nAlcoolismo — -15 pts — Física — Vício em álcool.\n\nDependência — -10 pts — Física — Depende de substância.\n\nSono Pesado — -5 pts — Física — Dorme pesado, -2 para acordar.",
+          "subsecoes": [
+            {
+              "titulo": "Mau Cheiro — -10 pts",
+              "conteudo": "Cheira mal, -2 reação. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Hemofilia — -10 pts",
+              "conteudo": "Sangra muito, HT máx 10. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Epilepsia — -30 pts",
+              "conteudo": "Ataques quando estressado, teste HT. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Asma — -5 pts",
+              "conteudo": "-2 HT em esforço, teste HT. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Vício — -10 pts",
+              "conteudo": "Vício em droga, custo -5 a -20 por severidade. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Alcoolismo — -15 pts",
+              "conteudo": "Vício em álcool. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Dependência — -10 pts",
+              "conteudo": "Depende de substância. Tipo: Física Categoria: Física  "
+            },
+            {
+              "titulo": "Sono Pesado — -5 pts",
+              "conteudo": "Dorme pesado, -2 para acordar. Tipo: Física Categoria: Física  "
+            }
+          ]
+        },
+        {
+          "id": "social",
+          "titulo": "Social — 9 itens",
+          "conteudo": "Gagueira — -10 pts — Social — -2 reação quando fala, -2 Diplomacia.\n\nPobreza — -10 pts — Social — 0,5x riqueza inicial.\n\nMiséria — -25 pts — Social — 0,2x riqueza, sem casa.\n\nDever — -10 pts — Social — Dever para com grupo, -10 a -20 por frequência.\n\nIntolerância — -10 pts — Mental — -3 reação com grupo intolerado.\n\nInimigo — -10 pts — Social — Inimigo poderoso.\n\nSegredo — -10 pts — Social — Segredo que pode arruinar se revelado.\n\nReputação Negativa — -5 pts — Social — -1 reação por nível com grupo.\n\nEstigma Social — -10 pts — Social — Minoria, criminoso, etc.",
+          "subsecoes": [
+            {
+              "titulo": "Gagueira — -10 pts",
+              "conteudo": "-2 reação quando fala, -2 Diplomacia. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Pobreza — -10 pts",
+              "conteudo": "0,5x riqueza inicial. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Miséria — -25 pts",
+              "conteudo": "0,2x riqueza, sem casa. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Dever — -10 pts",
+              "conteudo": "Dever para com grupo, -10 a -20 por frequência. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Intolerância — -10 pts",
+              "conteudo": "-3 reação com grupo intolerado. Tipo: Mental Categoria: Social  "
+            },
+            {
+              "titulo": "Inimigo — -10 pts",
+              "conteudo": "Inimigo poderoso. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Segredo — -10 pts",
+              "conteudo": "Segredo que pode arruinar se revelado. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Reputação Negativa — -5 pts",
+              "conteudo": "-1 reação por nível com grupo. Tipo: Social Categoria: Social  "
+            },
+            {
+              "titulo": "Estigma Social — -10 pts",
+              "conteudo": "Minoria, criminoso, etc. Tipo: Social Categoria: Social  "
+            }
+          ]
+        },
+        {
+          "id": "sentidos",
+          "titulo": "Sentidos — 5 itens",
+          "conteudo": "Cegueira — -50 pts — Física — Cego total. -6 em combate corpo a corpo, não pode mirar.\n\nSurdez — -20 pts — Física — Surdo total. -2 IQ em situações que precisam ouvir.\n\nDaltonismo — -10 pts — Física — Não distingue cores.\n\nMiopia — -10 pts — Física — -2 Visão sem óculos, -6 sem óculos longe.\n\nCaolho — -15 pts — Física — -1 DX em combate e -3 em ataques à distância sem tapa-olho.",
+          "subsecoes": [
+            {
+              "titulo": "Cegueira — -50 pts",
+              "conteudo": "Cego total. -6 em combate corpo a corpo, não pode mirar. Tipo: Física Categoria: Sentidos  "
+            },
+            {
+              "titulo": "Surdez — -20 pts",
+              "conteudo": "Surdo total. -2 IQ em situações que precisam ouvir. Tipo: Física Categoria: Sentidos  "
+            },
+            {
+              "titulo": "Daltonismo — -10 pts",
+              "conteudo": "Não distingue cores. Tipo: Física Categoria: Sentidos  "
+            },
+            {
+              "titulo": "Miopia — -10 pts",
+              "conteudo": "-2 Visão sem óculos, -6 sem óculos longe. Tipo: Física Categoria: Sentidos  "
+            },
+            {
+              "titulo": "Caolho — -15 pts",
+              "conteudo": "-1 DX em combate e -3 em ataques à distância sem tapa-olho. Tipo: Física Categoria: Sentidos  "
+            }
+          ]
+        },
+        {
+          "id": "mental",
+          "titulo": "Mental — 19 itens",
+          "conteudo": "Código de Honra — -10 pts — Mental — Segue código rígido.\n\nHonestidade — -10 pts — Mental — Sempre obedece lei, teste IQ-4 para desobedecer.\n\nVerdadeiro (Sincero) — -5 pts — Mental — Não mente, -5 em Mentira.\n\nCuriosidade — -5 pts — Mental — Teste IQ para resistir a investigar.\n\nAvareza — -10 pts — Mental — Teste IQ para gastar dinheiro.\n\nImpulsividade — -10 pts — Mental — Age sem pensar, teste IQ.\n\nTeimosia — -5 pts — Mental — Teimoso, -1 reação com teimosos.\n\nFobia — -10 pts — Mental — Medo irracional, teste Vontade.\n\nFobia Leve — -5 pts — Mental — Medo leve.\n\nFobia Grave — -20 pts — Mental — Pânico total.\n\nSanguinolento — -10 pts — Mental — Sempre luta até matar.\n\nParanóia — -10 pts — Mental — Desconfia de todos.\n\nMegalomania — -10 pts — Mental — Acha que é destinado a grandeza.\n\nCompulsão — -5 pts — Mental — Compulsão por algo.\n\nAnalfabetismo — -10 pts — Mental — Não sabe ler/escrever.\n\nDistração — -1 pts — Mental — Distraído, teste IQ-5 para notar detalhes.\n\nVontade Fraca — -8 pts — Mental — -1 por nível em testes de Vontade.\n\nPerda de Memória Parcial — -10 pts — Mental — Esquece passado.\n\nSem Senso de Humor — -10 pts — Mental — -2 reação com engraçados.",
+          "subsecoes": [
+            {
+              "titulo": "Código de Honra — -10 pts",
+              "conteudo": "Segue código rígido. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Honestidade — -10 pts",
+              "conteudo": "Sempre obedece lei, teste IQ-4 para desobedecer. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Verdadeiro (Sincero) — -5 pts",
+              "conteudo": "Não mente, -5 em Mentira. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Curiosidade — -5 pts",
+              "conteudo": "Teste IQ para resistir a investigar. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Avareza — -10 pts",
+              "conteudo": "Teste IQ para gastar dinheiro. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Impulsividade — -10 pts",
+              "conteudo": "Age sem pensar, teste IQ. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Teimosia — -5 pts",
+              "conteudo": "Teimoso, -1 reação com teimosos. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Fobia — -10 pts",
+              "conteudo": "Medo irracional, teste Vontade. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Fobia Leve — -5 pts",
+              "conteudo": "Medo leve. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Fobia Grave — -20 pts",
+              "conteudo": "Pânico total. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Sanguinolento — -10 pts",
+              "conteudo": "Sempre luta até matar. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Paranóia — -10 pts",
+              "conteudo": "Desconfia de todos. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Megalomania — -10 pts",
+              "conteudo": "Acha que é destinado a grandeza. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Compulsão — -5 pts",
+              "conteudo": "Compulsão por algo. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Analfabetismo — -10 pts",
+              "conteudo": "Não sabe ler/escrever. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Distração — -1 pts",
+              "conteudo": "Distraído, teste IQ-5 para notar detalhes. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Vontade Fraca — -8 pts",
+              "conteudo": "-1 por nível em testes de Vontade. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Perda de Memória Parcial — -10 pts",
+              "conteudo": "Esquece passado. Tipo: Mental Categoria: Mental  "
+            },
+            {
+              "titulo": "Sem Senso de Humor — -10 pts",
+              "conteudo": "-2 reação com engraçados. Tipo: Mental Categoria: Mental  "
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "peculiaridades",
+      "numero": 9,
+      "titulo": "Peculiaridades",
+      "descricao": "20 peculiaridades -1 ponto cada, máx 5.",
+      "secoes": [
+        {
+          "id": "lista",
+          "titulo": "Lista de Peculiaridades",
+          "conteudo": "Mania por Limpeza — -1 pts — Sempre limpa armas, armadura etc.\n\nFala Sozinho — -1 pts — Murmura consigo mesmo.\n\nSonhador — -1 pts — Distraído, sonha acordado.\n\nNão Gosta de Altura — -1 pts — Desconfortável em altura, mas não fobia.\n\nColecionador — -1 pts — Coleciona algo (moedas, facas etc).\n\nPontual — -1 pts — Sempre pontual, irrita-se com atraso.\n\nDesorganizado — -1 pts — Mochila bagunçada.\n\nMentiras Brancas — -1 pts — Mente por educação.\n\nSupersticioso — -1 pts — Acredita em superstições leves.\n\nNão Gosta de Gatos — -1 pts — Evita gatos.\n\nAma Cães — -1 pts — Sempre acaricia cães.\n\nFala Alto — -1 pts — Voz alta, -1 Furtividade quando fala.\n\nFala Baixo — -1 pts — Precisa repetir.\n\nGosta de Doces — -1 pts — Sempre come doces.\n\nReclama do Chefe — -1 pts — Sempre reclama da autoridade.\n\nCanta Mal — -1 pts — Canta quando nervoso, mal.\n\nSó Usa Preto — -1 pts — Guarda-roupa só preto.\n\nOdeia Desperdício — -1 pts — Guarda tudo.\n\nNerd — -1 pts — Fala de regras o tempo todo.\n\nPeculiaridade Custom — -1 pts — Crie sua peculiaridade."
+        }
+      ]
+    },
+    {
+      "id": "pericias_catalog",
+      "numero": 10,
+      "titulo": "Perícias — Catálogo",
+      "descricao": "Catálogo de 62 perícias com filtros acumulativos por tipo, atributo, categoria, dificuldade.",
+      "secoes": [
+        {
+          "id": "movimento",
+          "titulo": "Movimento — 7 itens",
+          "conteudo": "Acrobacia — 2 pts — Física — Saltos, cambalhotas, equilíbrio.\n\nCavalgar — 2 pts — Física — Montar cavalos. Base DX.\n\nCondução (Automóvel) — 2 pts — Física — Dirigir carro.\n\nCondução (Moto) — 2 pts — Física — Dirigir moto.\n\nCorrida — 2 pts — Física — Correr longa distância.\n\nEscalada — 2 pts — Física — Escalar paredes. Tentativa DX-5.\n\nNatação — 2 pts — Física — Nadar. Tentativa ST-5 ou DX-5.",
+          "subsecoes": [
+            {
+              "titulo": "Acrobacia — 2 pts",
+              "conteudo": "Saltos, cambalhotas, equilíbrio. Tipo: Física Categoria: Movimento Atributo: DX Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Cavalgar — 2 pts",
+              "conteudo": "Montar cavalos. Base DX. Tipo: Física Categoria: Movimento Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Condução (Automóvel) — 2 pts",
+              "conteudo": "Dirigir carro. Tipo: Física Categoria: Movimento Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Condução (Moto) — 2 pts",
+              "conteudo": "Dirigir moto. Tipo: Física Categoria: Movimento Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Corrida — 2 pts",
+              "conteudo": "Correr longa distância. Tipo: Física Categoria: Movimento Atributo: HT Dificuldade: Médio"
+            },
+            {
+              "titulo": "Escalada — 2 pts",
+              "conteudo": "Escalar paredes. Tentativa DX-5. Tipo: Física Categoria: Movimento Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Natação — 2 pts",
+              "conteudo": "Nadar. Tentativa ST-5 ou DX-5. Tipo: Física Categoria: Movimento Atributo: ST Dificuldade: Fácil"
+            }
+          ]
+        },
+        {
+          "id": "furtividade",
+          "titulo": "Furtividade — 4 itens",
+          "conteudo": "Arrombamento — 2 pts — Mental — Abrir fechaduras. Tentativa sem treino IQ-5.\n\nCamuflagem — 2 pts — Mental — Esconder-se na natureza.\n\nDesarmar Armadilha — 2 pts — Mental — Desarmar armadilhas.\n\nFurtividade — 2 pts — Física — Mover-se silencioso.",
+          "subsecoes": [
+            {
+              "titulo": "Arrombamento — 2 pts",
+              "conteudo": "Abrir fechaduras. Tentativa sem treino IQ-5. Tipo: Mental Categoria: Furtividade Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Camuflagem — 2 pts",
+              "conteudo": "Esconder-se na natureza. Tipo: Mental Categoria: Furtividade Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Desarmar Armadilha — 2 pts",
+              "conteudo": "Desarmar armadilhas. Tipo: Mental Categoria: Furtividade Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Furtividade — 2 pts",
+              "conteudo": "Mover-se silencioso. Tipo: Física Categoria: Furtividade Atributo: DX Dificuldade: Médio"
+            }
+          ]
+        },
+        {
+          "id": "combate",
+          "titulo": "Combate — 10 itens",
+          "conteudo": "Armas Brancas (Espada) — 2 pts — Física — Usar espadas.\n\nArmas de Fogo (Pistola) — 2 pts — Física — Pistolas e revólveres.\n\nArmas de Fogo (Rifle) — 2 pts — Física — Rifles.\n\nArremesso — 2 pts — Física — Arremessar facas, machados.\n\nArtilharia — 2 pts — Mental — Operar artilharia.\n\nEsquiva — 2 pts — Física — Esquivar de ataques.\n\nArremesso de Faca — 2 pts — Física — Arremessar facas.\n\nBriga — 2 pts — Física — Luta desarmada básica.\n\nKaratê — 2 pts — Física — Arte marcial.\n\nJudô — 2 pts — Física — Arremessos e imobilizações.",
+          "subsecoes": [
+            {
+              "titulo": "Armas Brancas (Espada) — 2 pts",
+              "conteudo": "Usar espadas. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Armas de Fogo (Pistola) — 2 pts",
+              "conteudo": "Pistolas e revólveres. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Armas de Fogo (Rifle) — 2 pts",
+              "conteudo": "Rifles. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Arremesso — 2 pts",
+              "conteudo": "Arremessar facas, machados. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Artilharia — 2 pts",
+              "conteudo": "Operar artilharia. Tipo: Mental Categoria: Combate Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Esquiva — 2 pts",
+              "conteudo": "Esquivar de ataques. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Arremesso de Faca — 2 pts",
+              "conteudo": "Arremessar facas. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Briga — 2 pts",
+              "conteudo": "Luta desarmada básica. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Karatê — 2 pts",
+              "conteudo": "Arte marcial. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Judô — 2 pts",
+              "conteudo": "Arremessos e imobilizações. Tipo: Física Categoria: Combate Atributo: DX Dificuldade: Difícil"
+            }
+          ]
+        },
+        {
+          "id": "social",
+          "titulo": "Social — 6 itens",
+          "conteudo": "Detectar Mentira — 2 pts — Mental — Perceber mentiras.\n\nDiplomacia — 2 pts — Mental — Negociar, convencer.\n\nDissimulação — 2 pts — Mental — Mentir, disfarçar.\n\nLiderança — 2 pts — Mental — Liderar grupo.\n\nIntimidação — 2 pts — Física — Amedrontar.\n\nSex Appeal — 2 pts — Física — Sedução.",
+          "subsecoes": [
+            {
+              "titulo": "Detectar Mentira — 2 pts",
+              "conteudo": "Perceber mentiras. Tipo: Mental Categoria: Social Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Diplomacia — 2 pts",
+              "conteudo": "Negociar, convencer. Tipo: Mental Categoria: Social Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Dissimulação — 2 pts",
+              "conteudo": "Mentir, disfarçar. Tipo: Mental Categoria: Social Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Liderança — 2 pts",
+              "conteudo": "Liderar grupo. Tipo: Mental Categoria: Social Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Intimidação — 2 pts",
+              "conteudo": "Amedrontar. Tipo: Física Categoria: Social Atributo: ST Dificuldade: Médio"
+            },
+            {
+              "titulo": "Sex Appeal — 2 pts",
+              "conteudo": "Sedução. Tipo: Física Categoria: Social Atributo: HT Dificuldade: Médio"
+            }
+          ]
+        },
+        {
+          "id": "conhecimento",
+          "titulo": "Conhecimento — 12 itens",
+          "conteudo": "Estratégia — 2 pts — Mental — Planejar batalhas.\n\nPrimeiros Socorros — 2 pts — Mental — Curar ferimentos leves.\n\nMedicina — 2 pts — Mental — Cirurgia, diagnóstico.\n\nHistória — 2 pts — Mental — Conhecimento histórico.\n\nOcultismo — 2 pts — Mental — Conhecimento sobrenatural.\n\nAntropologia — 2 pts — Mental — Culturas.\n\nLinguística — 2 pts — Mental — Aprender línguas.\n\nMatemática — 2 pts — Mental — Cálculos avançados.\n\nFísica — 2 pts — Mental — Física.\n\nQuímica — 2 pts — Mental — Química.\n\nObservação — 2 pts — Mental — Notar detalhes.\n\nPsicologia — 2 pts — Mental — Entender mente.",
+          "subsecoes": [
+            {
+              "titulo": "Estratégia — 2 pts",
+              "conteudo": "Planejar batalhas. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Primeiros Socorros — 2 pts",
+              "conteudo": "Curar ferimentos leves. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Medicina — 2 pts",
+              "conteudo": "Cirurgia, diagnóstico. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "História — 2 pts",
+              "conteudo": "Conhecimento histórico. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Ocultismo — 2 pts",
+              "conteudo": "Conhecimento sobrenatural. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Antropologia — 2 pts",
+              "conteudo": "Culturas. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Linguística — 2 pts",
+              "conteudo": "Aprender línguas. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Matemática — 2 pts",
+              "conteudo": "Cálculos avançados. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Física — 2 pts",
+              "conteudo": "Física. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Química — 2 pts",
+              "conteudo": "Química. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Observação — 2 pts",
+              "conteudo": "Notar detalhes. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Psicologia — 2 pts",
+              "conteudo": "Entender mente. Tipo: Mental Categoria: Conhecimento Atributo: IQ Dificuldade: Médio"
+            }
+          ]
+        },
+        {
+          "id": "t_cnica",
+          "titulo": "Técnica — 3 itens",
+          "conteudo": "Eletrônica — 2 pts — Mental — Consertar eletrônicos.\n\nMecânica — 2 pts — Mental — Consertar máquinas.\n\nComputação — 2 pts — Mental — Programar, hackear.",
+          "subsecoes": [
+            {
+              "titulo": "Eletrônica — 2 pts",
+              "conteudo": "Consertar eletrônicos. Tipo: Mental Categoria: Técnica Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Mecânica — 2 pts",
+              "conteudo": "Consertar máquinas. Tipo: Mental Categoria: Técnica Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Computação — 2 pts",
+              "conteudo": "Programar, hackear. Tipo: Mental Categoria: Técnica Atributo: IQ Dificuldade: Médio"
+            }
+          ]
+        },
+        {
+          "id": "sobreviv_ncia",
+          "titulo": "Sobrevivência — 5 itens",
+          "conteudo": "Rastreamento — 2 pts — Mental — Seguir rastros.\n\nSobrevivência — 2 pts — Mental — Sobreviver na natureza.\n\nArmadilhas — 2 pts — Mental — Criar armadilhas.\n\nPesca — 2 pts — Mental — Pescar.\n\nCaça — 2 pts — Mental — Caçar.",
+          "subsecoes": [
+            {
+              "titulo": "Rastreamento — 2 pts",
+              "conteudo": "Seguir rastros. Tipo: Mental Categoria: Sobrevivência Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Sobrevivência — 2 pts",
+              "conteudo": "Sobreviver na natureza. Tipo: Mental Categoria: Sobrevivência Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Armadilhas — 2 pts",
+              "conteudo": "Criar armadilhas. Tipo: Mental Categoria: Sobrevivência Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Pesca — 2 pts",
+              "conteudo": "Pescar. Tipo: Mental Categoria: Sobrevivência Atributo: IQ Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Caça — 2 pts",
+              "conteudo": "Caçar. Tipo: Mental Categoria: Sobrevivência Atributo: IQ Dificuldade: Médio"
+            }
+          ]
+        },
+        {
+          "id": "art_stica",
+          "titulo": "Artística — 6 itens",
+          "conteudo": "Atuação — 2 pts — Mental — Atuar.\n\nCanto — 2 pts — Física — Cantar.\n\nDança — 2 pts — Física — Dançar.\n\nInstrumento Musical — 2 pts — Mental — Tocar instrumento.\n\nDesenho — 2 pts — Física — Desenhar.\n\nEscultura — 2 pts — Física — Esculpir.",
+          "subsecoes": [
+            {
+              "titulo": "Atuação — 2 pts",
+              "conteudo": "Atuar. Tipo: Mental Categoria: Artística Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Canto — 2 pts",
+              "conteudo": "Cantar. Tipo: Física Categoria: Artística Atributo: HT Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Dança — 2 pts",
+              "conteudo": "Dançar. Tipo: Física Categoria: Artística Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Instrumento Musical — 2 pts",
+              "conteudo": "Tocar instrumento. Tipo: Mental Categoria: Artística Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Desenho — 2 pts",
+              "conteudo": "Desenhar. Tipo: Física Categoria: Artística Atributo: DX Dificuldade: Médio"
+            },
+            {
+              "titulo": "Escultura — 2 pts",
+              "conteudo": "Esculpir. Tipo: Física Categoria: Artística Atributo: DX Dificuldade: Médio"
+            }
+          ]
+        },
+        {
+          "id": "profissional",
+          "titulo": "Profissional — 3 itens",
+          "conteudo": "Cozinha — 2 pts — Mental — Cozinhar.\n\nCarpintaria — 2 pts — Mental — Trabalhar madeira.\n\nFerreiro — 2 pts — Mental — Forjar metal.",
+          "subsecoes": [
+            {
+              "titulo": "Cozinha — 2 pts",
+              "conteudo": "Cozinhar. Tipo: Mental Categoria: Profissional Atributo: IQ Dificuldade: Fácil"
+            },
+            {
+              "titulo": "Carpintaria — 2 pts",
+              "conteudo": "Trabalhar madeira. Tipo: Mental Categoria: Profissional Atributo: IQ Dificuldade: Médio"
+            },
+            {
+              "titulo": "Ferreiro — 2 pts",
+              "conteudo": "Forjar metal. Tipo: Mental Categoria: Profissional Atributo: IQ Dificuldade: Médio"
+            }
+          ]
+        },
+        {
+          "id": "m_gica",
+          "titulo": "Mágica — 3 itens",
+          "conteudo": "Alquimia — 2 pts — Mental — Criar poções.\n\nTaumaturgia — 2 pts — Mental — Teoria mágica.\n\nExorcismo — 2 pts — Mental — Banir espíritos.",
+          "subsecoes": [
+            {
+              "titulo": "Alquimia — 2 pts",
+              "conteudo": "Criar poções. Tipo: Mental Categoria: Mágica Atributo: IQ Dificuldade: Muito Difícil"
+            },
+            {
+              "titulo": "Taumaturgia — 2 pts",
+              "conteudo": "Teoria mágica. Tipo: Mental Categoria: Mágica Atributo: IQ Dificuldade: Muito Difícil"
+            },
+            {
+              "titulo": "Exorcismo — 2 pts",
+              "conteudo": "Banir espíritos. Tipo: Mental Categoria: Mágica Atributo: IQ Dificuldade: Difícil"
+            }
+          ]
+        },
+        {
+          "id": "psi",
+          "titulo": "Psi — 3 itens",
+          "conteudo": "Hipnotismo — 2 pts — Mental — Hipnotizar.\n\nMeditação — 2 pts — Mental — Meditar, recuperar PF.\n\nDetecção de Mentiras Avançada — 2 pts — Mental — Versão psi.",
+          "subsecoes": [
+            {
+              "titulo": "Hipnotismo — 2 pts",
+              "conteudo": "Hipnotizar. Tipo: Mental Categoria: Psi Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Meditação — 2 pts",
+              "conteudo": "Meditar, recuperar PF. Tipo: Mental Categoria: Psi Atributo: IQ Dificuldade: Difícil"
+            },
+            {
+              "titulo": "Detecção de Mentiras Avançada — 2 pts",
+              "conteudo": "Versão psi. Tipo: Mental Categoria: Psi Atributo: IQ Dificuldade: Difícil"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

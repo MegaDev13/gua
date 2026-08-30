@@ -1,0 +1,25 @@
+{
+  "_fonte": "Peculiaridades GAU — manias, hábitos, -1 ponto cada",
+  "peculiaridades": [
+    { "id": "pec_mania_limpeza", "nome": "Mania por Limpeza", "custo": -1, "tipo": "Mental", "categoria": "Hábito", "descricao": "Sempre limpa armas, armadura etc." },
+    { "id": "pec_fala_sozinho", "nome": "Fala Sozinho", "custo": -1, "tipo": "Social", "categoria": "Social", "descricao": "Murmura consigo mesmo." },
+    { "id": "pec_sonhador", "nome": "Sonhador", "custo": -1, "tipo": "Mental", "categoria": "Mental", "descricao": "Distraído, sonha acordado." },
+    { "id": "pec_odeia_altura", "nome": "Não Gosta de Altura", "custo": -1, "tipo": "Mental", "categoria": "Mental", "descricao": "Desconfortável em altura, mas não fobia." },
+    { "id": "pec_colecionador", "nome": "Colecionador", "custo": -1, "tipo": "Mental", "categoria": "Hábito", "descricao": "Coleciona algo (moedas, facas etc)." },
+    { "id": "pec_pontual", "nome": "Pontual", "custo": -1, "tipo": "Mental", "categoria": "Hábito", "descricao": "Sempre pontual, irrita-se com atraso." },
+    { "id": "pec_desorganizado", "nome": "Desorganizado", "custo": -1, "tipo": "Mental", "categoria": "Hábito", "descricao": "Mochila bagunçada." },
+    { "id": "pec_mentiroso_branco", "nome": "Mentiras Brancas", "custo": -1, "tipo": "Social", "categoria": "Social", "descricao": "Mente por educação." },
+    { "id": "pec_ supersticioso", "nome": "Supersticioso", "custo": -1, "tipo": "Mental", "categoria": "Mental", "descricao": "Acredita em superstições leves." },
+    { "id": "pec_odeia_gatos", "nome": "Não Gosta de Gatos", "custo": -1, "tipo": "Mental", "categoria": "Mental", "descricao": "Evita gatos." },
+    { "id": "pec_ama_cao", "nome": "Ama Cães", "custo": -1, "tipo": "Mental", "categoria": "Mental", "descricao": "Sempre acaricia cães." },
+    { "id": "pec_fala_alto", "nome": "Fala Alto", "custo": -1, "tipo": "Social", "categoria": "Social", "descricao": "Voz alta, -1 Furtividade quando fala." },
+    { "id": "pec_fala_baixo", "nome": "Fala Baixo", "custo": -1, "tipo": "Social", "categoria": "Social", "descricao": "Precisa repetir." },
+    { "id": "pec_gosta_doces", "nome": "Gosta de Doces", "custo": -1, "tipo": "Física", "categoria": "Hábito", "descricao": "Sempre come doces." },
+    { "id": "pec_odeia_chefe", "nome": "Reclama do Chefe", "custo": -1, "tipo": "Social", "categoria": "Social", "descricao": "Sempre reclama da autoridade." },
+    { "id": "pec_canta_mal", "nome": "Canta Mal", "custo": -1, "tipo": "Social", "categoria": "Social", "descricao": "Canta quando nervoso, mal." },
+    { "id": "pec_usa_preto", "nome": "Só Usa Preto", "custo": -1, "tipo": "Social", "categoria": "Aparência", "descricao": "Guarda-roupa só preto." },
+    { "id": "pec_odeia_desperdicio", "nome": "Odeia Desperdício", "custo": -1, "tipo": "Mental", "categoria": "Hábito", "descricao": "Guarda tudo." },
+    { "id": "pec_nerd", "nome": "Nerd", "custo": -1, "tipo": "Mental", "categoria": "Mental", "descricao": "Fala de regras o tempo todo." },
+    { "id": "pec_custom", "nome": "Peculiaridade Custom", "custo": -1, "tipo": "Mundana", "categoria": "Custom", "descricao": "Crie sua peculiaridade." }
+  ]
+}

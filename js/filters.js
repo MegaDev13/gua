@@ -7,6 +7,11 @@ export const FILTER_CATEGORIES = [
   { id: 'tabela', label: 'Tabelas', icon: '📊' },
   { id: 'empunhadura', label: 'Empunhaduras', icon: '🤲' },
   { id: 'poder', label: 'Poderes', icon: '🧠' },
+  { id: 'magia', label: 'Magias', icon: '🔮' },
+  { id: 'vantagem', label: 'Vantagens', icon: '✨' },
+  { id: 'desvantagem', label: 'Desvantagens', icon: '💀' },
+  { id: 'pericia', label: 'Perícias', icon: '📜' },
+  { id: 'peculiaridade', label: 'Peculiaridades', icon: '🌀' },
   { id: 'escala', label: 'Escalas', icon: '📈' }
 ];
 

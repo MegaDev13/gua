@@ -161,13 +161,53 @@ export function computeCharacter(db, char) {
   // Empunhadura
   const empunhadura = char.empunhadura ? (db.empunhaduras.empunhaduras || []).find(e => e.id === char.empunhadura) : null;
 
+  // Vantagens, Desvantagens, Peculiaridades
+  const vantagensRaw = char.vantagens || [];
+  const desvantagensRaw = char.desvantagens || [];
+  const peculiaridadesRaw = char.peculiaridades || [];
+
+  const vantagensCalc = (vantagensRaw || []).map(v => {
+    const def = (db.vantagens?.vantagens || []).find(x => x.id === v.id);
+    return {
+      ...v,
+      nome: v.nome || def?.nome || v.id,
+      custo: v.custo ?? def?.custo ?? 0,
+      descricao: v.descricao || def?.descricao || '',
+      categoria: v.categoria || def?.categoria || 'Custom',
+      tipo: v.tipo || def?.tipo || 'Mundana',
+      custom: !!v.custom || !def
+    };
+  });
+  const desvantagensCalc = (desvantagensRaw || []).map(d => {
+    const def = (db.desvantagens?.desvantagens || []).find(x => x.id === d.id);
+    return {
+      ...d,
+      nome: d.nome || def?.nome || d.id,
+      custo: d.custo ?? def?.custo ?? 0,
+      descricao: d.descricao || def?.descricao || '',
+      categoria: d.categoria || def?.categoria || 'Custom',
+      tipo: d.tipo || def?.tipo || 'Mundana',
+      custom: !!d.custom || !def
+    };
+  });
+  const peculiaridadesCalc = (peculiaridadesRaw || []).map(p => {
+    const def = (db.peculiaridades?.peculiaridades || []).find(x => x.id === p.id);
+    return {
+      ...p,
+      nome: p.nome || def?.nome || p.id,
+      custo: p.custo ?? def?.custo ?? -1,
+      descricao: p.descricao || def?.descricao || '',
+      custom: !!p.custom || !def
+    };
+  });
+
   // Pontos
   const pontos = calcularCustoTotal(char, db);
 
   // Categoria
   const categoria = (db.categories.categorias || []).find(c => c.id === (char.categoria || 'mundano')) || { id: 'mundano', nome: 'Mundano', dados: '1d20' };
 
-  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc, poderesCalc, magiasCalc, custoPoderes, custoMagias, pontos });
+  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc, poderesCalc, magiasCalc, vantagensCalc, desvantagensCalc, peculiaridadesCalc, custoPoderes, custoMagias, pontos });
 
   return {
     identidade: {
@@ -194,6 +234,9 @@ export function computeCharacter(db, char) {
     manobras,
     poderes: poderesCalc,
     magias: magiasCalc,
+    vantagens: vantagensCalc,
+    desvantagens: desvantagensCalc,
+    peculiaridades: peculiaridadesCalc,
     custoPoderes,
     custoMagias,
     pontos,
@@ -209,7 +252,7 @@ function validarPersonagem(db, char, calc) {
   const erros = [];
   const infos = [];
 
-  const { atributos, carga, poderesCalc, magiasCalc, custoPoderes, custoMagias, pontos } = calc;
+  const { atributos, carga, poderesCalc, magiasCalc, vantagensCalc, desvantagensCalc, peculiaridadesCalc, custoPoderes, custoMagias, pontos } = calc;
 
   // Atributos fora do limite mundano
   for (const [k, v] of Object.entries(atributos)) {
@@ -269,11 +312,21 @@ function validarPersonagem(db, char, calc) {
     }
     infos.push({ tipo: 'info', msg: `Custo magias: ${custoMagias} pts.`, campo: 'magias' });
   }
+  if (vantagensCalc && vantagensCalc.length > 0) {
+    infos.push({ tipo: 'info', msg: `Vantagens: ${vantagensCalc.length} — ${pontos.breakdown.vantagens.total} pts`, campo: 'vantagens' });
+  }
+  if (desvantagensCalc && desvantagensCalc.length > 0) {
+    infos.push({ tipo: 'info', msg: `Desvantagens: ${desvantagensCalc.length} — ${pontos.breakdown.desvantagens.total} pts (ganha pontos)`, campo: 'desvantagens' });
+  }
+  if (peculiaridadesCalc && peculiaridadesCalc.length > 0) {
+    if (peculiaridadesCalc.length > 5) avisos.push({ tipo: 'aviso', msg: `Máximo recomendado 5 peculiaridades, tem ${peculiaridadesCalc.length}.`, campo: 'peculiaridades' });
+    infos.push({ tipo: 'info', msg: `Peculiaridades: ${peculiaridadesCalc.length} — ${pontos.breakdown.peculiaridades.total} pts`, campo: 'peculiaridades' });
+  }
 
   // Pontos
   if (pontos) {
     if (pontos.disponivel < 0) {
-      erros.push({ tipo: 'erro', msg: `Pontos excedidos: gastou ${pontos.totalGasto} de ${pontos.pontosTotais} (faltam ${-pontos.disponivel} pts). Reduza atributos/perícias/poderes ou aumente total.`, campo: 'pontos' });
+      erros.push({ tipo: 'erro', msg: `Pontos excedidos: gastou ${pontos.totalGasto} de ${pontos.pontosTotais} (faltam ${-pontos.disponivel} pts). Reduza atributos/perícias/poderes/vantagens ou aumente total.`, campo: 'pontos' });
     } else if (pontos.disponivel <= 10) {
       avisos.push({ tipo: 'aviso', msg: `Poucos pontos restantes: ${pontos.disponivel} de ${pontos.pontosTotais}.`, campo: 'pontos' });
     } else {

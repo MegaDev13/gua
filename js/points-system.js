@@ -18,11 +18,14 @@ export const PONTOS_PRESETS = [
 ];
 
 export const CUSTOS = {
-  atributo: { base: 10, porNivel: 10 }, // (valor-10)*10, negativo se abaixo de 10
-  pericia: { porNivel: 2, minimo: 1 }, // (valor - baseAttr)*2, mas mínimo 1 se treinada
+  atributo: { base: 10, porNivel: 10 },
+  pericia: { porNivel: 2, minimo: 1 },
   periciaPsi: { porNivel: 2 },
-  manobra: 0, // manobras de combate NÃO custam pontos (regra do usuário)
-  empunhadura: 0, // empunhadura também não custa
+  manobra: 0,
+  empunhadura: 0,
+  vantagem: { porNivel: 1 }, // base, mas cada vantagem tem custo próprio
+  desvantagem: { porNivel: 1 },
+  peculiaridade: -1, // cada peculiaridade dá -1 (ganha 1 ponto)
   poder: {
     telepatia: 5,
     psicocinese: 5,
@@ -30,11 +33,10 @@ export const CUSTOS = {
     pes: 3,
     cura: 3,
     antipsi: 3,
-    // fallback
     default: 5
   },
   magia: {
-    porNivel: 3, // magia custa 3 pts por nível de poder + 2 por perícia
+    porNivel: 3,
     pericia: 2
   }
 };
@@ -116,7 +118,6 @@ export function custoPoderes(poderesRaw, powersDef) {
 export function custoMagias(magiasRaw, magicsDef) {
   let total = 0;
   const detalhe = [];
-  // magiasRaw pode ser objeto { fogo: { nivel: 5, magias: [{id,nivel}] } } ou array
   const entries = Array.isArray(magiasRaw) ? magiasRaw.map(m => [m.id || m.escola || 'custom', m]) : Object.entries(magiasRaw || {});
   for (const [magiaId, dados] of entries) {
     const def = (magicsDef?.escolas || []).find(e => e.id === magiaId) || (magicsDef?.magias || []).find(m => m.id === magiaId);
@@ -137,6 +138,53 @@ export function custoMagias(magiasRaw, magicsDef) {
   return { total, detalhe };
 }
 
+export function custoVantagens(vantagensRaw, vantagensDef) {
+  let total = 0;
+  const detalhe = [];
+  const entries = Array.isArray(vantagensRaw) ? vantagensRaw : Object.entries(vantagensRaw || {}).map(([id, dados]) => ({ id, ...dados }));
+  // Suporta tanto array de objetos quanto objeto mapa
+  const list = Array.isArray(vantagensRaw) ? vantagensRaw : Object.values(vantagensRaw || {});
+  for (const v of list) {
+    if (!v) continue;
+    const def = (vantagensDef?.vantagens || []).find(x => x.id === (v.id || v.vantagemId));
+    const custo = v.custo ?? def?.custo ?? 0;
+    const nivel = v.nivel || 1;
+    const custoTotal = (v.custo_por_nivel || def?.custo_por_nivel) ? custo * nivel : custo;
+    detalhe.push({ id: v.id || def?.id || 'custom', nome: v.nome || def?.nome || v.id, custo: custoTotal, nivel, custom: !!v.custom });
+    total += custoTotal;
+  }
+  return { total, detalhe };
+}
+
+export function custoDesvantagens(desvantagensRaw, desvantagensDef) {
+  let total = 0;
+  const detalhe = [];
+  const list = Array.isArray(desvantagensRaw) ? desvantagensRaw : Object.values(desvantagensRaw || {});
+  for (const d of list) {
+    if (!d) continue;
+    const def = (desvantagensDef?.desvantagens || []).find(x => x.id === (d.id || d.desvantagemId));
+    const custo = d.custo ?? def?.custo ?? 0; // negativo
+    const nivel = d.nivel || 1;
+    const custoTotal = (d.custo_por_nivel || def?.custo_por_nivel) ? custo * nivel : custo;
+    detalhe.push({ id: d.id || def?.id || 'custom', nome: d.nome || def?.nome || d.id, custo: custoTotal, nivel, custom: !!d.custom });
+    total += custoTotal; // negativo, reduz gasto
+  }
+  return { total, detalhe };
+}
+
+export function custoPeculiaridades(peculiaridadesRaw) {
+  let total = 0;
+  const detalhe = [];
+  const list = Array.isArray(peculiaridadesRaw) ? peculiaridadesRaw : Object.values(peculiaridadesRaw || {});
+  for (const p of list) {
+    if (!p) continue;
+    const custo = p.custo ?? CUSTOS.peculiaridade; // -1
+    detalhe.push({ id: p.id || 'custom', nome: p.nome || p.id, custo, custom: !!p.custom });
+    total += custo;
+  }
+  return { total, detalhe };
+}
+
 export function calcularCustoTotal(char, db) {
   const atributos = char.atributos || { ST: 10, DX: 10, IQ: 10, HT: 10 };
   const ca = custoAtributos(atributos);
@@ -145,8 +193,12 @@ export function calcularCustoTotal(char, db) {
   const ce = custoEmpunhadura(char.empunhadura);
   const cpod = custoPoderes(char.poderes || {}, db?.powers);
   const cmag = custoMagias(char.magias || {}, db?.magics);
+  const cvant = custoVantagens(char.vantagens || [], db?.vantagens);
+  const cdesv = custoDesvantagens(char.desvantagens || [], db?.desvantagens);
+  const cpec = custoPeculiaridades(char.peculiaridades || []);
 
-  const totalGasto = ca.total + cp.total + cm.total + ce + cpod.total + cmag.total;
+  // totalGasto inclui vantagens positivas, desvantagens negativas (que reduzem gasto)
+  const totalGasto = ca.total + cp.total + cm.total + ce + cpod.total + cmag.total + cvant.total + cdesv.total + cpec.total;
   const pontosTotais = char.pontosTotais ?? 150;
   const disponivel = pontosTotais - totalGasto;
 
@@ -160,7 +212,10 @@ export function calcularCustoTotal(char, db) {
       manobras: cm,
       empunhadura: { total: ce },
       poderes: cpod,
-      magias: cmag
+      magias: cmag,
+      vantagens: cvant,
+      desvantagens: cdesv,
+      peculiaridades: cpec
     }
   };
 }

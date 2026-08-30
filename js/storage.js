@@ -132,8 +132,11 @@ export function novoPersonagemBase() {
     ],
     manobras: ['ataque-simples', 'mover-atacar'],
     empunhadura: 'uma-mao',
-    poderes: {}, // { telepatia: { potencia: 10, pericias: [{id, nome, nivel}] } }
-    magias: {}, // { fogo: { nivel: 5, magias: [{id,nome,nivel}] } }
+    poderes: {},
+    magias: {},
+    vantagens: [], // [{id,nome,custo,nivel,custom}]
+    desvantagens: [], // custo negativo
+    peculiaridades: [], // -1 ponto cada
     equipamentos: [],
     historia: '',
     fadiga: 0,
