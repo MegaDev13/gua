@@ -7,7 +7,20 @@ export function el(tag, attrs = {}, ...children) {
     else if (k === 'style' && typeof v === 'object') Object.assign(e.style, v);
     else if (k.startsWith('on') && typeof v === 'function') e.addEventListener(k.slice(2).toLowerCase(), v);
     else if (k === 'dataset' && typeof v === 'object') Object.assign(e.dataset, v);
-    else if (v !== null && v !== undefined) e.setAttribute(k, v);
+    else if (k === 'disabled' || k === 'checked' || k === 'selected') {
+      if (v) {
+        e.setAttribute(k, '');
+        e[k] = true;
+      } else {
+        e.removeAttribute(k);
+        e[k] = false;
+      }
+    }
+    else if (v === false || v === null || v === undefined) {
+      // não seta atributo falso
+      continue;
+    }
+    else e.setAttribute(k, v);
   }
   for (const c of children.flat()) {
     if (c == null) continue;
