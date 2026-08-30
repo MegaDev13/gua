@@ -1,194 +1,222 @@
-/* Aba EQUIPAMENTOS — loja (armaduras/escudos/itens), inventário, equipar, carga e economia.
- * REGRA NÃO DEFINIDA: tabela de armas corpo-a-corpo não fornecida — o jogador pode
- * cadastrar armas com dano/ST mínima, e o motor calcula NH, Aparar, dano e carga.
- */
+/* EQUIPAMENTOS — loja, inventário, carga e consulta inteligente universal. */
 import { el, toast, fmtMoney, fmtKg, modal, valorCalculado, confirmar } from '../ui.js';
+import { createFilterPanel, createFavoriteStore } from '../filters.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { novoItem, podeComprar, comprar, vender, recursosIniciais } from '../../engine/economy.js';
 import { custoFadiga } from '../../engine/fatigue.js';
 
-const slug = s => String(s || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const slug = value => String(value || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export function renderEquipamentos(main, { db }) {
   const pc = store.atual;
-  const snap = computeAll(db, pc);
+  const snapshot = computeAll(db, pc);
+  const favorites = createFavoriteStore('equipment');
 
-  /* ---------------------------------------------- economia */
-  const defRiqueza = db.advantages.find(a => a.id === 'riqueza');
-  const selRiqueza = el('select', { 'aria-label': 'Nível de riqueza', onchange: e => {
-    const n = defRiqueza.niveis.find(x => x.nome === e.target.value);
-    store.update(p => { p.riqueza.nivel = n.nome; p.riqueza.multiplicador = n.multiplicadorRecursos; });
-  } }, defRiqueza.niveis.map(n => el('option', { value: n.nome, selected: pc.riqueza?.nivel === n.nome }, `${n.nome} (${n.multiplicadorRecursos}×)`)));
-  const inpDinheiro = el('input', { type: 'number', min: 0, value: Math.round(pc.riqueza?.dinheiro ?? 0), onchange: e => store.update(p => p.riqueza.dinheiro = parseFloat(e.target.value) || 0) });
-
-  const economia = el('div', { class: 'panel' },
+  /* Economia */
+  const wealthDefinition = db.advantages.find(advantage => advantage.id === 'riqueza');
+  const wealth = el('select', { 'aria-label': 'Nível de riqueza', onchange: event => {
+    const level = wealthDefinition.niveis.find(item => item.nome === event.target.value);
+    store.update(character => { character.riqueza.nivel = level.nome; character.riqueza.multiplicador = level.multiplicadorRecursos; });
+  } }, wealthDefinition.niveis.map(level => el('option', { value: level.nome, selected: pc.riqueza?.nivel === level.nome }, `${level.nome} (${level.multiplicadorRecursos}×)`)));
+  const money = el('input', { type: 'number', min: 0, value: Math.round(pc.riqueza?.dinheiro ?? 0), onchange: event => store.update(character => { character.riqueza.dinheiro = parseFloat(event.target.value) || 0; }) });
+  const economy = el('div', { class: 'panel' },
     el('h3', {}, 'Economia (Riqueza p. 12–13 · Dinheiro p. 181)'),
     el('div', { class: 'grid cols-4' },
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Nível de Riqueza'), selRiqueza),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Dinheiro ($)'), inpDinheiro),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Recursos iniciais (média × nível)'),
-        el('div', { class: 'value' }, fmtMoney(recursosIniciais(pc, pc.riqueza?.recursosBase ?? 1000)))),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Peso carregado'),
-        valorCalculado(fmtKg(snap.carga.peso.kg), snap.carga.peso.detalhes.map(d => ({ fonte: `${d.qtd}× ${d.nome}`, valor: d.peso })))),
-    ),
-    el('p', { class: 'fonte' }, 'A média de riqueza do cenário é configurável em Configurações. Toda compra/venda é bloqueada quando impossível — com o motivo exato (ex.: "Faltam: $200") — e registrada no Histórico.'),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Nível de Riqueza'), wealth),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Dinheiro ($)'), money),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Recursos iniciais'), el('div', { class: 'value' }, fmtMoney(recursosIniciais(pc, pc.riqueza?.recursosBase ?? 1000)))),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Peso carregado'), valorCalculado(fmtKg(snapshot.carga.peso.kg), snapshot.carga.peso.detalhes.map(detail => ({ fonte: `${detail.qtd}× ${detail.nome}`, valor: detail.peso }))))),
+    el('p', { class: 'fonte' }, 'Compra e uso impossíveis são explicados. Preço não publicado continua marcado como REGRA NÃO DEFINIDA.'),
   );
 
-  /* ---------------------------------------------- loja */
-  const lojaList = el('div', { class: 'list' });
-  function lojaDef(raw, categoria) {
-    const d = { ...raw, categoria };
-    if (!d.id) d.id = slug(d.nome);
-    if (typeof d.peso !== 'number') d.peso = d.peso ?? null;
-    if (d.custo === undefined) d.custo = null;
-    return d;
+  /* Catálogo + propriedades derivadas apenas para consulta. */
+  function normalizeItem(raw, category, categoryLabel, groupLabel) {
+    const item = { ...raw, categoria: category, categoriaLabel: categoryLabel, grupo: groupLabel };
+    item.id ||= slug(item.nome);
+    item.custo = item.custo === undefined ? null : item.custo;
+    item.pesoNumerico = typeof item.peso === 'number' ? item.peso : null;
+    item.custoNumerico = typeof item.custo === 'number' ? item.custo : null;
+    const purchase = podeComprar(pc, item, 1);
+    item._purchase = purchase;
+    item.podeComprar = purchase.ok;
+    item.compraStatus = purchase.ok ? 'Pode comprar' : 'Bloqueado';
+    item.possui = (pc.inventario || []).some(owned => owned.id === item.id);
+    item.favorito = favorites.has(item.id);
+    item.tipoCombate = category === 'arma-distancia' ? 'À distância' : item.dano ? 'Corpo a corpo' : null;
+    item.podeUsar = category !== 'arma-distancia' && (!item.stMin || pc.atributos.ST >= item.stMin);
+    item._useReason = item.podeUsar ? 'Requisitos conhecidos atendidos' : category === 'arma-distancia'
+      ? 'Dano, perícia e requisitos não definidos no material'
+      : `ST ${pc.atributos.ST} abaixo da ST mínima ${item.stMin}`;
+    item.tags = [
+      categoryLabel,
+      item.dp != null ? 'Possui DP' : null,
+      item.rd != null ? 'Possui RD' : null,
+      item.nt != null ? `NT ${item.nt}` : null,
+      item.custo == null ? 'Preço não definido' : 'Preço definido',
+      item.pesoNumerico == null ? 'Peso não definido' : 'Peso definido',
+      item.tipoCombate,
+    ].filter(Boolean);
+    return item;
   }
-  function montarLoja() {
-    lojaList.innerHTML = '';
-    const grupos = [
-      ['Armaduras (p. 186–194)', db.equipment.armaduras.map(a => lojaDef(a, 'armadura'))],
-      ['Escudos (p. 195)', db.equipment.escudos.filter(s => typeof s.peso === 'number').map(a => lojaDef(a, 'escudo'))],
-      ['Itens citados no material', db.equipment.itensAvulsos.map(a => lojaDef(a, 'item'))],
-      ['Armas de longo alcance — exemplos (p. 257; dano/custo/peso NÃO DEFINIDOS)', db.equipment.armasLongoAlcanceExemplos.map(a => lojaDef(a, 'arma-distancia'))],
-    ];
-    for (const [titulo, itens] of grupos) {
-      lojaList.append(el('h4', {}, titulo));
-      for (const it of itens) lojaList.append(linhaLoja(it));
+
+  const shopItems = [
+    ...(db.equipment.armaduras || []).map(item => normalizeItem(item, 'armadura', 'Armaduras', 'Armaduras (p. 186–194)')),
+    ...(db.equipment.escudos || []).map(item => normalizeItem(item, 'escudo', 'Escudos', 'Escudos (p. 195)')),
+    ...(db.equipment.itensAvulsos || []).map(item => normalizeItem(item, 'item', 'Itens', 'Itens citados no material')),
+    ...(db.equipment.armasLongoAlcanceExemplos || []).map(item => normalizeItem(item, 'arma-distancia', 'Armas à distância', 'Armas à distância — dados parciais (p. 257)')),
+  ];
+  const shopList = el('div', { class: 'list equipment-results' });
+  let filters;
+  function drawShop(items) {
+    shopList.innerHTML = '';
+    const groups = groupBy(items, item => item.grupo);
+    for (const [group, entries] of Object.entries(groups)) {
+      shopList.append(el('h4', {}, `${group} (${entries.length})`));
+      for (const item of entries) shopList.append(shopRow(item));
     }
-    lojaList.append(el('h4', {}, 'Armas corpo-a-corpo — REGRA NÃO DEFINIDA'));
-    lojaList.append(el('div', { class: 'row' },
-      el('span', { class: 'grow meta' }, 'A Tabela de Armas não foi fornecida no material. Cadastre a arma com dano (ex.: Bal+1), ST mínima, peso e custo — o motor calcula NH, Aparar, dano e carga.'),
-      el('button', { class: 'btn', onclick: () => cadastrarArma() }, '＋ Cadastrar arma')));
+    if (!items.length) shopList.append(el('div', { class: 'row', style: 'justify-content:center' }, 'Nenhum equipamento corresponde aos filtros.'));
+    shopList.append(el('div', { class: 'row equipment-undefined' },
+      el('span', { class: 'grow meta' }, 'Armas corpo-a-corpo: tabela não fornecida. Cadastre somente dados conhecidos; o motor não inventa os demais.'),
+      el('button', { class: 'btn', onclick: registerWeapon }, '＋ Cadastrar arma')));
   }
-  function linhaLoja(it) {
-    const tem = (store.atual.inventario || []).find(i => i.id === it.id);
-    const comprarAgora = () => {
-      const v = podeComprar(store.atual, it, 1);
-      if (!v.ok) { v.motivos.forEach(m => toast('✗ COMPRA IMPOSSÍVEL — ' + m, 'bad')); return; }
-      store.update(p => { comprar(p, it, 1); });
-      toast(`Comprado: ${it.nome} (${fmtMoney(v.preco)})`, 'ok');
+
+  function shopRow(item) {
+    const buyNow = () => {
+      const check = podeComprar(store.atual, item, 1);
+      if (!check.ok) { check.motivos.forEach(reason => toast('✗ COMPRA IMPOSSÍVEL — ' + reason, 'bad')); return; }
+      store.update(character => { comprar(character, item, 1); });
+      toast(`Comprado: ${item.nome} (${fmtMoney(check.preco)})`, 'ok');
     };
-    return el('div', { class: 'row' },
+    return el('div', { class: 'row equipment-row' },
+      el('button', {
+        class: 'favorite-button', title: item.favorito ? 'Remover dos favoritos' : 'Marcar como favorito',
+        onclick: () => { item.favorito = favorites.toggle(item.id); filters.refresh(); },
+      }, item.favorito ? '★' : '☆'),
       el('div', { class: 'grow' },
-        el('div', { class: 'name' }, it.nome, tem ? ' ✓' : ''),
-        el('div', { class: 'meta' },
-          [it.dp !== undefined ? `DP ${it.dp}` : '', it.rd !== undefined ? `RD ${it.rd}` : '',
-           it.custo != null ? fmtMoney(it.custo) : 'preço N/D',
-           typeof it.peso === 'number' ? fmtKg(it.peso) : '',
-           it.tr !== undefined ? `TR ${it.tr} · Prec +${it.prec} · ½D ${it.meioDano} · Max ${it.max}` : '']
-            .filter(Boolean).join(' · '),
-          it.notas ? ` — ${it.notas}` : '')),
-      el('button', { class: 'btn small', onclick: comprarAgora }, 'Comprar'),
-    );
+        el('div', { class: 'name' }, item.nome, item.possui ? ' ✓' : ''),
+        el('div', { class: 'meta' }, [
+          item.categoriaLabel, item.dp != null ? `DP ${item.dp}` : '', item.rd != null ? `RD ${item.rd}` : '',
+          item.custo != null ? fmtMoney(item.custo) : 'preço N/D', typeof item.peso === 'number' ? fmtKg(item.peso) : item.peso ? `peso ${item.peso}` : 'peso N/D',
+          item.tr != null ? `TR ${item.tr} · Prec +${item.prec} · ½D ${item.meioDano} · Max ${item.max}` : '',
+        ].filter(Boolean).join(' · ')),
+        item.notas ? el('div', { class: 'meta fonte' }, item.notas) : '',
+        el('div', { class: 'equipment-status' },
+          el('span', { class: `pill ${item.podeUsar ? 'ok' : 'bad'}`, title: item._useReason }, item.podeUsar ? '✓ Pode usar' : `✗ ${item._useReason}`),
+          el('span', { class: `pill ${item.podeComprar ? 'ok' : 'bad'}`, title: item._purchase.motivos.join(' ') }, item.podeComprar ? '✓ Pode comprar' : `✗ ${item._purchase.motivos[0] || 'Bloqueado'}`))),
+      el('a', { class: 'btn small ghost', href: `#/livro/ler/equipamento/equipamento-${item.id}`, title: 'Ver no livro' }, '📖'),
+      el('button', { class: 'btn small', onclick: buyNow, disabled: !item.podeComprar }, 'Comprar'));
   }
-  function cadastrarArma() {
-    const f = {};
-    const campo = (label, key, ph, opts) => {
-      const input = opts
-        ? el('select', { onchange: e => f[key] = e.target.value }, opts.map(o => el('option', { value: o }, o)))
-        : el('input', { placeholder: ph, oninput: e => f[key] = e.target.value });
-      if (opts) f[key] = opts[0]; else f[key] = ph || '';
+
+  filters = createFilterPanel({
+    id: 'equipment', items: shopItems,
+    searchFields: ['nome', 'notas', 'categoriaLabel', 'tags', 'fonte'],
+    searchPlaceholder: 'Pesquisar equipamento, proteção ou característica…',
+    schema: [
+      { key: 'categoriaLabel', label: 'Categoria', type: 'multi' },
+      { key: 'tipoCombate', label: 'Tipo de combate', type: 'multi' },
+      { key: 'custoNumerico', label: 'Preço', type: 'range' },
+      { key: 'pesoNumerico', label: 'Peso (kg)', type: 'range', step: .1 },
+      { key: 'dp', label: 'Defesa Passiva', type: 'range' },
+      { key: 'rd', label: 'Resistência a Dano', type: 'range' },
+      { key: 'podeUsar', label: 'Somente o que posso usar', type: 'relation' },
+      { key: 'podeComprar', label: 'Somente o que posso comprar', type: 'relation' },
+      { key: 'possui', label: 'Já possuo', type: 'relation' },
+      { key: 'favorito', label: 'Favoritos', type: 'relation' },
+      { key: 'tags', label: 'Tags', type: 'multi' },
+    ],
+    quickFilters: [
+      { label: 'Todos', apply: () => {} },
+      { label: 'Posso usar', apply: state => { state.groups.podeUsar = true; } },
+      { label: 'Posso comprar', apply: state => { state.groups.podeComprar = true; } },
+      { label: 'Favoritos', apply: state => { state.groups.favorito = true; } },
+      { label: 'Armaduras', apply: state => { state.groups.categoriaLabel.include = ['Armaduras']; } },
+      { label: 'Escudos', apply: state => { state.groups.categoriaLabel.include = ['Escudos']; } },
+    ],
+    onChange: drawShop,
+  });
+
+  /* Inventário */
+  const inventoryList = el('div', { class: 'list' });
+  function drawInventory() {
+    inventoryList.innerHTML = '';
+    const inventory = pc.inventario || [];
+    if (!inventory.length) { inventoryList.append(el('div', { class: 'row' }, 'Inventário vazio.')); return; }
+    const block = (title, items) => {
+      if (!items.length) return;
+      inventoryList.append(el('h4', {}, `${title} (${items.length})`));
+      for (const item of items) {
+        const equipped = Boolean(item.equipado);
+        const canEquip = ['armadura', 'escudo', 'arma'].includes(item.categoria) || Boolean(item.dano);
+        const sellNow = () => {
+          let result;
+          store.update(character => { result = vender(character, item.id, 1, character.config?.fatorVenda ?? 1); });
+          result.ok ? toast(`Vendido por ${fmtMoney(result.ganho)}. ${result.nota || ''}`, 'ok') : toast(result.motivos[0], 'bad');
+        };
+        inventoryList.append(el('div', { class: 'row' },
+          el('div', { class: 'grow' },
+            el('div', {}, el('span', { class: 'name' }, `${(item.qtd || 1) > 1 ? item.qtd + '× ' : ''}${item.nome}`), equipped ? el('span', { class: 'pill ok', style: 'margin-left:.35rem' }, 'equipado') : ''),
+            el('div', { class: 'meta' }, [item.custo != null ? fmtMoney(item.custo) : '', item.peso ? fmtKg(item.peso) : '', item.dp != null ? `DP ${item.dp}` : '', item.rd != null ? `RD ${item.rd}` : '', item.dano ? `dano ${item.dano}` : '', item.stMin ? `ST mín ${item.stMin}` : ''].filter(Boolean).join(' · '))),
+          canEquip ? el('button', { class: `btn small ${equipped ? 'danger' : 'primary'}`, onclick: () => store.update(character => { const current = character.inventario.find(entry => entry.id === item.id); current.equipado = !current.equipado; }) }, equipped ? 'Desequipar' : 'Equipar') : '',
+          el('button', { class: 'btn small', onclick: () => store.update(character => { const current = character.inventario.find(entry => entry.id === item.id); current.armazenado = !current.armazenado; current.equipado = false; }) }, item.armazenado ? 'Carregar' : 'Armazenar'),
+          el('button', { class: 'btn small', onclick: () => store.update(character => { character.inventario.find(entry => entry.id === item.id).qtd += 1; }) }, '+'),
+          el('button', { class: 'btn small', onclick: sellNow }, 'Vender'),
+          el('button', { class: 'btn small danger', onclick: () => confirmar('Descartar item', `Remover ${item.nome} do inventário?`, () => store.update(character => { character.inventario = character.inventario.filter(entry => entry.id !== item.id); })) }, '✕')));
+      }
+    };
+    block('CARREGADO', inventory.filter(item => !item.armazenado));
+    block('ARMAZENADO', inventory.filter(item => item.armazenado));
+  }
+
+  /* Carga */
+  const loadState = snapshot.carga;
+  const fatigueCost = custoFadiga(db, pc, 'luta', { nivelCarga: loadState.nivel });
+  const loadStats = el('div', { class: 'grid cols-4' },
+    el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Peso'), el('div', { class: 'value' }, fmtKg(loadState.peso.kg))),
+    el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Nível'), valorCalculado(loadState.nome, [
+      { fonte: `ST ${pc.atributos.ST}` },
+      { fonte: `Peso ${fmtKg(loadState.peso.kg)} comparado aos limites publicados` },
+    ])),
+    el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Penalidade no Movimento'), el('div', { class: 'value' }, loadState.penalidade == null ? '—' : `−${loadState.penalidade}`)),
+    el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Fadiga por luta'), el('div', { class: 'value' }, fatigueCost.erro ? '—' : `+${fatigueCost.custo}`)));
+  const loadPanel = el('div', { class: 'panel' },
+    el('h3', {}, 'Carga e Consequências (p. 195–197)'),
+    loadStats,
+    loadState.nota ? el('p', { class: 'pill bad', style: 'margin-top:.5rem' }, '⚠ ' + loadState.nota) : '',
+    el('p', { class: 'fonte' }, 'Peso → relação com ST → nível de carga → movimento → esquiva → fadiga. Toda fórmula permanece no engine.'));
+
+  main.append(
+    el('h1', { class: 'page-title' }, '⚔️ Equipamentos'), economy, loadPanel,
+    el('section', { class: 'equipment-shop' }, el('h2', {}, '🛒 Banco de equipamentos'), filters.node, shopList),
+    el('section', { class: 'panel', style: 'margin-top:.9rem' }, el('h3', {}, '🎒 Inventário'), inventoryList));
+  drawInventory();
+
+  function registerWeapon() {
+    const formData = {};
+    const field = (label, key, placeholder, options) => {
+      const input = options
+        ? el('select', { onchange: event => { formData[key] = event.target.value; } }, options.map(option => el('option', { value: option }, option)))
+        : el('input', { placeholder, oninput: event => { formData[key] = event.target.value; } });
+      formData[key] = options ? options[0] : placeholder || '';
       return el('label', { class: 'field' }, label, input);
     };
-    const form = el('div', { class: 'grid cols-2' },
-      campo('Nome', 'nome', 'Espada curta'),
-      campo('Dano (ex.: GDP-2, Bal+1, 1D+1)', 'dano', 'Bal+1'),
-      campo('Tipo de dano', 'tipoDano', '', ['corte', 'contusão', 'perfuração']),
-      campo('ST mínima', 'stMin', '10'),
-      campo('Custo ($)', 'custo', '400'),
-      campo('Peso (kg)', 'peso', '1.5'),
-      campo('Perícia (id, ex.: espadas-curtas)', 'periciaId', 'espadas-curtas'),
-      campo('Notas', 'notas', ''));
     modal('Cadastrar arma corpo-a-corpo', el('div', {},
-      el('p', { class: 'fonte' }, 'Use os dados do material quando disponível. Campos vazios entram como N/D.'),
-      form), {
+      el('p', { class: 'fonte' }, 'Preencha somente dados conhecidos. Campo ausente continua N/D.'),
+      el('div', { class: 'grid cols-2' },
+        field('Nome', 'nome', 'Espada curta'), field('Dano', 'dano', 'Bal+1'), field('Tipo de dano', 'tipoDano', '', ['corte', 'contusão', 'perfuração']),
+        field('ST mínima', 'stMin', '10'), field('Custo ($)', 'custo', '400'), field('Peso (kg)', 'peso', '1.5'), field('Perícia (id)', 'periciaId', 'espadas-curtas'), field('Notas', 'notas', ''))), {
       acoes: [el('button', { class: 'btn primary', onclick: () => {
-        const def = {
-          id: 'arma-' + slug(f.nome || 'custom'),
-          nome: f.nome || 'Arma sem nome', categoria: 'arma',
-          dano: f.dano || null, tipoDano: f.tipoDano || null,
-          stMin: parseInt(f.stMin, 10) || null,
-          custo: f.custo === '' ? null : parseFloat(String(f.custo).replace(',', '.')),
-          peso: f.peso === '' ? 0 : parseFloat(String(f.peso).replace(',', '.')),
-          periciaId: f.periciaId || null, notas: f.notas || '',
+        const definition = {
+          id: 'arma-' + slug(formData.nome || 'custom'), nome: formData.nome || 'Arma sem nome', categoria: 'arma',
+          dano: formData.dano || null, tipoDano: formData.tipoDano || null, stMin: parseInt(formData.stMin, 10) || null,
+          custo: formData.custo === '' ? null : parseFloat(String(formData.custo).replace(',', '.')), peso: formData.peso === '' ? 0 : parseFloat(String(formData.peso).replace(',', '.')),
+          periciaId: formData.periciaId || null, notas: formData.notas || '',
         };
-        store.update(p => p.inventario.push(novoItem(def, 1)));
-        document.querySelector('.modal-back')?.remove();
-        toast('Arma cadastrada no inventário.', 'ok');
+        store.update(character => { character.inventario.push(novoItem(definition, 1)); });
+        document.querySelector('.modal-back')?.remove(); toast('Arma cadastrada no inventário.', 'ok');
       } }, 'Salvar')],
     });
   }
-
-  /* ---------------------------------------------- inventário */
-  const invList = el('div', { class: 'list' });
-  function montarInventario() {
-    invList.innerHTML = '';
-    const inv = store.atual.inventario || [];
-    if (!inv.length) { invList.append(el('div', { class: 'row' }, 'Inventário vazio. Compre algo na loja ou cadastre uma arma.')); return; }
-    const bloco = (titulo, itens) => {
-      if (!itens.length) return;
-      invList.append(el('h4', {}, titulo));
-      for (const it of itens) {
-        const e = !!it.equipado;
-        const equipavel = ['armadura', 'escudo', 'arma'].includes(it.categoria) || !!it.dano;
-        const venderAgora = () => {
-          const fatorCfg = store.atual.config?.fatorVenda ?? 1;
-          let res = null;
-          store.update(p => { res = vender(p, it.id, 1, fatorCfg); });
-          if (res.ok) toast(`Vendido por ${fmtMoney(res.ganho)}.` + (res.nota ? ' ' + res.nota : ''), 'ok');
-          else toast(res.motivos[0], 'bad');
-        };
-        invList.append(el('div', { class: 'row' },
-          el('div', { class: 'grow' },
-            el('div', {}, el('span', { class: 'name' }, `${(it.qtd || 1) > 1 ? it.qtd + '× ' : ''}${it.nome}`), ' ',
-              e ? el('span', { class: 'pill ok' }, 'equipado') : ''),
-            el('div', { class: 'meta' },
-              [it.custo != null ? fmtMoney(it.custo) : '', typeof it.peso === 'number' && it.peso ? fmtKg(it.peso) : '',
-               it.dp !== undefined ? `DP ${it.dp}` : '', it.rd !== undefined ? `RD ${it.rd}` : '',
-               it.dano ? `dano ${it.dano}${it.tipoDano ? ' (' + it.tipoDano + ')' : ''}` : '',
-               it.stMin ? `ST mín ${it.stMin}` : '', it.periciaId ? `perícia: ${it.periciaId}` : '',
-               it.tr !== undefined ? `TR ${it.tr}` : ''].filter(Boolean).join(' · '))),
-          equipavel ? el('button', {
-            class: `btn small ${e ? 'danger' : 'primary'}`,
-            onclick: () => store.update(p => { const item = p.inventario.find(x => x.id === it.id); item.equipado = !item.equipado; }),
-          }, e ? 'Desequipar' : 'Equipar') : '',
-          el('button', { class: 'btn small', title: 'Armazenado não conta como Carga (p. 181)', onclick: () => store.update(p => { const item = p.inventario.find(x => x.id === it.id); item.armazenado = !item.armazenado; item.equipado = false; }) }, it.armazenado ? 'Carregar' : 'Armazenar'),
-          el('button', { class: 'btn small', onclick: () => store.update(p => { const item = p.inventario.find(x => x.id === it.id); item.qtd = Math.max(1, (item.qtd || 1) + 1); }) }, '+'),
-          el('button', { class: 'btn small', onclick: () => store.update(p => { const item = p.inventario.find(x => x.id === it.id); item.qtd = Math.max(1, (item.qtd || 1) - 1); }) }, '−'),
-          el('button', { class: 'btn small', onclick: venderAgora }, 'Vender'),
-          el('button', { class: 'btn small danger', onclick: () => confirmar('Descartar item', `Remover ${it.nome} do inventário?`, () => store.update(p => p.inventario = p.inventario.filter(x => x.id !== it.id))) }, '✕'),
-        ));
-      }
-    };
-    bloco('CARREGADO', inv.filter(i => !i.armazenado));
-    bloco('ARMAZENADO (não conta como Carga)', inv.filter(i => i.armazenado));
-  }
-
-  /* ---------------------------------------------- carga */
-  const c = snap.carga;
-  const carga = el('div', { class: 'panel' },
-    el('h3', {}, 'Carga e Consequências (p. 195–197)'),
-    el('div', { class: 'grid cols-4' },
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Peso'), el('div', { class: 'value' }, fmtKg(c.peso.kg))),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Nível'), valorCalculado(c.nome, [{ fonte: `ST ${pc.atributos.ST}` }, { fonte: `Peso ${fmtKg(c.peso.kg)} vs limites ST / 2×ST / 3×ST / 6×ST / 10×ST` }])),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Penalidade no Movimento'), el('div', { class: 'value' }, c.penalidade === null ? '—' : `−${c.penalidade}`)),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Fadiga por luta'), el('div', { class: 'value' }, (() => {
-        const cf = custoFadiga(db, pc, 'luta', { nivelCarga: snap.carga.nivel });
-        return cf.erro ? '—' : `+${cf.custo}`;
-      })())),
-    ),
-    c.nota ? el('p', { class: 'pill bad', style: 'margin-top:.5rem' }, '⚠ ' + c.nota) : '',
-    el('p', { class: 'fonte' }, 'Fluxo automático: peso total → relação com ST → nível de carga → penalidade → Deslocamento → Esquiva → fadiga em combate.'),
-  );
-
-  main.append(
-    el('h1', { class: 'page-title' }, '⚔️ Equipamentos'),
-    economia, carga,
-    el('div', { class: 'grid cols-2', style: 'margin-top:.9rem' },
-      el('div', { class: 'panel' }, el('h3', {}, '🛒 Loja'), lojaList),
-      el('div', { class: 'panel' }, el('h3', {}, '🎒 Inventário'), invList),
-    ),
-  );
-  montarLoja(); montarInventario();
 }
+
+function groupBy(items, key) { return items.reduce((groups, item) => { (groups[key(item)] ||= []).push(item); return groups; }, {}); }

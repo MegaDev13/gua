@@ -15,65 +15,93 @@ import { renderConfig } from './ui/pages/config.js';
 import { renderLivro } from './ui/pages/livro.js';
 
 const PAGES = [
-  { id: 'personagem', nome: 'Personagem', icon: '🧑', render: renderPersonagem },
-  { id: 'atributos', nome: 'Atributos', icon: '🎲', render: renderAtributos },
-  { id: 'pericias', nome: 'Perícias', icon: '📜', render: renderPericias },
-  { id: 'vantagens', nome: 'Vantagens/Desv.', icon: '⚖️', render: renderVantagens },
-  { id: 'equipamentos', nome: 'Equipamentos', icon: '⚔️', render: renderEquipamentos },
-  { id: 'combate', nome: 'Combate', icon: '🗡️', render: renderCombate },
-  { id: 'magias', nome: 'Poderes', icon: '✨', render: renderMagias },
-  { id: 'livro', nome: 'Livro', icon: '📖', render: renderLivro },
-  { id: 'dados', nome: 'Dados', icon: '🎲', render: renderDados },
-  { id: 'historico', nome: 'Histórico', icon: '🗂️', render: renderHistorico },
-  { id: 'config', nome: 'Config.', icon: '⚙️', render: renderConfig },
+  { id: 'personagem', nome: 'Personagem', icon: '🧑', render: renderPersonagem, area: 'ficha' },
+  { id: 'atributos', nome: 'Atributos', icon: '🎲', render: renderAtributos, area: 'ficha' },
+  { id: 'pericias', nome: 'Perícias', icon: '📜', render: renderPericias, area: 'ficha' },
+  { id: 'vantagens', nome: 'Vantagens/Desv.', icon: '⚖️', render: renderVantagens, area: 'ficha' },
+  { id: 'equipamentos', nome: 'Equipamentos', icon: '⚔️', render: renderEquipamentos, area: 'ficha' },
+  { id: 'magias', nome: 'Poderes', icon: '✨', render: renderMagias, area: 'ficha' },
+  { id: 'dados', nome: 'Dados', icon: '🎲', render: renderDados, area: 'ficha' },
+  { id: 'historico', nome: 'Histórico', icon: '🗂️', render: renderHistorico, area: 'ficha' },
+  { id: 'config', nome: 'Config.', icon: '⚙️', render: renderConfig, area: 'ficha' },
+  { id: 'combate', nome: 'Combate', icon: '⚔️', render: renderCombate, area: 'combate' },
+  { id: 'livro', nome: 'Livro', icon: '📖', render: renderLivro, area: 'livro' },
+];
+
+const SYSTEMS = [
+  { id: 'livro', nome: 'Livro', icon: '📖', href: 'livro' },
+  { id: 'ficha', nome: 'Ficha', icon: '🧙', href: 'personagem' },
+  { id: 'combate', nome: 'Combate', icon: '⚔', href: 'combate' },
 ];
 
 function route() {
   const hash = location.hash.replace(/^#\/?/, '') || 'personagem';
   const [pageId, ...resto] = hash.split('/');
-  const page = PAGES.find(p => p.id === pageId) || PAGES[0];
+  const page = PAGES.find(candidate => candidate.id === pageId) || PAGES[0];
   const main = document.getElementById('main');
-  document.querySelectorAll('.tab').forEach(t => t.toggleAttribute('aria-current', t.dataset.page === page.id));
-  main.innerHTML = '';
-  try {
-    page.render(main, { db: DB, params: resto, ir: (h) => { location.hash = h; } });
-  } catch (e) {
-    main.append(el('div', { class: 'panel' }, `Erro ao renderizar ${page.nome}: ${e.message}`));
-    console.error(e);
+  const activeSystem = page.area;
+
+  document.querySelectorAll('.tab').forEach(tab => tab.toggleAttribute('aria-current', tab.dataset.page === page.id));
+  document.querySelectorAll('.system-link').forEach(link => link.toggleAttribute('aria-current', link.dataset.system === activeSystem));
+  document.body.classList.toggle('is-book', page.area === 'livro');
+  document.body.classList.toggle('is-combat', page.area === 'combate');
+  if (page.area !== 'livro') {
+    document.body.classList.remove('book-experience', 'book-reading-mode');
   }
-  if (!pageId.startsWith('livro')) main.scrollTop = 0, window.scrollTo(0, 0);
+  document.getElementById('nav').hidden = page.area !== 'ficha';
+  document.getElementById('topbarActions').classList.toggle('book-actions', page.area === 'livro');
+  document.title = page.area === 'livro'
+    ? `${DB.book?.titulo || 'GUA'} — Livro Digital`
+    : `${page.nome} — GUA`;
+
+  main.innerHTML = '';
+  main.className = `main area-${page.area}`;
+  try {
+    page.render(main, { db: DB, params: resto, ir: hashTo => { location.hash = hashTo; } });
+  } catch (error) {
+    main.append(el('div', { class: 'panel' }, `Erro ao renderizar ${page.nome}: ${error.message}`));
+    console.error(error);
+  }
+  if (page.area !== 'livro') window.scrollTo(0, 0);
 }
 
 function montarNav() {
+  const systems = document.getElementById('systemNav');
+  systems.innerHTML = '';
+  for (const system of SYSTEMS) systems.append(el('button', {
+    class: 'system-link', dataset: { system: system.id },
+    onclick: () => { location.hash = system.href; },
+  }, el('span', { 'aria-hidden': 'true' }, system.icon), system.nome));
+
   const nav = document.getElementById('nav');
   nav.innerHTML = '';
-  for (const p of PAGES) {
-    nav.append(el('button', { class: 'tab', dataset: { page: p.id }, onclick: () => { location.hash = p.id; } },
-      `${p.icon} ${p.nome}`));
+  for (const page of PAGES.filter(candidate => candidate.area === 'ficha')) {
+    nav.append(el('button', { class: 'tab', dataset: { page: page.id }, onclick: () => { location.hash = page.id; } },
+      `${page.icon} ${page.nome}`));
   }
 }
 
 function montarSeletor() {
-  const sel = document.getElementById('charSelect');
-  sel.innerHTML = '';
-  for (const p of store.personagens) {
-    sel.append(el('option', { value: p.id, selected: p.id === store.atualId }, p.nome || 'Sem nome'));
+  const select = document.getElementById('charSelect');
+  select.innerHTML = '';
+  for (const person of store.personagens) {
+    select.append(el('option', { value: person.id, selected: person.id === store.atualId }, person.nome || 'Sem nome'));
   }
-  sel.onchange = () => store.selecionar(sel.value);
+  select.onchange = () => store.selecionar(select.value);
   document.getElementById('btnSave').onclick = () => { store.salvar(); toast('Personagem salvo neste dispositivo.', 'ok'); };
 }
 
 document.getElementById('btnMenu').onclick = () => {
   const nav = document.getElementById('nav');
-  nav.style.display = nav.style.display === 'none' || !nav.style.display ? 'flex' : 'none';
+  nav.hidden = !nav.hidden;
 };
 
 (async () => {
   await DB.load();
   montarNav();
   montarSeletor();
-  store.subscribe(evt => {
-    if (evt === 'chars') montarSeletor();
+  store.subscribe(event => {
+    if (event === 'chars') montarSeletor();
     route();
   });
   window.addEventListener('hashchange', route);
