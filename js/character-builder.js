@@ -1,11 +1,13 @@
 /* GAU — Forja de Personagens (Criar Personagem)
    Wizard multi-etapas com validação automática
+   FIX: inputs de texto não podem disparar rerender (perdia foco)
+   FIX: draft preservado entre steps para não perder edição não salva
 */
 
-import { el, toast, downloadJSON } from './ui.js';
+import { el, toast } from './ui.js';
 import { novoPersonagemBase, storage } from './storage.js';
 import { computeCharacter } from './character-calculator.js';
-import { rollD20, testarMargem } from './dice.js';
+import { testarMargem } from './dice.js';
 
 const STEPS = [
   { id: 'identidade', nome: 'Identidade', icon: '🧙', desc: 'Nome, conceito e categoria' },
@@ -16,78 +18,138 @@ const STEPS = [
   { id: 'final', nome: 'Finalizar', icon: '✨', desc: 'História e revisão' }
 ];
 
+// Draft em memória para preservar edição não salva entre navegações de steps
+let _draft = null;
+let _draftId = null;
+
 export function renderCharacterBuilder(main, db, params, currentChar, onSave) {
-  const charId = params[0];
-  let char = charId ? storage.getPersonagem(charId) : storage.getAtual() || novoPersonagemBase();
-  if (!char) char = novoPersonagemBase();
-  // clone para edição
-  let editing = JSON.parse(JSON.stringify(char));
-  let activeStep = params[1] || 'identidade';
-  if (!STEPS.find(s => s.id === activeStep)) activeStep = 'identidade';
+  const charIdParam = params[0]; // 'novo' ou id real
+  const stepParam = params[1] || 'identidade';
+  let activeStep = STEPS.find(s => s.id === stepParam) ? stepParam : 'identidade';
 
-  const computed = computeCharacter(db, editing);
-
-  main.innerHTML = '';
-  const builder = el('div', { class: 'builder' });
-
-  // Título
-  builder.append(
-    el('h1', { class: 'page-title' }, '⚔️ Forja de Personagens', el('small', {}, `Margem 10 = humano comum • ${editing.nome || 'Novo personagem'}`)),
-    el('p', { class: 'page-subtitle' }, 'Construa seu personagem. O sistema recalcula margens, carga, deslocamento e valida tudo automaticamente.')
-  );
-
-  // Steps
-  const stepsEl = el('div', { class: 'builder-steps' });
-  for (const step of STEPS) {
-    const done = STEPS.findIndex(s => s.id === activeStep) > STEPS.findIndex(s => s.id === step.id);
-    const isActive = step.id === activeStep;
-    stepsEl.append(el('button', {
-      class: `builder-step ${isActive ? 'active' : ''} ${done ? 'done' : ''}`,
-      onclick: () => { location.hash = `#/criar/${editing.id || 'novo'}/${step.id}`; }
-    },
-      el('span', { class: 'step-num' }, isActive ? '●' : done ? '✓' : STEPS.indexOf(step)+1),
-      `${step.icon} ${step.nome}`
-    ));
+  // Resolve personagem base
+  let baseChar = null;
+  if (charIdParam && charIdParam !== 'novo') {
+    // Se temos draft com mesmo id, usa draft (preserva edição não salva)
+    if (_draft && _draftId === charIdParam) {
+      baseChar = _draft;
+    } else {
+      baseChar = storage.getPersonagem(charIdParam);
+      // Se não achou no storage mas draft existe com id próximo (novo), tenta usar
+      if (!baseChar && _draft && _draft.id === charIdParam) baseChar = _draft;
+    }
   }
-  builder.append(stepsEl);
-
-  // Conteúdo
-  const content = el('div', { class: 'builder-content' });
-
-  if (activeStep === 'identidade') content.append(renderIdentidade(editing, db, (patch) => { Object.assign(editing, patch); rerender(); }));
-  if (activeStep === 'atributos') content.append(renderAtributos(editing, db, computed, (patch) => { Object.assign(editing, patch); rerender(); }));
-  if (activeStep === 'pericias') content.append(renderPericias(editing, db, computed, (patch) => { Object.assign(editing, patch); rerender(); }));
-  if (activeStep === 'manobras') content.append(renderManobras(editing, db, computed, (patch) => { Object.assign(editing, patch); rerender(); }));
-  if (activeStep === 'equipamentos') content.append(renderEquipamentos(editing, db, computed, (patch) => { Object.assign(editing, patch); rerender(); }));
-  if (activeStep === 'final') content.append(renderFinal(editing, db, computed, (patch) => { Object.assign(editing, patch); rerender(); }));
-
-  // Validação
-  content.append(renderValidacao(computed.validacao));
-
-  // Navegação
-  const idx = STEPS.findIndex(s => s.id === activeStep);
-  const prev = idx > 0 ? STEPS[idx-1] : null;
-  const next = idx < STEPS.length-1 ? STEPS[idx+1] : null;
-  const nav = el('div', { class: 'builder-nav' },
-    prev ? el('button', { class: 'btn', onclick: () => location.hash = `#/criar/${editing.id || 'novo'}/${prev.id}` }, `← ${prev.nome}`) : el('span', {}),
-    el('div', { class: 'btn-row' },
-      el('button', { class: 'btn ghost', onclick: () => { editing = novoPersonagemBase(); rerender(); toast('Ficha reiniciada','warn'); } }, 'Reiniciar'),
-      el('button', { class: 'btn', onclick: () => { const saved = storage.salvarPersonagem(editing); toast(`Personagem ${saved.nome || 'sem nome'} salvo!`,'ok'); if (onSave) onSave(saved); location.hash = `#/personagens`; } }, '💾 Salvar'),
-      el('button', { class: 'btn primary', onclick: () => { const saved = storage.salvarPersonagem(editing); toast('Salvo!','ok'); if (next) location.hash = `#/criar/${saved.id}/${next.id}`; else location.hash = `#/ficha/${saved.id}`; } }, next ? `${next.nome} →` : 'Ver Ficha →')
-    )
-  );
-  content.append(nav);
-
-  builder.append(content);
-  main.append(builder);
-
-  function rerender() {
-    // re-renderiza sem perder step
-    renderCharacterBuilder(main, db, [editing.id || 'novo', activeStep], currentChar, onSave);
+  // Se ainda não tem, tenta draft de 'novo' ou atual ou novo base
+  if (!baseChar) {
+    if (_draft && (charIdParam === 'novo' || !_draftId || _draftId === 'novo' || _draftId === _draft.id)) {
+      // Se estamos criando novo e já existe draft, usa draft
+      if (charIdParam === 'novo' || !_draft || _draft.id === _draftId) {
+        // se draft foi criado como novo, reaproveita
+        if (_draftId === 'novo' || _draftId === null || charIdParam === 'novo') {
+          baseChar = _draft;
+        }
+      }
+    }
   }
+  if (!baseChar) {
+    baseChar = storage.getAtual() || novoPersonagemBase();
+    // Se param é novo, força novo base mas preserva draft se for novo
+    if (charIdParam === 'novo' && _draft && _draftId === 'novo') {
+      baseChar = _draft;
+    } else if (charIdParam === 'novo') {
+      baseChar = novoPersonagemBase();
+    }
+  }
+  if (!baseChar) baseChar = novoPersonagemBase();
+
+  // Clone para edição e guarda como draft
+  let editing = JSON.parse(JSON.stringify(baseChar));
+  if (!editing.id) editing.id = 'char_' + Date.now();
+  _draft = editing;
+  _draftId = charIdParam || editing.id;
+
+  function saveDraft() {
+    _draft = JSON.parse(JSON.stringify(editing));
+    _draftId = editing.id;
+  }
+
+  function doRender() {
+    const computed = computeCharacter(db, editing);
+    main.innerHTML = '';
+    const builder = el('div', { class: 'builder' });
+
+    builder.append(
+      el('h1', { class: 'page-title' }, '⚔️ Forja de Personagens', el('small', { id: 'builderTitleSmall' }, `${editing.nome ? editing.nome + ' • ' : ''}Margem 10 = humano comum`)),
+      el('p', { class: 'page-subtitle' }, 'Construa seu personagem. O sistema recalcula margens, carga, deslocamento e valida tudo automaticamente.')
+    );
+
+    // Steps
+    const stepsEl = el('div', { class: 'builder-steps' });
+    for (const step of STEPS) {
+      const done = STEPS.findIndex(s => s.id === activeStep) > STEPS.findIndex(s => s.id === step.id);
+      const isActive = step.id === activeStep;
+      stepsEl.append(el('button', {
+        class: `builder-step ${isActive ? 'active' : ''} ${done ? 'done' : ''}`,
+        onclick: () => {
+          saveDraft();
+          // Se já está no mesmo personagem, só troca step localmente sem perder draft
+          if (editing.id) {
+            activeStep = step.id;
+            // Atualiza hash mas draft será usado no próximo route
+            location.hash = `#/criar/${editing.id}/${step.id}`;
+            // Também re-render local imediato para feedback rápido
+            // (route vai re-render de novo, mas draft preserva)
+            doRender();
+          } else {
+            location.hash = `#/criar/novo/${step.id}`;
+          }
+        }
+      },
+        el('span', { class: 'step-num' }, isActive ? '●' : done ? '✓' : STEPS.indexOf(step)+1),
+        `${step.icon} ${step.nome}`
+      ));
+    }
+    builder.append(stepsEl);
+
+    // Conteúdo
+    const content = el('div', { class: 'builder-content' });
+
+    const onPatch = (patch) => {
+      Object.assign(editing, patch);
+      saveDraft();
+      doRender();
+    };
+
+    if (activeStep === 'identidade') content.append(renderIdentidade(editing, db, onPatch, saveDraft));
+    if (activeStep === 'atributos') content.append(renderAtributos(editing, db, computed, onPatch));
+    if (activeStep === 'pericias') content.append(renderPericias(editing, db, computed, onPatch));
+    if (activeStep === 'manobras') content.append(renderManobras(editing, db, computed, onPatch));
+    if (activeStep === 'equipamentos') content.append(renderEquipamentos(editing, db, computed, onPatch));
+    if (activeStep === 'final') content.append(renderFinal(editing, db, computed, saveDraft));
+
+    content.append(renderValidacao(computed.validacao));
+
+    const idx = STEPS.findIndex(s => s.id === activeStep);
+    const prev = idx > 0 ? STEPS[idx-1] : null;
+    const next = idx < STEPS.length-1 ? STEPS[idx+1] : null;
+    const nav = el('div', { class: 'builder-nav' },
+      prev ? el('button', { class: 'btn', onclick: () => { saveDraft(); location.hash = `#/criar/${editing.id}/${prev.id}`; } }, `← ${prev.nome}`) : el('span', {}),
+      el('div', { class: 'btn-row' },
+        el('button', { class: 'btn ghost', onclick: () => { editing = novoPersonagemBase(); _draft = JSON.parse(JSON.stringify(editing)); _draftId = 'novo'; doRender(); toast('Ficha reiniciada','warn'); } }, 'Reiniciar'),
+        el('button', { class: 'btn', onclick: () => { const saved = storage.salvarPersonagem(editing); _draft = JSON.parse(JSON.stringify(saved)); _draftId = saved.id; toast(`Personagem ${saved.nome || 'sem nome'} salvo!`,'ok'); if (onSave) onSave(saved); location.hash = `#/personagens`; } }, '💾 Salvar'),
+        el('button', { class: 'btn primary', onclick: () => { const saved = storage.salvarPersonagem(editing); _draft = JSON.parse(JSON.stringify(saved)); _draftId = saved.id; toast('Salvo!','ok'); if (next) location.hash = `#/criar/${saved.id}/${next.id}`; else location.hash = `#/ficha/${saved.id}`; } }, next ? `${next.nome} →` : 'Ver Ficha →')
+      )
+    );
+    content.append(nav);
+
+    builder.append(content);
+    main.append(builder);
+  }
+
+  doRender();
 }
 
-function renderIdentidade(char, db, onChange) {
+function renderIdentidade(char, db, onChange, saveDraft) {
   const wrap = el('div', {},
     el('h2', {}, '🧙 Identidade'),
     el('p', { style: 'color:var(--ink-dim);font-size:.9rem' }, 'Quem é seu personagem no universo GAU? Nome, conceito e escala de existência.')
@@ -95,17 +157,43 @@ function renderIdentidade(char, db, onChange) {
 
   const grid = el('div', { class: 'field-grid' },
     el('label', { class: 'field' }, 'Nome do Personagem',
-      el('input', { type: 'text', value: char.nome || '', placeholder: 'Ex: Kael, a Lâmina Errante', oninput: (e) => onChange({ nome: e.target.value }) })
+      el('input', {
+        type: 'text',
+        value: char.nome || '',
+        placeholder: 'Ex: Kael, a Lâmina Errante',
+        oninput: (e) => {
+          char.nome = e.target.value;
+          saveDraft();
+          const t = document.getElementById('builderTitleSmall');
+          if (t) t.textContent = `${e.target.value ? e.target.value + ' • ' : ''}Margem 10 = humano comum`;
+        }
+      })
     ),
     el('label', { class: 'field' }, 'Conceito / Arquétipo',
-      el('input', { type: 'text', value: char.conceito || '', placeholder: 'Ex: Mercenário acrobático, Atirador futurista', oninput: (e) => onChange({ conceito: e.target.value }) })
+      el('input', {
+        type: 'text',
+        value: char.conceito || '',
+        placeholder: 'Ex: Mercenário acrobático, Atirador futurista',
+        oninput: (e) => { char.conceito = e.target.value; saveDraft(); }
+      })
     ),
     el('label', { class: 'field' }, 'Jogador',
-      el('input', { type: 'text', value: char.jogador || '', placeholder: 'Seu nome', oninput: (e) => onChange({ jogador: e.target.value }) })
+      el('input', {
+        type: 'text',
+        value: char.jogador || '',
+        placeholder: 'Seu nome',
+        oninput: (e) => { char.jogador = e.target.value; saveDraft(); }
+      })
     ),
     el('label', { class: 'field' }, 'Categoria de Poder',
       (() => {
-        const sel = el('select', { onchange: (e) => onChange({ categoria: e.target.value }) });
+        const sel = el('select', {
+          onchange: (e) => {
+            char.categoria = e.target.value;
+            saveDraft();
+            onChange({ categoria: e.target.value });
+          }
+        });
         for (const cat of db.categories.categorias || []) {
           const opt = el('option', { value: cat.id, selected: cat.id === (char.categoria || 'mundano') }, `${cat.nome} — ${cat.dados} — ${cat.descricao.slice(0,60)}…`);
           sel.append(opt);
@@ -158,7 +246,6 @@ function renderAtributos(char, db, computed, onChange) {
       el('div', { class: 'attr-crit' }, margem?.critico ? `Crítico ${margem.critico} • ${margem.descricao}` : ''),
       el('div', { class: 'attr-bar' }, el('i', { style: `width:${Math.min(100, (val/20)*100)}%` }))
     );
-    // Botões +/- e teste
     const controls = el('div', { class: 'btn-row', style: 'justify-content:center;margin-top:.5rem' },
       el('button', { class: 'btn small', onclick: () => { const v = Math.max(1, val-1); onChange({ atributos: { ...(char.atributos||{}), [attr.id]: v } }); } }, '−'),
       el('button', { class: 'btn small', onclick: () => { const v = Math.min(20, val+1); onChange({ atributos: { ...(char.atributos||{}), [attr.id]: v } }); } }, '+'),
@@ -173,7 +260,6 @@ function renderAtributos(char, db, computed, onChange) {
 
   wrap.append(grid);
 
-  // Derivados
   const der = computed.derivados;
   wrap.append(
     el('div', { class: 'field-group', style: 'margin-top:1.2rem' },
@@ -207,11 +293,22 @@ function renderPericias(char, db, computed, onChange) {
         el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, `${p.descricao || ''} • Base ${p.atributoBase || '—'}`)
       ),
       el('span', { class: 'skill-attr' }, p.atributoBase || ''),
-      el('input', { type: 'number', min: '1', max: '25', value: String(p.valor), style: 'width:70px', onchange: (e) => {
-        const v = parseInt(e.target.value,10) || 10;
-        const novas = (char.pericias||[]).map(x => x.nome === p.nome ? { ...x, valor: v } : x);
-        onChange({ pericias: novas });
-      }}),
+      el('input', {
+        type: 'number', min: '1', max: '25', value: String(p.valor), style: 'width:70px',
+        onchange: (e) => {
+          const v = parseInt(e.target.value,10) || 10;
+          const novas = (char.pericias||[]).map(x => x.nome === p.nome ? { ...x, valor: v } : x);
+          onChange({ pericias: novas });
+        },
+        oninput: (e) => {
+          // Atualiza sem perder foco, mas não re-renderiza a cada tecla
+          const v = parseInt(e.target.value,10);
+          if (!isNaN(v)) {
+            const item = (char.pericias||[]).find(x => x.nome === p.nome);
+            if (item) item.valor = v;
+          }
+        }
+      }),
       el('span', { class: 'skill-margin' }, margem ? margem.margemTexto : '—'),
       el('button', { class: 'btn small ghost', onclick: () => {
         const res = testarMargem(p.valor, db);
@@ -226,7 +323,6 @@ function renderPericias(char, db, computed, onChange) {
 
   wrap.append(list);
 
-  // Adicionar nova perícia
   const addRow = el('div', { class: 'field-group', style: 'margin-top:1rem' },
     el('div', { class: 'field-group-title' }, '➕ Adicionar Perícia'),
     el('div', { class: 'field-grid' },
@@ -246,13 +342,12 @@ function renderPericias(char, db, computed, onChange) {
     ),
     el('div', { class: 'btn-row' },
       el('button', { class: 'btn', onclick: () => {
-        const nome = document.getElementById('novaPericiaNome').value.trim();
-        const attr = document.getElementById('novaPericiaAttr').value;
-        const valor = parseInt(document.getElementById('novaPericiaValor').value,10) || 10;
+        const nome = document.getElementById('novaPericiaNome')?.value.trim();
+        const attr = document.getElementById('novaPericiaAttr')?.value;
+        const valor = parseInt(document.getElementById('novaPericiaValor')?.value,10) || 10;
         if (!nome) { toast('Informe nome da perícia','warn'); return; }
         const novas = [...(char.pericias||[]), { nome, atributoBase: attr, valor, descricao: `Base ${attr}` }];
         onChange({ pericias: novas });
-        document.getElementById('novaPericiaNome').value = '';
       }}, 'Adicionar')
     )
   );
@@ -271,7 +366,6 @@ function renderManobras(char, db, computed, onChange) {
     )
   );
 
-  // Lista de manobras disponíveis
   const allManeuvers = [];
   const collect = (obj, prefix='') => {
     if (!obj) return;
@@ -283,7 +377,6 @@ function renderManobras(char, db, computed, onChange) {
   Object.values(db.maneuvers).forEach(root => collect(root, ''));
 
   const selected = new Set(char.manobras || []);
-
   const grid = el('div', { class: 'grid cols-2' });
   const grupos = {};
   for (const m of allManeuvers) {
@@ -315,7 +408,6 @@ function renderManobras(char, db, computed, onChange) {
 
   wrap.append(grid);
 
-  // Empunhaduras
   const empWrap = el('div', { class: 'field-group', style: 'margin-top:1.2rem' },
     el('div', { class: 'field-group-title' }, '🤲 Empunhadura Preferida'),
     el('div', { class: 'grid cols-3' },
@@ -351,7 +443,6 @@ function renderEquipamentos(char, db, computed, onChange) {
     )
   );
 
-  // Lista atual
   const list = el('div', { class: 'equip-grid', style: 'margin-top:1rem' });
   for (const eq of char.equipamentos || []) {
     list.append(el('div', { class: 'equip-card' },
@@ -371,23 +462,29 @@ function renderEquipamentos(char, db, computed, onChange) {
   }
   wrap.append(list);
 
-  // Adicionar arma do banco
   const allWeapons = db.getAllWeapons();
   const addPanel = el('div', { class: 'field-group', style: 'margin-top:1.2rem' },
     el('div', { class: 'field-group-title' }, '➕ Adicionar Arma do Grimório'),
     el('div', { style: 'display:flex;gap:.5rem;margin-bottom:.8rem' },
-      el('input', { type: 'search', id: 'buscaArma', placeholder: 'Buscar arma... ex: katana, rifle, plasma', style: 'flex:1', oninput: (e) => {
-        const q = e.target.value.toLowerCase();
-        const container = document.getElementById('listaArmas');
-        container.innerHTML = '';
-        const filtradas = allWeapons.filter(w => w.nome.toLowerCase().includes(q) || w.caracteristica.toLowerCase().includes(q)).slice(0, 30);
-        for (const w of filtradas) {
-          container.append(renderArmaOption(w, char, onChange));
+      el('input', {
+        type: 'search',
+        id: 'buscaArma',
+        placeholder: 'Buscar arma... ex: katana, rifle, plasma',
+        style: 'flex:1',
+        oninput: (e) => {
+          const q = e.target.value.toLowerCase();
+          const container = document.getElementById('listaArmas');
+          if (!container) return;
+          container.innerHTML = '';
+          const filtradas = allWeapons.filter(w => w.nome.toLowerCase().includes(q) || w.caracteristica.toLowerCase().includes(q)).slice(0, 30);
+          for (const w of filtradas) container.append(renderArmaOption(w, char, onChange));
         }
-      }}),
+      }),
       el('button', { class: 'btn small', onclick: () => {
-        document.getElementById('buscaArma').value = '';
+        const inp = document.getElementById('buscaArma');
+        if (inp) inp.value = '';
         const container = document.getElementById('listaArmas');
+        if (!container) return;
         container.innerHTML = '';
         for (const w of allWeapons.slice(0, 20)) container.append(renderArmaOption(w, char, onChange));
       }}, 'Listar 20')
@@ -395,9 +492,8 @@ function renderEquipamentos(char, db, computed, onChange) {
     el('div', { id: 'listaArmas', class: 'equip-grid' })
   );
 
-  // Inicializa com 12 armas
   setTimeout(() => {
-    const container = addPanel.querySelector('#listaArmas');
+    const container = document.getElementById('listaArmas');
     if (container) {
       for (const w of allWeapons.slice(0, 12)) container.append(renderArmaOption(w, char, onChange));
     }
@@ -405,7 +501,6 @@ function renderEquipamentos(char, db, computed, onChange) {
 
   wrap.append(addPanel);
 
-  // Equipamento custom
   const custom = el('div', { class: 'field-group', style: 'margin-top:1rem' },
     el('div', { class: 'field-group-title' }, '🎒 Item Customizado'),
     el('div', { class: 'field-grid' },
@@ -415,13 +510,16 @@ function renderEquipamentos(char, db, computed, onChange) {
     ),
     el('div', { class: 'btn-row' },
       el('button', { class: 'btn', onclick: () => {
-        const nome = document.getElementById('customNome').value.trim();
-        const peso = parseFloat(document.getElementById('customPeso').value) || 0;
-        const desc = document.getElementById('customDesc').value.trim();
+        const nomeEl = document.getElementById('customNome');
+        const pesoEl = document.getElementById('customPeso');
+        const descEl = document.getElementById('customDesc');
+        const nome = nomeEl?.value.trim();
+        const peso = parseFloat(pesoEl?.value) || 0;
+        const desc = descEl?.value.trim();
         if (!nome) { toast('Informe nome','warn'); return; }
         const novo = { nome, peso, caracteristica: desc, categoria: 'custom', qtd: 1 };
         onChange({ equipamentos: [...(char.equipamentos||[]), novo] });
-        document.getElementById('customNome').value = '';
+        if (nomeEl) nomeEl.value = '';
       }}, 'Adicionar Item')
     )
   );
@@ -451,7 +549,6 @@ function renderArmaOption(w, char, onChange) {
 }
 
 function estimatePeso(arma) {
-  // estimativa simples baseada na média de dano
   if (arma.media <= 5) return 0.5;
   if (arma.media <= 10) return 1.5;
   if (arma.media <= 16) return 3;
@@ -460,7 +557,7 @@ function estimatePeso(arma) {
   return 12;
 }
 
-function renderFinal(char, db, computed, onChange) {
+function renderFinal(char, db, computed, saveDraft) {
   const wrap = el('div', {},
     el('h2', {}, '✨ Finalização'),
     el('p', { style: 'color:var(--ink-dim);font-size:.9rem' }, 'Revise sua ficha, escreva história e finalize.'),
@@ -469,7 +566,7 @@ function renderFinal(char, db, computed, onChange) {
         placeholder: 'Quem é seu personagem? De onde veio? Quais seus objetivos? Medos? Use para testes de Vontade e Pânico...',
         value: char.historia || '',
         rows: '6',
-        oninput: (e) => onChange({ historia: e.target.value })
+        oninput: (e) => { char.historia = e.target.value; saveDraft(); }
       })
     ),
     el('div', { class: 'grid cols-2', style: 'margin-top:1.2rem' },
@@ -499,11 +596,12 @@ function renderFinal(char, db, computed, onChange) {
         ),
         el('div', { class: 'btn-row' },
           el('button', { class: 'btn primary', onclick: () => {
-            const val = parseInt(document.getElementById('testeValor').value,10) || 10;
-            const rollInput = document.getElementById('testeRoll').value;
+            const val = parseInt(document.getElementById('testeValor')?.value,10) || 10;
+            const rollInput = document.getElementById('testeRoll')?.value;
             const roll = rollInput ? parseInt(rollInput,10) : null;
             const res = testarMargem(val, db, roll);
             const resEl = document.getElementById('resultadoTeste');
+            if (!resEl) return;
             resEl.innerHTML = '';
             resEl.append(
               el('div', { class: `pill ${res.sucesso ? 'ok' : 'bad'}`, style: 'font-size:1rem;padding:.4rem .8rem' }, `${res.sucesso ? '✅ Sucesso' : '❌ Falha'}${res.critico ? ' • CRÍTICO!' : ''}`),
@@ -526,14 +624,8 @@ function renderValidacao(validacao) {
     );
   }
   const wrap = el('div', { class: 'validation-list' });
-  for (const e of validacao.erros) {
-    wrap.append(el('div', { class: 'validation-item bad' }, el('span', { class: 'val-icon' }, '⛔'), el('span', {}, e.msg)));
-  }
-  for (const a of validacao.avisos) {
-    wrap.append(el('div', { class: 'validation-item warn' }, el('span', { class: 'val-icon' }, '⚠️'), el('span', {}, a.msg)));
-  }
-  for (const i of validacao.infos) {
-    wrap.append(el('div', { class: 'validation-item ok' }, el('span', { class: 'val-icon' }, 'ℹ️'), el('span', {}, i.msg)));
-  }
+  for (const e of validacao.erros) wrap.append(el('div', { class: 'validation-item bad' }, el('span', { class: 'val-icon' }, '⛔'), el('span', {}, e.msg)));
+  for (const a of validacao.avisos) wrap.append(el('div', { class: 'validation-item warn' }, el('span', { class: 'val-icon' }, '⚠️'), el('span', {}, a.msg)));
+  for (const i of validacao.infos) wrap.append(el('div', { class: 'validation-item ok' }, el('span', { class: 'val-icon' }, 'ℹ️'), el('span', {}, i.msg)));
   return wrap;
 }
