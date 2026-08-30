@@ -291,6 +291,24 @@ export async function exportarPDFFicha(computed, db) {
     addTable(['Nome', 'Base', 'Valor', 'Margem', 'Descrição'], rows);
   }
 
+  // ================= PODERES =================
+  if (computed.poderes && computed.poderes.length) {
+    addSectionTitle('🧠', `Poderes Psíquicos (${computed.poderes.length})`, `${computed.custoPoderes || 0} pts em poderes`);
+    for (const p of computed.poderes) {
+      checkPage(14);
+      doc.setFillColor(...colors.bg2);
+      doc.setDrawColor(...colors.gold);
+      doc.roundedRect(margin, y, contentW, 9, 1.5, 1.5, 'FD');
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(...colors.gold2);
+      doc.text(`${p.nome} (${p.sigla}) — Pot ${p.potencia} — ${p.custoPot} pts — Alc ${p.alcance}`, margin + 2, y + 5.5);
+      y += 12;
+      const rows = p.pericias.map(per => [per.nome, String(per.nivel), per.margemTexto || '—', (per.descricao || '').slice(0,35)]);
+      addTable(['Perícia', 'Nível', 'Margem', 'Descrição'], rows);
+    }
+  }
+
   // ================= MANOBRAS =================
   if (computed.manobras.length) {
     addSectionTitle('⚔️', `Manobras (${computed.manobras.length})`, 'Estilo de combate');
@@ -431,6 +449,10 @@ function renderFichaPrintBonita(computed, db) {
     computed.pericias.length ? el('div', { style: 'border-top:2px solid #c9a55c;padding-top:.6rem;margin-top:.8rem' },
       el('h2', { style: 'font-size:1.1rem;color:#8a6d2f' }, `Perícias (${computed.pericias.length})`),
       el('div', {}, computed.pericias.map(p=>`${p.nome} ${p.valor} [${p.margemTexto}]`).join(' • '))
+    ) : '',
+    (computed.poderes && computed.poderes.length) ? el('div', { style: 'border-top:2px solid #c9a55c;padding-top:.6rem;margin-top:.8rem' },
+      el('h2', { style: 'font-size:1.1rem;color:#8a6d2f' }, `Poderes Psíquicos (${computed.poderes.length}) — ${computed.custoPoderes} pts`),
+      el('div', {}, computed.poderes.map(p=>`${p.nome} Pot ${p.potencia} [${p.pericias.map(per=>`${per.nome} ${per.nivel}`).join(', ')}]`).join(' | '))
     ) : '',
     computed.equipamentos.length ? el('div', { style: 'border-top:2px solid #c9a55c;padding-top:.6rem;margin-top:.8rem' },
       el('h2', { style: 'font-size:1.1rem;color:#8a6d2f' }, 'Equipamentos'),

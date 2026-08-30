@@ -11,7 +11,8 @@ const FILES = [
   'tables',
   'attributes',
   'categories',
-  'rules'
+  'rules',
+  'powers'
 ];
 
 class Database {
@@ -240,6 +241,46 @@ class Database {
         ref: '#/livro/testes/margem-sucesso'
       });
     }
+    // Poderes / Psiquismo
+    const powers = this._data.powers;
+    if (powers?.poderes) {
+      for (const poder of powers.poderes) {
+        idx.push({
+          id: `poder/${poder.id}`,
+          titulo: poder.nome,
+          capitulo: 'Poderes',
+          caminho: `Poderes > ${poder.nome}`,
+          conteudo: (poder.descricao || '').slice(0, 400),
+          tipo: 'poder',
+          ref: `#/livro/poderes/${poder.id}`
+        });
+        for (const per of poder.pericias || []) {
+          idx.push({
+            id: `pericia-psi/${per.id}`,
+            titulo: per.nome,
+            capitulo: poder.nome,
+            caminho: `Poderes > ${poder.nome} > ${per.nome}`,
+            conteudo: (per.descricao || '').slice(0, 400),
+            tipo: 'pericia-psi',
+            ref: `#/livro/poderes/${per.id}`
+          });
+        }
+      }
+      // Escala de feitos
+      if (powers.escala_feitos) {
+        for (const f of powers.escala_feitos) {
+          idx.push({
+            id: `feito/${f.codigo}`,
+            titulo: `${f.codigo} ${f.nome}`,
+            capitulo: 'Escala de Feitos',
+            caminho: `Poderes > Escala > ${f.codigo}`,
+            conteudo: f.desc,
+            tipo: 'escala',
+            ref: `#/livro/poderes/escala-feitos`
+          });
+        }
+      }
+    }
 
     this._index = idx;
   }
@@ -253,6 +294,7 @@ class Database {
   get attributes() { return this._data.attributes || { atributos: [] }; }
   get categories() { return this._data.categories || { categorias: [] }; }
   get rules() { return this._data.rules || {}; }
+  get powers() { return this._data.powers || { poderes: [] }; }
   get searchIndex() { return this._index; }
 
   getMarginForValue(val) {

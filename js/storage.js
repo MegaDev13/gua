@@ -131,6 +131,7 @@ export function novoPersonagemBase() {
     ],
     manobras: ['ataque-simples', 'mover-atacar'],
     empunhadura: 'uma-mao',
+    poderes: {}, // { telepatia: { potencia: 10, pericias: [{id, nome, nivel}] } }
     equipamentos: [],
     historia: '',
     fadiga: 0,

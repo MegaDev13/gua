@@ -14,6 +14,7 @@ const STEPS = [
   { id: 'atributos', nome: 'Atributos', icon: '💪', desc: 'ST, DX, IQ, HT e margens' },
   { id: 'pericias', nome: 'Perícias', icon: '📜', desc: 'Conhecimentos e técnicas' },
   { id: 'manobras', nome: 'Manobras', icon: '⚔️', desc: 'Árvore tática de combate' },
+  { id: 'poderes', nome: 'Poderes', icon: '🧠', desc: 'Psiquismo, potência e perícias psi' },
   { id: 'equipamentos', nome: 'Equipamentos', icon: '🛡️', desc: 'Armas e carga' },
   { id: 'final', nome: 'Finalizar', icon: '✨', desc: 'História e revisão' }
 ];
@@ -124,6 +125,7 @@ export function renderCharacterBuilder(main, db, params, currentChar, onSave) {
     if (activeStep === 'atributos') content.append(renderAtributos(editing, db, computed, onPatch));
     if (activeStep === 'pericias') content.append(renderPericias(editing, db, computed, onPatch));
     if (activeStep === 'manobras') content.append(renderManobras(editing, db, computed, onPatch));
+    if (activeStep === 'poderes') content.append(renderPoderes(editing, db, computed, onPatch, saveDraft));
     if (activeStep === 'equipamentos') content.append(renderEquipamentos(editing, db, computed, onPatch));
     if (activeStep === 'final') content.append(renderFinal(editing, db, computed, saveDraft));
 
@@ -614,6 +616,150 @@ function renderFinal(char, db, computed, saveDraft) {
       )
     )
   );
+  return wrap;
+}
+
+function renderPoderes(char, db, computed, onChange, saveDraft) {
+  const powersData = db.powers || { poderes: [] };
+  const wrap = el('div', {},
+    el('h2', {}, '🧠 Poderes & Psiquismo'),
+    el('p', { style: 'color:var(--ink-dim);font-size:.9rem' }, 'Psiquismo são habilidades da mente que exigem um poder inato como pré-requisito. Cada poder tem Potência (força bruta, controla alcance/dano/peso) e Habilidade (controle, tipo Mental/Difícil). Telepatia/PK/Teleporte custam 5 pts/nível, PES/Cura/Anti-Psi custam 3 pts/nível. Você deve começar com pelo menos 1 nível em um poder para tê-lo um dia.'),
+    el('div', { class: 'rule-box' },
+      el('div', { class: 'box-title' }, 'Potência e Habilidade'),
+      el('p', { style: 'font-size:.9rem;margin:.3rem 0' }, 'Potência = força bruta, igual para todas perícias daquele poder. Habilidade = controle, aprendida como perícia Mental/Difícil. Ex: Potência 10 + Habilidade 9 = alcance bom mas controle fraco. Potência 5 + Habilidade 18 = controle preciso mas fraco.')
+    )
+  );
+
+  // Custo em fadiga
+  wrap.append(el('div', { class: 'field-group' },
+    el('div', { class: 'field-group-title' }, '⚡ Uso — Custo em Fadiga, Concentração, Tentativas'),
+    el('ul', { style: 'font-size:.85rem;color:var(--ink-dim)' },
+      el('li', {}, 'Custa fadiga em: esforço extra além da capacidade; tentativa repetida após falha; disputa vencida por margem ≤5; perícia que exige energia; falha crítica.'),
+      el('li', {}, 'Concentração: manobra Concentração, 1 turno parado, depois teste. Ferimento exige teste Vontade para manter.'),
+      el('li', {}, 'Tentativa repetida: esperar 5min sem penalidade, senão 1 PF + redutor cumulativo -1, -2... até ST 0 ou NH <3.'),
+      el('li', {}, 'Níveis pré-definidos: maioria não pode sem treino, exceções IQ-4 anotadas.')
+    )
+  ));
+
+  // Lista de poderes possuídos
+  const poderesAtuais = char.poderes || {}; // { telepatia: { potencia: 10, pericias: [{id, nivel}] } }
+
+  const poderesGrid = el('div', { class: 'grid cols-2', style: 'margin-top:1rem' });
+
+  for (const poder of powersData.poderes || []) {
+    const atual = poderesAtuais[poder.id] || { potencia: 0, pericias: [] };
+    const potencia = atual.potencia || 0;
+
+    const card = el('div', { class: 'panel', style: potencia>0 ? 'border-color:var(--gold)' : '' },
+      el('h3', {}, `${poder.nome} (${poder.sigla || ''}) ${potencia>0 ? `— Pot ${potencia}` : ''}`),
+      el('p', { style: 'font-size:.85rem;color:var(--ink-dim)' }, poder.descricao.slice(0,180)+'…'),
+      el('div', { class: 'pill gold', style: 'margin:.4rem 0' }, `Custo ${poder.custo} pts/nível`),
+      el('div', { class: 'field-grid' },
+        el('label', { class: 'field' }, 'Potência',
+          el('div', { style: 'display:flex;gap:.4rem;align-items:center' },
+            el('button', { class: 'btn small', onclick: () => {
+              const novaPot = Math.max(0, potencia-1);
+              const novos = { ...poderesAtuais, [poder.id]: { ...atual, potencia: novaPot } };
+              if (novaPot===0) delete novos[poder.id];
+              onChange({ poderes: novos });
+            }}, '−'),
+            el('span', { style: 'min-width:30px;text-align:center;font-weight:700' }, String(potencia)),
+            el('button', { class: 'btn small', onclick: () => {
+              const novaPot = Math.min(25, potencia+1);
+              const novos = { ...poderesAtuais, [poder.id]: { ...atual, potencia: novaPot, pericias: atual.pericias || [] } };
+              onChange({ poderes: novos });
+            }}, '+'),
+            el('span', { style: 'font-size:.75rem;color:var(--ink-faint)' }, `= ${potencia * poder.custo} pts`)
+          )
+        )
+      ),
+      potencia>0 ? el('div', { style: 'margin-top:.8rem' },
+        el('div', { style: 'font-size:.8rem;font-weight:600;color:var(--gold2);margin-bottom:.3rem' }, 'Perícias Psíquicas:'),
+        el('div', { class: 'maneuver-chips' },
+          ...(poder.pericias||[]).map(per => {
+            const tem = (atual.pericias||[]).find(pp => pp.id===per.id);
+            const nivel = tem?.nivel || 0;
+            return el('div', { style: 'display:flex;flex-direction:column;gap:.2rem;border:1px solid var(--border);border-radius:8px;padding:.4rem .5rem;background: nivel>0 ? 'rgba(201,165,92,.12)' : 'var(--panel2)' },
+              el('div', { style: 'font-size:.8rem;font-weight:600' }, `${per.nome} ${per.custo_unica ? `*${per.custo_unica}` : ''}`),
+              el('div', { style: 'font-size:.7rem;color:var(--ink-faint)' }, (per.pre_requisito||'') + (per.custo_unica ? ` • única *${per.custo_unica}` : '')),
+              el('div', { style: 'display:flex;gap:.3rem;align-items:center;margin-top:.2rem' },
+                el('input', {
+                  type: 'number', min: '0', max: '25', value: String(nivel), style: 'width:60px',
+                  onchange: (e) => {
+                    const v = parseInt(e.target.value,10)||0;
+                    let novasPer = [...(atual.pericias||[])];
+                    if (v===0) novasPer = novasPer.filter(pp=>pp.id!==per.id);
+                    else {
+                      const idx = novasPer.findIndex(pp=>pp.id===per.id);
+                      if (idx>=0) novasPer[idx].nivel = v;
+                      else novasPer.push({ id: per.id, nome: per.nome, nivel: v });
+                    }
+                    const novos = { ...poderesAtuais, [poder.id]: { potencia, pericias: novasPer } };
+                    onChange({ poderes: novos });
+                  },
+                  oninput: (e) => {
+                    const v = parseInt(e.target.value,10);
+                    if (!isNaN(v)) {
+                      let pp = (char.poderes?.[poder.id]?.pericias||[]).find(x=>x.id===per.id);
+                      if (pp) pp.nivel = v;
+                      else {
+                        if (!char.poderes) char.poderes={};
+                        if (!char.poderes[poder.id]) char.poderes[poder.id]={potencia, pericias:[]};
+                        char.poderes[poder.id].pericias.push({id: per.id, nome: per.nome, nivel: v});
+                      }
+                      saveDraft();
+                    }
+                  }
+                }),
+                el('button', { class: 'btn small ghost', onclick: () => {
+                  const res = testarMargem(nivel||10, db);
+                  toast(`${per.nome} ${nivel}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}${res.critico ? ' CRÍTICO!' : ''}`, res.sucesso?'ok':'bad');
+                }}, '🎲')
+              )
+            );
+          })
+        )
+      ) : '',
+      poder.alcance ? el('details', { style: 'margin-top:.6rem;font-size:.8rem' },
+        el('summary', { style: 'cursor:pointer;color:var(--gold2)' }, '📏 Tabela de Alcance'),
+        el('div', { style: 'max-height:120px;overflow:auto;margin-top:.4rem' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Pot'), el('th', {}, 'Alcance')),
+            ...poder.alcance.slice(0,15).map(a => el('tr', {}, el('td', {}, String(a.potencia)), el('td', {}, a.alcance)))
+          )
+        )
+      ) : ''
+    );
+    poderesGrid.append(card);
+  }
+
+  wrap.append(poderesGrid);
+
+  // Escala de feitos resumo
+  if (powersData.escala_feitos) {
+    const escalaWrap = el('div', { class: 'field-group', style: 'margin-top:1.5rem' },
+      el('div', { class: 'field-group-title' }, '📈 Escala de Feitos de Poder (para classificar feitos)'),
+      el('div', { style: 'display:flex;flex-wrap:wrap;gap:.3rem' },
+        ...powersData.escala_feitos.slice(0,20).map(f => el('span', { class: 'pill', title: f.desc }, `${f.codigo} ${f.nome}`))
+      ),
+      el('p', { style: 'font-size:.75rem;color:var(--ink-faint);margin-top:.5rem' }, 'De 10-C Humano baixo até 0 Absoluto. Veja capítulo Poderes para tabela completa.')
+    );
+    wrap.append(escalaWrap);
+  }
+
+  // Calculo de custo total de poderes
+  const custoTotal = Object.entries(poderesAtuais).reduce((s,[id,dat]) => {
+    const poderDef = (powersData.poderes||[]).find(p=>p.id===id);
+    if (!poderDef) return s;
+    return s + (dat.potencia||0)*poderDef.custo + (dat.pericias||[]).reduce((ss,pp)=>ss+ (pp.nivel||0)*2, 0); // perícia psi Mental/Difícil custo aproximado 2 pts/nível
+  },0);
+
+  wrap.append(el('div', { class: 'stat gold', style: 'margin-top:1rem' },
+    el('div', { class: 'label' }, 'Custo Total Estimado em Pontos (Potência + Perícias)'),
+    el('div', { class: 'value' }, `${custoTotal} pts`),
+    el('div', { class: 'hint' }, 'Telepatia/PK/Teleporte 5 pts/nível Potência, PES/Cura/Anti-Psi 3 pts/nível. Perícias psi Mental/Difícil ~2 pts/nível. Ajuste com GM.')
+  ));
+
   return wrap;
 }
 

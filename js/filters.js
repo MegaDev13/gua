@@ -5,7 +5,9 @@ export const FILTER_CATEGORIES = [
   { id: 'manobra', label: 'Manobras', icon: '⚔️' },
   { id: 'arma', label: 'Armas', icon: '🗡️' },
   { id: 'tabela', label: 'Tabelas', icon: '📊' },
-  { id: 'empunhadura', label: 'Empunhaduras', icon: '🤲' }
+  { id: 'empunhadura', label: 'Empunhaduras', icon: '🤲' },
+  { id: 'poder', label: 'Poderes', icon: '🧠' },
+  { id: 'escala', label: 'Escalas', icon: '📈' }
 ];
 
 export const WEAPON_FILTERS = [

@@ -274,7 +274,7 @@ function setupFiltros() {
   try {
     const salvos = storage.getFiltros();
     for (const f of salvos) {
-      if (['regra','manobra','arma','tabela','empunhadura'].includes(f)) filterSystem.active.add(f);
+      if (['regra','manobra','arma','tabela','empunhadura','poder','escala'].includes(f)) filterSystem.active.add(f);
       else filterSystem.weaponActive.add(f);
     }
   } catch {}
@@ -410,6 +410,18 @@ function renderCapaPage(main) {
         el('div', { class: 'panel' },
           el('h3', {}, '🎲 Graus de Dano'),
           el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, 'GD1 Raspão 1–20, GD2 Em Cheio 21–64, GD3 Letal 65+. Tabelas mundanas, modernas e futuristas com 64 armas de adaga a canhão de fusão.')
+        ),
+        el('div', { class: 'panel' },
+          el('h3', {}, '🧠 Psiquismo & Poderes'),
+          el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, 'Potência = força bruta (alcance/dano), Habilidade = controle Mental/Difícil. Telepatia, Psicocinese, PES, Teleporte, Cura, Anti-Psi. Escala de feitos de 10-C Humano baixo até 0 Absoluto, dimensionalidade 0D a Transcendente, HAX.')
+        ),
+        el('div', { class: 'panel' },
+          el('h3', {}, '📈 Escala de Feitos'),
+          el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, 'Classificação de feitos: Parede, Construção, Quarteirão, Vilarejo, Cidade, Montanha, Ilha, País, Continente, Lua, Planeta, Estrela, Sistema Solar, Galáxia, Universo, Multiverso, Complexo, Hiperdimensional, Transcendência, Absoluto.')
+        ),
+        el('div', { class: 'panel' },
+          el('h3', {}, '🌀 Dimensionalidade'),
+          el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, '0D Ponto a 12D Dodeca, Finito >12D, Infinito e Transcendente. 4D > 3D: leis inferiores não afetam superior. Essencial para feitos sobrenaturais.')
         )
       ),
       el('div', { class: 'ornament-divider', style: 'margin-top:2.5rem;width:100%;max-width:500px' }, el('span', {}, '◈')),
@@ -611,6 +623,25 @@ function renderFichaPage(main, id) {
           el('div', { class: 'maneuver-chips' }, ...computed.manobras.map(m => el('span', { class: 'maneuver-chip active' }, m)))
         )
       ) : '',
+      computed.poderes && computed.poderes.length ? el('div', { class: 'sheet-section' },
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '🧠'), `Poderes Psíquicos (${computed.poderes.length}) — ${computed.custoPoderes} pts`),
+        el('div', { class: 'sheet-section-body' },
+          ...computed.poderes.map(p => el('div', { class: 'panel', style: 'margin-bottom:.8rem;border-color:var(--gold)' },
+            el('h3', {}, `${p.nome} (${p.sigla}) — Potência ${p.potencia} — ${p.custoPot} pts — Alcance ${p.alcance}`),
+            el('div', { class: 'skill-list' },
+              ...p.pericias.map(per => el('div', { class: 'skill-item' },
+                el('div', { class: 'grow' }, el('div', { class: 'skill-name' }, per.nome), el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, per.descricao.slice(0,120))),
+                el('span', { class: 'skill-value' }, String(per.nivel)),
+                el('span', { class: 'skill-margin' }, per.margemTexto),
+                el('button', { class: 'btn small ghost', onclick: () => {
+                  const res = testarMargem(per.nivel, DB);
+                  toast(`${per.nome}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}${res.critico ? ' CRÍTICO!' : ''}`, res.sucesso ? 'ok' : 'bad');
+                }}, '🎲')
+              ))
+            )
+          ))
+        )
+      ) : '',
       computed.empunhadura ? el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '🤲'), 'Empunhadura'),
         el('div', { class: 'sheet-section-body' },
@@ -670,6 +701,19 @@ function renderGlossario(main) {
     { termo: 'Combate Impacto vs Mortal', def: 'Impacto = sem intenção de matar. Mortal = tentativa de matar.' },
     { termo: 'GD', def: 'Grau Dano: GD1 1–20 Raspão, GD2 21–64 Em cheio, GD3 65+ Letal.' },
     { termo: 'Empunhadura', def: 'Uma Mão, Bastarda, Duas Mãos +1 Força, Tsuka +1 Mov, Zatoichi +2 pós-saque, Anatômica +1 Acrobático.' },
+    { termo: 'PSIQUISMO', def: 'Habilidades da mente que exigem poder inato. Potência = força bruta (alcance/dano), Habilidade = controle (Mental/Difícil). TP/PK/Teleporte 5 pts/nível, PES/Cura/Anti-Psi 3 pts/nível.' },
+    { termo: 'Potência', def: 'Força bruta do psiquismo. Igual para todas perícias de um poder. Controla alcance, dano, peso.' },
+    { termo: 'Habilidade Psi', def: 'Controle da perícia psi, tipo Mental/Difícil, baseada em IQ.' },
+    { termo: 'Telepatia', def: 'Comunicação e controle mental. Alcance dobra por nível após 11. Não afetada por barreiras físicas.' },
+    { termo: 'Escudo Mental', def: 'Defesa telepática. Força = Potência TP. Níveis 8- a 20+ determinam filtragem amistoso/hostil e disfarce.' },
+    { termo: 'Psicocinese (PK)', def: 'Mover objetos à distância. Peso por Potência: 1=7g até 22=1 ton, +125kg/nível após.' },
+    { termo: 'PES', def: 'Percepção Extra-Sensorial: Clarividência (ver através, alcance Pot²×2,5 cm), Clariaudiência, Psicometria (anos = Pot²), Precognição (tempo dias = Pot², -10, 2 PF, 10min).' },
+    { termo: 'Psicoteleporte', def: 'Mover sem percorrer espaço. Auto = si +2,5kg, Exo = 10% peso TK. Falha = lugar parecido +2 PF, crítica = 1D horas atordoado.' },
+    { termo: 'Cura Psíquica', def: 'Restaura HT até Potência, contato físico, custo 3×PV curado em PF, falha 1D PF, crítica 1D dano no alvo.' },
+    { termo: 'Estática Psíquica (Cigarra)', def: 'Antipsi que interfere com todo psiquismo na área Potência. Disputa Estática vs perícia, custa 1 PF ao outro. Pré-definido IQ-4.' },
+    { termo: 'Escala de Feitos', def: 'De 10-C Humano baixo a 0 Absoluto. Classifica destruição: 9-B Parede, 8-C Construção média, 8-B Quarteirão, 7-B Cidade, 7-A Montanha, 6-C Ilha, 6-B País, 6-A Continente, 5-B Planeta, 4-C Estrela, 4-B Sistema Solar, 3-C Galáxia, 3-A Universo, 2-C Multiverso pequeno, 2-A Multiverso infinito, 1-C Complexo, 1-B Hiperdimensional, 1-A Transcendência, 0 Absoluto.' },
+    { termo: 'Dimensionalidade', def: '0D Ponto (11-C) a 12D Dodeca (1-B), Finito >12D, Infinito (High 1-B), Transcendente além de dimensionalidade (Low 1-A ~0). 4D > 3D: leis inferiores não afetam superior.' },
+    { termo: 'HAX', def: 'Habilidade que permite vencer oponente com potência/escala maior por virtude de efeitos (ex: Paralisação Temporal, Manipulação Realidade). Relativo ao nível.' },
   ];
   main.append(el('h1', { class: 'page-title' }, '📚 Glossário'));
   const grid = el('div', { class: 'grid cols-2' });

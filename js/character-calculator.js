@@ -73,14 +73,51 @@ export function computeCharacter(db, char) {
   });
 
   // Manobras: verifica se personagem tem atributos mínimos?
-  // Ex: Ataque Pesado exige ST>=? Não definido, então apenas lista
   const manobras = char.manobras || [];
+
+  // Poderes
+  const poderesRaw = char.poderes || {};
+  const poderesCalc = [];
+  let custoPoderes = 0;
+  for (const [poderId, dados] of Object.entries(poderesRaw)) {
+    const def = (db.powers?.poderes || []).find(p => p.id === poderId);
+    if (!def) continue;
+    const potencia = dados.potencia || 0;
+    const custoPot = potencia * (def.custo || 5);
+    custoPoderes += custoPot;
+    const periciasPsi = (dados.pericias || []).map(pp => {
+      const perDef = (def.pericias || []).find(pd => pd.id === pp.id);
+      const nivel = pp.nivel || 0;
+      const margem = db.getMarginForValue(nivel);
+      const custoHab = nivel * 2; // Mental/Difícil aproximado
+      custoPoderes += custoHab;
+      return {
+        ...pp,
+        poderId,
+        poderNome: def.nome,
+        potencia,
+        margem,
+        margemTexto: margem?.margemTexto || '—',
+        custo: custoHab,
+        descricao: perDef?.descricao || ''
+      };
+    });
+    poderesCalc.push({
+      id: poderId,
+      nome: def.nome,
+      sigla: def.sigla,
+      potencia,
+      custoPot,
+      pericias: periciasPsi,
+      alcance: def.alcance?.find(a => a.potencia === potencia)?.alcance || (potencia>0 ? `${potencia*10}m estimado` : '—')
+    });
+  }
 
   // Empunhadura
   const empunhadura = char.empunhadura ? (db.empunhaduras.empunhaduras || []).find(e => e.id === char.empunhadura) : null;
 
   // Validação
-  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc });
+  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc, poderesCalc, custoPoderes });
 
   // Categoria
   const categoria = (db.categories.categorias || []).find(c => c.id === (char.categoria || 'mundano')) || { id: 'mundano', nome: 'Mundano', dados: '1d20' };
@@ -108,6 +145,8 @@ export function computeCharacter(db, char) {
     },
     pericias: periciasCalc,
     manobras,
+    poderes: poderesCalc,
+    custoPoderes,
     empunhadura,
     equipamentos: char.equipamentos || [],
     validacao,
@@ -120,7 +159,7 @@ function validarPersonagem(db, char, calc) {
   const erros = [];
   const infos = [];
 
-  const { atributos, carga } = calc;
+  const { atributos, carga, poderesCalc, custoPoderes } = calc;
 
   // Atributos fora do limite mundano
   for (const [k, v] of Object.entries(atributos)) {
@@ -161,6 +200,18 @@ function validarPersonagem(db, char, calc) {
   // Nome
   if (!char.nome || char.nome.trim().length < 2) {
     avisos.push({ tipo: 'aviso', msg: 'Nome do personagem muito curto. Defina identidade.', campo: 'nome' });
+  }
+
+  // Poderes
+  if (poderesCalc && poderesCalc.length > 0) {
+    for (const p of poderesCalc) {
+      if (p.potencia === 0) avisos.push({ tipo: 'aviso', msg: `Poder ${p.nome} com Potência 0 — sem efeito.`, campo: 'poderes' });
+      if (p.potencia > 0 && p.pericias.length === 0) infos.push({ tipo: 'info', msg: `Poder ${p.nome} Pot ${p.potencia} sem perícias treinadas — pode usar níveis pré-definidos IQ-4 onde permitido.`, campo: 'poderes' });
+      for (const per of p.pericias) {
+        if (per.nivel < 8) avisos.push({ tipo: 'aviso', msg: `${per.nome} NH ${per.nivel} baixo — controle ruim.`, campo: 'poderes' });
+      }
+    }
+    infos.push({ tipo: 'info', msg: `Custo estimado poderes: ${custoPoderes} pts (Potência + perícias).`, campo: 'poderes' });
   }
 
   const total = erros.length + avisos.length;

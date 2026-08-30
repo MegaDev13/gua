@@ -1,0 +1,435 @@
+{
+  "titulo": "Poderes & Psiquismo",
+  "introducao": "Psiquismo ou poderes psíquicos são habilidades da mente que devem ser aprendidas como todas as outras. A diferença é que, para cada uma destas perícias, existe um poder psíquico subjacente (uma vantagem inata) que é um pré-requisito para o desenvolvimento da perícia. Ninguém é capaz de desenvolver perícias psíquicas, se não tiver o poder apropriado. Você pode aprender todas as perícias psíquicas associadas a um determinado poder psíquico, se o tiver. Você pode também ser capaz de usar algumas perícias em seu nível predefinido, i.e., sem gastar os pontos necessários para 'aprendê-las'. A Memória Eidética não dá nenhum bônus no aprendizado de perícias psíquicas. Um personagem que começa com um poder psíquico pode intensificá-lo mais tarde, usando os pontos ganhos durante as campanhas, pagando o mesmo 'preço' por nível que pagaria quando da criação do personagem. Mas, poderes totalmente novos não podem ser adquiridos. O personagem tem que começar com pelo menos um nível em um poder, se é para ele tê-lo um dia. (O GMs podem abrir exceções a esta regra, se o desejarem).",
+  "potencia_e_habilidade": {
+    "descricao": "Cada uma de suas perícias psíquicas é definida por dois fatores: potência e habilidade. A Potência é a 'força' bruta de seu psiquismo. Ela controla o alcance, dano provocado, peso afetado, etc. A potência é adquirida em níveis e é igual para todas as perícias governadas por um determinado poder. Se a potência de seu poder Telepático for igual a 10, todas as suas perícias relacionadas com telepatia terão potência igual a 10. Telepatia (TP), Psicocinese (PK) e Teleporte custam 5 pontos por nível de potência; Percepção Extra-Sensorial, Cura e Anti-Psi custam 3 pontos por nível. A Habilidade é adquirida de modo idêntico ao das perícias normais. As perícias psíquicas são do tipo Mental/Difícil. O nível de habilidade determina quão bem você é capaz de controlar sua perícia.",
+    "custos": [
+      { "poder": "Telepatia (TP)", "custo": 5 },
+      { "poder": "Psicocinese (PK)", "custo": 5 },
+      { "poder": "Teleporte", "custo": 5 },
+      { "poder": "Percepção Extra-Sensorial (PES)", "custo": 3 },
+      { "poder": "Cura", "custo": 3 },
+      { "poder": "Anti-Psi", "custo": 3 }
+    ],
+    "exemplos": [
+      "Personagem adquire Telepatia com potência 10 (50 pontos). Esta potência vale para todas as suas perícias relacionadas com telepatia. Ele adquire também Transmissão Telepática com nível 9 e Recepção Telepática com nível 18; estes são níveis de habilidade baseados em IQ. Sua potência 10 lhe dará bom alcance.",
+      "Telecinético com Potência 18 e Habilidade 5 seria capaz de levantar pesos através do poder mental, mas seu controle seria ruim. Poderia empurrar um elefante pelas ruas, mas tentar colocá-lo sobre um carro seria difícil. Por outro lado, TK de Potência 5 e Habilidade 18 seria capaz de colocar uma moeda em uma fenda enquanto conversa, mas não conseguiria erguer uma mala."
+    ]
+  },
+  "poder_unica_pericia": {
+    "descricao": "Se você tiver apenas uma perícia relacionada com um poder e nunca puder aprender mais nenhuma, aquele poder poderá ser comprado mais barato. Um asterisco (*) ao lado do nome de uma perícia mostra o custo por ponto de Potência, se aquela perícia for a única que o psi pode aprender para aquele poder. Se não houver asterisco, aquela perícia não está disponível como uma perícia 'única'."
+  },
+  "uso": {
+    "custo_fadiga": [
+      "Devido a um 'esforço extra', i.e., uma tentativa além de sua capacidade normal.",
+      "Para cada tentativa repetida de usar uma perícia, quando a primeira falhou.",
+      "Para qualquer uso que venha a exigir uma Disputa de Habilidades, a menos que você a vença por uma margem maior do que 5.",
+      "Para qualquer perícia que requeira o dispêndio de energia.",
+      "No caso de uma falha crítica."
+    ],
+    "concentracao": "O uso de perícias psíquicas exige a manobra Concentração. O uso de uma perícia psíquica 'ativa' requer um turno de concentração (i.e, você fica um segundo parado, sem fazer nada), salvo alguma especificação em contrário. No início do turno seguinte, você faz sua jogada de teste para ver se foi bem sucedido. Se o efeito for instantâneo (ex.: por fogo no cabelo de alguém), ele ocorrerá logo após sua jogada e você poderá realizar alguma outra ação naquele turno. Se alguma coisa (principalmente um ferimento) perturbar sua concentração, será preciso ser bem sucedido num teste de Vontade para mantê-la. Use as mesmas regras vistas para a Magia.",
+    "tempo_adicional": "Para um efeito que exige mais tempo (ex.: ler a mente de alguém), será preciso um período de tempo adicional gasto em concentração depois que o contato inicial tiver sido feito. Se você quiser fazer algo enquanto continua a usar um poder psíquico, pode tentar mas será exigido um teste de habilidade com um redutor a cada minuto.",
+    "modificadores_concentracao": [
+      { "acao": "Sustentar uma conversa ligeira", "redutor": -2 },
+      { "acao": "Sustentar uma conversa inteligente", "redutor": -4 },
+      { "acao": "Fazer trabalho manual repetitivo", "redutor": -2 },
+      { "acao": "Combater à distância (ex.: disparar uma arma de fogo)", "redutor": -6 }
+    ],
+    "tentativas_repetidas": "Quando um psi tenta usar um poder e falha, ele pode esperar 5 minutos e tentar de novo sem penalidade. Se ele fizer uma nova tentativa antes, isto será considerado um esforço repetido e custará 1 ponto de Fadiga. Além disso, esta segunda tentativa será feita com um redutor igual a -1 sobre sua perícia. Se esta tentativa falhar, ele poderá gastar mais um ponto de Fadiga e tentar novamente com um redutor igual a -2 e assim por diante até que sua ST chegue a 0 e ele caia inconsciente, ou seu nível de habilidade efetivo caia abaixo de 3, pois a partir daí um sucesso é impossível. Depois que um psi começar a perder pontos de fadiga em tentativas repetidas, todas estas tentativas serão consideradas esforço repetido, até ele descansar o suficiente para recuperar todos os pontos de fadiga gastos (à razão de 1 ponto a cada 10 minutos de descanso). O uso de psiquismo é considerado tentativa repetida se o psi estiver tentando a mesma coisa (i.e., a mesma perícia sobre o mesmo (ou idêntico) objetivo). Duas pessoas não são objetivos idênticos. Duas balas (para serem levantadas com PK) seriam. Se a distância for a única coisa que muda, teremos um caso de tentativa repetida apesar de que a nova distância pode modificar a jogada de teste para alguns poderes.",
+    "niveis_predefinidos": "A maioria das perícias psíquicas não pode ser usada sem treinamento, mesmo que você possua uma alta Potência. Existem algumas poucas exceções que têm um nível predefinido para uma perícia (normalmente IQ-4). Estas exceções estão anotadas na descrição de cada uma das perícias."
+  },
+  "poderes": [
+    {
+      "id": "telepatia",
+      "nome": "Telepatia",
+      "sigla": "TP",
+      "custo": 5,
+      "descricao": "A Telepatia é o poder de comunicação e controle mental. Para estas perícias, o objetivo é a pessoa que você está tentando detectar, controlar ou se comunicar com. A Telepatia não é afetada por barreiras físicas.",
+      "alcance": [
+        { "potencia": 1, "alcance": "Contato apenas e o tempo necessário é multiplicado por 10" },
+        { "potencia": 2, "alcance": "Contato apenas" },
+        { "potencia": 3, "alcance": "1 metro" },
+        { "potencia": 4, "alcance": "2 metros" },
+        { "potencia": 5, "alcance": "4 metros" },
+        { "potencia": 6, "alcance": "8 metros" },
+        { "potencia": 7, "alcance": "15 metros" },
+        { "potencia": 8, "alcance": "30 metros" },
+        { "potencia": 9, "alcance": "60 metros" },
+        { "potencia": 10, "alcance": "100 metros" },
+        { "potencia": 11, "alcance": "200 metros" },
+        { "potencia": 12, "alcance": "400 m" },
+        { "potencia": 13, "alcance": "800 m" },
+        { "potencia": 14, "alcance": "1,5 km" },
+        { "potencia": 15, "alcance": "3 km" },
+        { "potencia": 16, "alcance": "6 km" },
+        { "potencia": 17, "alcance": "12 km" },
+        { "potencia": 18, "alcance": "24 km" },
+        { "potencia": 19, "alcance": "48 km" },
+        { "potencia": 20, "alcance": "96 km" },
+        { "potencia": 21, "alcance": "200 km" }
+      ],
+      "nota_alcance": "Aumentos adicionais de potência continuam a dobrar o alcance. Estas distâncias são para contato com um único alvo. Se o poder envolver um uso 'global' do psiquismo (ex.: um Grito dirigido a todos à sua volta), o alcance deverá ser dividido por 10.",
+      "modificadores": [
+        "O objetivo tem a perícia Escudo Mental: menos a potência Telepática.",
+        "O agente está tocando o objetivo: +1. Exceção: se sua Potência for 1 ou 2, você terá que tocar o objetivo, e neste caso não receberá o bônus.",
+        "O agente conhece superficialmente o objetivo (decisão do GM): +1",
+        "O agente conhece intimamente o objetivo (decisão do GM): +2"
+      ],
+      "pericias": [
+        {
+          "id": "recepcao-psiquica",
+          "nome": "Recepção Psíquica",
+          "custo_unica": 2,
+          "descricao": "Esta é a habilidade em detectar o uso de alguma perícia psíquica. As pessoas que possuem esta perícia (algumas vezes chamadas de 'Farejadores') têm direito a um teste de habilidade passivo para detectar um uso ativo de um poder psíquico dentro de seu alcance. Ele também pode usar a perícia ativamente, se concentrando.",
+          "modificadores": ["O 'Farejador' está se concentrando exclusivamente em detecção: +5", "O objetivo está usando uma habilidade Telepática: +2"],
+          "tabela_sucesso": [
+            "Falha: Nenhum uso de psiquismo detectado.",
+            "Sucesso: O 'Farejador' sabe que o psi estava sendo usado dentro de seu alcance.",
+            "Sucesso por 1: O 'Farejador' sabe a direção aproximada.",
+            "Sucesso por 3: O 'Farejador' sabe também a distância aproximada.",
+            "Sucesso por 5: O 'Farejador' sabe também qual poder psíquico estava sendo usado.",
+            "Sucesso por 7: O 'Farejador' sabe também qual perícia estava sendo usada.",
+            "Sucesso por 9: O 'Farejador' também sabe para quê, ou sobre o quê a perícia estava sendo usada.",
+            "Sucesso por 11: O 'Farejador' tem uma imagem da personalidade de (ou reconhece) quem está usando."
+          ]
+        },
+        {
+          "id": "percepcao-emocoes",
+          "nome": "Percepção de Emoções",
+          "custo_unica": 2,
+          "descricao": "Esta é a perícia em dizer não o que uma pessoa está pensando, mas o que ela está sentindo. Se o objetivo estiver dentro do alcance de seu poder e você o ouvir falar, você será capaz de dizer se ele está mentindo ou não (não qual é a verdade e sim se ele está sendo sincero). Este é um teste 'passivo' feito automaticamente. Pode-se obter também, uma 'percepção' geral da personalidade de alguém; quanto melhor o resultado do teste, mais detalhada será a sensação. Este também é um processo 'passivo'. O GM faz a jogada por você e fornece a informação. Por fim, é possível também pressentir outras emoções. Um sucesso em um teste de habilidade lhe dirá a verdade quando alguém estiver (por exemplo) triste, mas fingindo alegria. Este não é um processo passivo. Ele exige uma tentativa ativa. Uso de níveis pré-definidos: Os aspectos passivos desta perícia poderão ser usados sem treino, se a Potência de seu poder for maior ou igual a 3. Você será capaz de perceber mentiras, mas não outras emoções, com um teste de IQ. Você tem direito a apenas um teste de 'personalidade' para cada pessoa a quem é apresentado (se ficarem separados por um mês, você terá uma nova chance). Isto funciona exatamente do mesmo modo que a vantagem da Empatia, por serem a mesma coisa. Se você tiver Empatia, será um psi. Os 15 pontos que gastou com Empatia fazem de você um telepata com Potência 3 e nenhum treino, o que lhe permite fazer testes contra sua IQ.",
+          "pre_definido": "IQ (se Potência >=3)"
+        },
+        {
+          "id": "transmissao-telepatica",
+          "nome": "Transmissão Telepática",
+          "custo_unica": 3,
+          "descricao": "Esta é a perícia no envio de pensamento. O agente envia seus pensamentos para o objetivo na velocidade de uma conversa, sendo que desenhos simples também podem ser enviados (através de sua visualização), na velocidades em que seriam desenhados no papel. É necessário um sucesso em um teste de habilidade. Se a jogada falhar, o psi poderá gastar fadiga e tentar de novo (veja Tentativas Repetidas). Se o psi não tiver nenhuma língua em comum com o objetivo, a jogada de teste terá um redutor igual a -4. Se a jogada tiver falhado por uma margem maior ou igual a 4, o objetivo sentiu o contato, mas não entendeu nada. O Grito: A perícia Transmissão Telepática pode ser usada para dar um Grito telepático que pode atordoar aqueles que o recebem. Se o Grito for irradiado, não será necessário nenhuma jogada de teste. Ele afetará todos dentro do alcance do psi (poderá ser especificado um alcance menor se o psi gritar mais baixo). Todos aqueles que estiverem dentro do alcance do Grito deverão fazer um teste de HT. Uma falha resultará num atordoamento mental. O Grito pode também ser apontado para uma área determinada."
+        },
+        {
+          "id": "recepcao-telepatica",
+          "nome": "Recepção Telepática",
+          "custo_unica": 3,
+          "descricao": "Esta é a perícia de receber pensamentos (frequentemente chamada de 'ideoscopia ou leitura da mente'). O pensamento recebido vem na velocidade de uma conversa, exceto no caso de dois telepatas muito habilidosos. Para receber pensamentos de um objetivo propenso dentro de seu alcance, é necessário uma jogada de teste. Para receber pensamentos de um objetivo relutante, serão necessárias duas jogadas. A primeira testa sua sutileza. Faça uma Disputa de Habilidades entre sua Recepção Telepática e a perícia Escudo Mental do objetivo, ou IQ se ele não tiver o escudo erguido. Se você vencer, sua tentativa de ler a mente não terá sido notada. Se você perder ou houver um empate, o objetivo notará sua presença. A segunda jogada é a tentativa real de entrar na mente do objetivo. Faça um teste de Recepção Telepática, reduzida pela potência do Escudo Mental do objetivo, para ver se você fez contato com a mente dele. Subtraia a Força de Vontade do objetivo de seu nível de habilidade (ou some sua Vontade Fraca). Se o objetivo estiver falando ou mesmo sussurrando, você terá um bônus de +2 em todas as jogadas de teste. Será feita uma jogada de teste para cada minuto que você permanecer na mente do objetivo, mas isto não terá custo em fadiga. Se alguma das jogadas falhar o contato será interrompido.",
+          "tabela_profundidade": [
+            "0-2: Apenas pensamentos superficiais. Se o objetivo estiver falando ou sussurrando, você pegará apenas o que ele está dizendo.",
+            "3-4: Todos os pensamentos superficiais, mais algumas associações mentais ocasionais. É possível também escolher um dos sentidos do objetivo (visão, audição, telepatia, etc...) para interceptar.",
+            "5-6: Como acima, mas com todas as associações mentais significativas (mas só se o objetivo estiver pensando no assunto). Pode-se também captar as impressões de todos os sentidos do objetivo.",
+            "7-8: A mente subconsciente do objetivo também está exposta",
+            "9-10: As lembranças que o objetivo tem do dia anterior também estão expostas.",
+            "11-12: As lembranças da última semana estão expostas.",
+            "13+: Toda a memória do objetivo está exposta, apesar de que é necessário uma jogada de teste independente para 'localizar' qualquer lembrança particular com mais de um ano."
+          ]
+        },
+        {
+          "id": "golpe-mental",
+          "nome": "Golpe Mental",
+          "pre_requisito": "Diapsiquia com NH 12+",
+          "descricao": "Este é um ataque mental direto. Ele sempre custa ao psi 1 ponto de Fadiga. Um sucesso atordoa (como no Grito) e produz fadiga no objetivo. Quando o atributo ST da vítima chegar a zero, ela desmaiará e mais nenhum dano poderá ser produzido. Exceção: Um sucesso crítico com um Golpe Mental provoca dano físico à vítima. No caso de uma falha crítica, o tiro sai pela culatra, produzindo dano físico ao agente além do custo normal em fadiga devido a uma falha crítica. A quantidade de dano dependerá da Potência do atacante. Jogue um dado para cada 10 pontos completos de potência e adicione 1 se o que sobrar for mais do que 5 (ou seja uma Potência igual a 16 provoca 1D+1 pontos de dano). A vítima, se ainda estiver consciente, fará um teste de Recepção Telepática, Escudo Mental ou Percepção Psíquica. Um sucesso dará a ela informações sobre o atacante, como a Percepção Psíquica."
+        },
+        {
+          "id": "escudo-mental",
+          "nome": "Escudo Mental",
+          "custo_unica": 2,
+          "descricao": "Esta é a perícia de levantar um 'escudo' mental, que o alertará contra ataques telepáticos e o ajudará a se defender deles. Este processo envolve uma Disputa de Habilidades e um teste de Recepção Telepática da parte do psi invasor. É possível ligar ou desligar este escudo por força da vontade e a qualquer momento, mesmo quando não for sua vez durante uma rodada de combate. Quando você adormece ou fica inconsciente, seu escudo permanece do modo como estava. Se houver necessidade de seu escudo ser ligado ou desligado enquanto você estiver adormecido ou inconsciente, você terá um único teste de Escudo Mental (com um redutor de -2 se estiver inconsciente). Potência do Escudo: A força de seu Escudo é igual à sua Potência em Telepatia. Subtraia este valor do nível de habilidade de qualquer uso de psiquismo afetado pelo escudo.",
+          "tabela_niveis": [
+            "8 ou menos: Interfere com todos os usos de Telepatia, amistosos ou hostis, contra ou a favor do objetivo. Quando o escudo estiver erguido, ele interferirá com suas próprias habilidades telepáticas!",
+            "9 a 11: Interfere com todos os usos de Telepatia, amistosos ou hostis, quando o agente do Escudo for o objetivo, mas não com a Telepatia do próprio dono do Escudo.",
+            "12 a 14: Interfere com todos os usos de Telepatia quando o agente do Escudo for o objetivo, a menos que ele conscientemente escolha um uso como 'amistoso'. Aquele uso sofrerá então apenas a metade da interferência (arredondado para cima).",
+            "15 a 17: O Escudo consegue diferenciar automaticamente os contatos hostis dos amistosos. Os contatos amistosos são detectados, mas podem atravessar o escudo sem oposição.",
+            "18 a 20: Como acima, acrescido do fato de que se um contato 'amistoso' se tornar hostil, o atacante precisará fazer um novo teste contra o escudo.",
+            "Mais de 20: Qualquer psi que entre em contato com o escudo deverá vencer uma Disputa de Habilidades (Recepção Telepática vs Escudo), para perceber que o agente tem poderes psíquicos. Caso contrário, ele perceberá apenas pensamentos superficiais adequados a alguém sem poderes psíquicos. Isto é chamado 'disfarce'."
+          ]
+        },
+        {
+          "id": "sono",
+          "nome": "Sono",
+          "pre_requisito": "Diapsiquia com NH 12+",
+          "descricao": "Depois de fazer um contato normal como se fosse enviar pensamentos, o agente faz uma Disputa de Habilidades entre seu nível de habilidade em Sono e a Vontade do objetivo. Se o atacante vencer, o objetivo cairá num sono normal que durará 1D horas, a menos que ele seja acordado. No caso de uma falha, o objetivo tem direito a um teste de IQ para perceber que está sendo atacado."
+        },
+        {
+          "id": "metaideomorfose",
+          "nome": "Metaideomorfose",
+          "pre_requisito": "Recepção e Transmissão Telepática com NH 12+",
+          "descricao": "Esta é a habilidade em alterar ou suprimir partes da, ou toda a, memória de um objetivo. Para usar esta perícia é preciso primeiro fazer contato com o objetivo usando a Percepção Telepática e passar por suas barreiras, se houver. Depois, tente sua perícia Metaideomorfose (uma vez por hora para processos longos). Uma falha numa jogada de teste alertará o objetivo de que sua mente está sendo adulterada. Se você conseguir vários sucessos e depois falhar, o objetivo perderá a memória, mas ela voltará em 3D dias.",
+          "tabela_tempo": [
+            "Suprimir toda a memória do objetivo (transformando-o num idiota balbuciante): 2 horas.",
+            "Eliminar toda a memória do objetivo permanentemente: 1 hora.",
+            "Suprimir uma grande quantidade de lembranças (ex.: várias semanas): 3 horas.",
+            "Substituir uma grande quantidade de memória por lembranças falsas: 5 horas.",
+            "Suprimir uma lembrança: 1 hora (10 minutos para a lembrança de um fato ocorrido nas últimas 24 horas).",
+            "Modificar uma lembrança: 2 horas (20 minutos para a lembrança de um fato ocorrido nas últimas 24 horas).",
+            "Implantar uma compulsão (uma ordem que o objetivo terá que obedecer num momento apropriado): 4 horas."
+          ]
+        },
+        {
+          "id": "telecontrole",
+          "nome": "Telecontrole",
+          "pre_requisito": "Recepção e Transmissão Telepática com NH 15+",
+          "descricao": "Esta é a habilidade em assumir o controle da mente da vítima e operá-la à distância como a um marionete. Esta operação exige muita concentração: um psi terá um redutor igual a -4 se estiver usando Telecontrole enquanto faz alguma outra coisa. É possível controlar mais de uma vítima por vez. Há um redutor extra de -4 para cada nova pessoa, e os marionetes terão uma fala indistinta e sua DX diminuída em 4 pontos. Para usar esta perícia é necessário fazer contato com a vítima, usando antes a Recepção Telepática e atravessando as barreiras que ela apresente, para depois fazer seu teste de Telecontrole. Um sucesso colocará a vítima sob seu controle e você será capaz de usar todas as perícias físicas e psíquicas que ela tiver, mas não terá acesso à sua memória. Uma falha alertará a vítima de sua tentativa; ela sentirá sua presença na mente dela. Depois de estabelecido, o Telecontrole pode ser mantido indefinidamente desde que você se concentre. Quando ele terminar, a vítima não se lembrará de nada. Depois que tiver controlado uma vítima uma vez, você terá um bônus de +2 em qualquer tentativa futura com a mesma vítima."
+        }
+      ]
+    },
+    {
+      "id": "psicocinese",
+      "nome": "Psicocinese",
+      "sigla": "PK",
+      "custo": 5,
+      "descricao": "Este poder compreende a movimentação de objetos à distância, seu resfriamento ou aquecimento, etc. Um PK tem que visualizar seu objetivo. Normalmente, isto significa que ele deve vê-lo ou tocá-lo. Um objetivo familiar (uma pessoa bem conhecida do psi ou um objeto que ele tenha manuseado repetidamente) pode ser afetado à distância, mesmo que não esteja sendo visto: redutor de -1 a ser aplicado à perícia para uma distância de um metro e um extra de -1 toda vez que a distância dobrar. Todos os testes de PK terão um bônus de +1 se o agente estiver tocando o objetivo.",
+      "pericias": [
+        {
+          "id": "telecinese",
+          "nome": "Telecinese",
+          "custo_unica": 4,
+          "descricao": "Esta é a perícia em deslocar objetos com o poder da mente. Sua potência Psicocinética controla o peso que você é capaz de deslocar mentalmente.",
+          "tabela_peso": [
+            { "potencia": 1, "peso": "7 g", "potencia2": 12, "peso2": "14 kg" },
+            { "potencia": 2, "peso": "15 g", "potencia2": 13, "peso2": "28 kg" },
+            { "potencia": 3, "peso": "30 g", "potencia2": 14, "peso2": "60 kg" },
+            { "potencia": 4, "peso": "60 g", "potencia2": 15, "peso2": "125 kg" },
+            { "potencia": 5, "peso": "125 g", "potencia2": 16, "peso2": "250 kg" },
+            { "potencia": 6, "peso": "250 g", "potencia2": 17, "peso2": "375 kg" },
+            { "potencia": 7, "peso": "500 g", "potencia2": 18, "peso2": "500 kg" },
+            { "potencia": 8, "peso": "1 kg", "potencia2": 19, "peso2": "625 kg" },
+            { "potencia": 9, "peso": "2 kg", "potencia2": 20, "peso2": "750 kg" },
+            { "potencia": 10, "peso": "4 kg", "potencia2": 21, "peso2": "875 kg" },
+            { "potencia": 11, "peso": "7 kg", "potencia2": 22, "peso2": "1 ton" }
+          ],
+          "nota": "Novos aumentos de potência continuarão a acrescentar 125 kg por nível.",
+          "disputas": "Quando dois psis estiverem tentando deslocar o mesmo objetivo, deve-se fazer uma Disputa de Habilidades. O psi que vencer a disputa ganhará o controle durante um segundo, mas o outro ainda 'manterá uma ligação' com o objetivo. No entanto, se um psi vencer por uma margem maior ou igual a 5, ele romperá a ligação mental que o outro mantinha e terá controle total sobre o objetivo, até deixá-lo espontaneamente. É óbvio que cada um dos psis deverá ter potência suficiente para mover o objetivo. O psi com potência maior terá, ainda, um bônus de +1 a ser aplicado a seu nível de habilidade efetivo para cada dois pontos de diferença entre sua potência e a do seu oponente.",
+          "complicacoes": [
+            "Pontaria precisa, deslocamento lento (guiar uma moeda até uma fenda): -2.",
+            "Pontaria precisa, deslocamento rápido (arremessar uma bola através de um aro): -4.",
+            "Pontaria precisa, deslocamento rápido como o de uma bala: -6.",
+            "Orientação precisa (manter uma flecha se deslocando com a ponta para a frente): -3.",
+            "Movimento Complexo (escrever seu nome com um giz de cera): -2 ou pior.",
+            "O alvo está se movendo quando você tenta controlá-lo: -1 para cada m/s de velocidade, até um máximo de -10. É impossível aparar uma bala, porque você não é capaz de vê-la se aproximando. Você pode tentar desviar um projétil que seja capaz de ver se aproximar. A jogada de teste para desviar alguma coisa é 4 pontos mais fácil do que a jogada de teste para controlar esta mesma coisa (6 pontos mais fácil para objetos longos como lanças e flechas). Logo, o bônus para uma tentativa de desviar um objeto é +4. Um sucesso tirará o objeto de seu curso (ele automaticamente errará o alvo)."
+          ]
+        },
+        {
+          "id": "levitacao",
+          "nome": "Levitação",
+          "custo_unica": 3,
+          "descricao": "Com esta perícia é possível erguer somente o corpo do psi (e o que quer que ele esteja carregando). Esta é a forma psíquica de vôo. O peso e a velocidade são calculados da mesma forma que para a Telecinese, exceto pelo fato de que o psi pode mover apenas seu corpo mais o que ele estiver carregando (nunca mais do que seu próprio peso). Apenas nesta perícia, a Potência é aumentada em 10 pontos. Isto significa que um levitador com uma potência igual a 5 (4 para uma criança) é capaz de 'voar' a 1 m/s. Um levitador com muita potência pode voar rápido. A maior velocidade praticável, sem proteção especial, está em torno de 160 km/h. Um psi que tenha Telecinese mas não Levitação também poderá erguer a si mesmo, se tiver potência suficiente."
+        },
+        {
+          "id": "pirocinese",
+          "nome": "Pirocinese",
+          "custo_unica": 3,
+          "descricao": "Esta é a perícia em aumentar a temperatura de um objeto. O alvo deve estar visível para o psi (apesar de que um telepata poderia olhar através dos olhos de outrem para usar o poder, com um redutor de -3). Depois de iniciado, um fogo aceso pirocineticamente queima normalmente. O psi não pode usar este poder para apagá-lo. É necessário fazer uma jogada de teste toda vez que for começar a usar este poder. Uma falha por uma margem entre 1 e 5 significa que os objetos próximos também são afetados. Uma falha pior significa que o alvo não é atingido, mas outras coisas sim. Uma falha crítica afeta tudo o que estiver à vista. Cada nível de Potência permite aumentar em 30 °C a temperatura de 165 cm3 de material. Objetos maiores podem ser aquecidos mais lentamente, mas objetos menores não aquecem nem um pouco mais rápido. Uma concentração prolongada continuará a aumentar a temperatura do objeto em 30 °C/s para cada nível de Potência. Logo, com uma Potência igual a 10, seria possível aquecer um objeto com 165 cm3 a 300 °C/s. Em um único segundo você seria capaz de pôr um livro em chamas.",
+          "temperaturas": [
+            "Temperatura ambiente: 27 °C",
+            "Uma pessoa perde a consciência a 50 °C",
+            "A água ferve a 100 °C",
+            "O papel se inflama a 235 °C",
+            "A madeira se inflama a 287 °C",
+            "A carne é assada a 287 °C",
+            "O chumbo funde a 327 °C",
+            "O cobre funde a 1082 °C",
+            "O ferro funde a 1530 °C"
+          ]
+        },
+        {
+          "id": "criocinese",
+          "nome": "Criocinese",
+          "custo_unica": 2,
+          "descricao": "Funciona exatamente como a pirocinese só que na direção inversa: resfria os objetivos em 30 °C/165 cm3/s. Menos espetacular, mas ocasionalmente útil. O gelo se forma a 0 °C. O zero absoluto é atingido a -273,5 °C. Metais, vidros etc., se tornam quebradiços quando muito resfriados; isto deve ser deixado para ser julgado pelo GM, mas em geral deve-se reduzir à metade a HT de qualquer objeto de metal abaixo de -45 °C. Obs.: 1000 cm3 = 1 litro."
+        },
+        {
+          "id": "escudo-psicocinetico",
+          "nome": "Escudo Psicocinético",
+          "custo_unica": 2,
+          "descricao": "Para desenvolver esta perícia, o PK deve ter também pelo menos um ponto de potência em PES para sentir o ar próximo a seu corpo. Esta perícia permite ao psi 'congelar' o ar e mantê-lo no lugar como um escudo. Este escudo confere +1 a DP e RD igual a ½ da potência de seu poder PK, apenas contra objetos sólidos (nenhum efeito contra ataques sônicos, feixes etc...). É necessário uma jogada de teste a cada segundo para manter o escudo ativo. Falhas críticas depois da primeira jogada são tratadas como falhas comuns. Ativar esta perícia custa 1 ponto de fadiga, mais 1 para cada minuto completo em que o escudo for mantido."
+        }
+      ]
+    },
+    {
+      "id": "pes",
+      "nome": "PES — Percepção Extra-Sensorial",
+      "custo": 3,
+      "descricao": "O poder de 'Percepção-Extra-Sensorial' (PES) abrange as várias perícias de 'sexto sentido' (ver coisas ocultas para as pessoas comuns). Toda vez que uma perícia PES for usada, o GM fará um teste de sua habilidade. Quanto melhor o resultado mais precisa e útil será a informação obtida. No caso de uma falha, o GM dirá 'Você não descobriu nada', mas se um teste de Psicometria ou Precognição falhar por uma margem maior ou igual a 5, ele 'mentirá'. Tentativas repetidas custam 2 pontos de Fadiga, com um redutor de -2 para cada tentativa.",
+      "pericias": [
+        {
+          "id": "clarividencia",
+          "nome": "Clarividência",
+          "custo_unica": 2,
+          "descricao": "Esta é a habilidade de enxergar através de paredes e outros objetos sólidos. Seu alcance é fortemente limitado pela potência, mas não pelo que se encontra no caminho. Você não verá, por acidente, 'através' do objeto que está procurando. Toda vez que o psi olhar para uma coisa diferente, será necessário fazer um novo teste. O alcance da Clarividência, em centímetros, é igual ao produto de sua Potência elevada ao quadrado por 2,5. Portanto, mesmo uma Potência igual a 1 lhe permitirá ver o interior de um envelope em sua mão. Uma potência igual a 20 permitirá que você veja 1000 cm (10 metros)."
+        },
+        {
+          "id": "clariaudiencia",
+          "nome": "Clariaudiência (Ideofonia)",
+          "custo_unica": 2,
+          "descricao": "Como Clarividência, exceto que ela lhe permite escutar o que está sendo dito atrás das portas, etc., e ouvir indefinidamente qualquer conversa de interesse."
+        },
+        {
+          "id": "psicometria",
+          "nome": "Psicometria",
+          "custo_unica": 1,
+          "descricao": "Este talento permite ao psi aprender alguma coisa acerca da história de um lugar ou objeto inanimado: impressões gerais, uso, personalidade do dono, etc... A extensão da história percebida, expressa em anos é igual ao quadrado da Potência. Normalmente, é necessário um esforço deliberado, mas 'vibrações' muito fortes podem ser sentidas passivamente; o GM faz a jogada em segredo. A Psicometria não é capaz de detectar magia. No entanto, um objeto sagrado (por exemplo) teria 'boas vibrações' por ter sido manuseado por um homem santo, e um altar maligno teria uma nuvem em torno dele devido aos sacrifícios ali realizados."
+        },
+        {
+          "id": "precognicao",
+          "nome": "Precognição",
+          "custo_unica": 2,
+          "descricao": "Esta é a habilidade de ver o futuro. É a mais incerta e menos compreendida de todas as perícias psíquicas conhecidas. Uma visão precognitiva pode ser uma imagem, som ou apenas um lampejo de conhecimento. Lembre-se que nada acerca do futuro é certo; mesmo que o GM tenha se decidido, ele sempre pode mudar de idéia... Uma tentativa ativa de Precognição exige 10 minutos e custa 2 pontos de Fadiga. Ela está submetida a um redutor igual a -10! Um teste de Precognição passiva pode ser feito segundo a veneta do GM. A Precognição está normalmente associada com uma pessoa ou coisa. O alcance precognitivo está baseado na Potência. A distância física é calculada do mesmo modo que para Telepatia. O tempo, expresso em dias, é igual ao quadrado da Potência. Uso do Nível Pré-definido: Esta perícia lhe dá a oportunidade de um teste de IQ (se você não tiver treinamento) toda vez que você estiver em perigo imediato. Um sucesso significa que você está ciente do perigo e um resultado muito bom fornecerá alguns detalhes. Isto funciona do mesmo modo que a vantagem Noção do Perigo. Se você tiver Noção do Perigo você é um psi; um Sensitivo com Potência 5 e nenhum treinamento."
+        }
+      ]
+    },
+    {
+      "id": "teleporte",
+      "nome": "Psicoteleporte",
+      "custo": 5,
+      "descricao": "Este é o poder de deslocar coisas de um lugar para outro sem percorrer a distância entre eles. Um objeto teleportado simplesmente desaparece de um lugar e aparece em outro instantaneamente.",
+      "pericias": [
+        {
+          "id": "auto-psicoteleporte",
+          "nome": "Auto-psicoteleporte",
+          "descricao": "Esta é a perícia básica do teleporte — a perícia em mover a si mesmo (e até 2,5 kg de roupas e objetos carregados) de um ponto a outro sem percorrer o espaço entre eles. É impossível ir a um lugar onde você nunca tenha estado ou não possa ver no momento em que se teleporta para lá. Você pode tentar se teleportar para um lugar que está vendo ao vivo na televisão (redutor de -5) ou através da mente de uma outra pessoa (redutor de -3). Aprenda a perícia Exo-psicoteleporte para poder carregar mais peso. A distância é regulada pela Potência, como o alcance da Telepatia. A precisão é regulada pelo nível de habilidade. Falhas o levarão a lugares não planejados, normalmente lugares parecidos com o destino pretendido, e custam 2 pontos de Fadiga. As falhas críticas o enviarão a algum lugar desagradável e atordoarão seu poder de teleporte deixando-o inutilizado por 1D horas.",
+          "limitacoes": [
+            "Alguns agentes dotados com este poder não são capazes de carregar nada consigo e sempre chegam nus a seu destino. Se você aceitar esta limitação, o custo de sua potência será dividido ao meio. Você não pode aprender Exo-psicoteleporte.",
+            "Os objetos que você teleporta mantêm a direção, sentido e intensidade da velocidade que tinham no momento em que foram teleportados. Se você estiver caindo e se teleportar para a superfície da Terra, o impacto será forte. Esta limitação também divide o custo ao meio."
+          ]
+        },
+        {
+          "id": "exo-psicoteleporte",
+          "nome": "Exo-psicoteleporte",
+          "descricao": "Esta é a habilidade em transportar objetos de um ponto a outro. A potência determina a distância, como acima, e o peso, que será 10% daquele mostrado na tabela de peso para TK. Modificadores: +3 se você carregar o objeto por Autoteleporte (faça jogadas separadas, sem nenhuma penalidade extra, para a sua chegada e de sua carga). +1 se você estiver tocando o objeto quando o enviar. -3 se você não puder ver nem tocar o objeto. Pode-se também tentar trazer um objeto para perto de você, ao invés de enviá-lo. Isto é feito com um redutor igual a -5, ou -8 se não der para ver o objeto. Ele deve ser muito familiar e é preciso saber exatamente onde ele está. Uma falha significa que o objeto será perdido para sempre, incrustado em uma parede, etc... Uma falha crítica poderia trazê-lo para um ponto sobre ou dentro do teleportador."
+        }
+      ]
+    },
+    {
+      "id": "cura",
+      "nome": "Cura Psíquica",
+      "custo": 3,
+      "descricao": "O poder de cura mental parece combinar aspectos de empatia, psicocinese e telepatia mas ele é efetivamente um poder independente. Apenas uma perícia, também chamada Cura Psíquica, é conhecida.",
+      "pericias": [
+        {
+          "id": "cura-psiquica",
+          "nome": "Cura Psíquica",
+          "descricao": "O agente precisa estar em contato físico com o objetivo. No caso de um sucesso em um teste de Cura Psíquica ele poderá restaurar HT perdida até o valor de sua Potência. Falhas custam 1D pontos de fadiga. Uma falha crítica custa ao objetivo 1D pontos de vida! O custo em Fadiga da cura bem sucedida é o triplo do número de pontos de vida restaurados. Há um redutor igual a -2 quando a vítima está inconsciente e -2 ou mais para curar uma doença. Não é possível restaurar um membro perdido e há um redutor igual a -6 para restaurar um membro incapacitado mas inteiro (cada agente tem direito a apenas uma tentativa em cada um dos membros). É impossível ressuscitar os mortos usando este poder.",
+          "limitacoes": [
+            "Em adição ao custo em fadiga, o psi perde um número de pontos de vida igual à metade dos pontos curados (arredondado para cima): ½ do custo.",
+            "O psi só é capaz de usar o poder em outras pessoas: ½ do custo.",
+            "O psi pode usar o poder somente nele: 2/3 do custo."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "antipsi",
+      "nome": "Antipsi",
+      "custo": 3,
+      "descricao": "Este é o poder psíquico de interferir com o uso de psi. Limitações Especiais: Metade do valor se ele afetar somente o poder psíquico de um outro psi.",
+      "pericias": [
+        {
+          "id": "estatica-psiquica",
+          "nome": "Estática Psíquica",
+          "custo_unica": 2,
+          "descricao": "Aqueles que têm esta perícia são muitas vezes chamados de 'Cigarras'. Uns poucos cigarras têm controle absoluto sobre sua habilidade, mas a maioria permanece sem desenvolvê-la. Por este motivo, poucos psis querem contato com um Cigarra. Um Cigarra pode ativar seu poder 'globalmente', interferindo com todo o psiquismo em uso na área coberta pela sua Potência (calcula-se o alcance como para a Telepatia. Isto não exige nenhuma jogada de teste. Enquanto a Estática Psíquica estiver ativada, qualquer utilização de psiquismo (exceto para poderes Antipsíquicos) exige uma Disputa de Habilidades (o NH em Estática Psíquica do Cigarra contra o NH na perícia que se está tentando). Custará também ao outro psi (não ao Cigarra) 1 ponto de Fadiga por tentativa, além dos outros custos. Se o Cigarra vencer a disputa, o psi terá falhado. Se o outro psi vencer, ele poderá tentar usar seu poder psíquico normalmente. É possível para um Cigarra interferir especificamente com o uso de psiquismo feito por qualquer indivíduo que ele seja capaz de ver (através de seus próprios olhos ou de outrem). Para isto, ele terá que ser bem sucedido em um teste de Estática Psíquica (com um bônus de +2 se o Cigarra estiver tocando a vítima). Valor pré-definido: É possível usar este poder sem treino, com um NH igual a IQ-4."
+        }
+      ]
+    }
+  ],
+  "limitacoes_gerais": {
+    "descricao": "Pode-se assumir uma limitação em qualquer poder psíquico, o que o tornará mais barato mas menos confiável. Uma limitação diminui o custo daquele poder mas afetará todas as perícias sob seu domínio. O custo para estudar perícias particulares não é afetado. Pode-se assumir mais de uma limitação no mesmo poder. No entanto, o modificador total de custo não poderá ser menor do que 1/4. O modificador de custo será aplicado ao custo total do Poder e depois arredondado para cima.",
+    "exemplo": "Você tem um modificador de custo de ½. Você está comprando Telepatia (5 pontos por nível). Seu primeiro nível custa 3 (metade de 5 arredondado para cima). Seu segundo nível custará mais 2 (perfazendo um total de 5, metade de 10). Seu terceiro nível custará mais 3, o quarto mais 2 e assim por diante."
+  },
+  "o_que_e_um_poder": {
+    "definicao": "Um 'poder' é um dom exótico ou sobrenatural que pode ser controlado de diversas maneiras para produzir vários efeitos relacionados. Um bom exemplo é a Telepatia: a capacidade de uma pessoa canalizar seus pensamentos para afetar outras mentes. Ela pode permitir que o personagem leia mentes, transmita pensamentos ou dispare rajadas de energia mental. Porém, todos esses feitos são apenas manifestações de um único poder: o poder da Telepatia.",
+    "fonte": "Cada poder tem uma fonte: a origem da energia manipulada pelo usuário para produzir seus efeitos. Ela costuma ser escolhida na lista em Origens das Vantagens; por exemplo, a Telepatia é de fonte 'psíquica', mas o Mestre tem toda a liberdade para inventar outras fontes. As fontes 'chi' e 'psíquica' sugerem que o poder tem origem interna, vindo do corpo e da mente do usuário, respectivamente. A maioria das outras fontes implicam que o usuário canaliza energias externas: a vontade de um deus para 'divino', servos espirituais para 'espírito', mana para 'mágico' e a energia da criação para 'cósmico'.",
+    "foco": "Um poder também precisa de um foco: o item que ele manipula ou o conceito em torno do qual ele se baseia. Pode ser algo amplo, mas deve ser bem definido e se enquadrar em uma destas categorias: Uma forma de matéria ou energia, ou sua ausência (por exemplo, o ar, frio, trevas, terra, eletricidade, fogo, luz, radiação, som, vácuo ou água). Um fenômeno natural (por exemplo, a morte, doença, atividade vulcânica ou o clima). Um fenômeno sobrenatural (por exemplo, projeção astral, segunda visão, ou a vontade de um deus específico). Uma classe de alvos (por exemplo, animais, computadores, corpos vivos, plantas, mentes sencientes ou espíritos, ou outros poderes de uma fonte particular). Uma noção abstrata (por exemplo, o bem, o mal, o futuro ou a probabilidade).",
+    "anatomia": [
+      "Um conjunto de vantagens que representam as diferentes maneiras como o poder pode se manifestar. Elas são conhecidas como as habilidades do poder.",
+      "Um modificador especial, normalmente uma limitação, chamado de modificador do poder. Ele transforma qualquer vantagem modificada por ele em uma habilidade dentro do poder associado.",
+      "Um Talento que facilite o uso de todas as habilidades do poder."
+    ]
+  },
+  "escalas_poder": [
+    { "pontos": "Abaixo de 25", "nivel": "Fraco / Crianças / Zumbis", "desc": "Pessoas debilitadas, reféns ou criaturas sem inteligência própria." },
+    { "pontos": "25 a 50", "nivel": "Pessoas Comuns", "desc": "Camponeses, civis pacíficos ou trabalhadores sem treinamento de combate." },
+    { "pontos": "50 a 75", "nivel": "Competente Básico", "desc": "Policiais locais, atletas amadores ou guardas comuns." },
+    { "pontos": "75 a 100", "nivel": "Profissional / Veterano", "desc": "Soldados rasos, investigadores experientes ou atletas de alto desempenho." },
+    { "pontos": "100 a 150", "nivel": "Herói Padrão", "desc": "O ponto de partida clássico de muitas aventuras. Representa protagonistas competentes de ficção e pulp." },
+    { "pontos": "200 a 300", "nivel": "Cinematográfico / Acima da Média", "desc": "Heróis de ação estilo Hollywood, cavaleiros lendários ou magos poderosos (ex: suplementos de Dungeon Fantasy usam 250 pontos)." },
+    { "pontos": "300 a 500", "nivel": "Lendário / Épico", "desc": "Protagonistas de mitologias, monstros caçadores de elite (Monster Hunters) ou figuras com poderes notáveis." },
+    { "pontos": "500 a 1.000+", "nivel": "Super-humano / Divino", "desc": "Super-heróis cósmicos ou semideuses capazes de alterar o destino de nações." }
+  ],
+  "escala_feitos": [
+    { "codigo": "10-C", "nome": "Nível de Humano (baixo)", "desc": "Patamar inferior aos padrões convencionais de humanos comuns. Normalmente personagens com efeito semelhante a criança pequena, animal selvagem menor ou doméstico." },
+    { "codigo": "10-B", "nome": "Nível de Humano (médio)", "desc": "Patamar convencional igual ao de adolescentes comuns e adultos não atléticos." },
+    { "codigo": "10-A", "nome": "Nível de Humano (superior)", "desc": "Patamar maior que antecessores: pode equiparar a combatentes aptos ou estratégicos." },
+    { "codigo": "9-C", "nome": "Nível de Humano (ápice)", "desc": "Capacidade permite rivalizar com seres superiores aos padrões não atléticos e atléticos, podem até rivalizar com animais selvagens enormes como ursos ou elefantes." },
+    { "codigo": "9-B", "nome": "Nível de Parede", "desc": "Potencial capaz de afetar estrutura equivalente a muro, parede de concreto ou automóvel. Ou danificar rocha grande, viga de aço ou barra de metal." },
+    { "codigo": "9-A", "nome": "Nível de Construção (pequena)", "desc": "Pode destruir pequeno projeto de construção média, como espaço de sala de aula ou garagem média." },
+    { "codigo": "8-C", "nome": "Nível de Construção (média)", "desc": "Capacidade para afetar construções de tamanho razoável, como casa de dois andares, fábrica larga, hospital, comércio, supermercado." },
+    { "codigo": "8-C+", "nome": "Nível de Construção (grande)", "desc": "Pode afetar construções grandes, como arranha-céus ou grande templo. Exemplos: Coliseu de Roma, Arco de Constantino, Basílica de São Pedro, Monumento de Washington." },
+    { "codigo": "8-B", "nome": "Nível de Quarteirão (único)", "desc": "Capacidade para afetar um quarteirão ou área equivalente. Pode causar nevoeiro de destruição, tempestade eletromagnética ou onda de choque pequena." },
+    { "codigo": "8-A", "nome": "Nível de Quarteirão (múltiplo)", "desc": "Pode afetar múltiplos quarteirões. Nevoeiro de destruição larga escala, tempestade eletromagnética ou onda de choque de energia massiva." },
+    { "codigo": "7-C-", "nome": "Nível de Vilarejo (pequeno)", "desc": "Afetar significativamente vilarejo pequeno. Alcance capaz de obliterar estrutura como Pentágono." },
+    { "codigo": "7-C", "nome": "Nível de Vilarejo (médio)", "desc": "Afetar ou varrer vilarejo. Capaz de obliterar estrutura como Cidade de Londres." },
+    { "codigo": "7-C+", "nome": "Nível de Vilarejo (grande)", "desc": "Afetar grande quantidade de vilarejos. Capaz de obliterar área como Ilhas Spratly." },
+    { "codigo": "7-B-", "nome": "Nível de Cidade (pequena)", "desc": "Devastação de área referente a cidade pequena, como República de Nauru." },
+    { "codigo": "7-B", "nome": "Nível de Cidade (grande)", "desc": "Raio de efeito de cidade, como Washington D.C." },
+    { "codigo": "7-A", "nome": "Nível de Montanha (pequena)", "desc": "Dano capaz de obliterar montanha ou suporte semelhante. Área equivalente a Hong Kong." },
+    { "codigo": "7-A+", "nome": "Nível de Montanha (grande)", "desc": "Afetar montanha gigante. Área equivalente a Luxemburgo." },
+    { "codigo": "6-C", "nome": "Nível de Ilha (pequena)", "desc": "Capacidade eficaz de destruir ou afetar área semelhante a tamanho de ilha." },
+    { "codigo": "6-C+", "nome": "Nível de Ilha (grande)", "desc": "Destruir ou afetar ilha de grande tamanho." },
+    { "codigo": "6-B-", "nome": "Nível de País (pequeno)", "desc": "Devastar país pequeno, expansão pequena escala." },
+    { "codigo": "6-B", "nome": "Nível de País (médio)", "desc": "Devastar país médio, expansão mediana escala." },
+    { "codigo": "6-B+", "nome": "Nível de País (grande)", "desc": "Afetar país grande, energia avassaladora para devastar 100% país gigante." },
+    { "codigo": "6-A", "nome": "Nível de Continente (único)", "desc": "Afetar área de um continente." },
+    { "codigo": "6-A+", "nome": "Nível de Continente (múltiplo)", "desc": "Afetar área que pode encobrir vários continentes." },
+    { "codigo": "5-C", "nome": "Nível de Lua", "desc": "Capacidade para afetar lua ou objeto astrológico proporção igual." },
+    { "codigo": "5-B-", "nome": "Nível de Planeta (pequeno)", "desc": "Energia/poder para destruir planeta pequeno." },
+    { "codigo": "5-B", "nome": "Nível de Planeta (médio)", "desc": "Afetar planeta tamanho médio." },
+    { "codigo": "5-A", "nome": "Nível de Planeta (grande)", "desc": "Afetar planeta tamanho grande." },
+    { "codigo": "5-A+", "nome": "Nível de Estrela (anã)", "desc": "Gerar energia para estrela extremamente pequena." },
+    { "codigo": "4-C-", "nome": "Nível de Estrela (pequena)", "desc": "Afetar estrela tamanho pequeno." },
+    { "codigo": "4-C", "nome": "Nível de Estrela (média)", "desc": "Afetar estrela tamanho médio." },
+    { "codigo": "4-C+", "nome": "Nível de Estrela (grande)", "desc": "Afetar estrela grande. Enorme quantidade de energia." },
+    { "codigo": "4-B", "nome": "Nível de Sistema Solar (único)", "desc": "Desfazer e afetar único sistema solar." },
+    { "codigo": "4-A", "nome": "Nível do Sistema Solar (múltiplo)", "desc": "Desfazer e afetar múltiplos sistemas solares." },
+    { "codigo": "3-C", "nome": "Nível de Galáxia (única)", "desc": "Obliterar diretamente galáxia inteira e toda ocupação residente." },
+    { "codigo": "3-B", "nome": "Nível de Galáxia (múltipla)", "desc": "Afetar múltiplas galáxias, número finito." },
+    { "codigo": "3-A", "nome": "Nível de Universo (observável)", "desc": "Afetar todos corpos celestes, estados, estrelas dentro de espaço equivalente ao universo observável. Ataque omnidirecional comparável a universo nunca haver existido." },
+    { "codigo": "3-A+", "nome": "Nível de Universo (infinito)", "desc": "Afetar universo tridimensional tamanho infinito. Energia igualmente infinita." },
+    { "codigo": "2-C-", "nome": "Nível de Universo (interdimensional)", "desc": "Afetar estruturas ou regiões que não se limitam a diretrizes do universo observável. Excede 3 dimensões, reside em camada de contínuo espaço-tempo superior. Dimensionalidade equivalente a R^4." },
+    { "codigo": "2-C", "nome": "Nível de Multiverso (pequeno)", "desc": "Afetar pequeno Multiverso ou pequena região de grande Multiverso, 2 a 1000 linhas temporais." },
+    { "codigo": "2-B", "nome": "Nível de Multiverso (grande)", "desc": "Afetar Multiverso larga escala, várias camadas de Multiversos em quantidade finita." },
+    { "codigo": "2-A", "nome": "Nível de Multiverso (infinito)", "desc": "Afetar infinitas linhas temporais e camadas de contínuo espaço-tempo." },
+    { "codigo": "1-C-", "nome": "Nível do Multiverso Complexo (baixo)", "desc": "Afetar totalidade de espaços tamanho corresponde de 1 a 2 maiores níveis do infinito que excede modelo universal padrão (Baixo 2-C). Dimensionalidade R^5 a R^6." },
+    { "codigo": "1-C", "nome": "Nível do Multiverso Complexo (médio)", "desc": "Afetar espaços universais tamanho corresponde de 3 a 5 maiores níveis do infinito. R^7 a R^9." },
+    { "codigo": "1-C+", "nome": "Nível do Multiverso Complexo (ápice)", "desc": "Afetar porção de espaços tamanho corresponde de 6 a 7 maiores níveis do infinito. R^10 a R^11." },
+    { "codigo": "1-B", "nome": "Nível Hiperdimensional (médio)", "desc": "Afetar porção de espaços onde tamanho corresponde de 8 a qualquer numeração finita maior de níveis do infinito. R^12 e além." },
+    { "codigo": "1-B+", "nome": "Nível Hiperdimensional (ápice)", "desc": "Afetar estruturas tamanho equivalente a número infinito de tamanhos estendidos além de modelo universal padrão. Hierarquias infinitas." },
+    { "codigo": "1-A-", "nome": "Nível de Transcendência (baixo)", "desc": "Afetar estruturas com número finito de dimensões que excedem conjunto restante dos números naturais: aleph-1 (cardinalidade dos reais), excede totalmente High 1-B." },
+    { "codigo": "1-A", "nome": "Nível de Transcendência (médio)", "desc": "Afetar estruturas com número de dimensões aleph-2, excede completamente Baixo 1-A no mesmo grau que excede Auge 1-B. Extrapola para aleph-3, aleph-4 etc." },
+    { "codigo": "1-A+", "nome": "Nível de Transcendência (alto)", "desc": "Afetar estruturas superiores à lógica que define 1-A e todos abaixo, excede qualquer número possível de níveis, incluindo infinito ou incontável. Ex: cardinal inacessível." },
+    { "codigo": "0", "nome": "O Absoluto", "desc": "Transcendência total da hierarquia 1-A. Nem mesmo formações Auge 1-A equivalem ao Absoluto. Ser Onipotente não qualifica automaticamente." }
+  ],
+  "dimensionalidade": {
+    "definicao": "Dimensionalidade é qualidade topológica que implica quantidade de coordenadas que espaço geométrico possui para definir ponto ou estrutura. Pode implicar superioridade geométrica: entidade em dimensão superior não é afetada por leis de dimensão inferior.",
+    "exemplo": "Entidade A 4D no reino X (4D) > Entidade B 3D no reino Y (3D). Reino X > Entidade B + Reino Y. Entidade A em Reino Y não submetida a leis de Y. Entidade B em Reino X não compreende reino.",
+    "niveis": [
+      { "dim": "0D", "nome": "Zerodimensional (Ponto)", "relacao": "11-C" },
+      { "dim": "1D", "nome": "Unidimensional (Reta)", "relacao": "11-B" },
+      { "dim": "2D", "nome": "Bidimensional (Plano)", "relacao": "11-A" },
+      { "dim": "3D", "nome": "Tridimensional (Espaço, volume)", "relacao": "10-C ~ 3-A" },
+      { "dim": "4D", "nome": "Quadridimensional (Tesseract, tempo)", "relacao": "Baixo 2-C ~ 2-A" },
+      { "dim": "5D", "nome": "Pentadimensional", "relacao": "Baixo 1-C" },
+      { "dim": "6D", "nome": "Hexadimensional", "relacao": "Baixo 1-C" },
+      { "dim": "7D", "nome": "Heptadimensional", "relacao": "1-C" },
+      { "dim": "8D", "nome": "Octadimensional", "relacao": "1-C" },
+      { "dim": "9D", "nome": "Eneadimensional", "relacao": "1-C" },
+      { "dim": "10D", "nome": "Decadimensional", "relacao": "Auge 1-C" },
+      { "dim": "11D", "nome": "Hendecadimensional", "relacao": "Auge 1-C" },
+      { "dim": "12D", "nome": "Dodecadimensional", "relacao": "1-B" },
+      { "dim": "Finito", "nome": "Finito-dimensional (>12D)", "relacao": "1-B" },
+      { "dim": "Infinito", "nome": "Infinito-dimensional", "relacao": "Auge 1-B" },
+      { "dim": "Transcendente", "nome": "Transcendente (além de dimensionalidade)", "relacao": "Baixo 1-A ~ 0" }
+    ]
+  },
+  "hax": {
+    "definicao": "Hax é termo usado para designar caso ou personagem que, embora tenha potência de ataque e escala de efeito menor que oponente, tem chance maior de vencer por virtude de suas vastas habilidades. Vale lembrar que Hax é relativo, Paralisação Temporal e Desintegração Atômica podem ser fortes para nível parede, porém não tão úteis em categorias mais elevadas. O mesmo se aplica em Manipulação da Realidade, Probabilidade etc. Ter tais habilidades por si só não dará vitória em 100% das ocasiões, ao menos que essas habilidades possuam feitos poderosos a esse ponto, mesmo que oponente tenha estatísticas superiores."
+  }
+}
