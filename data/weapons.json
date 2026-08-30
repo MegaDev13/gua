@@ -1,0 +1,90 @@
+{
+  "_fonte": "Tabelas de Dano Mundano, Moderno e Futurista — GAU",
+  "categorias": [
+    {
+      "id": "mundano",
+      "nome": "Armas Medievais",
+      "descricao": "Armas corpo-a-corpo e à distância de era mundana",
+      "armas": [
+        {"nome": "Soco", "dano": "1d6", "media": 3.5, "caracteristica": "Desarmado", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Chute", "dano": "1d8", "media": 4.5, "caracteristica": "Desarmado", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Adaga", "dano": "1d10", "media": 5.5, "caracteristica": "Leve, rápida", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Faca", "dano": "1d10", "media": 5.5, "caracteristica": "Leve", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Porrete", "dano": "1d10", "media": 5.5, "caracteristica": "Impacto", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Machado de mão", "dano": "2d8", "media": 9, "caracteristica": "Cortante", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Maça", "dano": "2d8", "media": 9, "caracteristica": "Impacto", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Espada curta", "dano": "2d8", "media": 9, "caracteristica": "Equilibrada", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Espada longa", "dano": "2d10", "media": 11, "caracteristica": "Equilibrada", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Sabre", "dano": "2d10", "media": 11, "caracteristica": "Cortante", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Katana", "dano": "2d10", "media": 11, "caracteristica": "Precisa", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Lança", "dano": "2d10", "media": 11, "caracteristica": "Alcance corporal aumentado", "tipo": "corpo-a-corpo", "alcance": "2m"},
+        {"nome": "Alabarda", "dano": "3d8", "media": 13.5, "caracteristica": "Longa", "tipo": "corpo-a-corpo", "alcance": "3m"},
+        {"nome": "Machado de batalha", "dano": "3d8", "media": 13.5, "caracteristica": "Pesada", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Mangual", "dano": "3d8", "media": 13.5, "caracteristica": "Impacto", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Espada bastarda", "dano": "3d10", "media": 16.5, "caracteristica": "Versátil", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Montante", "dano": "3d12", "media": 19.5, "caracteristica": "Muito pesada", "tipo": "corpo-a-corpo", "alcance": "2m"},
+        {"nome": "Martelo de guerra", "dano": "3d12", "media": 19.5, "caracteristica": "Impacto pesado", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Arco curto", "dano": "2d8", "media": 9, "caracteristica": "Ataque à distância", "tipo": "distancia", "alcance": "100m"},
+        {"nome": "Arco longo", "dano": "2d10", "media": 11, "caracteristica": "Ataque à distância", "tipo": "distancia", "alcance": "200m"},
+        {"nome": "Besta", "dano": "3d8", "media": 13.5, "caracteristica": "Ataque à distância", "tipo": "distancia", "alcance": "150m"},
+        {"nome": "Besta pesada", "dano": "3d10", "media": 16.5, "caracteristica": "Ataque à distância", "tipo": "distancia", "alcance": "200m"},
+        {"nome": "Arco composto", "dano": "3d10", "media": 16.5, "caracteristica": "Ataque à distância", "tipo": "distancia", "alcance": "250m"}
+      ]
+    },
+    {
+      "id": "moderno",
+      "nome": "Armas Modernas",
+      "descricao": "Maior capacidade de causar dano rapidamente por velocidade e repetição",
+      "armas": [
+        {"nome": "Pistola leve", "dano": "2d8", "media": 9, "caracteristica": "Compacta", "tipo": "distancia", "alcance": "50m"},
+        {"nome": "Pistola pesada", "dano": "2d10", "media": 11, "caracteristica": "Maior impacto", "tipo": "distancia", "alcance": "50m"},
+        {"nome": "Revólver", "dano": "3d8", "media": 13.5, "caracteristica": "Alto impacto", "tipo": "distancia", "alcance": "75m"},
+        {"nome": "Submetralhadora", "dano": "2d10", "media": 11, "caracteristica": "Alta cadência", "tipo": "distancia", "alcance": "150m"},
+        {"nome": "Espingarda", "dano": "4d10", "media": 22, "caracteristica": "Grande dano próximo", "tipo": "distancia", "alcance": "50m"},
+        {"nome": "Carabina", "dano": "3d10", "media": 16.5, "caracteristica": "Versátil", "tipo": "distancia", "alcance": "300m"},
+        {"nome": "Rifle de assalto", "dano": "3d12", "media": 19.5, "caracteristica": "Versátil", "tipo": "distancia", "alcance": "400m"},
+        {"nome": "Rifle de batalha", "dano": "4d10", "media": 22, "caracteristica": "Alto impacto", "tipo": "distancia", "alcance": "600m"},
+        {"nome": "Rifle de precisão", "dano": "4d12", "media": 26, "caracteristica": "Precisão elevada", "tipo": "distancia", "alcance": "1000m"},
+        {"nome": "Rifle antimaterial", "dano": "6d10", "media": 33, "caracteristica": "Extremamente pesado", "tipo": "distancia", "alcance": "1500m"},
+        {"nome": "Arma automática pesada", "dano": "5d12", "media": 32.5, "caracteristica": "Alto volume de fogo", "tipo": "distancia", "alcance": "800m"},
+        {"nome": "Arco moderno", "dano": "3d10", "media": 16.5, "caracteristica": "Silencioso", "tipo": "distancia", "alcance": "100m"},
+        {"nome": "Besta moderna", "dano": "3d12", "media": 19.5, "caracteristica": "Alto impacto", "tipo": "distancia", "alcance": "150m"},
+        {"nome": "Granada de fragmentação", "dano": "5d10", "media": 27.5, "caracteristica": "Área", "tipo": "area", "alcance": "30m"},
+        {"nome": "Granada de impacto", "dano": "4d12", "media": 26, "caracteristica": "Área", "tipo": "area", "alcance": "30m"},
+        {"nome": "Mina antipessoal", "dano": "6d10", "media": 33, "caracteristica": "Área", "tipo": "area", "alcance": "5m"},
+        {"nome": "Mina antiveículo", "dano": "7d12", "media": 45.5, "caracteristica": "Explosiva", "tipo": "area", "alcance": "10m"},
+        {"nome": "Lança-granadas", "dano": "6d12", "media": 39, "caracteristica": "Explosiva", "tipo": "area", "alcance": "400m"},
+        {"nome": "Lança-foguetes", "dano": "7d12", "media": 45.5, "caracteristica": "Explosiva", "tipo": "area", "alcance": "500m"},
+        {"nome": "Míssil portátil", "dano": "8d12", "media": 52, "caracteristica": "Explosiva", "tipo": "area", "alcance": "2000m"},
+        {"nome": "Canhão pesado", "dano": "8d10", "media": 44, "caracteristica": "Altíssimo impacto", "tipo": "area", "alcance": "3000m"}
+      ]
+    },
+    {
+      "id": "futurista",
+      "nome": "Armas Futuristas",
+      "descricao": "Alta energia, micro-ondas e ficção científica — limite do mundano",
+      "armas": [
+        {"nome": "Pistola laser", "dano": "3d10", "media": 16.5, "caracteristica": "Precisão", "tipo": "distancia", "alcance": "200m"},
+        {"nome": "Rifle laser", "dano": "4d10", "media": 22, "caracteristica": "Precisão elevada", "tipo": "distancia", "alcance": "600m"},
+        {"nome": "Rifle laser pesado", "dano": "5d12", "media": 32.5, "caracteristica": "Alto impacto", "tipo": "distancia", "alcance": "800m"},
+        {"nome": "Rifle de plasma", "dano": "5d12", "media": 32.5, "caracteristica": "Energia térmica", "tipo": "distancia", "alcance": "500m"},
+        {"nome": "Pistola de plasma", "dano": "4d10", "media": 22, "caracteristica": "Compacta", "tipo": "distancia", "alcance": "100m"},
+        {"nome": "Canhão de plasma", "dano": "7d12", "media": 45.5, "caracteristica": "Altíssimo impacto", "tipo": "area", "alcance": "1000m"},
+        {"nome": "Rifle eletromagnético", "dano": "5d10", "media": 27.5, "caracteristica": "Projétil acelerado", "tipo": "distancia", "alcance": "1200m"},
+        {"nome": "Railgun", "dano": "8d10", "media": 44, "caracteristica": "Penetração extrema", "tipo": "distancia", "alcance": "3000m"},
+        {"nome": "Canhão magnético", "dano": "8d12", "media": 52, "caracteristica": "Impacto extremo", "tipo": "area", "alcance": "2500m"},
+        {"nome": "Rifle de partículas", "dano": "6d12", "media": 39, "caracteristica": "Alta precisão", "tipo": "distancia", "alcance": "1500m"},
+        {"nome": "Canhão de partículas", "dano": "9d12", "media": 58.5, "caracteristica": "Energia concentrada", "tipo": "area", "alcance": "2000m"},
+        {"nome": "Lança de energia", "dano": "5d10", "media": 27.5, "caracteristica": "Corpo a corpo", "tipo": "corpo-a-corpo", "alcance": "3m"},
+        {"nome": "Espada de energia", "dano": "4d12", "media": 26, "caracteristica": "Cortante", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Espada de plasma", "dano": "5d12", "media": 32.5, "caracteristica": "Cortante/energética", "tipo": "corpo-a-corpo", "alcance": "corpo"},
+        {"nome": "Arma sônica", "dano": "4d10", "media": 22, "caracteristica": "Impacto vibracional", "tipo": "distancia", "alcance": "100m"},
+        {"nome": "Canhão sônico", "dano": "7d10", "media": 38.5, "caracteristica": "Área/impacto", "tipo": "area", "alcance": "300m"},
+        {"nome": "Granada de plasma", "dano": "7d10", "media": 38.5, "caracteristica": "Área", "tipo": "area", "alcance": "40m"},
+        {"nome": "Granada gravitacional", "dano": "6d12", "media": 39, "caracteristica": "Controle/impacto", "tipo": "area", "alcance": "30m"},
+        {"nome": "Lança-foguetes avançado", "dano": "9d10", "media": 49.5, "caracteristica": "Explosiva", "tipo": "area", "alcance": "3000m"},
+        {"nome": "Canhão de fusão", "dano": "10d12", "media": 65, "caracteristica": "Potencialmente letal", "tipo": "area", "alcance": "5000m"}
+      ]
+    }
+  ]
+}

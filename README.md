@@ -1,107 +1,250 @@
-# GUA — Ecossistema Digital de RPG
+# GAU — Grimório Digital & Forja de Personagens
 
-Livro de regras digital **+** ficha de personagem automatizada, construídos sobre **uma única base de regras** (`data/*.json`). Nenhuma regra foi inventada: tudo vem do material-fonte, com páginas citadas, e o que o material não define está marcado como **REGRA NÃO DEFINIDA**.
+> **Sistema Universal v2.0 — Edição Digital**
+> Livro de RPG interativo + criador de personagem automatizado, 100% client-side, pronto para GitHub Pages.
 
-> ⚔️ Prioridade do projeto: **fidelidade às regras &gt; correção dos cálculos &gt; integridade dos dados &gt; funcionalidade &gt; integração &gt; usabilidade &gt; design &gt; efeitos visuais.**
+![GAU Capa](book/images/capa.svg)
+
+**GAU** é um sistema d20 com margens de sucesso. Atributo determina capacidade, categoria determina escala (quantidade de d20), margem determina resultado necessário.
+
+- **Valor 10** = referência humana, margem **8–12**, crítico **10**
+- **1 e 20** não são sucesso/falha automáticos — apenas margem importa
+- **Disputa**: vence quem está mais próximo do próprio crítico
+- **Combate**: 1 turno = 1 segundo, sequência por deslocamento, árvores táticas
+- **Graus de Dano**: GD1 Raspão 1–20, GD2 Em Cheio 21–64, GD3 Letal 65+
 
 ---
 
-## O que tem aqui
+## ✨ O que tem aqui
 
-| | |
-|---|---|
-| 📖 **Livro digital** | 9 capítulos navegáveis, gerados ao vivo do banco de regras (abas **Livro**) |
-| 🧑 **Ficha de personagem** | 11 abas: personagem, atributos, perícias, vantagens/desvantagens, equipamentos, combate, magias, livro, dados, histórico, configurações |
-| ⚙️ **Rule Engine** | 13 módulos ES puros (`app/engine/`) — **100% dos cálculos** vivem aqui; a interface não contém fórmulas |
-| 🗄️ **Banco único** | `data/*.json` serve ao livro **e** à ficha (fonte única da verdade) |
-| ✅ **Testes** | 72 testes do engine contra exemplos do próprio material + smoke test das 11 páginas |
-| 💾 **Dados do jogador** | localStorage do navegador — nada sai do dispositivo; import/export JSON, backup completo, PDF e PNG |
+| Seção | Descrição |
+|-------|-----------|
+| 📖 **Livro Digital** | 4 capítulos completos (Testes, Combate Montado, Proezas Físicas, Sistema de Combate) com índice clicável, modo livro físico, busca global e filtros |
+| ⚔️ **Forja de Personagens** | Wizard em 6 etapas: Identidade → Atributos → Perícias → Manobras → Equipamentos → Finalização |
+| 🎲 **Motor de Regras** | `js/character-calculator.js` + `js/dice.js` — 100% dos cálculos aqui, UI sem fórmulas |
+| 🗄️ **Banco Único** | `data/*.json` serve ao livro e à ficha (fonte única da verdade) |
+| 💾 **Armazenamento Local** | `localStorage` — nada sai do dispositivo, export/import JSON, backup completo, PDF e PNG |
+| 🔍 **Busca & Filtros** | Busca por regras, manobras, armas, tabelas, empunhaduras com destaque |
+| 🎨 **Temas** | 🌙 Escuro (grimório noturno) e ☀️ Claro (pergaminho) — salva preferência |
 
-### Conteúdo do banco (extraído do material)
+### Conteúdo do banco
 
 | Arquivo | Conteúdo |
-|---|---|
-| `data/skills.json` | 175 perícias (tipo/dificuldade, defaults, pré-reqs, fonte por página) |
-| `data/advantages.json` | 62 vantagens, com níveis (Riqueza, Status, Aparência…) |
-| `data/disadvantages.json` | 82 desvantagens |
-| `data/quirks.json` | Peculiaridades: máx. 5, −1 pt cada, 32 exemplos do material |
-| `data/spells.json` | 85 magias em 11 escolas (p. 331–370), com custo, duração, pré-reqs |
-| `data/equipment.json` | 17 armaduras, 6 escudos, 3 ataques naturais, qualidade, encantamento completo (p. 322–323) |
-| `data/tables.json` | 19 tabelas (custos, dano, carga, ferimentos, fadiga, mana, modificadores…) |
-| `data/maneuvers.json` | Manobras de combate básico/avançado e defesas |
-| `data/rules.json` | Manifesto: princípios, registry de REGRA NÃO DEFINIDA, configuráveis |
-| `data/book.json` | Metadados do livro digital |
+|---------|----------|
+| `data/book.json` | Livro completo estruturado em capítulos/seções/subseções |
+| `data/margins.json` | Tabela de margens 1–20 + extrapolação |
+| `data/weapons.json` | 64 armas: 23 medievais, 21 modernas, 20 futuristas com dano, média, característica |
+| `data/maneuvers.json` | Árvores completas: Movimento (Linear/Difuso/Acrobático/Atlético), Ataque (Simples/Acrobático/Pesado/Distância), Preparar, Apontar (PREC), Analisar, Fazer Nada |
+| `data/empunhaduras.json` | 6 empunhaduras: Uma Mão, Bastarda, Duas Mãos, Tsuka, Zatoichi, Anatômica |
+| `data/tables.json` | Luminosidade, Localização, Defesas Ativas, Grau de Dano, Dano Arremesso, Escalada, Pânico |
+| `data/attributes.json` | ST, DX, IQ, HT + secundários Vontade, Percepção, Deslocamento, PF |
+| `data/categories.json` | Categorias de Poder: Mundano 1d20, Sobre-Humano 2d20, Lendário 3d20, Cósmico 4d20+ |
+| `data/rules.json` | Manifesto de regras, fórmulas, configuráveis |
 
-## Como rodar
+---
 
-**Local** (qualquer pasta estática; ES modules exigem servidor, não `file://`):
+## 🚀 Como rodar local
+
+ES modules exigem servidor (não funciona em `file://`):
 
 ```bash
 cd gua
-python3 -m http.server 8080
-# abre http://localhost:8080
+python3 -m http.server 8000
+# abre http://localhost:8000
 ```
 
-**Publicar no GitHub Pages** (funciona em subdiretório — todos os caminhos são relativos):
+Ou com Node:
 
-1. Settings → Pages → **Deploy from a branch**
-2. Branch: `main` · Pasta: `/ (root)` → Save
+```bash
+npx serve .
+```
 
-Pronto: a raiz do repositório já é o site (`index.html`).
+---
 
-> Dados de personagem **não** vão para o repositório: ficam no `localStorage` do navegador de quem joga. Use *Configurações → Backup* para exportar/importar.
+## 📦 Publicar no GitHub Pages
 
-## Arquitetura em 30 segundos
+O projeto já é 100% estático e funciona em subdiretório (caminhos relativos).
+
+1. Vá em **Settings → Pages**
+2. **Source**: Deploy from a branch
+3. **Branch**: `main` (ou `arena/01a0543b-gua`) • **Folder**: `/ (root)` → Save
+4. Aguarde deploy — a raiz já é o site (`index.html` + `data/` + `js/` + `styles/`)
+
+> Dados de personagem **não** vão para o repositório: ficam no `localStorage` do navegador. Use **Meus Personagens → Exportar Backup** para transportar.
+
+---
+
+## 🏗️ Arquitetura
 
 ```
 data/*.json          ← FONTE ÚNICA DA VERDADE (livro e ficha leem daqui)
       │
-app/engine/*.js      ← TODO cálculo (atributos, perícias, carga, combate,
-      │                fadiga, magia, economia, requisitos, contagem de pontos)
-      │                cada valor sai com "breakdown" (origem de cada número)
+js/db.js             ← Carregador + índice de busca (189 entradas)
       │
-app/engine/engine.js ← computeAll(db, personagem) — fachada única da UI
+js/dice.js           ← d20, margens, grau de dano, carga, levantamento
+js/character-calculator.js ← computeCharacter(db, char) — fachada única
       │
-app/ui/              ← desenha e chama o engine. Zero fórmulas.
-app/main.js          ← SPA hash-routing (11 abas), sem frameworks
+js/                  ← UI sem fórmulas
+  app.js             ← SPA hash-routing, 8 páginas
+  book.js            ← Render livro, modo físico, TOC, árvores
+  search.js          ← Busca global com scoring
+  filters.js         ← Filtros por tipo e arma
+  character-builder.js ← Wizard 6 etapas
+  storage.js         ← localStorage, backup, tema
+  export-pdf.js      ← jsPDF
+  export-png.js      ← html2canvas
+  ui.js              ← Helpers DOM
+
+styles/
+  main.css           ← Tema escuro/claro, layout, componentes
+  book.css           ← Tipografia editorial, modo livro físico
+  character-sheet.css← Ficha visual oficial
+  animations.css     ← Fade, slide, microinterações, reduced-motion
 ```
 
-- Mudou um atributo → perícias, dano, carga, deslocamento, esquiva, defesa passiva, fadiga e magia **recalcular sozinhos**.
-- Compra/venda/conjuração impossíveis são **bloqueadas com o motivo exato** ("Dinheiro insuficiente: tem $500, preço $550 (**faltam $50**)").
-- Valores intermediários **nunca arredondados**, exceto onde o material manda.
-- Todo número calculado tem tooltip **"como este valor foi calculado"**.
+### Fluxo de regras
 
-### Ferramentas
-
-- `tools/extract_data.py` — extrai o bruto do PDF-fonte para `analysis/outdata/`
-- `tools/build_data.py` — gera `data/*.json` (reproduzível: rode de novo e o diff é vazio)
-
-### Testes
-
-```bash
-node tests/run.mjs        # 72 testes do engine vs. exemplos do material
-node tests/smoke_ui.mjs   # renderiza as 11 páginas em DOM falso
+```
+Character (nome, atributos, perícias, manobras, equipamentos)
+   ↓
+Rules Engine (margens por valor, carga ST×, levantamento, deslocamento)
+   ↓
+Modifiers (bônus empunhadura, penalidade carga, categoria)
+   ↓
+Derived Stats (margemTexto, crítico, PF/PV, peso, GD)
+   ↓
+Validation (erros, avisos, infos com campo e motivo)
+   ↓
+Character Sheet (ficha visual oficial)
 ```
 
-Exemplos validados: personagem-modelo Dai (ST8/DX15/IQ12/HT12 = 85 pts), montante ST10 = 1D+1, corte 8 vs RD 3 → 7, níveis de carga p. 195–197, fadiga p. 298–300, custos de magia p. 300–314, encantamento p. 322–323.
-
-## O que o material não define (e o que fizemos)
-
-Política: **nada é inventado**. Itens ausentes ficam marcados e a arquitetura aceita a regra quando publicada — o registry completo está em `data/rules.json → naoDefinidas`:
-
-- Tabela de armas corpo-a-corpo → cadastro manual na aba Equipamentos (o motor calcula NH/dano/aparar)
-- Golpes Fulminantes / Erros Críticos (tabelas 3d)
-- Lista de preços de equipamentos (só itens citados no texto)
-- Preço de revenda (fator configurável em Configurações)
-- Evolução pós-criação (XP registrável no Histórico)
-- Poderes não-mágicos (módulo pronto e vazio)
-
-Tabelas reconstruídas a partir de regra **textual** (não inventadas) carregam `_aviso: "TABELA RECONSTRUÍDA"` em `tables.json`.
-
-## Análise do material
-
-O mapa completo das 17 seções de regras, com páginas citadas, está em [`docs/analise/01-mapa-de-regras.md`](docs/analise/01-mapa-de-regras.md).
+- Mudou ST → recalcula carga, deslocamento, levantamento, PF, margens, validação
+- Equipou arma → recalcula peso, carga, deslocamento
+- Teste = `testarMargem(valor, db, roll?)` → sucesso se roll dentro da margem, crítico se roll == valor
+- Disputa = compara distância ao crítico
 
 ---
 
-*Material-base: GURPS® Basic Set, 3ª edição (PT-BR, 370 pp.), usado como fonte privada de mesa. GURPS® é marca registrada de seus detentores; este projeto não tem afiliação nem distribui o material original.*
+## 📖 Como usar o livro
+
+- **Índice lateral**: clique para navegar, seções destacadas
+- **Modo Livro Físico**: botão no topo do capítulo — moldura decorativa, ornamentos, paginação
+- **Busca**: ícone 🔍 no topo ou tecla `/` — busca regras, manobras, armas, tabelas
+- **Filtros**: na sidebar — filtre por Regras, Manobras, Armas, Tabelas, Empunhaduras e por categoria de arma (Medieval/Moderno/Futurista, Corpo-a-corpo/Distância/Área)
+
+---
+
+## ⚔️ Como criar personagem
+
+1. **Identidade**: nome, conceito, jogador, categoria de poder (Mundano 1d20 até Cósmico 4d20+)
+2. **Atributos**: ST, DX, IQ, HT (1–20, 10 = humano). Slider + botões +/- + teste d20 ao vivo. Derivados calculados automaticamente.
+3. **Perícias**: lista inicial (Arrombamento IQ-5, Cavalgar DX, Natação ST-5, Escalada DX-5). Adicione custom, teste com 🎲
+4. **Manobras**: escolha na árvore tática (Investida, Finta, Cambalhota, Combo com Cenário, Ataque Duplo, Preciso, Pesado, Saraivada, etc) + empunhadura (Uma Mão, Tsuka, etc)
+5. **Equipamentos**: busque 64 armas do grimório ou crie item custom com peso. Carga e deslocamento recalculam.
+6. **Finalizar**: história, resumo automático, teste rápido de qualquer valor, validação com erros/avisos.
+
+**Validação automática**:
+
+- Atributo 1 = sem margem (incapaz)
+- >20 em Mundano = requer categoria superior
+- Carga >15×ST = não pode se mover
+- Empunhadura sem arma = info
+- Nome curto = aviso
+
+---
+
+## 💾 Salvamento e exportação
+
+- **Auto-save**: ao clicar Salvar, vai para `localStorage`
+- **Meus Personagens**: lista com ST/DX/IQ/HT, categoria, validação, ações Ver/Editar/Duplicar/Excluir
+- **Exportar**:
+  - 📦 **JSON**: personagem completo para importar depois
+  - 📄 **PDF**: via jsPDF (ou fallback print) com layout oficial
+  - 🖼️ **PNG**: via html2canvas, escala 2× para impressão
+  - 📦 **Backup**: todos personagens + tema + filtros em um JSON
+
+---
+
+## 🎨 Design
+
+Identidade visual baseada no universo GAU:
+
+- **Paleta**: couro #1e1b14, pergaminho #efe6d2, ouro #c9a55c, sangue #9c2b23
+- **Tipografia**: Títulos Cinzel Decorative, Corpo Lora (serif leitura longa), UI Inter
+- **Elementos**: molduras duplas, ornamentos ❧ ◈, bordas douradas, sombras suaves, textura sutil
+- **Modo Livro**: página centralizada, moldura decorativa, número da página, cabeçalho, rodapé, ornamentos, transição de página
+- **Ficha**: mesma identidade do livro, parece página oficial — molduras, símbolos, tipografia, divisores
+
+**Animações** (respeitam `prefers-reduced-motion`):
+
+- Fade, slide, scale, hover lift, glow, shimmer em barras, float na capa, dice roll, page turn
+
+---
+
+## 🔧 Onde modificar
+
+| O que | Onde |
+|-------|------|
+| Texto do livro | `data/book.json` → capitulos[].secoes[] |
+| Margens | `data/margins.json` |
+| Armas | `data/weapons.json` → categorias[].armas[] |
+| Manobras | `data/maneuvers.json` |
+| Empunhaduras | `data/empunhaduras.json` |
+| Tabelas | `data/tables.json` |
+| Atributos | `data/attributes.json` |
+| Categorias | `data/categories.json` |
+| Regras/fórmulas | `js/character-calculator.js` + `js/dice.js` |
+| Design cores | `styles/main.css` → :root |
+| Tipografia livro | `styles/book.css` |
+| Ficha visual | `styles/character-sheet.css` |
+| Animações | `styles/animations.css` |
+
+---
+
+## ✅ Testes
+
+Teste manual do motor:
+
+```bash
+node --input-type=module -e "
+import DB from './js/db.js';
+global.fetch = async (p) => { const fs = await import('fs'); const text = fs.readFileSync(p.replace('data/','./data/'),'utf-8'); return { ok:true, json: async()=>JSON.parse(text)}; };
+await DB.load();
+console.log('Margem 10', DB.getMarginForValue(10));
+"
+```
+
+Checklist:
+
+- [x] Capa com Entrar no Livro e Criar Personagem
+- [x] Índice clicável + navegação suave
+- [x] Modo Livro Físico com moldura
+- [x] Busca global (189 entradas) com trecho + botão
+- [x] Filtros por tipo e arma (múltipla seleção)
+- [x] Criação de personagem 6 etapas
+- [x] Cálculo automático de margens, carga, deslocamento, PF/PV, levantamento
+- [x] Validação com motivo (🔒 Requisito não atendido)
+- [x] Ficha visual oficial com molduras e ornamentos
+- [x] Salvar/duplicar/excluir em localStorage
+- [x] Exportar JSON, PDF, PNG
+- [x] Backup completo
+- [x] Temas escuro/claro
+- [x] Responsivo (PC, tablet, celular)
+- [x] Acessível (skip-link, ARIA, foco visível, contraste, reduced-motion)
+- [x] Performance (sem frameworks, CDN apenas para export, CSS eficiente)
+
+---
+
+## 📜 Licença e créditos
+
+Sistema GAU — conteúdo textual fornecido pelo autor. Este grimório digital é uma implementação independente, sem backend, sem banco proprietário, 100% client-side.
+
+- Tipografia: Google Fonts (Cinzel, Lora, Inter)
+- Export: jsPDF, html2canvas via CDN
+- Ícones: Unicode emoji (sem dependências)
+
+> Sempre que houver escolha entre beleza e usabilidade, buscamos os dois. Entre animação e performance, priorizamos performance. Entre inventar e seguir o livro, seguimos o livro.
+
+---
+
+**Forje seu personagem. Entre no grimório. Que seus críticos sejam 10.**

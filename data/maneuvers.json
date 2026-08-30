@@ -1,40 +1,334 @@
 {
-  "_fonte": "Sistema Básico de Combate (p. 221-224) e Sistema Avançado (p. 233-241). Turno = 1 segundo.",
-  "inicioRodada": {
-    "modoSimples": "Cada jogador lança 1 dado; vencedor começa; depois sentido horário (p. 220)",
-    "modoRealista": "Maior Deslocamento primeiro; empate: maior Velocidade Básica; persistindo: dados (p. 221)"
+  "_fonte": "Árvores de Manobras — GAU (Movimento, Ataque, Preparar, Apontar, Analisar, Fazer Nada)",
+  "movimento": {
+    "nome": "MOVIMENTO",
+    "descricao": "Qualquer ação cujo propósito principal seja alterar fisicamente a posição do personagem.",
+    "estilos": [
+      {
+        "id": "linear",
+        "nome": "MOVIMENTO LINEAR",
+        "descricao": "Deslocamento realizado predominantemente em uma linha reta. O personagem escolhe uma direção e percorre seu deslocamento nessa direção.",
+        "caminhos": [
+          {
+            "id": "investida",
+            "nome": "Investida",
+            "descricao": "Combina Movimento Linear com Ataque Simples. O personagem se desloca em linha reta em direção a um alvo e realiza um Ataque Simples durante o percurso. Após realizar o ataque, ele continua seu movimento, terminando sua trajetória depois do alvo. Ex: 20m deslocamento, percorre 8m, ataca, continua 12m.",
+            "bonus": "Continua movimento após ataque"
+          },
+          {
+            "id": "mover-atacar",
+            "nome": "Mover-se e Atacar",
+            "descricao": "O personagem se desloca em linha reta e realiza um Ataque Simples ao final do movimento. Diferentemente da Investida, o ataque não acontece durante o percurso. Forma mais simples de combinar movimento e ataque.",
+            "derivacao": {
+              "id": "ataque-duplo-linear",
+              "nome": "Ataque Duplo",
+              "descricao": "Depois de Mover-se e Atacar, pode realizar Ataque Duplo"
+            }
+          }
+        ]
+      },
+      {
+        "id": "difuso",
+        "nome": "MOVIMENTO DIFUSO",
+        "descricao": "Deslocamento que não segue trajetória reta. Zigue-zague, mudanças bruscas, movimentos laterais, curvas, deslocamento irregular.",
+        "caminhos": [
+          {
+            "id": "finta",
+            "nome": "Finta",
+            "descricao": "Movimenta-se de maneira imprevisível e realiza Ataque Simples no final. Por causa da movimentação irregular, o alvo recebe –2 no ataque. Entretanto, o alvo também sofre –2 em suas Defesas Ativas contra esse personagem.",
+            "bonus": "Alvo -2 defesa, Atacante -2 ataque"
+          },
+          {
+            "id": "ataque-circulos",
+            "nome": "Ataque em Círculos",
+            "descricao": "Circula um alvo durante deslocamento. Alvo precisa estar até metade do deslocamento máximo. Ao circular, realiza Ataque Simples com +2.",
+            "bonus": "+2 ataque",
+            "derivacao": {
+              "id": "ataque-duplo-circulos",
+              "nome": "Ataque Duplo",
+              "descricao": "Após Ataque em Círculos, pode realizar Ataque Duplo"
+            }
+          }
+        ]
+      },
+      {
+        "id": "acrobatico",
+        "nome": "MOVIMENTO ACROBÁTICO",
+        "descricao": "Deslocamentos nos quais o personagem utiliza o próprio corpo para realizar movimentos complexos: cambalhotas, mortais, estrelinhas, giros, saltos acrobáticos.",
+        "caminhos": [
+          {
+            "id": "cambalhota",
+            "nome": "Cambalhota por Cima",
+            "descricao": "Realiza cambalhota sobre alvo localizado em até metade de seu deslocamento total. Opção A — Ataque durante cambalhota, ficando corpo a corpo. Opção B — Continua movimentação e pode realizar Ataque à Distância antes ou depois.",
+            "opcoes": ["Ataque durante", "Ataque ao final"]
+          },
+          {
+            "id": "mov-acrobatico",
+            "nome": "Movimento Acrobático",
+            "descricao": "Movimento acrobático livre durante deslocamento. Ex: giro → mortal → salto → aterrissagem. Ao terminar, realiza Ataque Simples. Não precisa passar sobre alvo.",
+            "derivacao": {
+              "id": "ataque-acrobatico",
+              "nome": "Ataque Acrobático",
+              "descricao": "Durante Movimento Acrobático, pode realizar Ataque Acrobático"
+            }
+          }
+        ]
+      },
+      {
+        "id": "atletico",
+        "nome": "MOVIMENTO ATLÉTICO",
+        "descricao": "Utilização de força física, impulso e ambiente: escalada, saltos, se pendurar, correr por paredes, impulsionar-se em estruturas.",
+        "caminhos": [
+          {
+            "id": "combo-cenario",
+            "nome": "Combo com Cenário",
+            "descricao": "Utiliza superfície do cenário para ganhar impulso. Ex: corre → pisa na parede → impulsiona-se → muda direção → ataca. Ao utilizar cenário adequadamente, pode realizar Ataque Pesado contra alvo ao final, com bônus +1.",
+            "bonus": "+1 ataque, Ataque Pesado"
+          },
+          {
+            "id": "grande-salto",
+            "nome": "Grande Salto",
+            "descricao": "Realiza grande salto em direção ao alvo. Ao alcançar, realiza Ataque Pesado. Representa ofensiva baseada em impulso e força.",
+            "bonus": "Ataque Pesado"
+          }
+        ]
+      }
+    ]
   },
-  "manobras": [
-    {"id": "deslocamento", "nome": "Deslocamento", "basico": "Mover até o valor de Movimento; nada mais.", "avancado": "Mover; para trás custa o dobro; pode usar arma de mão; disparar com penalidade de precisão.", "defesas": "qualquer defesa ativa"},
-    {"id": "mudanca-posicao", "nome": "Mudança de Posição", "basico": "Deitar/ajoelhar/levantar etc. Deitado→em pé: 2 turnos (ajoelha, depois levanta). Ajoelhado↔em pé + atacar no mesmo turno.", "avancado": "Não pode se deslocar; agachar é livre no início/fim do turno.", "defesas": "qualquer (algumas posições impõem redutores)"},
-    {"id": "preparar", "nome": "Preparar / Avançar e Preparar", "basico": "Preparar arma/objeto (sacar, içar machado etc.); recarregar projéteis (recarga = só Esquiva; esquivar interrompe).", "avancado": "Mover 1 m antes/depois; escudo no chão/costas: nº de turnos = DP do escudo; apanhar do chão: 2 turnos.", "defesas": "qualquer (pode aparar/bloquear no mesmo turno em que preparou)"},
-    {"id": "recarregar", "nome": "Recarregar", "basico": "Usa Preparar; funda 2 s (preparar pedra + colocar); besta: 2 s engatilhar (ST<=sua) + 1 virote + 1 posicionar; ST+1/+2: 6 s; ST+3/+4: pé-de-cabra 20 s; >+4: impossível sem dispositivos.", "avancado": "", "defesas": "esquiva"},
-    {"id": "apontar", "nome": "Apontar", "basico": "Mirar arma preparada em alvo específico: +Prec da arma (máx = seu NH); até +3 turnos extras: +1 cada; Tiro Rápido (sem apontar) = -4, exceto se NH >= TR da arma.", "avancado": "Mover até 2 m ou ½ Mov; apoio (deitado/junto a parede): +1; defender estraga a mira; ferido: teste de Vontade.", "defesas": "qualquer (mas perde a pontaria)"},
-    {"id": "ataque", "nome": "Ataque / Avançar e Atacar", "basico": "Atacar qualquer oponente com arma preparada.", "avancado": "Avançar 1 m (antes ou depois); atacar através de hex aliado: sem penalidade; de hex inimigo: -4; arma 2-3 m alcança através de hexes.", "defesas": "qualquer (arma desbalanceada fica despreparada após golpe)"},
-    {"id": "ataque-total", "nome": "Ataque Total", "basico": "(a) 2 ataques (2 armas preparadas ou arma sem preparo); (b) finta + ataque; (c) 1 ataque +4; (d) 1 ataque NH normal +2 dano. NENHUMA defesa ativa até o próximo turno.", "avancado": "Mover antes: até 2 m (ou ½ Mov, o que for MAIOR); sem mudança de direção no fim.", "defesas": "nenhuma ativa (só passiva)"},
-    {"id": "finta", "nome": "Finta / Avançar e Fintar", "basico": "Disputa Rápida: sua perícia vs perícia/DX do oponente; margem vira redutor na defesa dele contra SEU próximo ataque (1 rodada). Não vale contra quem não o vê.", "avancado": "Mover 1 metro.", "defesas": "qualquer"},
-    {"id": "aguardar", "nome": "Aguardar / Avançar e Aguardar", "basico": "Atacar (normal) quem entrar no alcance antes do próximo turno; arma mais longa golpeia primeiro; usada para Tiro de Tocaia.", "avancado": "Mover 1 m ou ficar parado (se parado, pode avançar 1 m e atacar).", "defesas": "qualquer"},
-    {"id": "defesa-total", "nome": "Defesa Total", "basico": "Só defender; se falhar defesa, tentar OUTRA defesa diferente contra o mesmo ataque; limite 2 bloqueios + 2 aparos por rodada.", "avancado": "Mover 1 m.", "defesas": "2 jogadas por ataque (defesas distintas)"},
-    {"id": "concentrar", "nome": "Concentrar / Avançar e se Concentrar", "basico": "Concentrar-se em magia/poder (1+ turnos); defesa atrapalha: teste de Vontade -3.", "avancado": "Mover 1 m; teste IQ-3 para manter concentração ao defender.", "defesas": "qualquer (teste p/ manter)"},
-    {"id": "acao-demorada", "nome": "Ação Demorada", "basico": "1 segundo de tarefa longa (exemplos: apanhar objeto pesado 2 s; abrir caixa 1 s; achar objeto 2D s; bolso 1D s; bilhete curto 5 s/frase; ler 2 s/frase; engolir poção 2 s; acender fósforo 2 s; guardar arma 2 s; trocar roupa 1 min; revistar 1 min; traje de combate 5 min; armadura completa 10 min).", "avancado": "", "defesas": "esquiva (GM pode alterar)"},
-    {"id": "acoes-independentes", "nome": "Ações Independentes", "basico": "Falar; largar objeto preparado; manter magia; negar alucinação.", "avancado": "Agachar no início do turno (custo de movimento +50%).", "defesas": "-"}
-  ],
-  "defesas": {
-    "esquiva": {"valor": "Deslocamento atual", "notas": "Ilimitada por rodada; animal: ½ Mov ou ½ DX (máx 10); Esquiva Acrobática com perícia Acrobacia"},
-    "aparar": {"valor": "½ NH da arma (arredondar p/ baixo); 2/3 para Bastão; 2/3 para Esgrima com equipamento adequado (arma leve, escudo <= pequeno, carga <= leve)", "notas": "1x/rodada (2x com 2 armas, ou Defesa Total, ou Esgrima); arma desbalanceada desprepara-se; armas arremessadas -1; facas arremessadas -2; faca na mão -1; mangual -4; improvisada -4; aparar arma 3x mais pesada: 1/3 de quebrar (barata 2/3; superior 1/6); aparar desarmado: ½ DX (2/3 c/ Briga/Judô/Caratê), -3 vs arma (Judô/Caratê sem penalidade)"},
-    "bloqueio": {"valor": "½ NH Escudo/Broquel (arredondar p/ baixo)", "notas": "1x/rodada (2x em Defesa Total); não bloqueia balas/armas de feixe; flechas/quadrelos/fundas bloqueáveis; escudo improvisado: DX-4"},
-    "recuar": {"valor": "+3 para a defesa ativa contra ataques de perto", "notas": "1x/rodada; impossível sentado/ajoelhado/atordoado; impossível contra ataques à distância; deitado: rolando, permitido"},
-    "defesaPassiva": "Armour DP + escudo DP + magias; sempre ativa; escudo não protege ataque pelas costas",
-    "regrasGerais": "Defesa 3-4 sempre sucesso; 17-18 sempre falha; atordoado: -4; Reflexos em Combate: +1; choque do ferimento NÃO afeta defesas ativas"
+  "ataque": {
+    "nome": "ATACAR",
+    "descricao": "Toda ação ofensiva com intenção de causar consequência sobre alvo. Corpo a Corpo exige proximidade (passo de 2m). À Distância exige 10m mínimo ideal.",
+    "tipos": [
+      {
+        "id": "corpo-a-corpo",
+        "nome": "Ataque Corpo-a-Corpo",
+        "formas": [
+          {
+            "id": "ataque-simples",
+            "nome": "ATAQUE SIMPLES",
+            "descricao": "Forma mais básica de ofensiva corpo a corpo. Único ataque contra alvo, sem movimentação especial.",
+            "caminhos": [
+              {
+                "id": "ataque-duplo",
+                "nome": "Ataque Duplo",
+                "descricao": "Realiza segundo ataque imediatamente após primeiro. Segundo recebe –2.",
+                "penalidade": -2,
+                "derivacao": {
+                  "id": "ataque-triplo",
+                  "nome": "Ataque Triplo",
+                  "descricao": "Terceiro ataque após dois primeiros. Terceiro recebe –4.",
+                  "penalidade": -4
+                }
+              },
+              {
+                "id": "golpe-recuo",
+                "nome": "Golpe de Recuo",
+                "descricao": "Após ataque, utiliza movimento para se afastar até metade do deslocamento total. Transforma combate próximo em maior distância."
+              }
+            ]
+          },
+          {
+            "id": "ataque-acrobatico",
+            "nome": "ATAQUE ACROBÁTICO",
+            "descricao": "Ofensiva com movimentos corporais complexos. Utiliza Destreza em vez de Força. Depende de velocidade, precisão, coordenação, equilíbrio.",
+            "atributo": "DX",
+            "caminhos": [
+              {
+                "id": "ataque-preciso",
+                "nome": "Ataque Preciso",
+                "descricao": "Utiliza Destreza para ataque extremamente preciso, escolhendo ponto específico (mão, braço, perna, arma, etc) ignorando penalidade. Consulte Localização.",
+                "bonus": "Ignora penalidade de localização"
+              },
+              {
+                "id": "ataque-penetrante",
+                "nome": "Ataque Penetrante",
+                "descricao": "Golpe que ignora 1 ponto de RD.",
+                "bonus": "Ignora 1 RD"
+              },
+              {
+                "id": "sequencia-acrobatica",
+                "nome": "Sequência Acrobática",
+                "descricao": "Sequência corporal complexa com dois ataques com -1 em ambos.",
+                "penalidade": -1
+              },
+              {
+                "id": "potencia-acrobatica",
+                "nome": "Potência",
+                "descricao": "Causa +10 de dano em seu ataque.",
+                "bonus": "+10 dano"
+              }
+            ]
+          },
+          {
+            "id": "ataque-pesado",
+            "nome": "ATAQUE PESADO",
+            "descricao": "Ofensiva baseada na aplicação máxima de força física. Utiliza Força e causa +1d de dano.",
+            "atributo": "ST",
+            "bonus": "+1d dano",
+            "caminhos": [
+              {
+                "id": "ataque-pesado-duplo",
+                "nome": "Ataque Pesado Duplo",
+                "descricao": "Segundo Ataque Pesado após primeiro, seguindo regras de Ataque Duplo."
+              },
+              {
+                "id": "ataque-potente",
+                "nome": "Ataque Potente",
+                "descricao": "Concentra força para arremessar alvo para longe. Distância = Força/2. Além disso causa +1d de dano proveniente do cenário.",
+                "bonus": "+1d dano cenário, arremesso ST/2"
+              },
+              {
+                "id": "ataque-atordoante",
+                "nome": "Ataque Atordoante",
+                "descricao": "Impacto destinado a desestabilizar completamente o alvo. Atordoado: solta tudo, só pode fazer Nada até próximo turno.",
+                "efeito": "Atordoado"
+              },
+              {
+                "id": "ataque-demolidor",
+                "nome": "Ataque Demolidor",
+                "descricao": "Concentra força para aplicar dano a algo próximo. Pisão na superfície, ataque em área até 5m, dano não passa de grau 1. +10 dano contra estruturas.",
+                "bonus": "+10 vs estruturas, área 5m"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "a-distancia",
+        "nome": "Ataque à Distância",
+        "descricao": "Quando alvo está a pelo menos 10m. Prioriza precisão, trajetória, alcance, quantidade de disparos, controle de espaço.",
+        "formas": [
+          {
+            "id": "saraivada",
+            "nome": "Saraivada",
+            "descricao": "Três ataques provenientes de mesmo ataque à distância. Mesma ação ofensiva. Primeiro passo da especialização em múltiplos disparos.",
+            "caminhos": [
+              {"id": "semiautomatico", "nome": "Semiautomático", "descricao": "Cinco ataques com -2 cada", "quantidade": 5, "penalidade": -2},
+              {"id": "automatico", "nome": "Automático", "descricao": "Dez ataques provenientes do mesmo ataque à distância", "quantidade": 10}
+            ]
+          },
+          {
+            "id": "tiro-preciso",
+            "nome": "Tiro Preciso",
+            "descricao": "Concentra-se em único disparo, procurando atingir exatamente ponto desejado, ignorando penalidade. Consulte Localização."
+          },
+          {
+            "id": "tiro-supressao",
+            "nome": "Tiro de Supressão",
+            "descricao": "Utiliza ataques para controlar área, em vez de tentar atingir diretamente indivíduo."
+          },
+          {
+            "id": "tiro-ricochete",
+            "nome": "Tiro Ricochete",
+            "descricao": "Utiliza superfície do cenário para alterar deliberadamente trajetória do ataque. Depende de características do cenário e pode exigir análise prévia."
+          }
+        ]
+      }
+    ]
   },
-  "combatDePerto": {
-    "fonte": "p. 246-253",
-    "ataques": ["Segurar (Disputa Rápida de DX; +3; 1 mão livre; ST 2x maior escapa)", "Agarrar arma (Disputa DX; depois Disputa ST p/ arrebatar)", "Agarrar braço armado", "Arma em combate de perto: -2", "Soco/mordida/chute", "Derrubar (Disputa: melhor ST/DX/Judô(-5 no chão) vs ST)", "Imobilizar (Disputa ST; +1 por 5 kg de vantagem; até 3 vs 1 somando 1/5 dos auxiliares)", "Sufocar (Disputa Rápida ST vs HT; dano = margem)", "Desvencilhar-se (Disputa ST; +5/+10 se imobilizado c/ 1/2 mãos; 1 tentativa/10 s se 2 mãos)"],
-    "escudo": "Após o 1º turno de combate de perto: subtrair a DP do escudo de defesas e testes de DX; escudo grande: -2 NH arma, -1 Aparar"
+  "preparar": {
+    "nome": "PREPARAR",
+    "descricao": "Sacar, apanhar, guardar ou arrumar objeto, além de pequenas ações físicas para recuperar ou modificar controle sobre equipamento.",
+    "acoes": [
+      {
+        "id": "saque-rapido",
+        "nome": "Saque Rápido",
+        "descricao": "Retirar ou apanhar rapidamente objeto imediatamente acessível. Puxar espada da bainha, retirar poção do cinto, pegar objeto no chão aos pés, sacar arma presa ao corpo.",
+        "derivacao": {
+          "id": "saque-movimento",
+          "nome": "Saque em Movimento",
+          "descricao": "Realizar Saque Rápido enquanto utiliza Movimento. Sacar sem interromper deslocamento. Corre em direção ao inimigo, saca espada durante percurso e termina preparado para atacar."
+        }
+      },
+      {
+        "id": "ajustar-equipamento",
+        "nome": "Ajustar Equipamento",
+        "descricao": "Modificar configuração de equipamento para adequá-lo à situação. Mudar empunhadura, ajustar comprimento, alterar posição, preparar arma para determinado tipo de ataque.",
+        "derivacao": {
+          "id": "ajuste-empunhadura",
+          "nome": "Ajuste de Empunhadura",
+          "descricao": "Alterar maneira como espada é segurada. Determina estilo de utilização, concedendo vantagens diferentes."
+        }
+      },
+      {
+        "id": "acoes-simples",
+        "nome": "Ações Simples",
+        "descricao": "Pequenas interações físicas com ambiente que não exigem manobra especializada. Abrir/fechar porta, puxar alavanca, apertar botão, pegar algo próximo, mover objeto pequeno, acionar mecanismo simples, interagir fisicamente com cenário."
+      }
+    ]
   },
-  "ataqueDesarmado": {
-    "soco": "NH: DX (ou Briga/Caratê); dano GDP-2 contusão; soqueiras +2; objeto pequeno +1; caneca +2",
-    "chute": "NH: DX-2 (Briga-2, Caratê); dano GDP contusão, GDP+1 com botas; falha = teste p/ não cair",
-    "mordida": "1D-4 contusão (humanos)"
+  "apontar": {
+    "nome": "APONTAR",
+    "descricao": "Concentrar mira em alvo visível. Dedica tempo para melhorar precisão do próximo ataque à distância.",
+    "precisao": {
+      "descricao": "No primeiro segundo apontando, adiciona bônus de precisão da arma, determinado pela categoria.",
+      "tabela": [
+        {"categoria": "Arco simples", "exemplos": "arco curto, arco longo", "prec": 1},
+        {"categoria": "Besta", "exemplos": "besta leve, besta pesada", "prec": 2},
+        {"categoria": "Arco composto", "exemplos": "arco composto, arco de caça", "prec": 2},
+        {"categoria": "Pistola", "exemplos": "pistolas e revólveres", "prec": 1},
+        {"categoria": "Submetralhadora", "exemplos": "SMGs", "prec": 0},
+        {"categoria": "Espingarda", "exemplos": "escopetas", "prec": 0},
+        {"categoria": "Fuzil", "exemplos": "rifles e fuzis de assalto", "prec": 2},
+        {"categoria": "Carabina", "exemplos": "carabinas e rifles compactos", "prec": 2},
+        {"categoria": "Rifle de precisão", "exemplos": "rifles de precisão", "prec": 3},
+        {"categoria": "Sniper", "exemplos": "rifles de longo alcance especializados", "prec": 4},
+        {"categoria": "Metralhadora", "exemplos": "armas automáticas pesadas", "prec": 1},
+        {"categoria": "Lançador", "exemplos": "granadas, lançadores e armas similares", "prec": 0},
+        {"categoria": "Bazuca", "exemplos": "lançadores antiblindagem", "prec": 1},
+        {"categoria": "Arma de energia", "exemplos": "armas laser convencionais", "prec": 2},
+        {"categoria": "Laser de precisão", "exemplos": "armas laser especializadas", "prec": 4}
+      ],
+      "caminhos": [
+        {
+          "id": "pontaria-certeira",
+          "nome": "Pontaria Certeira",
+          "descricao": "Se continuar apontando após primeiro segundo, bônus adicional por tempo",
+          "tabela": [
+            {"tempo": "1 segundo", "bonus": "+0"},
+            {"tempo": "2 segundos", "bonus": "+1"},
+            {"tempo": "3 segundos", "bonus": "+2"},
+            {"tempo": "4 segundos", "bonus": "+3"},
+            {"tempo": "5 segundos", "bonus": "+4"},
+            {"tempo": "...", "bonus": "+1 por segundo"}
+          ]
+        },
+        {
+          "id": "arma-firmada",
+          "nome": "Arma Firmada",
+          "descricao": "Quando besta ou arma de fogo estiver apoiada em superfície estável — parede, mesa, parapeito ou suporte — recebe +1 de bônus de precisão enquanto estiver apontando."
+        }
+      ]
+    }
+  },
+  "analisar": {
+    "nome": "ANALISAR",
+    "descricao": "Ação de inteligência estratégica para estudar cuidadosamente situação antes de agir. Dedica turno a observar atentamente alvo dentro de alcance visual e de combate. Jogador pode conversar com Mestre e fazer perguntas sobre o que personagem é capaz de perceber.",
+    "tipos": [
+      {
+        "id": "analisar-individuo",
+        "nome": "Analisar Indivíduo",
+        "descricao": "Permite analisar um ou mais indivíduos que consiga observar. Busca informações sobre comportamento, movimentação, poderes ou ações.",
+        "caminhos": [
+          {"id": "analisar-movimento", "nome": "Analisar Movimento", "descricao": "Concentra atenção na maneira como alvo se movimenta. Descobrir padrões: direção que tende a utilizar, se prefere linear ou difuso, dificuldade para mudar direção, se está preparando movimento, padrões repetitivos."},
+          {"id": "analisar-poderes", "nome": "Analisar Poderes", "descricao": "Observa para compreender capacidades: quais atributos parecem mais desenvolvidos, que tipo de poder ou afinidade utiliza, como poder é ativado, limitações aparentes, alcance aproximado, características de técnicas, sinais de preparação."},
+          {"id": "analisar-acao", "nome": "Analisar Ação", "descricao": "Concentra atenção nas ações do adversário para compreender o que está prestes a fazer ou tentando realizar. Identifica preparação para ataque, intenção de fugir, tentativa de alcançar objeto, mudança de postura, preparação de técnica, tentativa de enganar."}
+        ]
+      },
+      {
+        "id": "analisar-cenario",
+        "nome": "Analisar Cenário",
+        "descricao": "Permite estudar cuidadosamente ambiente dentro do campo de visão. Jogador pode fazer perguntas sobre elementos que consiga perceber. Informações deliberadamente ocultas podem exigir teste de análise."
+      },
+      {
+        "id": "analisar-ambiente",
+        "nome": "Analisar Ambiente",
+        "descricao": "Compreender situação geral. Tenta entender condições do terreno, obstáculos, posições dos envolvidos, rotas possíveis, vantagens ambientais, riscos, elementos que podem ser utilizados durante combate."
+      }
+    ]
+  },
+  "fazer-nada": {
+    "nome": "FAZER NADA",
+    "descricao": "Decide não realizar nenhuma ação relevante durante turno, permanecendo atento ou aguardando. Usada quando surpreso, atordoado, esperando momento certo, sem ação adequada, ou escolhe não agir. Turno termina sem Manobra adicional. Não possui caminhos, testes ou variações. Opção padrão para quando não pode ou não quer executar outra Manobra."
   }
 }

@@ -1,0 +1,31 @@
+{
+  "_fonte": "Tabela Básica de Margens de Sucesso e Crítico — GAU",
+  "tabela": [
+    {"valor": 1, "margem": null, "margemTexto": "Nenhuma", "critico": null, "descricao": "Incapaz"},
+    {"valor": 2, "margem": [3,3], "margemTexto": "3", "critico": 2, "descricao": "Mínimo absoluto"},
+    {"valor": 3, "margem": [2,4], "margemTexto": "2–4", "critico": 3, "descricao": "Quase impossível"},
+    {"valor": 4, "margem": [3,5], "margemTexto": "3–5", "critico": 4, "descricao": "Muito difícil"},
+    {"valor": 5, "margem": [4,6], "margemTexto": "4–6", "critico": 5, "descricao": "Difícil"},
+    {"valor": 6, "margem": [5,7], "margemTexto": "5–7", "critico": 6, "descricao": "Abaixo da média"},
+    {"valor": 7, "margem": [6,8], "margemTexto": "6–8", "critico": 7, "descricao": "Abaixo da média"},
+    {"valor": 8, "margem": [7,9], "margemTexto": "7–9", "critico": 8, "descricao": "Mediano baixo"},
+    {"valor": 9, "margem": [8,10], "margemTexto": "8–10", "critico": 9, "descricao": "Quase humano comum"},
+    {"valor": 10, "margem": [8,12], "margemTexto": "8–12", "critico": 10, "descricao": "Referência humana"},
+    {"valor": 11, "margem": [9,13], "margemTexto": "9–13", "critico": 11, "descricao": "Acima da média"},
+    {"valor": 12, "margem": [9,14], "margemTexto": "9–14", "critico": 12, "descricao": "Competente"},
+    {"valor": 13, "margem": [10,16], "margemTexto": "10–16", "critico": 13, "descricao": "Habilidoso"},
+    {"valor": 14, "margem": [11,17], "margemTexto": "11–17", "critico": 14, "descricao": "Muito habilidoso"},
+    {"valor": 15, "margem": [11,18], "margemTexto": "11–18", "critico": 15, "descricao": "Especialista"},
+    {"valor": 16, "margem": [12,20], "margemTexto": "12–20", "critico": 16, "descricao": "Mestre"},
+    {"valor": 17, "margem": [13,21], "margemTexto": "13–21", "critico": 17, "descricao": "Grão-mestre (extrapola d20)"},
+    {"valor": 18, "margem": [13,22], "margemTexto": "13–22", "critico": 18, "descricao": "Lendário"},
+    {"valor": 19, "margem": [14,24], "margemTexto": "14–24", "critico": 19, "descricao": "Mítico"},
+    {"valor": 20, "margem": [15,25], "margemTexto": "15–25", "critico": 20, "descricao": "Limite mundano"}
+  ],
+  "extrapolacao": "Acima de 20, a margem expande ~+1 inferior e +2 superior por ponto, representando ascensão de categoria. Personagens acima de 16 já operam além do d20 único e precisam de categoria superior.",
+  "regras": {
+    "sucesso": "Resultado dentro da margem = sucesso. Fora = falha.",
+    "critico": "Resultado exatamente igual ao valor do atributo/habilidade = acerto crítico (efeito especial).",
+    "disputa": "Em disputa, vence quem estiver mais próximo do próprio crítico, dentro da própria margem."
+  }
+}

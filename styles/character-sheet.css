@@ -1,0 +1,448 @@
+/* GAU — Ficha de Personagem Visual
+   Deve parecer extensão natural do livro, página oficial
+*/
+
+.char-sheet {
+  background: var(--panel);
+  border: 2px solid var(--border2);
+  border-radius: 4px;
+  padding: 0;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 0 0 6px var(--bg2),
+    0 0 0 7px var(--border2),
+    var(--shadow);
+  overflow: hidden;
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.char-sheet::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(201,165,92,.12);
+  pointer-events: none;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+[data-theme="light"] .char-sheet {
+  background: #fffaf0;
+}
+
+/* Header da ficha */
+.sheet-header {
+  background: linear-gradient(180deg, var(--panel3) 0%, var(--panel2) 100%);
+  border-bottom: 2px solid var(--border2);
+  padding: 1.5rem 1.8rem 1.2rem;
+  position: relative;
+  overflow: hidden;
+}
+.sheet-header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent);
+}
+.sheet-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 10%; right: 10%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: .5;
+}
+.sheet-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.sheet-char-name {
+  font-family: var(--font-display-deco);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  color: var(--gold2);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: .04em;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+}
+.sheet-char-concept {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--ink-dim);
+  margin: .3rem 0 0;
+  font-size: 1rem;
+}
+.sheet-meta {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.sheet-meta .meta-badge {
+  padding: .35rem .75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: .75rem;
+  color: var(--ink-dim);
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  font-weight: 500;
+}
+.sheet-meta .meta-badge.gold {
+  background: linear-gradient(180deg, rgba(201,165,92,.15), rgba(201,165,92,.05));
+  border-color: var(--gold);
+  color: var(--gold2);
+  font-weight: 600;
+}
+
+/* Corpo da ficha */
+.sheet-body {
+  padding: 1.5rem 1.8rem;
+  display: grid;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Seções */
+.sheet-section {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--panel2) 0%, var(--panel) 100%);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  break-inside: avoid;
+}
+.sheet-section-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .75rem 1.1rem;
+  background: linear-gradient(180deg, var(--panel3), var(--panel2));
+  border-bottom: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: .85rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold2);
+  font-weight: 600;
+}
+.sheet-section-header .section-icon {
+  font-size: 1.1rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.sheet-section-body {
+  padding: 1rem 1.1rem;
+}
+
+/* Grid de atributos na ficha */
+.attr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: .8rem;
+}
+.attr-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .8rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all .2s;
+}
+.attr-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  opacity: 0;
+  transition: opacity .2s;
+}
+.attr-card:hover { border-color: var(--border2); transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+.attr-card:hover::before { opacity: 1; }
+.attr-card .attr-name {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--ink-dim);
+  font-weight: 600;
+  font-family: var(--font-ui);
+}
+.attr-card .attr-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold2);
+  line-height: 1;
+  margin: .3rem 0;
+}
+.attr-card .attr-margin {
+  font-size: .72rem;
+  color: var(--ink-faint);
+  font-family: var(--font-mono);
+  background: var(--panel2);
+  padding: .15rem .4rem;
+  border-radius: 999px;
+  display: inline-block;
+  margin-top: .2rem;
+}
+.attr-card .attr-crit {
+  font-size: .68rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-top: .25rem;
+}
+.attr-card .attr-bar {
+  margin-top: .6rem;
+  height: 4px;
+  background: var(--bg2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.attr-card .attr-bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  transition: width .5s ease;
+}
+
+/* Perícias na ficha */
+.skill-list {
+  display: grid;
+  gap: .45rem;
+}
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .5rem .7rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all .15s;
+}
+.skill-item:hover { border-color: var(--border2); background: var(--panel2); }
+.skill-item .skill-name { flex: 1; font-weight: 500; font-size: .9rem; }
+.skill-item .skill-attr { font-size: .7rem; color: var(--ink-faint); background: var(--panel2); padding: .15rem .4rem; border-radius: 4px; }
+.skill-item .skill-value { font-family: var(--font-display); font-weight: 700; color: var(--gold2); min-width: 2rem; text-align: center; }
+.skill-item .skill-margin { font-size: .7rem; color: var(--ink-dim); font-family: var(--font-mono); }
+
+/* Equipamentos */
+.equip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: .7rem;
+}
+.equip-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .8rem;
+  transition: all .2s;
+  position: relative;
+}
+.equip-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 3px; bottom: 0;
+  background: var(--gold);
+  border-radius: 10px 0 0 10px;
+  opacity: .6;
+}
+.equip-card:hover { border-color: var(--border2); transform: translateY(-1px); box-shadow: var(--shadow-soft); }
+.equip-card .equip-name { font-weight: 600; font-family: var(--font-display); color: var(--ink); }
+.equip-card .equip-stats { display: flex; gap: .5rem; margin-top: .4rem; flex-wrap: wrap; }
+.equip-card .equip-stat {
+  font-size: .7rem; padding: .15rem .45rem; background: var(--panel2); border: 1px solid var(--border);
+  border-radius: 999px; color: var(--ink-dim); font-family: var(--font-mono);
+}
+
+/* Manobras na ficha */
+.maneuver-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+.maneuver-chip {
+  padding: .35rem .7rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: .78rem;
+  color: var(--ink-dim);
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  transition: all .15s;
+}
+.maneuver-chip:hover { border-color: var(--gold); color: var(--gold2); background: var(--panel2); }
+.maneuver-chip.active { background: linear-gradient(180deg, rgba(201,165,92,.15), rgba(201,165,92,.05)); border-color: var(--gold); color: var(--gold2); font-weight: 600; }
+.maneuver-chip .chip-icon { font-size: .9rem; }
+
+/* Builder wizard */
+.builder {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.builder-steps {
+  display: flex;
+  gap: .4rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  padding-bottom: .5rem;
+  scrollbar-width: none;
+}
+.builder-steps::-webkit-scrollbar { display: none; }
+.builder-step {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  color: var(--ink-dim);
+  padding: .5rem .9rem;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.builder-step:hover { border-color: var(--border2); color: var(--ink); }
+.builder-step.active { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 600; box-shadow: 0 2px 8px rgba(201,165,92,.3); }
+.builder-step.done { background: var(--panel3); border-color: var(--ok); color: var(--ok); }
+.builder-step .step-num {
+  width: 20px; height: 20px; border-radius: 50%; background: rgba(0,0,0,.2);
+  display: flex; align-items: center; justify-content: center; font-size: .7rem; font-weight: 700;
+}
+.builder-step.active .step-num { background: rgba(0,0,0,.2); color: #000; }
+
+.builder-content {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-soft);
+  min-height: 400px;
+}
+.builder-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Campos do builder */
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+.field-group {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+}
+.field-group-title {
+  font-family: var(--font-display);
+  font-size: .8rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold2);
+  margin: 0 0 .8rem;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+/* Validação */
+.validation-list {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+  margin-top: .8rem;
+}
+.validation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+  padding: .5rem .7rem;
+  border-radius: 8px;
+  font-size: .82rem;
+  line-height: 1.4;
+}
+.validation-item.ok { background: rgba(107,184,94,.1); border: 1px solid rgba(107,184,94,.2); color: var(--ok); }
+.validation-item.warn { background: rgba(216,160,60,.1); border: 1px solid rgba(216,160,60,.2); color: var(--warn); }
+.validation-item.bad { background: rgba(212,87,75,.1); border: 1px solid rgba(212,87,75,.2); color: var(--bad); }
+.validation-item .val-icon { font-size: 1rem; flex-shrink: 0; margin-top: .05rem; }
+
+/* Export actions */
+.sheet-actions {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.sheet-actions .action-group {
+  display: flex;
+  gap: .4rem;
+  align-items: center;
+  padding-right: .8rem;
+  border-right: 1px solid var(--border);
+  margin-right: .2rem;
+}
+.sheet-actions .action-group:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+.sheet-actions .action-label {
+  font-size: .7rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin-right: .2rem;
+}
+
+/* Ficha vazia */
+.empty-sheet {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--ink-dim);
+}
+.empty-sheet .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: .5; }
+.empty-sheet h3 { font-family: var(--font-display); color: var(--gold2); margin: 0 0 .5rem; }
+.empty-sheet p { max-width: 400px; margin: 0 auto 1.5rem; line-height: 1.5; }
+
+/* Responsive ficha */
+@media (max-width: 720px) {
+  .char-sheet { border-width: 1px; }
+  .char-sheet::before { inset: 8px; }
+  .sheet-header { padding: 1.2rem 1rem; }
+  .sheet-body { padding: 1rem; gap: 1rem; }
+  .attr-grid { grid-template-columns: repeat(2, 1fr); }
+  .equip-grid { grid-template-columns: 1fr; }
+  .builder-content { padding: 1rem; }
+  .field-grid { grid-template-columns: 1fr; }
+  .sheet-actions { flex-direction: column; }
+  .sheet-actions .action-group { border-right: none; border-bottom: 1px solid var(--border); padding-bottom: .8rem; margin-bottom: .4rem; padding-right: 0; margin-right: 0; }
+  .sheet-actions .action-group:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+}

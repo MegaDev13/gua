@@ -1,28 +1,35 @@
 {
-  "_fonte": "Manifesto do banco de regras. Constantes de jogo vivem em tables.json/equipment.json; nada aqui duplica valores.",
-  "projeto": "GUA — Ecossistema Digital (livro + ficha sobre a mesma base)",
-  "material": "GURPS® Basic Set 3ª edição (PT-BR, 370 pp.) — única fonte de verdade",
-  "versao": 1,
-  "moeda": "$",
+  "_fonte": "Manifesto de regras GAU — sistema d20 com margens",
+  "sistema": "GAU — Sistema Universal",
+  "versao": "2.0",
   "principios": [
-    "O material é a única fonte de verdade: nada inventado, nada 'melhorado'",
-    "Regra ausente = REGRA NÃO DEFINIDA (bloqueio com explicação, nunca chute)",
-    "Todo cálculo no Rule Engine (app/engine); a interface não contém fórmulas",
-    "Números intermediários nunca são arredondados, exceto onde o material manda",
-    "Banco único (data/*.json) serve ao livro digital e à ficha"
+    "Atributo determina capacidade, categoria determina escala, margem determina resultado necessário",
+    "Valor 10 = referência humana, margem 8-12, crítico 10",
+    "Teste = d20 dentro da margem de sucesso. Crítico = valor exato do atributo",
+    "1 e 20 não são sucesso/falha automáticos — apenas margem importa",
+    "Disputa: vence quem estiver mais próximo do próprio crítico dentro da própria margem",
+    "Combate de Impacto = dano sem intenção de matar (roteirizado pelos jogadores). Combate Mortal = tentativa deliberada de matar",
+    "Cada turno = 1 segundo",
+    "Sequência determinada por deslocamento base"
   ],
   "naoDefinidas": [
-    "Tabela de armas corpo-a-corpo (Quadros e Tabelas não fornecidos — cadastro manual na aba Equipamentos)",
-    "Golpes Fulminantes / Erros Críticos (tabelas 3d não incluídas no material)",
-    "Local de impacto aleatório 3d — tabela reconstruída em tables.json com aviso _aviso",
-    "Modificadores Velocidade/Distance e Tamanho — reconstruídos por regra textual, com aviso",
-    "Preços da Lista de Equipamentos (somente itens citados no texto existem)",
-    "Economia de empregos e preço de revenda (fator de venda configurável; padrão = valor integral)",
-    "Evolução pós-criação de perícias/atributos (XP registrável no Histórico)",
-    "Poderes não-mágicos (módulo pronto e vazio)"
+    "Custo em pontos para atributos acima de 20 — extrapolação necessária",
+    "Tabela completa de perícias — exemplos dados no texto (Ventriloquismo, Física Nuclear, Magia, Arrombamento, Cavalgar, Natação, Escalada, Salto, Arremesso, etc)",
+    "Preços de equipamentos — não fornecidos no material",
+    "Evolução pós-criação",
+    "Magia e poderes não detalhados neste excerto"
   ],
+  "formulas": {
+    "margem": "Baseada na tabela de margens por valor de atributo/habilidade",
+    "deslocamento": "ST e DX influenciam, mas fórmula exata não fornecida — usar ST como referência para carga e salto",
+    "carga": "Leve, Média, Pesada, Muito Pesada baseada em múltiplos de ST",
+    "levantamento": "Uma mão = 3xST kg, Duas mãos = 13xST kg, Costas = 15xST kg, Empurrar = 13xST ou 25xST com impulso",
+    "arremesso": "Distância = ST + peso arredondado, em metros. Com perícia Arremesso = ST+6",
+    "danoArremesso": "Tabela por ST e peso"
+  },
   "configuraveis": {
-    "fatorVenda": { "default": 1, "nota": "REGRA NÃO DEFINIDA — multiplicador do preço na venda de itens" },
-    "riquezaMediaCenario": { "default": 1000, "nota": "média multiplicada pelo nível de Riqueza (p. 12)" }
+    "categoriaPadrao": "mundano",
+    "atributoPadrao": 10,
+    "tema": "escuro"
   }
 }

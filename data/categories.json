@@ -1,0 +1,38 @@
+{
+  "_fonte": "Categorias de Poder — GAU",
+  "descricao": "Quantidade de dados representa escala na qual personagem existe. Mundano limitado a 1d20. Ascensão = dados adicionais.",
+  "categorias": [
+    {
+      "id": "mundano",
+      "nome": "Mundano",
+      "dados": "1d20",
+      "descricao": "Ser humano comum. Limitado à escala de um único d20. Valor 10 é referência.",
+      "exemplos": "Humanos comuns, soldados, atletas olímpicos, animais",
+      "limiteAtributo": 20
+    },
+    {
+      "id": "sobre-humano",
+      "nome": "Sobre-Humano",
+      "dados": "2d20",
+      "descricao": "Ultrapassou limite mundano. Usa 2 dados, escolhe melhor ou soma? Representa escala superior. Pode realizar feitos impossíveis para mundanos.",
+      "exemplos": "Super soldados, mestres marciais lendários, criaturas míticas menores",
+      "limiteAtributo": 30
+    },
+    {
+      "id": "lendario",
+      "nome": "Lendário",
+      "dados": "3d20",
+      "descricao": "Escala lendária. Capaz de feitos que desafiam física mundana.",
+      "exemplos": "Heróis épicos, dragões, gigantes",
+      "limiteAtributo": 40
+    },
+    {
+      "id": "cosmico",
+      "nome": "Cósmico",
+      "dados": "4d20+",
+      "descricao": "Escala cósmica. Segurar o mundo na palma da mão, agir em dimensões superiores. Testes limitados por categoria.",
+      "exemplos": "Deuses menores, entidades cósmicas",
+      "limiteAtributo": 100
+    }
+  ]
+}

@@ -1,8 +1,350 @@
 {
-  "_fonte": "Metadados do livro digital. O conteúdo dos capítulos é gerado ao vivo de tables/skills/advantages/disadvantages/spells/equipment.json — nada é duplicado aqui.",
-  "titulo": "GUA — Livro de Regras Digital",
-  "subtitulo": "Gerado da mesma base de regras da ficha de personagem",
-  "versao": 1,
-  "capituloFonte": "docs/analise/01-mapa-de-regras.md",
-  "ilustracoes": ["book/images/capa.svg"]
+  "titulo": "GAU — Sistema Universal",
+  "subtitulo": "Testes de Habilidade, Combate Tático e Graus de Dano",
+  "versao": "2.0 — Edição Digital",
+  "autor": "Sistema GAU",
+  "capa": "book/images/capa.svg",
+  "capitulos": [
+    {
+      "id": "capa",
+      "numero": 0,
+      "titulo": "Capa",
+      "tipo": "capa"
+    },
+    {
+      "id": "testes",
+      "numero": 1,
+      "titulo": "Testes de Habilidade",
+      "descricao": "O coração do sistema d20 com margens de sucesso",
+      "secoes": [
+        {
+          "id": "testes-conceito",
+          "titulo": "Conceito Fundamental",
+          "conteudo": "Quando um personagem tenta usar uma de suas perícias, atacar um adversário ou realizar uma tarefa, um dado d20 é lançado para determinar se ele foi bem sucedido ou não. Isto é um Teste de Habilidade. Algumas vezes é você quem joga, em outras é o Mestre quem joga por você.\n\nPara que o personagem seja bem sucedido, o resultado da jogada deve estar dentro da margem de sucesso ligada ao nível de habilidade da perícia que ele está testando. Em GAU, os personagens não possuem níveis tradicionais, essa evolução acontece por meio de três elementos principais:\n\n- Atributos, que determinam suas capacidades;\n- Habilidades, que representam conhecimentos, técnicas e especializações;\n- Categorias de Poder, que determinam a escala de existência do personagem.\n\nO sistema utiliza o d20 como base de resolução. Entretanto, o número de dados utilizados não representa simplesmente uma vantagem ou bônus. A quantidade de dados representa a escala na qual o personagem existe. Um indivíduo mundano está limitado à escala de um único d20. Quando ultrapassa esse limite, precisa ascender para uma categoria superior, passando a utilizar dados adicionais. Assim: Atributo determina a capacidade, categoria determina a escala e a margem determina o resultado necessário. Os dados determinam a capacidade de alcançar essa margem.\n\nQuando um personagem utiliza um atributo para realizar uma ação, o próprio valor daquele atributo determina a referência da jogada. Não existe necessariamente uma 'Classe de Dificuldade' arbitrária criada pelo Mestre."
+        },
+        {
+          "id": "testes-exemplo-atributo",
+          "titulo": "Exemplo Prático",
+          "tipo": "exemplo",
+          "conteudo": "Um personagem possui: ST 10. Ele tenta realizar uma ação utilizando sua força. A referência da ação será 10. A partir desse valor é determinada a margem de sucesso correspondente. O mesmo princípio pode ser aplicado às habilidades. Se uma habilidade possui valor 13, sua resolução utilizará a margem correspondente ao valor 13."
+        },
+        {
+          "id": "margem-sucesso",
+          "titulo": "Margem de Sucesso",
+          "conteudo": "A margem de sucesso representa os resultados do dado que permitem ao personagem realizar uma ação. A escala começa no valor 10, considerado a referência do ser humano comum. Quanto maior o atributo, maior se torna a margem de resultados favoráveis. O objetivo é fazer com que atributos maiores não representem apenas números maiores, mas uma maior capacidade de realizar feitos extraordinários.",
+          "tabela": "margins"
+        },
+        {
+          "id": "testes-niveis-predefinidos",
+          "titulo": "Testes com Níveis Pré-definidos",
+          "conteudo": "Algumas atividades não podem ser tentadas por pessoas que não tenham a habilidade necessária para tanto. Ventriloquismo, física nuclear e magia são exemplos disso. No entanto, existem outras que podem ser tentadas mesmo por pessoas completamente sem treino. Somente um guerreiro é capaz de usar habilmente um montante, mas qualquer pessoa pode apanhar um e empunhá-lo. Natação, interrogatório e mímica são exemplos de coisas que podem ser tentadas por qualquer indivíduo sem treinamento, com uma chance razoável de sucesso.\n\nEstas opções, que qualquer personagem pode tentar empreender — mesmo aqueles que não possuam a Perícia Específica para realizá-la —, são consideradas condicionadas a alguma outra Perícia que ele possua, ou qualquer um de seus Atributos Básicos. Por definição, o seu nível de habilidade será igual ao da Característica que serviu como base, alterado por um redutor. O NH em Arrombamento, por exemplo, está baseado na Inteligência (IQ). Assim, quanto mais esperto você for, maior a sua chance de abrir o cadeado, mesmo sem treinamento. Da mesma maneira, Cavalgar está baseada na Destreza (DX). Mesmo que você não tenha nenhum treino em equitação, seus instintos o ajudarão a se manter montado sobre o cavalo e, quanto melhor for a sua coordenação, maior a sua chance de sucesso."
+        },
+        {
+          "id": "testes-categoria",
+          "titulo": "Testes Determinados por Categoria",
+          "tipo": "regra",
+          "conteudo": "Existem coisas que um personagem Mundano não poderia fazer, como por exemplo segurar o mundo na palma da mão, ou um personagem cósmico não poderia usar ações sem sofrer efeitos em uma dimensão superior...\n\nPara isso, alguns testes são limitados por categoria, ou seja, o mestre indica um valor chave que indica a categoria necessária para a realização daquele teste. Isso significa que qualquer personagem que não for daquela categoria não poderia executá-lo, a menos é claro, que os jogadores tenham algum recurso específico que possibilite a jogada para aquela situação."
+        },
+        {
+          "id": "valor-10",
+          "titulo": "O Valor 10 — Referência Humana",
+          "tipo": "destaque",
+          "conteudo": "O valor 10 representa aproximadamente o centro da capacidade mundana.\n\nUm personagem com atributo 10 possui:\nMargem: 8–12\nSendo: 10 = crítico\n\nIsso significa que uma rolagem de 8, 9, 10, 11 ou 12 representa sucesso. O resultado 10 possui uma propriedade especial por ser exatamente o valor do atributo."
+        },
+        {
+          "id": "sucesso-automatico",
+          "titulo": "Sucesso Automático",
+          "conteudo": "Algumas situações são completamente triviais. Nenhuma jogada é exigida quando o bom senso nos diz que tanto uma falha crítica como um sucesso decisivo são impossíveis. No entanto, se houver alguma chance de falha, um teste deve ser feito. Achar a loja da esquina não exige um teste. Acertar um alvo à queima-roupa, mesmo para um guerreiro experiente, exige, visto que sua arma poderia se quebrar ou ele poderia escorregar numa casca de banana."
+        },
+        {
+          "id": "1-e-20",
+          "titulo": "1 e 20 Não Importam Mais",
+          "tipo": "regra",
+          "conteudo": "Como existe agora uma margem de sucesso e o crítico específico, significa que não importa o valor que você obtenha no dado de origem, se não estiver dentro da margem de sucesso ou obtiver o valor crítico, não importa."
+        },
+        {
+          "id": "disputa-habilidades",
+          "titulo": "Disputa de Habilidades",
+          "conteudo": "Quando uma ação ofensiva encontra uma ação defensiva, ambos realizam suas respectivas jogadas. O resultado de cada personagem é avaliado dentro da própria margem de sucesso. Vence quem obtiver o resultado mais próximo de seu próprio valor crítico. Isso significa que personagens com atributos diferentes podem competir sem que o personagem de categoria superior simplesmente vença por ter números maiores.\n\nSempre que uma Disputa de Habilidades for necessária, cada um dos personagens fará um teste das habilidades em questão. Todos os modificadores pertinentes serão aplicados. Existem dois tipos de disputa.",
+          "subsecoes": [
+            {
+              "titulo": "Disputa Rápida",
+              "conteudo": "Normalmente se decide em um turno. Exemplos: duas pessoas lutando para se apossar de uma arma; dois atiradores de faca disputando para ver quem consegue atingir a mosca. Cada personagem faz seu teste de habilidade. Se um for bem sucedido e o outro falhar, o vencedor será óbvio. Se os dois forem bem sucedidos (ou falharem), o vencedor será aquele que foi bem sucedido pela maior margem, ou falhou pela menor. Um empate significa que ninguém venceu (os dois agarraram a arma simultaneamente, ou as facas atingiram o alvo à mesma distância da mosca)."
+            },
+            {
+              "titulo": "Disputa Normal",
+              "conteudo": "Pode durar vários turnos. Exemplos: braço de ferro, corrida a pé. Cada um dos personagens faz seu teste habilidade. Se um for bem sucedido e o outro falhar, o vencedor será óbvio. Se ambos forem bem sucedidos ou falharem, a posição relativa dos dois personagens não terá mudado e eles poderão tentar novamente.\n\nO tempo de jogo gasto em cada tentativa depende do tipo de atividade, e sua duração será determinada pelo GM. Em um combate, cada tentativa toma um segundo. Numa disputa onde os personagens devem fazer uma pesquisa em uma biblioteca, com o destino do mundo dependendo de quem encontrará primeiro uma determinada nota obscura, cada tentativa poderia representar dias de pesquisa.\n\nSe os dois personagens tiverem um nível de habilidade muito alto, a disputa poderia continuar indefinidamente."
+            }
+          ]
+        },
+        {
+          "id": "mestre-joga",
+          "titulo": "Situações em que o Mestre joga os dados",
+          "conteudo": "A maioria dos testes de habilidade deve ser feita pelos próprios jogadores. No entanto, existem dois tipos importantes de situação, nos quais o GM deve fazer a jogada e não deixar que o jogador veja o resultado.\n\nO primeiro tipo é qualquer situação na qual o personagem não deveria saber se ele foi bem sucedido ou não — especialmente quando ele está tentando conseguir alguma informação. Este tipo de situação ocorre, por exemplo, com jogadas envolvendo Detecção de Mentiras, Meteorologia e outras perícias científicas, e a vantagem da Empatia.\n\nQuando o jogador diz que deseja usar uma destas perícias, o GM deve fazer a jogada em segredo. Se o resultado for um sucesso, o Mestre dá ao jogador a informação correta. Mas se o resultado for uma falha, o GM deverá escolher o que parecer mais apropriado entre mentir ou não dar nenhuma informação.\n\nO segundo tipo é qualquer situação onde o jogador simplesmente não deve saber o que está acontecendo. Neste tipo de situação está incluída a maior parte dos testes que envolvam os Sentidos, Noção do Perigo e coisas similares. Suponha que o grupo está viajando por uma trilha dentro da selva e existe um jaguar escondido adiante. O GM não deveria dizer — 'Há um jaguar um pouco adiante. Faça um teste para decidir se vocês o verão ou não'. Nem tampouco o seguinte: — 'Façam todos um teste de Visão. Algum de vocês tem Noção do Perigo?' Qualquer uma destas abordagens fornece mais informações do que deveria.\n\nAo invés disso, o GM deveria consultar as informações sobre os personagens existentes em suas anotações, fazer a jogada e, no caso de alguém ser bem sucedido, dizer: — 'Harry! Você viu um jaguar em cima de uma árvore 20 metros adiante!' Se ninguém for bem-sucedido, o grupo será pego de surpresa."
+        },
+        {
+          "id": "testes-sentidos",
+          "titulo": "Testes dos Sentidos",
+          "conteudo": "Os Testes dos Sentidos, que incluem os testes de Visão, Audição e Olfato/Paladar, são todos feitos contra o atributo IQ do personagem. A vantagem 'Prontidão' dá um bônus em todas estas jogadas, assim como ter os 'sentidos aguçados' ajuda nos testes do sentido correspondente.",
+          "subsecoes": [
+            {
+              "titulo": "Visão",
+              "conteudo": "Faça um teste de Visão para ver um objeto pequeno ou escondido. O GM poderá torná-lo mais fácil ou mais difícil conforme o objeto esteja mais, ou menos, escondido. Personagens cegos ou em lugares completamente escuros não são capazes de ver nada. Ações que requeiram a visão, quando tentadas em escuridão total, estarão submetidas a um redutor igual a -10 (ex.: combate) ou serão completamente impossíveis (ex.: ler um mapa). Entre os modificadores positivos temos os bônus devido à Prontidão (que melhora todos os sentidos) e à Visão Aguçada.\n\nEntre os modificadores negativos incluem-se a escuridão parcial (-1 a -9) e a Disopia. Um personagem míope (que não use lentes corretivas) estará submetido a um redutor igual a -5 em testes de Visão sempre que o objeto a ser visto estiver a mais de 3 metros de distância. Personagens hipermetropes estarão submetidos a um redutor igual a -5 em testes de Visão quando seu alvo estiver a menos de 3 metros de distância. Personagens dotados de Visão Periférica podem fazer testes de Visão para qualquer coisa na área, a menos que ela esteja exatamente atrás dele. Personagens Ciópticos não sofrerão qualquer penalidade devido à escuridão, a não ser que ela seja total. Personagens dotados da vantagem da Noção do Perigo devem fazer um segundo teste de IQ, como chance de detectar algum perigo que o objeto em questão eventualmente possa oferecer."
+            },
+            {
+              "titulo": "Audição",
+              "conteudo": "Faça um Teste de Audição para ver se é capaz de ouvir um som fraco. O GM poderá torná-lo mais fácil ou mais difícil dependendo da intensidade do som, ruído ambiente, etc...\n\nO Mestre pode exigir depois um teste de IQ para ver se o personagem compreendeu o significado do som ouvido. Ex.: Compreender que aquele 'pio de coruja' era na verdade um guerreiro indígena. É claro que personagens surdos não são capazes de ouvir nada. Entre os modificadores positivos em testes de Audição estão incluídos a Prontidão e o Ouvido Aguçado.\n\nOs modificadores negativos são a Dureza de Ouvido (-5) e qualquer outro que o GM deseje aplicar para a situação em particular (ex.: ambiente barulhento). Personagens com a vantagem da Noção do Perigo deverão fazer um teste de IQ, como uma chance de detectar um eventual perigo que aquele som possa representar."
+            },
+            {
+              "titulo": "Olfato e Paladar",
+              "conteudo": "Estas são duas manifestações do mesmo sentido. Faça um teste para ver se percebe um sabor ou aroma. O GM pode exigir, em alguns casos, um teste de IQ para verificar a compreensão do significado de um sabor ou cheiro que todos estejam sentindo. Ex.: Perceber que aquela fragrância pertence à flor de uma planta antropófaga, ou reconhecer o sabor de uma droga. Algumas vezes o Mestre pode exigir um teste de uma perícia específica (Química, Culinária ou Venefício, dependendo das circunstâncias). Entre os modificadores positivos temos a Prontidão e Olfato/Paladar Apurado e, é claro que um cheiro ou sabor forte seria mais fácil de sentir do que um fraco.\n\nNão existe nenhum modificador negativo específico com exceção daqueles que o GM aplicar em uma situação particular. Ex.: Um sabor ou odor fraco ou mascarado poderia acarretar numa penalidade. Personagens com a desvantagem da Disosmia/Ageusia não são capazes de sentir o cheiro ou sabor de nada.\n\nPersonagens que tenham a Noção do Perigo deverão fazer um novo teste de IQ, como uma chance de detectar um eventual perigo representado pelo sabor ou odor em questão."
+            }
+          ]
+        },
+        {
+          "id": "testes-vontade",
+          "titulo": "Testes de Vontade",
+          "conteudo": "O GM deverá exigir um teste de Vontade toda vez que um personagem se encontrar em uma situação alarmante ou tiver necessidade de superar uma desvantagem mental. Normalmente Vontade é igual a IQ, logo esta jogada não passa de um teste de IQ. No entanto, se o personagem tiver a vantagem da Força de Vontade ou a desvantagem de Vontade Fraca, o número apropriado de níveis de vontade deverá ser adicionado ou subtraído de IQ. Ex.: Uma pessoa com IQ igual a 14 e 2 níveis de Vontade Fraca terá Vontade igual a 12. Caso o teste de Vontade seja bem sucedido, o personagem terá dominado seu medo, instinto ruim ou o que seja. No caso de uma falha, o personagem estará aterrorizado ou terá cedido a um 'impulso vil', qualquer que ele seja. Qualquer resultado maior ou igual a 14 em um teste de Vontade se constitui numa falha."
+        },
+        {
+          "id": "verificacao-panico",
+          "titulo": "Verificação de Pânico",
+          "conteudo": "Uma Verificação de Pânico é um Teste de Vontade feito quando acontece algo que deveria aterrorizar os personagens. A vantagem Reflexos em Combate dá um bônus de +2 em todas as Verificações de Pânico. O GM deverá fazer uma Verificação de Pânico toda vez que um personagem encontrar o objeto de sua fobia. Se a fobia for grave, acrescente um redutor extra de -4 à Vontade.\n\nO GM pode fazer as Verificações de Pânico que achar convenientes em outras situações de choque. Numa campanha de Horror, onde pessoas comuns se defrontam com Criaturas horripilantes, as Verificações de Pânico serão muito comuns. Em outras campanhas elas poderão ser raras. Não é necessário fazer Verificações de Pânico para coisas assustadoras 'comuns', mas sim para eventos tão incomuns e aterrorizantes que eles poderiam atordoar mentalmente suas vítimas ou até mesmo deixar sequelas.\n\nNuma campanha povoada com gente comum seria necessário fazer Verificações de Pânico no caso de encontros cara-a-cara com monstros, descoberta de cadáveres e coisas sobrenaturais. Mas numa campanha de fantasia estas coisas serão relativamente normais... ameaçadoras, mas normais. Um personagem de fantasia, por outro lado, poderia ter que fazer uma Verificação de Pânico se fosse transportado para o século XX e levado a passear por uma autoestrada.\n\nDo mesmo modo, poder-se-ia exigir uma Verificação de Pânico no caso de uma pessoa comum, ou mesmo de um recruta da PM, que sofresse um atentado (ou estivesse próximo a alguém assassinado). Infelizmente, para um guarda ou soldado veterano, isto é uma rotina. Bônus e Redutores. Se um evento for particularmente violento, medonho ou aterrorizador, ou envolver um amigo, o GM poderá impor um redutor à Verificação de Pânico variando entre -1 (descobrir que as orelhas da vítima desapareceram) até -5 (descobrir que uma das vítimas era um Dependente do personagem).\n\nDa mesma maneira, pode acontecer de uma Verificação de Pânico ser facilitada. Ex.: Ver um monstro a uma grande distância teria um bônus de +1; ver um corpo depois de ser avisado teria um bônus de + 3.\n\nCalor da Batalha. Normalmente você está excitado demais em um combate para sentir medo. Todas as Verificações de Pânico realizadas no calor de uma batalha terão um bônus de +5. Ele deve ser aplicado somente se o personagem já estiver em combate quando o evento aterrorizador acontecer, ou for notado, pela primeira vez. Se o oficial Jordan perceber de repente que o suspeito com o qual ele está atracado não tem cabeça, ele terá um bônus de +5. Seu companheiro, que lhe dá cobertura a alguns metros de distância, fará a jogada sem bônus.",
+          "tabela": "panico"
+        }
+      ]
+    },
+    {
+      "id": "combate-montado",
+      "numero": 2,
+      "titulo": "Combate Montado ou Sobre Veículo",
+      "descricao": "Regras para cavaleiros, montarias e veículos",
+      "secoes": [
+        {
+          "id": "combate-montado-conceito",
+          "titulo": "Resolução",
+          "conteudo": "A resolução de um combate montado ou sobre veículo se compõe de 3 passos básicos, independente de os lutadores estarem sobre cavalos ou veículos antigravitacionais: (1) Entrar no raio de ação da arma. (2) Atacar o inimigo e realizar o combate. (3) Se alguém tiver sido atingido, calcular os efeitos do dano sobre os lutadores e suas montarias e ver se os lutadores ainda têm controle de suas montarias ou veículos. Se não tiverem, calcule o resultado da queda ou colisão."
+        },
+        {
+          "id": "movimento-montado",
+          "titulo": "Movimento",
+          "conteudo": "O cavaleiro está no centro de um cavalo que ocupa 3 hex ou na frente de uma montaria de 2 hex como uma mula. Um elefante, ou outra montaria similar, terá costas planas, sobre as quais o cavaleiro pode ficar em pé ou andar; o elefante carrega o condutor, ou cornaca, sobre o pescoço e um howdah, uma plataforma com vários guerreiros, em suas costas.\n\nSem Carga, um cavalo pode acelerar de 0 a seu Deslocamento máximo em um único turno. No entanto, se ele tiver uma Carga pequena, será capaz de modificar sua velocidade em apenas 1/3 de seu Deslocamento em um turno."
+        },
+        {
+          "id": "mudanca-direcao",
+          "titulo": "Mudança de Direção",
+          "tipo": "regra",
+          "conteudo": "Toda mudança de direção rápida ou trajeto preciso da montaria exige uma penalidade de -2. O teste recebe -4 se o terreno for acidentado."
+        },
+        {
+          "id": "manobras-montadas",
+          "titulo": "Manobras",
+          "conteudo": "As manobras básicas disponíveis para uma montaria são Deslocamento, Avançar e Atacar e Ataque Total. Os cavaleiros podem escolher qualquer manobra, mas não podem se Deslocar a não ser para deixar o cavalo."
+        },
+        {
+          "id": "armas-cavalaria",
+          "titulo": "Armas de Cavalaria",
+          "conteudo": "Um cavaleiro usa armas de mão com seu nível de habilidade com a arma ou seu nível de habilidade em Cavalgar, o que for menor. Ou seja, um cavaleiro treinado não sofre nenhuma penalidade por estar usando armas de mão sobre um cavalo."
+        },
+        {
+          "id": "defesa-montada",
+          "titulo": "Defesa",
+          "conteudo": "A única defesa de uma montaria é a Esquiva. A Esquiva de um cavalo é igual a DX ou Deslocamento, o que for maior. Em campanhas medievais, os cavalos de batalha podem ter bardas, ou armaduras, que oferecem uma DP de até 4 para cobertura total. Um cavaleiro faz sua própria jogada de defesa; ele pode Aparar, Bloquear ou se Esquivar."
+        },
+        {
+          "id": "consequencias-combate-montado",
+          "titulo": "Consequências do Combate",
+          "conteudo": "Um cavaleiro deve fazer um teste de Cavalgar toda vez que for atingido durante um combate, para ver se consegue se manter sobre a sela. Esta jogada tem um redutor de -1 para cada 4 pontos completos de dano básico devido ao golpe (antes de subtrair a armadura). O cavaleiro cairá da sela se falhar neste teste. Se a montaria for atingida, o cavaleiro deverá fazer um teste de Cavalgar com um redutor igual à quantidade de dano recebida para ver se consegue evitar que o cavalo se assuste. Um cavalo que receba um dano maior que metade de sua HT em um único golpe, deverá fazer um teste de DX para ver se cai. Um cavalo que receba um dano maior que metade de sua HT em um só golpe será afetado como um ser humano."
+        },
+        {
+          "id": "combate-veiculos",
+          "titulo": "Combate em Veículos",
+          "conteudo": "Existem dois tipos principais de combates em veículos. O primeiro é com armas pessoais (ex: atirando de um carro em fuga). Ele tem possibilidade de ocorrer de vez em quando em muitas campanhas; estas regras cobrem este caso adequadamente. O segundo usa armas montadas no próprio veículo (tanques, aviões, etc.). Os condutores devem usar sua própria perícia em Artilharia, ou levar artilheiros como passageiros. Todos que estão dentro do veículo e puderem atacar a distância, podem realizar ataques em seus turnos.",
+          "subsecoes": [
+            {
+              "titulo": "Ataques",
+              "conteudo": "Se o condutor de um veículo tentar usar uma arma pessoal (forçando-o a dividir sua atenção entre a condução do veículo e a arma), ele terá um redutor extra de -4 em sua jogada de ataque.\n\nPontaria: Com armas de um tiro, a pontaria funciona do mesmo modo que a cavalo. Com uma arma montada no veículo ou uma arma automática você pode apontar enquanto atira.\n\nSistemas de Mira: Muitos veículos têm sistema de mira em NT maior ou igual a 7 (radar, computadores, etc.). Um sistema destes reduz o valor efetivo do parâmetro velocidade/distância do alvo."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "proezas",
+      "numero": 3,
+      "titulo": "Proezas Físicas",
+      "descricao": "Corrida, saltos, escalada, levantamento e natação",
+      "secoes": [
+        {
+          "id": "salto-combate",
+          "titulo": "Salto durante um Combate",
+          "conteudo": "É possível saltar durante o combate, pulando de um hex para outro, evitando alguma área especifica. A potência do salto depende de influências atléticas, mágicas e de poderes."
+        },
+        {
+          "id": "corrida",
+          "titulo": "Corrida",
+          "conteudo": "Em um combate, uma corrida é equivalente ao Deslocamento total do usuário, enquanto caminhar você apenas pode se deslocar metade do seu deslocamento (arredondado para cima). Sua velocidade de corrida é igual ao seu parâmetro Velocidade, geralmente deslocam-se em linha reta. Mas, de vez em quando, os personagens terão que correr uma distância maior — para apanhar um avião, evitar a explosão de uma bomba, escapar da perseguição de pigmeus selvagens ou qualquer outro motivo. O Mestre não precisa simular cada passo. Ele só precisa saber qual a distância a ser percorrida.\n\nÉ possível correr até o máximo de seu total de deslocamento em uma corrida, e realizar trajetos curvos nesse caso se deslocando mais, para obter dinamismo no deslocamento. Você pode adicionar magia, poderes e outras características para incorporar maior deslocamento e versatilidade."
+        },
+        {
+          "id": "esforco-extra",
+          "titulo": "Esforço Extra",
+          "tipo": "regra",
+          "conteudo": "O esforço extra é uma regra que permite ao personagem ir além de seus limites físicos normais em troca de gastar Pontos de Fadiga (PF). Cada uso de esforço extra custa 1 Ponto de Fadiga (PF), independentemente de o teste dar certo ou errado. Você pode usar esforço extra em momentos dramáticos para saltar mais longe, levantar mais peso, correr mais rápido ou desferir golpes mais fortes no combate. O mestre também pode autorizar a utilização do esforço extra para outras tarefas como por exemplo Defesas Ativas."
+        },
+        {
+          "id": "saltos",
+          "titulo": "Saltos",
+          "conteudo": "Na maioria dos casos em que você desejar pular por cima de alguma coisa, o GM deverá dizer 'OK, você conseguiu', e continuar o jogo. Pular por cima de um obstáculo 'comum' não necessita um teste. Somente se o obstáculo parecer realmente significativo, ou o GM o tiver colocado lá justamente para oferecer algum risco, é que se deverá recorrer à matemática para ver se o personagem foi efetivamente capaz de saltá-lo. Mas, quando você precisar delas, as regras são as seguintes:\n\nA distância que você é capaz de saltar é determinada pelo seu atributo ST. Para executar um salto sobrenatural, o saltador deve realizar um teste de ST, desde que a distancia do salto esteja dentro do máximo do seu deslocamento, fazendo com que seja direcionado para cima. O saltador sempre pula em parábola quando está tentando alcançar alguma distância.\n\nPara personagens sem características sobrenaturais o salto se limita a um número fixo de 1,5 m.",
+          "subsecoes": [
+            {
+              "titulo": "Esforço Extra no Salto",
+              "conteudo": "Se as distâncias acima não forem suficientes, você sempre poderá forçar um pouco mais. Sempre que você fizer um esforço extra perderá 1 ponto de fadiga, quer tenha sido bem sucedido, ou não. Faça a jogada para obter uma nova tentativa."
+            },
+            {
+              "titulo": "Perícia em Salto",
+              "conteudo": "Se você tiver esta Perícia, poderá usar seu nível de habilidade no lugar de seu atributo ST ou DX em qualquer um dos casos acima. Com um alto nível de habilidade você será capaz de realizar saltos olímpicos."
+            },
+            {
+              "titulo": "Saltando com Carga",
+              "conteudo": "Uma regra opcional para aumentar o realismo: Subtraia seu nível de Carga de sua ST quando saltar. Se o nível de Carga for Pesado (3) e sua ST for 13, você deverá calcular o pulo como se sua ST fosse 10."
+            }
+          ]
+        },
+        {
+          "id": "escalada",
+          "titulo": "Escalada",
+          "conteudo": "Quando for necessário escalar (subir ou descer) qualquer coisa mais difícil do que uma escada, é obrigatório fazer um teste de Escalada. O valor pré-definido desta perícia é DX-5 ou ST-5. É necessário fazer um teste no início da escalada, mais um teste a cada 5 minutos. Uma falha significará que você caiu. Se você estiver preso por uma corda, ficará suspenso por ela, a menos que sua falha tenha sido crítica. Os modificadores a serem usados dependem da dificuldade da escalada. O nível de Carga a que você estiver submetido deverá ser subtraído de seu nível de habilidade em escaladas. Escalar transportando uma carga muito pesada pode ser muito perigoso.\n\nUm ser humano normal, independente da Carga a que está submetido, é capaz de subir 3 ou descer 2 degraus por segundo. Qualquer escalada que venha a acontecer durante um combate durará apenas um instante e será inspirada pelo ódio ou medo, por isso será breve. Para uma escalada longa use as velocidades indicadas na segunda coluna. Uma escalada durante um combate exige a manobra Deslocamento.",
+          "tabela": "escalada"
+        },
+        {
+          "id": "levantamento",
+          "titulo": "Levantamento e Movimentação de Objetos",
+          "conteudo": "Em geral, o GM pode deixar os personagens erguerem o que eles precisarem, sem usar os dados. No entanto, quando grandes pesos estiverem envolvidos, poderá ser necessário fazer um teste de ST. O peso que você é capaz de erguer é definido pelo seu atributo ST. Os mestres podem permitir que os personagens combinem suas forças sempre que isto parecer razoável (p.ex., para empurrar uma carreta).\n\nLevantamento com Uma Mão: o peso máximo, em kg, é igual a 3 vezes sua ST.\nLevantamento com Duas Mãos: o peso máximo, em kg, é igual a 13 vezes sua ST.\n\nEssas medidas servem para personagens sem condições especiais para tal feito. Quando falamos erguer é acima da cabeça!\n\nCarregar nas Costas: o peso máximo, em kg, é igual a 15 vezes seu atributo ST. Isto significa que você consegue carregar um peso maior do que o que você é capaz de erguer sozinho. Note que você perderá 1 ponto de fadiga para cada turno em que permanecer submetido a uma Carga maior do que 10 vezes seu atributo ST (ou seja, uma Carga 'muito pesada').\n\nEmpurrar e Deslocar: 13 x ST, ou 25 x ST no caso de poder tomar impulso antes.\nDeslocar Ligeiramente: Dependendo do terreno e do modo como o personagem está escorado, seria possível deslocar ou balançar ligeiramente um peso equivalente a 50 x ST ou mais.\nArrastar: Numa superfície áspera, você será capaz de arrastar somente o peso que seria capaz de carregar. Se você estiver arrastando alguma coisa sobre uma superfície plana e lisa, divida ao meio este peso efetivo (i.e., para uma dada Carga, você será capaz de arrastar o dobro do peso que pode carregar).\nPuxar sobre Rodas: O mesmo que para arrastar, mas o peso efetivo deve ser dividido por 10 no caso de uma carroça de duas rodas ou por 20 no caso de um bom carroção com 4 rodas. Divida o peso efetivo novamente ao meio se a estrada for boa.\n\nEsforço Extra: Se você não for forte o suficiente para erguer ou mover alguma coisa poderá fazer um esforço extra. Ele aumenta o peso que você é capaz de manusear. Faça um teste de ST, subtraindo 1 para um aumento de 10% no peso, 2 para um aumento de 20% e assim por diante. Faça um teste por minuto no caso de um esforço contínuo (p.ex., empurrar um carro atolado).\n\nUm sucesso significa que o objeto foi deslocado. Uma falha significa que o objeto não se moveu e você se cansou, perdendo 1 ponto de ST devido à Fadiga. Uma falha crítica custará também um ponto de HT que não poderá ser curado com Primeiros Socorros, somente com descanso.",
+          "tipo": "regra"
+        },
+        {
+          "id": "empurrar-derrubar",
+          "titulo": "Empurrar e Derrubar Objetos",
+          "conteudo": "Haverá momentos, especialmente em um combate, em que um personagem desejará derrubar um objeto. Pode ser que você queira, por exemplo, bloquear o caminho ou estorvar um oponente. Em termos de manobra, isto se caracteriza como um ataque.\n\nPara derrubar uma mesa, você a 'ataca'. O peso que um personagem é capaz de derrubar desta maneira é, no máximo, igual a 13 vezes sua Força (ST). O Mestre e os jogadores deveriam considerar qualquer tentativa razoável como automaticamente bem-sucedida, ao invés de calcular sempre. Se houver algum desentendimento com relação a algum objeto mais pesado, use a matemática.\n\nUm personagem será capaz de derrubar um peso duas vezes maior se ele puder tomar impulso, i.e., desenvolver toda sua velocidade durante um turno, para depois ir de encontro ao objeto. O GM poderá também fazer concessões, facilitando a vida do personagem no caso de objetos precariamente equilibrados. Use o bom-senso para tornar o jogo divertido.\n\nUse um marcador para indicar a nova posição de alguma coisa que tenha sido derrubada. Isto é especialmente importante para objetos desenhados no mapa. A partir deste momento, os personagens terão que movê-lo, saltá-lo ou lidar com ele de alguma outra maneira. Esforço Extra. Se seu personagem não for forte o suficiente para empurrar alguma coisa, ele poderá fazer um esforço extra, como está explicado no texto ao lado para o caso de levantamento de objetos. Note que estas regras se aplicam a objetos inanimados. Veja os Encontrões, para o caso de pessoas ou criaturas.\n\nApanhar objetos em Combate: Um objeto leve é apanhado em combate com a manobra Preparar que dura um segundo. São necessários 2 segundos para apanhar um objeto pesado (peso em quilos maior do que a metade de sua ST)."
+        },
+        {
+          "id": "arremessando",
+          "titulo": "Arremessando Objetos",
+          "conteudo": "Tudo que você for capaz de erguer, qualquer coisa com um peso menor ou igual a 13 x sua ST, pode ser arremessado. Para tentar atingir um alvo, faça um teste de DX (redutor de -3) ou de Arremesso. Faça um teste de DX ou Arremesso para lançar alguma coisa para dentro de uma área. O GM deveria permitir qualquer tentativa razoável de arremessar alguma coisa e só deverá parar para fazer cálculos quando for necessário uma resposta precisa. Mas neste caso... A distância que você consegue arremessar um objeto depende de seu peso e de sua ST somados. Arredonde o peso para cima. O resultado será a distância em metros. Se você tiver a perícia Arremesso, calcule o ST+6 (arredonde para cima). Isto se aplica somente à Perícia Arremesso em geral e não para Perícias com 'Armas arremessadas'.",
+          "subsecoes": [
+            {
+              "titulo": "Arremessando Objetos em Combate",
+              "conteudo": "Para arremessar um objeto durante um combate (seja para atacar, ou não) será necessário realizar a manobra Atacar ou Andar e Atacar, depois de tê-lo apanhado, como descrito acima."
+            },
+            {
+              "titulo": "Dano por Objetos Arremessados",
+              "conteudo": "Se você for atingido por um objeto rombudo arremessado, o dano que ele provocará dependerá de seu peso e da força com que foi arremessado. Esta tabela não leva em conta quinas afiadas e não deve ser usada para armas.",
+              "tabela": "dano-arremesso"
+            }
+          ]
+        },
+        {
+          "id": "cavar",
+          "titulo": "Cavar",
+          "conteudo": "O ritmo de escavação é determinado pela ST do escavador, a qualidade do seu equipamento e o tipo do solo. Um homem comum é capaz de cavar 0,053 x ST m3/h em solo normal com uma pá de ferro. Um homem com uma picareta de ferro é capaz de transformar 0,025 x ST m3/h de solo duro em terra fofa, que é mais fácil de remover. A maneira mais eficiente de cavar é um homem com uma picareta e dois outros com pás, tirando a terra.\n\nA velocidade com que se remove terra fofa (areia, etc...), usando uma pá é igual a 0,11 x ST m3/h. Terra dura, argila, etc... tem que ser escavada antes com uma picareta, trabalhando a meia velocidade, e depois retirada com uma pá a 0,11 x ST m3/h. Um homem trabalhando só, ora com a picareta, ora com a pá é capaz de remover 0,038 x ST m3/h (ele perde tempo na troca de ferramentas).\n\nPedras duras têm que ser quebradas com uma picareta a 1/4 da velocidade (ou menos, se a pedra for muito dura) e removidas com pás na metade da velocidade. O trabalho com ferramentas de madeira (comuns em NT5 ou inferior) se desenvolve na metade da velocidade, e com pás improvisadas (mãos nuas, utensílios de cozinha, etc...) a velocidade é no máximo 1/4. Cavar é um trabalho duro. Uma hora cavando em terra fofa custa 1 ponto de Fadiga; 2 para terreno normal; 3 para terra dura e 4 para pedra."
+        },
+        {
+          "id": "natacao",
+          "titulo": "Natação",
+          "conteudo": "O nível de habilidade em Natação tem valor pré-definido igual a ST-5 ou DX-5. Um teste de Natação é feito no momento em que se entra na água (num local onde não dá pé) e mais um a cada 5 minutos. No caso de uma falha você engolirá água, perderá 1 ponto de fadiga e fará um novo teste dentro de 5 segundos e assim por diante, até você: (a) se afogar, (b) ser salvo ou (c) obter um sucesso em um teste e conseguir tirar a cabeça para fora d'água. Se você se recuperar, faça um novo teste depois de 1 minuto. Em caso de sucesso volte a fazer os testes de 5 em 5 minutos.\n\nNo caso de cair na água, você poderá tentar se livrar da armadura, etc., depois do primeiro teste de Natação em que for bem sucedido. Faça um teste de DX para cada item de que você tenta se livrar. Os testes para o escudo, elmo e couraça têm um redutor de -4. Uma falha significa que você engoliu água, com os problemas decorrentes explicados anteriormente. Sim, você pode pedir socorro!\n\nSe sua ST chegar a 0 devido ao afogamento, você perderá os sentidos e morrerá em 4 minutos (água muito fria prolongará significativamente este período), a menos que seja removido da água e um teste bem sucedido de Primeiros Socorros seja feito.\n\nModificadores para os testes de Natação: +3 se você entrou na água intencionalmente; menos duas vezes seu nível de Carga. Logo, um guerreiro com uma armadura de placas, cujo nível de Carga é 'Pesado', terá um redutor igual a -10 em seu teste de Natação. Personagens com a desvantagem Obesidade terão um bônus de +5 em todos os testes de Natação, e a Carga devido à gordura não agirá contra eles neste caso.\n\nVelocidade de Nado: Se você conseguir nadar, seu Deslocamento para pequenas distâncias será metade de seu NH em Natação (arredondado para cima). Isto significa que somente os nadadores mais velozes, totalmente sem Carga, serão capazes de nadar a 2 m/s. A maioria das pessoas terá um Deslocamento igual a 1, nadando. (Se você for capaz de boiar, será capaz de nadar a 1m/s.)\n\nPara longas distâncias, use uma escala de tempo de 10. O número de metros que você é capaz de nadar em 10 segundos é igual a seu NH em Natação menos o dobro de sua Carga. Nadar longas distâncias tem um custo em fadiga igual ao da Corrida. Faça um teste de HT a cada 100 metros de nado a toda velocidade. Cada falha custará um ponto de fadiga. Quando sua ST chegar a 3, sua velocidade cairá à metade. Faça um teste a cada 30 minutos se você estiver nadando devagar ou apenas boiando.\n\nCombate na, e sob a, água: Isto é muito cansativo. Faça um teste de Natação a cada 5 segundos. Cada falha custa 1 ponto de fadiga. Faça o teste a cada dois segundos se estiver lutando completamente submerso. O dano provocado pelas armas fica reduzido pela resistência da água. O redutor a ser aplicado ao NH com a arma debaixo d'água é determinado pelo seu alcance. Qualquer arma de perto (incluindo os punhos) tem um redutor de -2 aplicado a seu uso. O redutor para armas de 1 hex é -2. Subtraia outros 2 para cada hex de alcance. Além disso existe um redutor adicional igual a seu nível de Carga.\n\nO dano (mesmo o dano máximo automático) é dividido ao meio. Divida ao meio os redutores descritos acima se você estiver lutando dentro, mas não debaixo d'água. Reduza os danos a 2/3 (arredondando o resultado para baixo).",
+          "subsecoes": [
+            {
+              "titulo": "Salvando Vidas",
+              "conteudo": "A perícia Natação pode ser usada para salvar alguém que está se afogando. Faça um teste de Natação, com um redutor de -5, mais ou menos a diferença entre sua ST e a da pessoa que você está salvando.\n\nUma falha significa que você engoliu água: -1 ST. Uma falha crítica significa que a vítima quase o afogou (-10 ST) e você desistiu da tentativa de salvamento. Este teste será mais fácil se os jogadores pensarem em boas técnicas de salvamento."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sistema-combate",
+      "numero": 4,
+      "titulo": "Sistema de Combate",
+      "descricao": "Combate de impacto, mortal, manobras e árvores táticas",
+      "secoes": [
+        {
+          "id": "combate-tipos",
+          "titulo": "Tipos de Combate",
+          "conteudo": "O Combate de Impacto é quando o personagem está apenas fazendo dano ao outro, sem a intenção de matá-lo. A menos que a dinâmica do combate mude para um Combate Mortal, todas as lutas são dirigidas e roteirizadas pelos jogadores. Apenas eles decidem de que maneira vão lutar, entretanto, a maioria dos npcs usam o combate de impacto.\n\nO combate mortal, por outro lado, é uma tentativa deliberada de matar o oponente. Isto inclui automaticamente atacar um oponente caído, o uso de veneno em qualquer arma, qualquer poder Letal, Disintegração, Morte Súbita, poderes e situações que causem quedas, uso de controle de ar para criar vácuo, estar em meio a Incêndios ou no vácuo do Espaço sem proteções ou poderes apropriados, estar em climas cáusticos sem proteções, fome, sede e privação do sono, afogamento (natural ou com poderes), armas atômicas, uso de Teleporte para arrancar membros, entre outros.\n\nDe outro modo, o personagem pode entrar em combate mortal se assim o preferir, e usar de suas características ou quaisquer outros poderes ofensivos para tal objetivo.",
+          "tipo": "regra"
+        },
+        {
+          "id": "sequencia-combate",
+          "titulo": "Sequência Dentro de um Combate",
+          "conteudo": "Os personagens agem um por vez até que todos o tenham feito. E aí começam novamente. A sequência em que eles agem é determinada pelo valor do deslocamento base. Seu turno começa quando você escolhe uma manobra e termina quando a próxima manobra for escolhida. Isto, depois de todos os outros personagens terem realizado sua ação uma vez. Cada turno representa um segundo de tempo real."
+        },
+        {
+          "id": "manobras",
+          "titulo": "Manobras — Árvore Tática",
+          "conteudo": "A ideia é deixar os combates mais dinâmicos e entendível para todos. A árvore pode determinar o que o personagem é mecanicamente capaz de declarar como ação, realizando assim uma estratégia tática baseado no próprio estilo do seu personagem.",
+          "subsecoes": [
+            {
+              "titulo": "MANOBRA BÁSICA: MOVIMENTO",
+              "conteudo": "Movimento representa qualquer ação cujo propósito principal seja alterar fisicamente a posição do personagem. Sempre que um personagem corre, caminha, salta, desliza, faz uma cambalhota, escala, muda de direção ou utiliza o cenário para se locomover, ele está realizando uma forma de Movimento. A manobra Movimento é dividida em quatro estilos: Linear; Difuso; Acrobático; Atlético.\n\nA diferença entre eles não está necessariamente na velocidade, mas na maneira como o personagem utiliza seu deslocamento.",
+              "arvore": "movimento"
+            },
+            {
+              "titulo": "MANOBRA BÁSICA: ATACAR",
+              "conteudo": "Atacar é toda ação ofensiva realizada por um personagem com a intenção de causar uma consequência sobre um alvo. Existem duas formas fundamentais de ataque: Ataque Corpo a Corpo: exige proximidade física com o alvo. Ataque à Distância: realizado contra alvos que estejam a uma distância maior.\n\nA distância também interfere na eficiência das armas. Uma arma destinada a ataques à distância pode sofrer penalidades quando utilizada contra um alvo próximo, enquanto um ataque corpo a corpo depende da proximidade necessária para atingir fisicamente o adversário. Para realizar um ataque corpo a corpo, o atacante pode realizar apenas um passo para aproximar-se do alvo. Portanto, para que o ataque seja iniciado dessa maneira, o alvo deve estar a pelo menos 2 metros do atacante.",
+              "arvore": "ataque"
+            },
+            {
+              "titulo": "MANOBRA BÁSICA: PREPARAR",
+              "conteudo": "Preparar envolve sacar, apanhar, guardar ou arrumar um objeto, além de realizar pequenas ações físicas necessárias para recuperar ou modificar o controle sobre um equipamento. É uma manobra voltada principalmente para colocar o personagem ou seus equipamentos em condição adequada para a próxima ação.",
+              "arvore": "preparar"
+            },
+            {
+              "titulo": "APONTAR",
+              "conteudo": "Apontar é a manobra utilizada para concentrar a mira em um alvo visível. Enquanto estiver apontando, o personagem não realiza o ataque imediatamente. Ele está dedicando tempo para melhorar a precisão de seu próximo ataque à distância.",
+              "arvore": "apontar"
+            },
+            {
+              "titulo": "ANALISAR",
+              "conteudo": "Analisar é uma ação de inteligência estratégica utilizada para estudar cuidadosamente uma situação antes de agir. Ao utilizar essa manobra, o personagem dedica seu turno a observar atentamente um alvo que esteja dentro de seu alcance visual e de combate. Durante a análise, o jogador pode conversar com o Mestre e fazer perguntas sobre aquilo que seu personagem é capaz de perceber. O Mestre deve responder de acordo com as capacidades do personagem, suas informações disponíveis e aquilo que pode ser efetivamente observado.",
+              "arvore": "analisar"
+            },
+            {
+              "titulo": "FAZER NADA",
+              "conteudo": "O personagem decide não realizar nenhuma ação relevante durante seu turno, permanecendo atento ou simplesmente aguardando. Pode ser utilizada quando o personagem: está surpreso; está atordoado ou temporariamente incapaz de agir; está esperando o momento certo; não possui uma ação adequada para realizar; ou simplesmente escolhe não agir. O turno do personagem termina sem que ele realize uma Manobra adicional. Não possui caminhos, testes ou variações. Fazer Nada é a opção padrão para quando o personagem não pode ou não quer executar outra Manobra.\n\nCom isso, está encerrado as manobras básicas para o combate básico."
+            }
+          ]
+        },
+        {
+          "id": "localizacao",
+          "titulo": "Tabela de Localização de Acerto (Humanóide)",
+          "conteudo": "Ataque Padrão: Por padrão, um ataque corpo a corpo ou à distância mira no Torso (modificador 0). Não é necessário rolar na tabela aleatória a menos que o atacante escolha um local específico ou o Mestre determine um impacto randômico (ex: disparar às cegas ou estilhaços)\n\nAlguns pontos importantes:\n- Se o cérebro for atingido, o crânio fornece uma RD natural de 2. Isso se soma a qualquer armadura, resistência, etc., que a vítima possua.\n- Mais de 2 acertos de dano cegam os olhos. Um impacto de empalamento ou míssil (se a arma tiver menos de 2,5 cm de diâmetro) causa um impacto cerebral automático, como acima; o RD do crânio não protege! Se o alvo estiver usando um capacete, somente um ataque de míssil ou estocada pode atingir o olho; tal impacto ignora tanto o RD do crânio quanto o DR do capacete.\n- Golpes esmagadores no cérebro ou nos sinais vitais exigem que a vítima role contra o HT para evitar o nocaute. Se o cérebro ou a cabeça forem alvo de uma arma de mão oscilante, ou se os sinais vitais forem alvo de uma bala ou ataque de empalamento, uma rolagem que erra por apenas 1 é tratado como um golpe no torso.\n- Personagens podem declarar que estão mirando (Veja Apontar) em locais específicos para ganhar bônus e reduzir as penalidades ou buscar pontos fracos da armadura do oponente. Um ataque as cegas faz com que o Mestre role ou decida onde aquele golpe acertou.",
+          "tabela": "localizacao"
+        },
+        {
+          "id": "luminosidade",
+          "titulo": "Luminosidade",
+          "conteudo": "As regras de luminosidade e escuridão funcionam como penalidades diretamente aplicadas nos testes de Visão e em testes de Combate (ataque e defesa).",
+          "tabela": "luminosidade"
+        },
+        {
+          "id": "defesas-ativas",
+          "titulo": "Defesas Ativas",
+          "conteudo": "Uma Defesa Ativa é a tentativa do personagem de evitar um ataque que já acertou, rolando um teste oposto em resposta ao ataque. Existem três tipos principais no sistema básico:\n- Esquiva: Baseada na DX. Pode ser usada contra qualquer ataque e não exige armas ou escudos.\n- Aparar: Baseada em uma arma ou em combate desarmado. Serve contra ataques corpo a corpo (e alguns ataques à distância específicos).\n- Bloqueio: Baseado no uso de um escudo e na ST. Adiciona bônus do escudo à rolagem e protege contra ataques corpo a corpo e à distância.",
+          "tabela": "defesas"
+        },
+        {
+          "id": "grau-dano",
+          "titulo": "Grau de Dano",
+          "conteudo": "O Grau de Dano (GD) representa a intensidade com que um ataque atingiu o alvo. Ele não mede apenas a quantidade de dano numérico, mas a gravidade do impacto produzido pelo ataque.\n\nO sistema possui três graus:\n- GD 1 | Raspão | 1–20 | O ataque atingiu, mas produziu um ferimento ou impacto relativamente limitado.\n- GD 2 | Em cheio | 21–64 | O ataque atingiu com força significativa, produzindo um ferimento grave ou comprometimento relevante.\n- GD 3 | Letal | 65+ | O ataque produz uma quantidade de dano capaz de comprometer seriamente a sobrevivência do alvo.\n\nGD 1 — Raspão: Representa um ataque que atingiu o alvo sem aplicar sua força destrutiva máxima. Pode representar: um corte superficial; um tiro que apenas atravessou uma região não vital; uma pancada parcialmente absorvida; uma explosão que atingiu o alvo pela borda; um golpe que acertou, mas sem grande transferência de força. Não significa necessariamente que o ataque foi fraco. Uma espada, por exemplo, pode produzir um GD 1 mesmo sendo uma arma perigosa — significa que aquele impacto específico ficou dentro da faixa de 1–20.\n\nGD 2 — Em cheio: Representa um ataque que atingiu de maneira significativa, transferindo uma quantidade considerável de força ou energia. Pode causar: ferimentos profundos; fraturas; perfurações importantes; perda significativa de sangue; incapacitação parcial de um membro; danos estruturais relevantes; grande impacto físico. É o grau que representa o ataque realmente acertando em cheio.\n\nGD 3 — Letal: Representa um ataque que ultrapassou o limite de resistência considerado seguro para um ser daquela categoria. Um GD 3 pode representar: destruição severa de uma região corporal; perfuração de órgãos vitais; trauma extremo; destruição de estruturas importantes; ferimentos potencialmente fatais; dano suficiente para colocar diretamente a vida do alvo em risco. GD 3 não significa morte automática. Significa que o dano entrou em uma faixa letal. A localização do impacto, a resistência, a armadura, habilidades e outras regras ainda podem determinar o resultado. O dano determina a intensidade, enquanto a localização determina onde essa intensidade foi aplicada.\n\nPor exemplo:\n- Um tiro de 30 de dano no torso → GD 2.\n- Um tiro de 30 de dano na mão → continua sendo GD 2, mas a localização e sua penalidade podem alterar o efeito produzido.\n- Um golpe de 70 de dano no torso → GD 3.",
+          "tabela": "grau-dano"
+        },
+        {
+          "id": "tabelas-dano",
+          "titulo": "Tabelas de Dano Mundano, Moderno e Futurista",
+          "conteudo": "Aqui começa uma diferença importante: armas modernas possuem maior capacidade de causar dano rapidamente, principalmente por velocidade do projétil e capacidade de repetição. Armas futuristas combinam conceitos teóricos de alta energia, tecnologias de micro-ondas e inovações de design de Ficção Científica. Elas podem representar o limite tecnológico que um ser mundano consegue produzir.",
+          "tabela": "armas"
+        }
+      ]
+    }
+  ]
 }

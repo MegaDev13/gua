@@ -1,0 +1,76 @@
+{
+  "_fonte": "Atributos GAU — ST, DX, IQ, HT",
+  "atributos": [
+    {
+      "id": "ST",
+      "nome": "Força",
+      "sigla": "ST",
+      "descricao": "Determina capacidade física, levantamento, dano corpo a corpo e resistência física bruta.",
+      "base": 10,
+      "min": 1,
+      "max": 20,
+      "custoPorPonto": "10 pts por +1 acima de 10, -10 abaixo",
+      "exemplos": {
+        "8": "Fraco",
+        "10": "Humano comum",
+        "12": "Atlético",
+        "14": "Muito forte",
+        "16": "Limite humano excepcional",
+        "20": "Pico mundano"
+      }
+    },
+    {
+      "id": "DX",
+      "nome": "Destreza",
+      "sigla": "DX",
+      "descricao": "Coordenação, agilidade, reflexos, precisão manual e capacidade de esquiva.",
+      "base": 10,
+      "min": 1,
+      "max": 20
+    },
+    {
+      "id": "IQ",
+      "nome": "Inteligência",
+      "sigla": "IQ",
+      "descricao": "Raciocínio, percepção, memória, testes de sentido e vontade base.",
+      "base": 10,
+      "min": 1,
+      "max": 20
+    },
+    {
+      "id": "HT",
+      "nome": "Vitalidade",
+      "sigla": "HT",
+      "descricao": "Saúde, resistência a doenças, fadiga, inconsciência e morte.",
+      "base": 10,
+      "min": 1,
+      "max": 20
+    }
+  ],
+  "secundarios": [
+    {
+      "id": "VON",
+      "nome": "Vontade",
+      "formula": "IQ + Força de Vontade - Vontade Fraca",
+      "descricao": "Teste contra medo, pânico e desvantagens mentais. Qualquer resultado >=14 é falha automática em teste de Vontade."
+    },
+    {
+      "id": "PER",
+      "nome": "Percepção",
+      "formula": "IQ + Prontidão + Sentidos Aguçados",
+      "descricao": "Testes de Visão, Audição, Olfato/Paladar"
+    },
+    {
+      "id": "DESL",
+      "nome": "Deslocamento",
+      "formula": "Baseado em ST, DX e Carga",
+      "descricao": "Metros por segundo em combate. Corrida = Deslocamento total, Caminhada = metade arredondada para cima."
+    },
+    {
+      "id": "PF",
+      "nome": "Pontos de Fadiga",
+      "formula": "Igual a ST inicialmente",
+      "descricao": "Gastos em esforço extra, combate prolongado, natação, etc."
+    }
+  ]
+}

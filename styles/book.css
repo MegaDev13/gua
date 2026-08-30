@@ -1,0 +1,523 @@
+/* GAU — Estilo do Livro Digital
+   Experiência de leitura imersiva, modo livro físico
+*/
+
+.book-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+.book-content {
+  font-family: var(--font-body);
+  font-size: 1.06rem;
+  line-height: 1.75;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Modo livro físico */
+.book-mode {
+  background: var(--panel);
+  border: 2px solid var(--border2);
+  border-radius: 4px;
+  padding: 2.5rem 2.8rem;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 0 0 6px var(--bg2),
+    0 0 0 7px var(--border2),
+    var(--shadow);
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.book-mode::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(201,165,92,.15);
+  pointer-events: none;
+  border-radius: 2px;
+}
+.book-mode::after {
+  content: "❧";
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold);
+  font-size: 1.2rem;
+  opacity: .4;
+}
+
+[data-theme="light"] .book-mode {
+  background: #fffaf0;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 0 0 6px #efe6d2,
+    0 0 0 7px var(--border2),
+    var(--shadow);
+}
+
+/* Cabeçalho do livro */
+.book-header {
+  text-align: center;
+  padding: 1.5rem 0 2rem;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 2rem;
+  position: relative;
+}
+.book-header::after {
+  content: "◈";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel);
+  padding: 0 .8rem;
+  color: var(--gold);
+  font-size: .9rem;
+}
+[data-theme="light"] .book-header::after { background: #fffaf0; }
+
+.book-chapter-num {
+  font-family: var(--font-display);
+  font-size: .75rem;
+  letter-spacing: .25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .5rem;
+}
+.book-chapter-title {
+  font-family: var(--font-display-deco);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  color: var(--gold2);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: .02em;
+}
+.book-chapter-desc {
+  font-style: italic;
+  color: var(--ink-dim);
+  margin-top: .6rem;
+  font-size: 1rem;
+}
+
+/* Tipografia do livro */
+.book-content h1, .book-content h2, .book-content h3, .book-content h4 {
+  font-family: var(--font-display);
+  color: var(--gold2);
+  letter-spacing: .03em;
+  line-height: 1.25;
+  margin-top: 2.2rem;
+  margin-bottom: .8rem;
+  position: relative;
+}
+.book-content h2 {
+  font-size: 1.65rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: .5rem;
+  margin-top: 2.8rem;
+}
+.book-content h2::before {
+  content: "◈";
+  position: absolute;
+  left: -1.2rem;
+  color: var(--gold);
+  font-size: .7rem;
+  top: .6rem;
+  opacity: .6;
+}
+.book-content h3 {
+  font-size: 1.25rem;
+  color: var(--gold2);
+  margin-top: 2rem;
+}
+.book-content h4 {
+  font-size: 1.05rem;
+  color: var(--ink);
+  font-style: italic;
+  margin-top: 1.5rem;
+}
+.book-content p {
+  margin: 0 0 1.1rem;
+  hyphens: auto;
+  text-align: justify;
+  hanging-punctuation: first;
+}
+.book-content p:first-of-type::first-letter {
+  font-family: var(--font-display-deco);
+  font-size: 3.2rem;
+  float: left;
+  line-height: .8;
+  margin: .15rem .4rem 0 0;
+  color: var(--gold2);
+  font-weight: 700;
+}
+.book-content .no-dropcap::first-letter {
+  font-size: inherit;
+  float: none;
+  line-height: inherit;
+  margin: 0;
+  color: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+}
+
+/* Listas */
+.book-content ul, .book-content ol {
+  margin: .8rem 0 1.2rem 1.2rem;
+  padding: 0;
+}
+.book-content li {
+  margin: .35rem 0;
+  line-height: 1.6;
+}
+.book-content li::marker {
+  color: var(--gold);
+}
+
+/* Caixas de regra */
+.rule-box, .example-box, .warning-box, .lore-box, .highlight-box {
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin: 1.4rem 0;
+  position: relative;
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+.rule-box {
+  background: linear-gradient(135deg, rgba(201,165,92,.08) 0%, rgba(201,165,92,.03) 100%);
+  border: 1px solid var(--border2);
+  border-left-color: var(--gold);
+  border-left-width: 4px;
+}
+.rule-box .box-title {
+  color: var(--gold2); font-weight: 700; letter-spacing: .08em; font-size: .75rem;
+  text-transform: uppercase; font-family: var(--font-ui); margin-bottom: .5rem; display: flex; align-items: center; gap: .4rem;
+}
+.example-box {
+  background: linear-gradient(135deg, rgba(63,124,166,.12) 0%, rgba(63,124,166,.04) 100%);
+  border: 1px solid #24455e;
+  border-left-color: #3f7ca6;
+  border-left-width: 4px;
+}
+.example-box .box-title { color: #8fc7ef; font-weight: 700; font-size: .75rem; text-transform: uppercase; font-family: var(--font-ui); letter-spacing: .08em; margin-bottom: .5rem; }
+.warning-box {
+  background: linear-gradient(135deg, rgba(164,72,62,.12) 0%, rgba(164,72,62,.04) 100%);
+  border: 1px solid #6e3434;
+  border-left-color: #a9483e;
+  border-left-width: 4px;
+}
+.warning-box .box-title { color: #e09087; font-weight: 700; font-size: .75rem; text-transform: uppercase; font-family: var(--font-ui); letter-spacing: .08em; margin-bottom: .5rem; }
+.lore-box {
+  background: linear-gradient(135deg, rgba(107,90,54,.12) 0%, rgba(107,90,54,.04) 100%);
+  border: 1px solid var(--border2);
+  border-left-color: var(--border-gold);
+  border-style: dashed;
+  border-left-style: solid;
+  font-style: italic;
+}
+.highlight-box {
+  background: linear-gradient(135deg, var(--panel2) 0%, var(--panel) 100%);
+  border: 1px solid var(--border2);
+  border-left-color: var(--gold2);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Tabelas do livro */
+.book-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: .92rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+.book-content th, .book-content td {
+  border: 1px solid var(--border);
+  padding: .55rem .75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.book-content th {
+  background: linear-gradient(180deg, var(--panel3), var(--panel2));
+  color: var(--gold2);
+  font-family: var(--font-display);
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-weight: 600;
+}
+.book-content tr:nth-child(even) td {
+  background: rgba(255,255,255,.02);
+}
+[data-theme="light"] .book-content tr:nth-child(even) td {
+  background: rgba(0,0,0,.02);
+}
+.book-content tr:hover td {
+  background: rgba(201,165,92,.06);
+}
+.book-content .table-caption {
+  font-size: .78rem;
+  color: var(--ink-dim);
+  font-family: var(--font-ui);
+  margin: -.8rem 0 1.2rem;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Árvores de manobras */
+.maneuver-tree {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin: 1.5rem 0;
+  font-family: var(--font-ui);
+  font-size: .86rem;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+.tree-node {
+  position: relative;
+  padding-left: 1.5rem;
+  margin: .6rem 0;
+  border-left: 1px dashed var(--border);
+}
+.tree-node::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .7rem;
+  width: .8rem;
+  height: 1px;
+  background: var(--border2);
+}
+.tree-node.root { border-left: none; padding-left: 0; }
+.tree-node.root::before { display: none; }
+.tree-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .25rem .6rem;
+  background: var(--panel3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-weight: 600;
+  color: var(--gold2);
+  font-family: var(--font-display);
+  font-size: .8rem;
+  letter-spacing: .04em;
+}
+.tree-desc {
+  margin: .3rem 0 0 0;
+  color: var(--ink-dim);
+  font-size: .82rem;
+  line-height: 1.5;
+  max-width: 600px;
+}
+.tree-bonus {
+  display: inline-block;
+  margin-top: .3rem;
+  padding: .15rem .5rem;
+  background: rgba(201,165,92,.12);
+  border: 1px solid rgba(201,165,92,.3);
+  border-radius: 999px;
+  font-size: .7rem;
+  color: var(--gold2);
+  font-weight: 600;
+}
+
+/* Separadores */
+.book-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2.5rem 0;
+  color: var(--border2);
+}
+.book-separator::before, .book-separator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2), transparent);
+  max-width: 120px;
+}
+.book-separator span {
+  font-size: 1.1rem;
+  color: var(--gold);
+  opacity: .7;
+}
+
+/* Notas laterais */
+.sidenote {
+  float: right;
+  width: 220px;
+  margin: 0 -240px 1rem 1.5rem;
+  padding: .8rem .9rem;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 8px;
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  font-family: var(--font-ui);
+  box-shadow: var(--shadow-soft);
+}
+.sidenote .sidenote-title {
+  font-weight: 700;
+  color: var(--gold2);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: .3rem;
+}
+
+/* Citações */
+.book-content blockquote {
+  margin: 1.5rem 0;
+  padding: .8rem 1.2rem .8rem 1.5rem;
+  border-left: 3px solid var(--gold);
+  background: linear-gradient(90deg, rgba(201,165,92,.06), transparent);
+  font-style: italic;
+  color: var(--ink-dim);
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+.book-content blockquote::before {
+  content: "“";
+  position: absolute;
+  top: -.2rem;
+  left: .3rem;
+  font-size: 2.5rem;
+  color: var(--gold);
+  opacity: .2;
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+/* Imagens */
+.book-content figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+.book-content figure img {
+  max-width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border2);
+  box-shadow: var(--shadow);
+}
+.book-content figcaption {
+  font-size: .78rem;
+  color: var(--ink-dim);
+  font-family: var(--font-ui);
+  margin-top: .6rem;
+  font-style: italic;
+}
+
+/* Glossário */
+.glossary-term {
+  border-bottom: 1px dashed var(--border2);
+  cursor: help;
+  position: relative;
+}
+.glossary-term:hover {
+  color: var(--gold2);
+  border-bottom-color: var(--gold);
+}
+
+/* Paginação modo livro */
+.book-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-display);
+  font-size: .85rem;
+}
+.book-pagination a {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem 1rem;
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--ink-dim);
+  text-decoration: none;
+  transition: all .2s;
+}
+.book-pagination a:hover {
+  border-color: var(--gold);
+  color: var(--gold2);
+  background: var(--panel3);
+  transform: translateY(-1px);
+}
+.book-page-number {
+  font-size: .75rem;
+  color: var(--ink-faint);
+  font-family: var(--font-ui);
+  letter-spacing: .1em;
+}
+
+/* Índice no conteúdo */
+.book-toc-inline {
+  background: var(--panel2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin: 1.5rem 0;
+}
+.book-toc-inline h3 {
+  margin: 0 0 .8rem;
+  font-size: .9rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+.book-toc-inline ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.book-toc-inline li {
+  padding: .35rem 0;
+  border-bottom: 1px dotted var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.book-toc-inline li:last-child { border-bottom: none; }
+.book-toc-inline a {
+  color: var(--ink-dim);
+  text-decoration: none;
+  font-size: .88rem;
+}
+.book-toc-inline a:hover { color: var(--gold2); }
+.book-toc-inline .toc-page {
+  color: var(--ink-faint);
+  font-size: .75rem;
+  font-family: var(--font-mono);
+}
+
+/* Responsivo livro */
+@media (max-width: 900px) {
+  .book-mode { padding: 1.5rem 1.2rem; }
+  .sidenote { float: none; width: auto; margin: 1rem 0; }
+  .book-content h2::before { display: none; }
+}
+@media (max-width: 600px) {
+  .book-mode { padding: 1.2rem .9rem; border-width: 1px; }
+  .book-mode::before { inset: 8px; }
+  .book-content { font-size: 1rem; line-height: 1.65; }
+  .book-content p { text-align: left; }
+  .book-content p:first-of-type::first-letter { font-size: 2.5rem; }
+}

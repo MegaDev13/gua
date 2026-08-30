@@ -1,0 +1,60 @@
+{
+  "_fonte": "Empunhaduras — GAU",
+  "descricao": "A empunhadura escolhida determina o estilo de utilização da arma, concedendo vantagens diferentes durante o combate. Não existe uma empunhadura simplesmente 'melhor'. Cada uma cria identidade de combate diferente.",
+  "empunhaduras": [
+    {
+      "id": "uma-mao",
+      "nome": "Uma Mão",
+      "especialidade": "Versatilidade",
+      "vantagem": "Mão livre",
+      "descricao": "A arma é utilizada com apenas uma mão, deixando a outra livre. Permite utilizar simultaneamente outro equipamento na mão livre; maior liberdade para realizar movimentos e interações.",
+      "estilo": "versátil e equilibrado",
+      "bonus": "Mão livre, versatilidade"
+    },
+    {
+      "id": "bastarda",
+      "nome": "Bastarda",
+      "especialidade": "Adaptação",
+      "vantagem": "Alterna entre 1 e 2 mãos",
+      "descricao": "A arma é segurada predominantemente com uma mão, mas pode receber apoio da segunda mão durante determinados ataques. Permite alternar entre ataques de uma e duas mãos; oferece equilíbrio entre mobilidade e potência.",
+      "estilo": "adaptável",
+      "bonus": "Alternância 1/2 mãos"
+    },
+    {
+      "id": "duas-maos",
+      "nome": "Duas Mãos",
+      "especialidade": "Força",
+      "vantagem": "+1 em ataques baseados em Força",
+      "descricao": "Ambas as mãos são utilizadas para controlar a arma. Maior controle sobre armas pesadas; adequada para Ataques Pesados. Desvantagem: não permite utilizar outro objeto na mão livre.",
+      "estilo": "força e impacto",
+      "bonus": "+1 ataques Força"
+    },
+    {
+      "id": "tsuka",
+      "nome": "Tsuka",
+      "especialidade": "Movimento",
+      "vantagem": "+1 em ataques realizados durante Movimento",
+      "descricao": "Empunhadura voltada para golpes de corte e movimentos rápidos, utilizando arma de maneira mais próxima ao estilo tradicional de uma espada japonesa. Facilita mudanças rápidas de direção; favorece ataques de passagem.",
+      "estilo": "velocidade e fluidez",
+      "bonus": "+1 durante Movimento"
+    },
+    {
+      "id": "zatoichi",
+      "nome": "Zatoichi",
+      "especialidade": "Saque",
+      "vantagem": "+2 no primeiro ataque realizado imediatamente após um Saque Rápido",
+      "descricao": "Empunhadura especializada em sacar e atacar em um único movimento, mantendo arma em posição mais fechada junto ao corpo. Favorece ataques surpresa e contra-ataques rápidos. Desvantagem: menos eficiente para ataques prolongados.",
+      "estilo": "saque e explosão inicial",
+      "bonus": "+2 primeiro ataque após Saque"
+    },
+    {
+      "id": "anatomica",
+      "nome": "Anatômica",
+      "especialidade": "Precisão",
+      "vantagem": "+1 em Ataques Acrobáticos",
+      "descricao": "Empunhadura que prioriza adaptação da arma à anatomia e aos movimentos naturais do usuário. Facilita mudanças de empunhadura durante movimentos complexos; maior controle em ataques direcionados a pontos específicos.",
+      "estilo": "precisão e controle corporal",
+      "bonus": "+1 Ataques Acrobáticos"
+    }
+  ]
+}

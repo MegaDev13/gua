@@ -1,43 +1,98 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GUA — Sistema de Personagens & Livro de Regras</title>
-  <meta name="description" content="Ecossistema digital do RPG GUA: livro ilustrado navegável, ficha de personagem automatizada, combate, inventário e economia — tudo sobre a mesma base de regras.">
+  <title>GAU — Grimório Digital & Forja de Personagens</title>
+  <meta name="description" content="GAU — Sistema Universal: livro digital imersivo, motor de regras d20 com margens, árvores de manobras táticas e forja de personagens automatizada.">
   <link rel="icon" href="book/images/capa.svg" type="image/svg+xml">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cinzel+Decorative:wght@700&family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Styles -->
   <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/book.css">
+  <link rel="stylesheet" href="styles/character-sheet.css">
+  <link rel="stylesheet" href="styles/animations.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
-  <header class="topbar">
+  <a class="skip-link" href="#main">Pular para conteúdo</a>
+
+  <!-- Topbar -->
+  <header class="topbar" id="topbar">
     <div class="brand" id="brand">
-      <img src="book/images/capa.svg" alt="" class="brand-logo" width="34" height="34">
-      <div>
-        <strong>GUA</strong>
-        <span class="brand-sub">Sistema de Personagens &amp; Livro de Regras</span>
+      <img src="book/images/capa.svg" alt="" class="brand-logo" width="40" height="40">
+      <div class="brand-text">
+        <strong>GAU</strong>
+        <span class="brand-sub">Grimório Digital • Sistema Universal</span>
       </div>
     </div>
-    <nav class="tabs" id="nav" aria-label="Seções do sistema"></nav>
+
+    <nav class="tabs" id="nav" aria-label="Navegação principal"></nav>
+
     <div class="topbar-actions">
+      <button id="btnSearch" class="btn icon" title="Busca global ( / )" aria-label="Buscar">🔍</button>
+      <button id="btnTheme" class="btn icon" title="Alternar tema" aria-label="Tema">🌙</button>
       <label class="char-select-wrap" title="Meus personagens">
         <span class="sr-only">Personagem ativo</span>
         <select id="charSelect" class="char-select"></select>
       </label>
-      <button id="btnSave" class="btn btn-ghost" title="Salvar agora (autosave ativo)">💾</button>
-      <button id="btnMenu" class="btn btn-ghost only-mobile" aria-label="Menu">☰</button>
+      <button id="btnMenu" class="btn icon only-mobile" aria-label="Menu">☰</button>
     </div>
   </header>
 
-  <main id="main" class="main" tabindex="-1"></main>
+  <!-- Layout -->
+  <div class="app-layout">
+    <!-- Sidebar livro (desktop) -->
+    <aside class="sidebar" id="sidebar" aria-label="Índice do livro">
+      <div class="sidebar-header">
+        <h2 class="sidebar-title">Index Librorum</h2>
+        <button id="btnCloseSidebar" class="btn icon small only-mobile">✕</button>
+      </div>
+      <div class="sidebar-filters" id="sidebarFilters"></div>
+      <nav class="toc" id="toc"></nav>
+      <div class="sidebar-footer">
+        <div class="ornament">❧</div>
+        <p class="sidebar-note">GAU v2.0 • Edição Digital<br>Margem 10 = referência humana</p>
+      </div>
+    </aside>
 
-  <div id="modal-root"></div>
+    <main id="main" class="main" tabindex="-1"></main>
+  </div>
+
+  <!-- Search Modal -->
+  <div id="searchModal" class="modal-back" hidden>
+    <div class="modal search-modal" role="dialog" aria-modal="true" aria-label="Busca">
+      <div class="modal-header">
+        <h3>🔍 Buscar no Grimório</h3>
+        <button class="btn icon small" id="btnCloseSearch">✕</button>
+      </div>
+      <div class="search-input-wrap">
+        <input id="searchInput" type="search" placeholder="Buscar regras, manobras, armas, margens, pânico..." autocomplete="off" spellcheck="false">
+        <span class="search-hint">Pressione / para buscar • ESC para fechar</span>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
   <div id="toast-root" aria-live="polite"></div>
 
-  <noscript>
-    <div style="padding:2rem;font-family:sans-serif">Este sistema precisa de JavaScript ativado.</div>
-  </noscript>
+  <!-- Print ficha (para PDF) -->
+  <div id="ficha-print"></div>
 
-  <script type="module" src="app/main.js"></script>
+  <!-- Libs (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <script type="module" src="js/app.js"></script>
+
+  <noscript>
+    <div style="padding:2rem;font-family:serif;text-align:center">
+      <h1>GAU exige JavaScript</h1>
+      <p>Este grimório digital precisa de JavaScript para conjurar suas páginas.</p>
+    </div>
+  </noscript>
 </body>
 </html>

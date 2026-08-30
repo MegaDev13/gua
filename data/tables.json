@@ -1,187 +1,123 @@
 {
-  "_fonte": "Transcrito do material (docs/fonte-gua-material.pdf); páginas citadas por tabela.",
-  "custoAtributos": {
-    "fonte": "p. 1-2",
-    "tabela": {"1": -80, "2": -70, "3": -60, "4": -50, "5": -40, "6": -30, "7": -20, "8": -15, "9": -10, "10": 0, "11": 10, "12": 20, "13": 30, "14": 45, "15": 60, "16": 80, "17": 100, "18": 125, "19": 150, "20": 175},
-    "progressao": "Acima de 20: REGRA NÃO DEFINIDA (tabela original vai até 20 e diz 'não existe limite superior', sem publicar custos além de 20)."
-  },
-  "danoBasico": {
-    "fonte": "p. 190",
-    "tabela": {
-      "4": {"gdp": "0", "bal": "0"}, "5": {"gdp": "1D-5", "bal": "1D-5"}, "6": {"gdp": "1D-4", "bal": "1D-4"},
-      "7": {"gdp": "1D-3", "bal": "1D-3"}, "8": {"gdp": "1D-3", "bal": "1D-2"}, "9": {"gdp": "1D-2", "bal": "1D-1"},
-      "10": {"gdp": "1D-2", "bal": "1D"}, "11": {"gdp": "1D-1", "bal": "1D+1"}, "12": {"gdp": "1D-1", "bal": "1D+2"},
-      "13": {"gdp": "1D", "bal": "2D-1"}, "14": {"gdp": "1D", "bal": "2D"}, "15": {"gdp": "1D+1", "bal": "2D+1"},
-      "16": {"gdp": "1D+1", "bal": "2D+2"}, "17": {"gdp": "1D+2", "bal": "3D-1"}, "18": {"gdp": "1D+2", "bal": "3D"},
-      "19": {"gdp": "2D-1", "bal": "3D+1"}, "20": {"gdp": "2D-1", "bal": "3D+2"}
-    },
-    "progressao": "'...e assim por diante, sendo óbvia a progressão.' (p. 190). Acima de 20: extrapolável pela progressão — marcado como estimativa."
-  },
-  "custoPericias": {
-    "fonte": "p. 104-105",
-    "fisicas": {
-      "colunas": ["Fácil", "Média", "Difícil"],
-      "linhas": {"-3": [null, null, 0.5], "-2": [null, 0.5, 1], "-1": [0.5, 1, 2], "0": [1, 2, 4], "1": [2, 4, 8], "2": [4, 8, 16], "3": [8, 16, 24], "4": [16, 24, 32], "5": [24, 32, 40]},
-      "acrescimoPorNivel": 8
-    },
-    "mentais": {
-      "colunas": ["Fácil", "Média", "Difícil", "Muito Difícil"],
-      "linhas": {"-4": [null, null, null, 0.5], "-3": [null, null, 0.5, 1], "-2": [null, 0.5, 1, 2], "-1": [0.5, 1, 2, 4], "0": [1, 2, 4, 8], "1": [2, 4, 6, 12], "2": [4, 6, 8, 16], "3": [6, 8, 10, 20], "4": [8, 10, 12, 24], "5": [10, 12, 14, 28]},
-      "acrescimoPorNivel": 2,
-      "acrescimoPorNivelMuitoDificil": 4
-    }
-  },
-  "carga": {
-    "fonte": "p. 195-197",
-    "niveis": [
-      {"nivel": 0, "nome": "Nenhuma", "limite": "ST", "penalidadeMovimento": 0},
-      {"nivel": 1, "nome": "Leve", "limite": "2xST", "penalidadeMovimento": 1},
-      {"nivel": 2, "nome": "Média", "limite": "3xST", "penalidadeMovimento": 2},
-      {"nivel": 3, "nome": "Pesada", "limite": "6xST", "penalidadeMovimento": 3},
-      {"nivel": 4, "nome": "Muito Pesada", "limite": "10xST", "penalidadeMovimento": 4}
-    ],
-    "maximoCarregavel": "15xST; acima de 10xST só 1-2 m por vez; fadiga 1/turno acima de 10xST"
-  },
-  "ferimentos": {
-    "fonte": "p. 230-232, 277-279",
-    "choque": "-(PV perdidos) em IQ/DX/perícias no turno seguinte (cumulativo na rodada)",
-    "ht3ouMenos": "Movimento e Esquiva pela metade (arredondar para baixo)",
-    "ht0ouMenos": "Teste de HT (com Força de Vontade/Vontade Fraca) no início de cada turno ou desmaia",
-    "testesMorte": "HT = -HT: teste de HT ou morre; novo teste a cada 5 PV perdidos (6+ PV num golpe = 2 testes)",
-    "morteAutomatica": "HT = -5xHT (perdeu 6xHT pontos de vida)",
-    "corpoDestruido": "HT < -10xHT",
-    "prostracao": "Perda > HT/2 num só golpe: teste HT; falha = cai e fica atordoado; sucesso = atordoado",
-    "nocauteCabeca": "Golpe na cabeça/cérebro com dano >= RD: teste HT ou inconsciente; cérebro com perda > HT/2 = nocaute automático",
-    "atordoamento": "Defesas ativas -4; recupera com teste de HT (físico) ou IQ (mental) no início do turno",
-    "lesoesIncapacitantes": {"maosPes": ">= HT/3 em um golpe", "bracosPernas": ">= HT/2 em um golpe"}
-  },
-  "fadiga": {
-    "fonte": "p. 298-300",
-    "luta": "Custo por luta (>10 s) = nível de Carga + 1 (1 a 5); +1 dia quente; +2 armadura de placas/sobretudo",
-    "marcha": "Mesmo custo da luta por hora de marcha",
-    "corridaNatacao": "Teste de HT a cada 100 m; falha = -1 fadiga",
-    "estafa": "Carga acima de muito pesada ou puxar/empurrar muito pesado: 1 fadiga/turno",
-    "esforcoExtra": "1 fadiga por tentativa",
-    "sono": "Noite sem dormir 5; meia noite 2",
-    "efeitos": {
-      "st3": "Movimento pela metade (arredondar para baixo)",
-      "st1": "Desfalece: só fala/magia/poderes; continua se afogando",
-      "st0": "Desmaia; descansa até ST 1",
-      "nota": "Fadiga reduz ST para testes de força e perícias baseadas em ST; dano básico de armas NÃO muda; nunca negativa"
-    },
-    "recuperacao": {"descanso": "1 ponto de ST por 10 minutos de descanso (recuperação da fadiga, p. 300)", "nota": "Fadiga por inanição só recupera com 1 dia de descanso e 3 refeições (recupera 3/refeições perdidas por dia)"}
-  },
-  "primeirosSocorros": {
-    "fonte": "p. 282-283",
+  "_fonte": "Tabelas do sistema GAU — compiladas do livro",
+  "luminosidade": {
+    "fonte": "Tabela de Penalidades de Iluminação",
     "tabela": [
-      {"nt": 0, "tempo": "30 min", "pv": "Nenhuma solução, só bandagem (1 PV)"},
-      {"nt": 1, "tempo": "30 min", "pv": "1D-4"},
-      {"nt": "2-3", "tempo": "30 min", "pv": "1D-3"},
-      {"nt": 4, "tempo": "30 min", "pv": "1D-2"},
-      {"nt": 5, "tempo": "20 min", "pv": "1D-2"},
-      {"nt": "6-7", "tempo": "20 min", "pv": "1D-1"},
-      {"nt": 8, "tempo": "10 min", "pv": "1D"},
-      {"nt": "9+", "tempo": "10 min", "pv": "como NT8 + drogas/dispositivos"}
+      {"nivel": "Luz Total", "penalidade": 0, "exemplos": "Luz do dia ensolarada, salas de escritório muito bem iluminadas."},
+      {"nivel": "Penumbra Clara", "penalidade": "-1 a -2", "exemplos": "Final de tarde, sombra densa ao ar livre, iluminação residencial suave."},
+      {"nivel": "Penumbra", "penalidade": "-3 a -4", "exemplos": "Luar claro, rua com postes de luz distantes, taverna mal iluminada."},
+      {"nivel": "Penumbra Escura", "penalidade": "-5 a -6", "exemplos": "Noite de lua minguante/crescente, luz de uma única vela a poucos metros."},
+      {"nivel": "Escuridão Quase Total", "penalidade": "-7 a -9", "exemplos": "Noite nublada sem lua, profundezas de uma floresta à noite, masmorra com brasa."},
+      {"nivel": "Escuridão Total", "penalidade": -10, "exemplos": "Caverna selada, quarto totalmente fechado sem janelas, blecaute completo."}
     ],
-    "notas": "Mínimo 1 PV recuperado; sucesso decisivo recupera toda a HT; falha crítica: vítima perde 2 PV. Ataduras simples: 1 PV (30 min), não acumulável."
+    "regras": "Você recebe a penalidade diretamente no seu ataque. Escuridão Total (-10): Você não pode mirar. Para atacar, precisa adivinhar a localização do inimigo (teste de Audição ou tática). Se acertar a localização, ataca com -10. O defensor não tem direito a defesa a menos que mude a postura para Defesa Total ou tenha vantagens sensoriais."
   },
-  "queda": {"fonte": "p. 289", "dano": ["1-2 m: (1D-4) por metro", "3-4 m: (1D-3) por metro", "5+ m: (1D-2) por metro"], "notas": "Acrobacia reduz altura efetiva em até 5 m; máx. 45 m; macio -1/m; água: teste de Natação; armaduras: RD normal (máx 3, roupas/couro/plástico), ½ RD (metal), 1/3 RD (combate NT8+)"},
-  "locaisImpacto": {
-    "fonte": "p. 241-246",
-    "redutores": {"Tronco": 0, "Braço": -2, "Perna": -2, "Mão": -4, "Pé": -4, "Cabeça (não cérebro)": -5, "Cérebro": -7, "Órgãos vitais (só perfurante)": -4, "Arma (pequena)": -5, "Arma (média: lança/haste/rifle/espadão)": -3, "Arma (outra)": -4},
-    "tabelaAleatoria3d": "REGRA NÃO DEFINIDA — tabela no caderno Quadros e Tabelas não fornecido",
-    "vitals": "Bala/perfurante nos vitais: dano que passa a RD é TRIPLICADO (x3)",
-    "membrosSemBonus": "Bala/perfurante em braços/pernas/mãos/pés: sem bônus de dano",
-    "trespassar": "Mão/pé: dano > HT/3 perdido; braço/perna: > HT/2 perdido; tronco (bala/ponta): > HT perdido; cabeça/vitais: > 3xHT perdido; feixe/bola de fogo/elétrico: máximo dobrado; cérebro e armas 15D+: sem máximo"
-  },
-  "tiposDano": {
-    "fonte": "p. 188-191",
-    "contusao": "Sem bônus; pode causar 0 pontos",
-    "corte": "Dano que passa a RD +50% (arredondar para baixo); mínimo 1 ponto de dano básico",
-    "perfuracao": "Dano que passa a RD DOBRADO (x2); mínimo 1 ponto de dano básico",
-    "balas": "Multiplicador conforme munição (Dum-Dum = perfurante; perfurante de arma de fogo: dano básico alto, dano que passa a RD DIVIDIDO pela metade)"
-  },
-  "modificadoresVelocidadeDistancia": {
-    "fonte": "p. 256-258 — tabela original ausente; RECONSTRUÍDA dos 6 exemplos numéricos do material (7 m→-3, 70→-9, 100→-10, 200→-12, 1500→-17; escala ±6 por década)",
-    "_aviso": "TABELA RECONSTRUÍDA A PARTIR DE EXEMPLOS — confirmar quando a tabela oficial for fornecida",
-    "tabela": {"2.5": 1, "3": 0, "4": -1, "5": -2, "7": -3, "10": -4, "15": -5, "20": -6, "30": -7, "50": -8, "70": -9, "100": -10, "150": -11, "200": -12, "300": -13, "500": -14, "700": -15, "1000": -16, "1500": -17, "2000": -18, "3000": -19, "5000": -20, "7000": -21, "10000": -22, "15000": -23, "20000": -24, "30000": -25, "50000": -26, "70000": -27, "100000": -28, "150000": -29, "200000": -30},
-    "uso": "Parâmetro = distância (m) + velocidade (m/s); usar a menor entrada da tabela >= parâmetro"
-  },
-  "modificadoresTamanho": {
-    "fonte": "p. 256-258 — mesma escala geométrica; exemplos do material: humano = 0; carro 5 m = +3; tonel 30 cm = -5",
-    "_aviso": "TABELA RECONSTRUÍDA A PARTIR DE EXEMPLOS",
-    "tabela": {"0.05": -9, "0.07": -8, "0.1": -7, "0.15": -6, "0.2": -5.5, "0.3": -5, "0.5": -4, "0.7": -3, "1": -2, "1.5": -1, "2": 0, "3": 1, "5": 2, "7": 3, "10": 4, "15": 5, "20": 6, "30": 7, "50": 8, "70": 9, "100": 10},
-    "uso": "Tamanho em metros (maior dimensão); usar a menor entrada >= tamanho"
-  },
-  "mana": {
-    "fonte": "p. 305-306",
-    "niveis": {
-      "Muito Alta": "Qualquer um faz magia; magos sem gasto de energia; falha comum = crítica",
-      "Alta": "Qualquer um que saiba faz magia",
-      "Normal": "Só magos (com Aptidão Mágica); regras normais",
-      "Baixa": "Só magos, NH -5; itens com potência < 20 não funcionam; falhas críticas suavizadas",
-      "Nula": "Ninguém; itens não funcionam (recuperam poder onde há mana)"
-    }
-  },
-  "rituaisMagia": {
-    "fonte": "p. 307-308",
-    "faixas": [
-      {"nhMax": 11, "ritual": "Mãos e pés livres, palavras em voz firme; 2x tempo"},
-      {"nh": "12-14", "ritual": "Poucas palavras + gesto"},
-      {"nh": "15-17", "ritual": "1-2 palavras e gesto; move 1 hex; custo -1"},
-      {"nh": "18-20", "ritual": "Palavra OU gesto; custo -2 a partir de 20"},
-      {"nh": "21-24", "ritual": "Sem ritual; ½ tempo (arredondar p/ cima)"},
-      {"nhMin": 25, "ritual": "¼ tempo; custo -3; a cada +5 NH: ½ tempo e -1 energia"}
+  "localizacao": {
+    "fonte": "Tabela de Localização de Acerto (Humanóide)",
+    "nota": "Ataque Padrão mira no Torso (mod 0). Não é necessário rolar tabela aleatória a menos que atacante escolha local específico ou Mestre determine impacto randômico.",
+    "tabela": [
+      {"local": "Torso", "penalidade": 0, "efeito": "Padrão"},
+      {"local": "Braço", "penalidade": -2, "efeito": "Pode incapacitar membro"},
+      {"local": "Perna", "penalidade": -2, "efeito": "Pode incapacitar locomoção"},
+      {"local": "Mão", "penalidade": -4, "efeito": "Dano > HT/3 perdido"},
+      {"local": "Pé", "penalidade": -4, "efeito": "Dano > HT/3 perdido"},
+      {"local": "Cabeça (não cérebro)", "penalidade": -5, "efeito": "Teste HT ou nocaute"},
+      {"local": "Cérebro", "penalidade": -7, "efeito": "RD natural 2, dano grave, teste HT"},
+      {"local": "Órgãos vitais (só perfurante)", "penalidade": -4, "efeito": "Dano triplicado para bala/perfurante"},
+      {"local": "Olhos", "penalidade": -9, "efeito": ">2 dano cega, empalamento causa impacto cerebral automático"},
+      {"local": "Arma (pequena)", "penalidade": -5, "efeito": "Desarma"},
+      {"local": "Arma (média)", "penalidade": -3, "efeito": "Desarma"},
+      {"local": "Arma (outra)", "penalidade": -4, "efeito": "Desarma"}
+    ],
+    "regrasEspeciais": [
+      "Se o cérebro for atingido, o crânio fornece RD natural de 2, somada a armadura.",
+      "Mais de 2 de dano cegam os olhos. Empalamento ou míssil <2,5cm causa impacto cerebral automático; RD do crânio não protege!",
+      "Capacete: somente ataque de míssil ou estocada pode atingir olho; ignora RD do crânio e DR do capacete.",
+      "Golpes esmagadores no cérebro ou sinais vitais exigem teste HT para evitar nocaute.",
+      "Se cérebro/cabeça alvo de arma de mão oscilante, ou sinais vitais alvo de bala/empalamento, rolagem que erra por 1 é tratada como torso."
     ]
   },
-  "reducaoCustoEnergia": {"fonte": "p. 311", "regra": "NH >= 15: custo -1; NH >= 20: -2; NH >= 25: -3. Calcular o total antes da redução. Válido também para manutenção."},
-  "choquesRetorno": {
-    "fonte": "p. 305",
-    "tabela3d": {
-      "3": "Mágica falhou; operador sofre 1D de dano",
-      "4": "O feitiço vira contra o feiticeiro",
-      "5": "Efeito sobre um companheiro (aleatório)",
-      "6": "Atinge um inimigo próximo (aleatório)",
-      "7": "Só som pungente e cheiro de enxofre",
-      "8": "Atinge alguém/coisa diferente (aleatório)",
-      "9": "Falhou; operador sofre 1 ponto de dano",
-      "10": "Falhou; operador atordoado (IQ para recuperar)",
-      "11": "Só ruído intenso e lampejo de luz",
-      "12": "Pálida amostra do efeito desejado",
-      "13": "Efeito inverso",
-      "14": "Efeito inverso no alvo errado",
-      "15": "Operador esquece a magia temporariamente (IQ/semana)",
-      "16": "Parece funcionar, mas é ilusão inútil",
-      "17": "Falhou; braço do operador incapacitado (1 semana)",
-      "18": "Falhou; demônio aparece e ataca o operador (a critério do GM)"
-    }
-  },
-  "alturaPeso": {
-    "fonte": "p. 7 (coluna ST corrompida na exportação original — transcrita como está)",
+  "defesas": {
+    "fonte": "Defesas Ativas",
     "tabela": [
-      {"st": "1- (<=6)", "altura": "1,57 m ou menos", "peso": "54,5 kg"},
-      {"st": "1- (7)", "altura": "1,60 m", "peso": "59,0 kg"},
-      {"st": "15 ou menos (8-9)", "altura": "1,63 m", "peso": "59,0 kg"},
-      {"st": "16 (10)", "altura": "1,65 m", "peso": "61,3 kg"},
-      {"st": "17 (11)", "altura": "1,68 m", "peso": "61,3 kg"},
-      {"st": "18 (12)", "altura": "1,70 m", "peso": "63,6 kg"},
-      {"st": "19 (13)", "altura": "1,73 m", "peso": "65,8 kg"},
-      {"st": "10 (14)", "altura": "1,75 m", "peso": "68,1 kg"},
-      {"st": "11 (15)", "altura": "1,78 m", "peso": "70,4 kg"},
-      {"st": "12 (16)", "altura": "1,80 m", "peso": "72,6 kg"},
-      {"st": "13 (17)", "altura": "1,83 m", "peso": "74,9 kg"},
-      {"st": "14 (18)", "altura": "1,85 m", "peso": "77,2 kg"},
-      {"st": "15 (19)", "altura": "1,88 m", "peso": "81,7 kg"},
-      {"st": "16 ou mais (20+)", "altura": "1,90 m", "peso": "82,3 kg"}
+      {"defesa": "Esquiva", "base": "Destreza", "uso": "Evitar completamente o ataque", "equipamento": "Nenhum", "nota": "Pode ser usada contra qualquer ataque"},
+      {"defesa": "Aparar", "base": "Destreza/atributo da arma", "uso": "Desviar ou interceptar o ataque", "equipamento": "Arma ou combate desarmado", "nota": "Serve contra corpo a corpo e alguns à distância"},
+      {"defesa": "Bloqueio", "base": "Força", "uso": "Interpor algo entre ataque e corpo", "equipamento": "Escudo", "nota": "Adiciona bônus do escudo, protege corpo a corpo e à distância"}
+    ]
+  },
+  "grauDano": {
+    "fonte": "Grau de Dano (GD)",
+    "tabela": [
+      {"grau": "GD 1", "nome": "Raspão", "dano": "1–20", "conceito": "Ferimento ou impacto relativamente limitado. Corte superficial, tiro não vital, pancada parcialmente absorvida, explosão pela borda."},
+      {"grau": "GD 2", "nome": "Em cheio", "dano": "21–64", "conceito": "Força significativa, ferimento grave. Ferimentos profundos, fraturas, perfurações importantes, perda de sangue, incapacitação parcial."},
+      {"grau": "GD 3", "nome": "Letal", "dano": "65+", "conceito": "Compromete seriamente sobrevivência. Destruição severa de região, perfuração de órgãos vitais, trauma extremo, potencialmente fatal."}
     ],
-    "notas": "+1,8 kg por cm acima de 1,90 m; mulher: -5 cm / -4,5 kg; séc. XIX: -7,5 cm",
-    "modificacao3d": {"3": "-15 cm ou -18,2 kg", "4": "-13 ou -13,6", "5": "-10 ou -9,1", "6": "-8 ou -4,5", "7": "-5 ou -2,2", "8": "-2 ou -2,2", "9-11": "sem modificação", "12": "+2 ou +2,2", "13": "+5 ou +2,2", "14": "+8 ou +4,5", "15": "+10 ou +9,1", "16": "+13 ou +13,6", "17": "+15 ou +18,2", "18": "+15 ou +22,7"}
+    "nota": "GD não significa morte automática. Localização, resistência, armadura e habilidades determinam resultado. Dano determina intensidade, localização determina onde."
   },
-  "aparenciaAleatoria": {
-    "fonte": "p. 9-10",
-    "pele": {"3": "Azeviche", "4-6": "Negra", "7": "Sardenta", "8": "Bronzeada", "9-10": "Branca", "11-12": "Mulata", "13-15": "Amarela", "16": "Trigueira", "17-18": "Vermelha"},
-    "cabelos": {"3": "Preto-azulados", "4-5": "Pretos", "6": "Louros", "7": "Careca (homens)", "8": "Castanho-avermelhados", "9": "Castanho-claros", "10-11": "Castanhos", "12-13": "Castanho-escuros", "14": "Grisalhos", "15": "Louro-arruivados", "16": "Ruivos", "17": "Dourados", "18": "Brancos"},
-    "olhos": {"3": "Violeta", "4": "Negros", "5": "Azul-claros", "6": "Cinzentos", "7-8": "Azuis", "9-11": "Castanhos", "12": "Castanho-claros", "13": "Verdes", "14": "Azul-escuros", "15-16": "Verde-escuros", "17": "Caramelo", "18": "Cores diferentes (role um por olho)"}
+  "danoArremesso": {
+    "fonte": "Dano Provocado por Objetos Arremessados",
+    "tabela": [
+      {"st": "5-6", "1-5kg": "1D-5", "5-25kg": "1D-4", "25-50kg": "1D-5", "50kg+": "-"},
+      {"st": "7-8", "1-5kg": "1D-4", "5-25kg": "1D-3", "25-50kg": "1D-3", "50kg+": "-"},
+      {"st": "9-10", "1-5kg": "1D-3", "5-25kg": "1D-2", "25-50kg": "1D-2", "50kg+": "2D-3"},
+      {"st": "11-12", "1-5kg": "1D-2", "5-25kg": "1D-1", "25-50kg": "1D-1", "50kg+": "2D-2"},
+      {"st": "13-14", "1-5kg": "1D-1", "5-25kg": "1D", "25-50kg": "1D", "50kg+": "3D"},
+      {"st": "15-16", "1-5kg": "1D", "5-25kg": "1D+1", "25-50kg": "1D+2", "50kg+": "3D+2"},
+      {"st": "17-18", "1-5kg": "1D+1", "5-25kg": "1D+2", "25-50kg": "2D-2", "50kg+": "4D-1"},
+      {"st": "19-20", "1-5kg": "1D+2", "5-25kg": "2D-2", "25-50kg": "2D-1", "50kg+": "5D+"}
+    ],
+    "nota": "Projétil frágil ou personagem arremessado sofre mesmo dano que provoca. Para objetos que caem, usar mesma tabela."
   },
-  "probabilidades3d": {"fonte": "p. 110", "tabela": {"3": "0,5%", "4": "1,9%", "5": "4,6%", "6": "9,3%", "7": "16,2%", "8": "25,9%", "9": "37,5%", "10": "50,0%", "11": "62,5%", "12": "74,1%", "13": "83,8%", "14": "90,7%", "15": "95,4%", "16+": "98,1%"}}
+  "escalada": {
+    "fonte": "Escalada — Modificadores e Velocidades",
+    "tabela": [
+      {"tipo": "Subir escada", "mod": "s/ jogada", "curta": "3 degraus/s", "longa": "1 degrau/s"},
+      {"tipo": "Descer escada", "mod": "s/ jogada", "curta": "2 degraus/s", "longa": "1 degrau/s"},
+      {"tipo": "Árvore comum", "mod": "+5", "curta": "30 cm/s", "longa": "10 cm/s"},
+      {"tipo": "Montanha comum", "mod": "0", "curta": "15 cm/s", "longa": "3 m/min"},
+      {"tipo": "Parede vertical de pedra", "mod": "-3", "curta": "6 cm/s", "longa": "1,2 m/min"},
+      {"tipo": "Edifício moderno", "mod": "-3", "curta": "3 cm/s", "longa": "60 cm/min"},
+      {"tipo": "Corda acima", "mod": "-2", "curta": "30 cm/s", "longa": "6 m/min"},
+      {"tipo": "Corda abaixo s/ equipamento", "mod": "-1", "curta": "60 cm/s", "longa": "9 m/min"},
+      {"tipo": "Corda abaixo c/ equipamento", "mod": "-1", "curta": "3,6 m/s", "longa": "3,6 m/s"}
+    ]
+  },
+  "panico": {
+    "fonte": "Tabela de Verificação de Pânico (3d + margem de falha)",
+    "tabela": [
+      {"resultado": "4,5", "efeito": "Atordoado por um turno; depois se recupera automaticamente."},
+      {"resultado": "6,7", "efeito": "Atordoado por um turno; faça um teste de IQ em cada turno depois deste, para ver se ele se recupera."},
+      {"resultado": "8,9", "efeito": "Atordoado por um turno; faça um teste de Vontade, com todos os modificadores que ele tinha no teste original, em cada turno depois deste, para ver se ele se recupera."},
+      {"resultado": "10", "efeito": "Atordoado por 1D turnos; faça um teste de Vontade como o acima em cada turno depois do 1D-ésimo, para ver se ele se recupera."},
+      {"resultado": "11", "efeito": "Atordoado por 2D turnos. Faça um teste de Vontade como o acima em todos os turnos depois do 2D-ésimo, para ver se ele se recupera."},
+      {"resultado": "12", "efeito": "Acesso de vômito. Trate isto como um atordoamento que dura 15 turnos. Depois disso, faça um teste de HT em cada turno, para ver se ele se recupera."},
+      {"resultado": "13", "efeito": "Adquire uma nova Peculiaridade. Este é o único meio de um personagem adquirir mais de 5 Peculiaridades."},
+      {"resultado": "14,15", "efeito": "Sofre 1D pontos de Fadiga e 1D turnos de atordoamento como no caso 10."},
+      {"resultado": "16", "efeito": "Atordoado durante 1D turnos, como no caso 10 e adquire uma nova Peculiaridade como no caso 13."},
+      {"resultado": "17", "efeito": "Desmaia por 1D minutos. Depois disso faça um teste de HT por minuto para ver se ele se recupera."},
+      {"resultado": "18", "efeito": "Desmaia, como acima, mas faz o teste de HT imediatamente. No caso de uma falha, terá perdido 1 ponto de vida ao desmaiar."},
+      {"resultado": "19", "efeito": "Desmaio grave que dura 2D minutos. Depois disso, faça um teste de HT por minuto para ver se ele se recupera. Perde 1 ponto de vida."},
+      {"resultado": "20", "efeito": "Desmaio beirando um estado de choque que durará 4D minutos. Sofre, também, 1 ponto de Fadiga."},
+      {"resultado": "21", "efeito": "Pânico. A vítima corre em círculos gritando, senta e chora ou faz alguma outra coisa igualmente sem sentido durante 1D minutos. No fim daquele período, faça um teste de IQ por minuto, para ver se ele se recupera."},
+      {"resultado": "22", "efeito": "Adquire uma Grande Fantasia."},
+      {"resultado": "23", "efeito": "Adquire uma Fobia Suave ou alguma outra desvantagem mental que valha 10 pontos."},
+      {"resultado": "24", "efeito": "Uma grande consequência física definida pelo GM: o cabelo encanece, envelhece cinco anos numa noite, fica parcialmente surdo. Em termos de jogo, adquire 15 pontos de desvantagens físicas."},
+      {"resultado": "25", "efeito": "Se ele já tinha uma Fobia Suave que poderia estar ligada logicamente ao incidente ela se tornará Grave. Se não, adquire uma nova Fobia Suave ou uma Desvantagem Mental valendo 10 pontos."},
+      {"resultado": "26", "efeito": "Desmaia durante 1D minutos como no #18 e adquire uma nova Fantasia valendo 10 pontos como no #22."},
+      {"resultado": "27", "efeito": "Desmaia durante 1D minutos como no #18 e adquire uma nova Desvantagem Mental valendo 10 pontos como no #23."},
+      {"resultado": "28", "efeito": "Coma leve. O personagem fica inconsciente, fazendo testes de IQ a cada 30 minutos para ver se ele se recupera. Todos os testes de habilidade e atributos terão um redutor igual a -2 durante 6 horas depois de ele ter recuperado os sentidos."},
+      {"resultado": "29", "efeito": "Coma. A mesma coisa que o parágrafo anterior, mas o personagem fica inconsciente durante 1D horas. Depois ele faz um teste de HT. No caso de uma falha, permanece em coma por mais 1D horas e assim por diante."},
+      {"resultado": "30", "efeito": "Catatonia. Fica olhando para o vazio por 1D dias. Depois disso faz um teste de IQ. Em caso de falha permanece catatônico por mais 1D dias e assim por diante. Se não receber cuidados médicos, perderá 1 ponto de vida no primeiro dia, 2 no segundo e assim por diante. Se ele sobreviver e acordar, todos os testes de habilidade e atributos terão um redutor igual a -2 durante um número de dias igual à duração do estado catatônico."},
+      {"resultado": "31", "efeito": "Crise. O personagem perde o controle do corpo e cai no chão, sofrendo uma convulsão que dura 1D minutos e custa 2D pontos de fadiga. Faça também um teste de HT. No caso de uma falha, ele sofrerá também 1D pontos de dano. No caso de uma falha crítica, ele perderá 1 ponto de HT permanentemente."},
+      {"resultado": "32", "efeito": "Uma pontada de dor. O personagem cai e sofre 2D pontos de dano na forma de um colapso cardíaco ou derrame."},
+      {"resultado": "33", "efeito": "Pânico total. O personagem perde totalmente o controle e não pode fazer nada. (O GM joga 3 dados: quanto maior o resultado, mais inútil será sua reação). Ex.: Ele poderia pular de um penhasco para fugir do monstro. Se ele sobreviver à sua primeira reação, deverá fazer um teste de IQ para ver se supera o pânico. Em caso de falha, o GM joga novamente para determinar uma nova reação de pânico e assim por diante."},
+      {"resultado": "34", "efeito": "Adquire uma Fantasia Grave."},
+      {"resultado": "35", "efeito": "Adquire uma Fobia Grave ou outra Desvantagem Mental que valha 15 pontos."},
+      {"resultado": "36", "efeito": "Consequências físicas graves como no #24, mas equivalente a 20 pontos de Desvantagens Físicas."},
+      {"resultado": "37", "efeito": "Consequências físicas graves como no #24, mas equivalente a 30 pontos de Desvantagens Físicas."},
+      {"resultado": "38", "efeito": "Coma, como no #29 e uma Fantasia Grave como no #34."},
+      {"resultado": "39", "efeito": "Coma, como no #29 e uma Fobia Grave ou uma Desvantagem Mental no valor de 30 pontos como no #35."},
+      {"resultado": "40+", "efeito": "Como em #39, mas a vítima perde também 1 ponto de IQ permanentemente. Isto reduzirá, automaticamente, 1 ponto no nível de habilidade de todas as perícias baseadas em IQ, incluindo as perícias mágicas e psíquicas."}
+    ]
+  }
 }
