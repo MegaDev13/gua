@@ -112,16 +112,16 @@
     </main>
   </div>
 
-  <!-- Search Modal -->
-  <div id="searchModal" class="modal-back" hidden>
+  <!-- Search Modal - FIX: hidden !important no CSS + close inline fallback -->
+  <div id="searchModal" class="modal-back" hidden onclick="if(event.target===this)this.setAttribute('hidden','')">
     <div class="modal search-modal" role="dialog" aria-modal="true" aria-label="Busca">
       <div class="modal-header">
         <h3>🔍 Buscar no Grimório</h3>
-        <button class="btn icon small" id="btnCloseSearch">✕</button>
+        <button class="btn icon small" id="btnCloseSearch" onclick="document.getElementById('searchModal').setAttribute('hidden','')" aria-label="Fechar busca">✕</button>
       </div>
       <div class="search-input-wrap">
         <input id="searchInput" type="search" placeholder="Buscar regras, manobras, armas, margens, pânico..." autocomplete="off" spellcheck="false">
-        <span class="search-hint">Pressione / para buscar • ESC para fechar</span>
+        <span class="search-hint">Pressione / para buscar • ESC para fechar • Clique fora para fechar</span>
       </div>
       <div id="searchResults" class="search-results"></div>
     </div>

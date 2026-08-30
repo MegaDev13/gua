@@ -64,7 +64,8 @@
   --shadow-soft: 0 2px 12px rgba(43,33,19,.12);
 }
 
-/* Reset & Base */
+/* Reset & Base — FIX para GitHub Pages: hidden deve esconder modal mesmo com display:flex no CSS */
+[hidden] { display: none !important; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--border2) var(--bg); }
 body {
