@@ -135,7 +135,7 @@ class Database {
               caminho: `${cap.titulo} > ${sec.titulo}`,
               conteudo: (sec.conteudo || '').slice(0, 400),
               tipo: 'regra',
-              ref: `#/livro/${cap.id}#${sec.id}`
+              ref: `#/livro/${cap.id}/${sec.id}`
             });
             if (sec.subsecoes) {
               for (const sub of sec.subsecoes) {
@@ -146,7 +146,7 @@ class Database {
                   caminho: `${cap.titulo} > ${sec.titulo} > ${sub.titulo}`,
                   conteudo: (sub.conteudo || '').slice(0, 300),
                   tipo: 'regra',
-                  ref: `#/livro/${cap.id}#${sec.id}`
+                  ref: `#/livro/${cap.id}/${sec.id}`
                 });
               }
             }
@@ -166,7 +166,7 @@ class Database {
             caminho: `Equipamentos > ${cat.nome} > ${arma.nome}`,
             conteudo: `${arma.dano} — ${arma.caracteristica} — ${arma.tipo}`,
             tipo: 'arma',
-            ref: `#/livro/sistema-combate#tabelas-dano`
+            ref: `#/livro/sistema-combate/tabelas-dano`
           });
         }
       }
@@ -184,7 +184,7 @@ class Database {
             caminho: `Combate > ${prefix} > ${obj.nome}`,
             conteudo: (obj.descricao || '').slice(0, 300),
             tipo: 'manobra',
-            ref: `#/livro/sistema-combate#manobras`
+            ref: `#/livro/sistema-combate/manobras`
           });
         }
         for (const k of ['estilos','caminhos','formas','tipos','acoes','derivacao']) {
@@ -205,9 +205,9 @@ class Database {
           capitulo: 'Empunhaduras',
           caminho: `Preparar > Empunhaduras > ${e.nome}`,
           conteudo: `${e.especialidade} — ${e.vantagem} — ${e.descricao}`,
-          tipo: 'empunhadura',
-          ref: `#/livro/sistema-combate#manobras`
-        });
+            tipo: 'empunhadura',
+            ref: `#/livro/sistema-combate/manobras`
+          });
       }
     }
     // Tabelas
@@ -222,7 +222,7 @@ class Database {
             caminho: `Tabelas > ${k}`,
             conteudo: typeof t.tabela === 'string' ? t.tabela.slice(0,300) : JSON.stringify(t.tabela||'').slice(0, 300),
             tipo: 'tabela',
-            ref: `#/livro/sistema-combate#${k}`
+            ref: `#/livro/sistema-combate/${k}`
           });
         }
       }
@@ -237,7 +237,7 @@ class Database {
         caminho: 'Testes > Margem de Sucesso',
         conteudo: 'Margem de sucesso e crítico por valor de atributo 1-20. Valor 10 = referência humana 8-12 crítico 10.',
         tipo: 'tabela',
-        ref: '#/livro/testes#margem-sucesso'
+        ref: '#/livro/testes/margem-sucesso'
       });
     }
 

@@ -240,11 +240,12 @@ function setupEventosGlobais() {
       closeSidebar();
     }
   });
-  // Fecha ao navegar em link da TOC no mobile, mas com delay para não travar abertura
+  // Fecha ao navegar em link da TOC no mobile — FIX: toc-section já tem handler próprio com scroll suave
   document.getElementById('toc')?.addEventListener('click', (e) => {
     if (window.innerWidth <= 900) {
       const link = e.target.closest('a');
-      if (link) {
+      if (link && !link.classList.contains('toc-section')) {
+        // só fecha para links de capítulo; seção é tratada dentro de renderTOC
         setTimeout(() => closeSidebar(), 200);
       }
     }
@@ -282,6 +283,8 @@ function setupFiltros() {
 function route() {
   const raw = location.hash.replace(/^#\/?/, '') || 'capa';
   const [pageId, ...params] = raw.split('/');
+  // Detecta se é navegação para âncora (ex: #/livro/testes/margem ou #/livro/testes#margem)
+  const isAnchorNav = pageId === 'livro' && (params.length > 1 || (params[0] && params[0].includes('#')));
   const page = PAGES.find(p => p.id === pageId) || PAGES[0];
 
   document.querySelectorAll('.tab').forEach(t => {
@@ -298,8 +301,11 @@ function route() {
     if (document.getElementById('capaFallback')) return;
   }
 
-  main.scrollTop = 0;
-  window.scrollTo(0,0);
+  // Só reseta scroll se NÃO for navegação para âncora (evita flicker que impedia scroll até seção)
+  if (!isAnchorNav) {
+    main.scrollTop = 0;
+    window.scrollTo(0,0);
+  }
 
   try {
     if (page.id === 'capa') {

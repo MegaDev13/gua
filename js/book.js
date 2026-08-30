@@ -5,11 +5,24 @@ import { FilterSystem, FILTER_CATEGORIES, WEAPON_FILTERS } from './filters.js';
 
 export function renderBookPage(main, db, params, storage, filterSystem) {
   const capitulos = db.book.capitulos || [];
-  const capId = params[0] || 'testes';
+  // Robust parse: suporta #/livro/testes, #/livro/testes/margem, #/livro/testes#margem e até #/livro/testes#margem velho
+  let capIdRaw = params[0] || 'testes';
+  let anchorFromParams = params[1] || null;
+  // Se capId veio com # (formato antigo #/livro/testes#sec), separa
+  if (capIdRaw && capIdRaw.includes('#')) {
+    const [c, a] = capIdRaw.split('#');
+    capIdRaw = c || 'testes';
+    if (a) anchorFromParams = a;
+  }
+  // Se anchor ainda contém #, pega última parte
+  if (anchorFromParams && anchorFromParams.includes('#')) {
+    anchorFromParams = anchorFromParams.split('#').pop();
+  }
+  const capId = capIdRaw || 'testes';
   const cap = capitulos.find(c => c.id === capId) || capitulos.find(c => c.id !== 'capa') || capitulos[0];
 
   // Atualiza TOC lateral
-  renderTOC(db, capId, storage);
+  renderTOC(db, capId, storage, anchorFromParams);
 
   // Filtros laterais
   renderFilters(filterSystem);
@@ -65,12 +78,26 @@ export function renderBookPage(main, db, params, storage, filterSystem) {
 
   main.append(wrapper);
 
-  // Scroll para âncora se houver
-  if (params[1]) {
-    setTimeout(() => {
-      const target = document.getElementById(params[1]);
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 100);
+  // Scroll para âncora se houver — FIX: agora suporta /secao e #secao e faz scroll confiável
+  const anchorToScroll = anchorFromParams;
+  if (anchorToScroll) {
+    // tenta algumas vezes porque render pode ser assíncrono e imagens podem mudar layout
+    const tryScroll = (attempt = 0) => {
+      const target = document.getElementById(anchorToScroll);
+      if (target) {
+        // Se estiver dentro de .main que não tem scroll, usa window. Calcula offset do topbar sticky
+        const topbarH = document.querySelector('.topbar')?.offsetHeight || 62;
+        const rect = target.getBoundingClientRect();
+        const absoluteTop = rect.top + window.scrollY - topbarH - 12;
+        window.scrollTo({ top: absoluteTop, behavior: attempt === 0 ? 'smooth' : 'auto' });
+        // highlight temporário
+        target.classList.add('anchor-highlight');
+        setTimeout(() => target.classList.remove('anchor-highlight'), 2000);
+      } else if (attempt < 5) {
+        setTimeout(() => tryScroll(attempt + 1), 150);
+      }
+    };
+    setTimeout(() => tryScroll(0), 120);
   }
 
   // Animação de reveal
@@ -347,7 +374,7 @@ function renderArvore(id, db) {
   return wrap;
 }
 
-function renderTOC(db, activeCapId, storage) {
+function renderTOC(db, activeCapId, storage, activeSectionId) {
   const tocEl = document.getElementById('toc');
   if (!tocEl) return;
   tocEl.innerHTML = '';
@@ -355,16 +382,21 @@ function renderTOC(db, activeCapId, storage) {
   for (const cap of capitulos) {
     if (cap.id === 'capa') continue;
     const isActive = cap.id === activeCapId;
-    const a = el('a', { href: `#/livro/${cap.id}`, class: isActive ? 'active' : '' },
+    const a = el('a', { href: `#/livro/${cap.id}`, class: isActive ? 'active' : '', dataset: { cap: cap.id } },
       el('span', { class: 'toc-num' }, String(cap.numero).padStart(2,'0')),
       el('span', {}, cap.titulo)
     );
     if (isActive) {
-      // sub seções
+      // sub seções — FIX: usa / em vez de # para que params[1] funcione e scroll seja confiável
       const subWrap = el('div', { style: 'margin:.3rem 0 .6rem 1.2rem;display:flex;flex-direction:column;gap:.15rem' });
       if (cap.secoes) {
-        for (const sec of cap.secoes.slice(0, 12)) {
-          subWrap.append(el('a', { href: `#/livro/${cap.id}#${sec.id}`, class: 'toc-section' }, sec.titulo));
+        for (const sec of cap.secoes.slice(0, 30)) {
+          const isSecActive = sec.id === activeSectionId;
+          subWrap.append(el('a', {
+            href: `#/livro/${cap.id}/${sec.id}`,
+            class: `toc-section${isSecActive ? ' active' : ''}`,
+            dataset: { sec: sec.id, cap: cap.id }
+          }, sec.titulo));
         }
       }
       const wrapper = el('div', {}, a, subWrap);
@@ -373,6 +405,45 @@ function renderTOC(db, activeCapId, storage) {
       tocEl.append(a);
     }
   }
+
+  // Click handler delegado: se já estamos no capítulo ativo, faz scroll direto sem re-render pesado
+  tocEl.onclick = (e) => {
+    const link = e.target.closest('a.toc-section');
+    if (!link) return;
+    const cap = link.dataset.cap;
+    const sec = link.dataset.sec;
+    if (cap === activeCapId) {
+      // já no mesmo capítulo — scroll direto, evita route() re-render
+      e.preventDefault();
+      const target = document.getElementById(sec);
+      if (target) {
+        const topbarH = document.querySelector('.topbar')?.offsetHeight || 62;
+        const rect = target.getBoundingClientRect();
+        const absoluteTop = rect.top + window.scrollY - topbarH - 12;
+        window.scrollTo({ top: absoluteTop, behavior: 'smooth' });
+        // atualiza hash sem disparar route desnecessário? Mas queremos que hash reflita seção
+        if (location.hash !== `#/livro/${cap}/${sec}`) {
+          history.replaceState(null, '', `#/livro/${cap}/${sec}`);
+        }
+        // highlight
+        document.querySelectorAll('.toc-section.active').forEach(el => el.classList.remove('active'));
+        link.classList.add('active');
+        target.classList.add('anchor-highlight');
+        setTimeout(() => target.classList.remove('anchor-highlight'), 2000);
+      } else {
+        // fallback: navega normal
+        location.hash = `#/livro/${cap}/${sec}`;
+      }
+      // fecha sidebar no mobile
+      if (window.innerWidth <= 900) {
+        setTimeout(() => {
+          document.getElementById('sidebar')?.classList.remove('open');
+          document.getElementById('sidebarBackdrop')?.setAttribute('hidden','');
+        }, 250);
+      }
+    }
+    // se capítulo diferente, deixa o hashchange fazer route normal — sidebar será fechado pelo handler global
+  };
 }
 
 function renderFilters(filterSystem) {

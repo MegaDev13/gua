@@ -508,6 +508,28 @@
   font-family: var(--font-mono);
 }
 
+/* Highlight quando navega via sumário */
+.book-section {
+  scroll-margin-top: 78px;
+  transition: background .4s ease, box-shadow .4s ease;
+  border-radius: 10px;
+}
+.book-section.anchor-highlight {
+  background: linear-gradient(90deg, rgba(201,165,92,.14), transparent 80%);
+  box-shadow: inset 3px 0 0 var(--gold), 0 0 0 1px rgba(201,165,92,.2);
+  animation: anchorPulse 2s ease;
+}
+@keyframes anchorPulse {
+  0% { background: rgba(201,165,92,.25); }
+  100% { background: linear-gradient(90deg, rgba(201,165,92,.14), transparent 80%); }
+}
+.toc .toc-section.active {
+  color: var(--gold2);
+  background: linear-gradient(90deg, rgba(201,165,92,.18), transparent);
+  border-left-color: var(--gold);
+  font-weight: 600;
+}
+
 /* Responsivo livro */
 @media (max-width: 900px) {
   .book-mode { padding: 1.5rem 1.2rem; }
