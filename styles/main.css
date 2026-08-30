@@ -178,6 +178,10 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .sidebar-footer .ornament { font-size: 1.2rem; color: var(--gold); margin-bottom: .3rem; }
 .sidebar-note { font-size: .7rem; color: var(--ink-faint); line-height: 1.4; margin: 0; }
 
+.sidebar-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); backdrop-filter: blur(2px);
+  z-index: 55; animation: fadeIn .2s ease;
+}
 .main { flex: 1; max-width: 100%; padding: 1.2rem 1.2rem 4rem; min-width: 0; }
 
 /* Page titles */

@@ -64,6 +64,8 @@
         <p class="sidebar-note">GAU v2.0 • Edição Digital<br>Margem 10 = referência humana</p>
       </div>
     </aside>
+    <!-- Backdrop para sidebar mobile - FIX sumário que fecha ao abrir -->
+    <div id="sidebarBackdrop" class="sidebar-backdrop" hidden onclick="document.getElementById('sidebar').classList.remove('open'); this.setAttribute('hidden','')"></div>
 
     <main id="main" class="main" tabindex="-1">
       <!-- CONTEÚDO ESTÁTICO DE FALLBACK - aparece mesmo sem JS, corrige primeira página bugada no Pages -->

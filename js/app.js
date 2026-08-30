@@ -206,12 +206,52 @@ function setupEventosGlobais() {
   const btnMenu = document.getElementById('btnMenu');
   const sidebar = document.getElementById('sidebar');
   const btnCloseSidebar = document.getElementById('btnCloseSidebar');
-  btnMenu?.addEventListener('click', () => sidebar?.classList.add('open'));
-  btnCloseSidebar?.addEventListener('click', () => sidebar?.classList.remove('open'));
+  const backdrop = document.getElementById('sidebarBackdrop');
+
+  function openSidebar() {
+    sidebar?.classList.add('open');
+    if (backdrop && window.innerWidth <= 900) backdrop.removeAttribute('hidden');
+  }
+  function closeSidebar() {
+    sidebar?.classList.remove('open');
+    if (backdrop) backdrop.setAttribute('hidden','');
+  }
+
+  btnMenu?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (sidebar?.classList.contains('open')) closeSidebar();
+    else openSidebar();
+  });
+  btnCloseSidebar?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closeSidebar();
+  });
+  backdrop?.addEventListener('click', () => closeSidebar());
+
+  // Fecha ao clicar fora — FIX robusto para bug do sumário que fechava ao abrir
   document.addEventListener('click', (e) => {
     if (window.innerWidth <= 900 && sidebar?.classList.contains('open')) {
-      if (!sidebar.contains(e.target) && e.target !== btnMenu) sidebar.classList.remove('open');
+      const target = e.target;
+      if (sidebar.contains(target)) return;
+      if (btnMenu && (target === btnMenu || btnMenu.contains(target))) return;
+      if (btnCloseSidebar && (target === btnCloseSidebar || btnCloseSidebar.contains(target))) return;
+      // Não fecha se clicou no backdrop (já tratado) ou dentro de modal
+      if (target.closest && target.closest('.modal-back')) return;
+      closeSidebar();
     }
+  });
+  // Fecha ao navegar em link da TOC no mobile, mas com delay para não travar abertura
+  document.getElementById('toc')?.addEventListener('click', (e) => {
+    if (window.innerWidth <= 900) {
+      const link = e.target.closest('a');
+      if (link) {
+        setTimeout(() => closeSidebar(), 200);
+      }
+    }
+  });
+  // Fecha sidebar com ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar?.classList.contains('open')) closeSidebar();
   });
 
   const brand = document.getElementById('brand');
@@ -307,12 +347,14 @@ function route() {
   }
 
   const sidebar = document.getElementById('sidebar');
+  const backdrop = document.getElementById('sidebarBackdrop');
   if (sidebar) {
     if (page.id === 'livro') {
       sidebar.style.display = '';
     } else {
       sidebar.style.display = 'none';
       sidebar.classList.remove('open');
+      if (backdrop) backdrop.setAttribute('hidden','');
     }
   }
 }
