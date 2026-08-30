@@ -1,31 +1,35 @@
 # GAU — Grimório Digital & Forja de Personagens
 
-> **Sistema Universal v2.0 — Edição Digital**
-> Livro de RPG interativo + criador de personagem automatizado, 100% client-side, pronto para GitHub Pages.
+> **Sistema Universal v3.0 — Edição Digital + Supabase**
+> Livro RPG interativo + criador personagem com catálogo completo comprável, pontos ao vivo, Supabase backend.
 
 ![GAU Capa](book/images/capa.svg)
 
-**GAU** é um sistema d20 com margens de sucesso. Atributo determina capacidade, categoria determina escala (quantidade de d20), margem determina resultado necessário.
+**GAU** é sistema d20 com margens. Atributo determina capacidade, categoria escala (qtd d20), margem resultado necessário.
 
-- **Valor 10** = referência humana, margem **8–12**, crítico **10**
-- **1 e 20** não são sucesso/falha automáticos — apenas margem importa
-- **Disputa**: vence quem está mais próximo do próprio crítico
-- **Combate**: 1 turno = 1 segundo, sequência por deslocamento, árvores táticas
-- **Graus de Dano**: GD1 Raspão 1–20, GD2 Em Cheio 21–64, GD3 Letal 65+
+- **Valor 10** = humano, margem **8–12**, crítico **10**
+- **1 e 20** não são auto — só margem importa
+- **Disputa**: vence mais próximo do crítico
+- **Combate**: 1 turno=1s, sequência por deslocamento, árvores táticas
+- **Graus Dano**: GD1 1–20 Raspão, GD2 21–64 Em cheio, GD3 65+ Letal
 
 ---
 
-## ✨ O que tem aqui
+## ✨ v3.0 — O que tem aqui
 
 | Seção | Descrição |
 |-------|-----------|
-| 📖 **Livro Digital** | 4 capítulos completos (Testes, Combate Montado, Proezas Físicas, Sistema de Combate) com índice clicável, modo livro físico, busca global e filtros |
-| ⚔️ **Forja de Personagens** | Wizard em 6 etapas: Identidade → Atributos → Perícias → Manobras → Equipamentos → Finalização |
-| 🎲 **Motor de Regras** | `js/character-calculator.js` + `js/dice.js` — 100% dos cálculos aqui, UI sem fórmulas |
-| 🗄️ **Banco Único** | `data/*.json` serve ao livro e à ficha (fonte única da verdade) |
-| 💾 **Armazenamento Local** | `localStorage` — nada sai do dispositivo, export/import JSON, backup completo, PDF e PNG |
-| 🔍 **Busca & Filtros** | Busca por regras, manobras, armas, tabelas, empunhaduras com destaque |
-| 🎨 **Temas** | 🌙 Escuro (grimório noturno) e ☀️ Claro (pergaminho) — salva preferência |
+| 📖 **Livro Digital** | 11 capítulos: Testes, Combate Montado, Proezas, Sistema Combate, Poderes & Psiquismo, Magias & Escolas, Vantagens, Desvantagens, Peculiaridades, Perícias Catálogo |
+| ⚔️ **Forja Personagens** | Wizard 11 etapas: Identidade → Atributos → Vantagens → Desvantagens → Peculiaridades → Perícias (catálogo filtrável) → Manobras → Poderes → Magias → Equip → Final |
+| 🛒 **Catálogo Compra** | Vantagens (custa), Desvantagens (ganha pontos), Peculiaridades (-1), Perícias (2 pts/nível), Magias (escola 3 + magia 2), Poderes (Pot 5/3 +2) — tudo com custo visível |
+| 🔍 **Filtros Acumulativos** | Perícias: tipo (Física/Mental), atributo (ST/DX/IQ/HT), categoria (Combate, Furtividade...), dificuldade (Fácil/Médio/Difícil/Muito Difícil), busca texto — acumulam! Magias: fonte/foco/custo. Vantagens/Desvantagens: tipo/categoria/custo |
+| 💰 **Pontos Ao Vivo** | Widget no topo atualiza a cada mudança (atributo, vantagem, perícia, magia...). Travado: não deixa comprar se faltar pontos. Desvantagens e peculiaridades aumentam livres |
+| ☁️ **Supabase Backend** | Opcional: `js/supabase.js` com URL `https://ebjjxncnlddzfgkqegpa.supabase.co` e anon key. Sync automático local↔nuvem por `owner_id`. Tabelas `personagens` e `catalogos_custom`. SQL em `supabase_schema.sql` |
+| 🎲 **Motor Regras** | `character-calculator.js` + `dice.js` — 100% cálculos, UI sem fórmulas |
+| 🗄️ **Banco Único** | `data/*.json` serve livro e ficha |
+| 💾 **Armazenamento** | localStorage + Supabase, export JSON/PDF/PNG, backup |
+| 🔍 **Busca & Filtros Livro** | Busca 300+ entradas: regras, manobras, armas, poderes, magias, vantagens, desvantagens, perícias, peculiaridades |
+| 🎨 **Temas** | Escuro e claro |
 
 ### Conteúdo do banco
 
