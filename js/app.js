@@ -1,5 +1,6 @@
 /* GAU — App principal, roteamento e orquestração
    SPA com hash routing, sem frameworks, 100% GitHub Pages compatível
+   Correção para primeira página bugada: fallback estático + loading robusto
 */
 
 import DB from './db.js';
@@ -12,7 +13,7 @@ import { renderCharacterBuilder } from './character-builder.js';
 import { computeCharacter } from './character-calculator.js';
 import { exportarPDFFicha } from './export-pdf.js';
 import { exportarPNGFicha } from './export-png.js';
-import { testarMargem, rollD20, rollDice, getGrauDano } from './dice.js';
+import { testarMargem, getGrauDano } from './dice.js';
 
 const PAGES = [
   { id: 'capa', nome: 'Capa', icon: '🏰', showInNav: false },
@@ -20,34 +21,87 @@ const PAGES = [
   { id: 'criar', nome: 'Criar Personagem', icon: '⚔️', showInNav: true },
   { id: 'personagens', nome: 'Meus Personagens', icon: '👥', showInNav: true },
   { id: 'ficha', nome: 'Ficha', icon: '📜', showInNav: false },
-  { id: 'buscar', nome: 'Buscar', icon: '🔍', showInNav: false },
   { id: 'glossario', nome: 'Glossário', icon: '📚', showInNav: true },
   { id: 'config', nome: 'Configurações', icon: '⚙️', showInNav: true },
 ];
 
 let filterSystem = new FilterSystem();
 let searchEngine = null;
+let dbLoaded = false;
 
 async function init() {
-  await DB.load();
-  searchEngine = new SearchEngine(DB);
+  const loadingEl = document.getElementById('loadingIndicator');
+  const loadingError = document.getElementById('loadingError');
+  const capaFallback = document.getElementById('capaFallback');
 
-  // Tema
-  const temaSalvo = storage.getTema();
-  document.documentElement.setAttribute('data-theme', temaSalvo);
-  updateThemeIcon(temaSalvo);
+  // Mostra loading
+  if (loadingEl) loadingEl.style.display = 'block';
 
-  montarNav();
-  montarSeletorPersonagens();
-  setupEventosGlobais();
-  setupFiltros();
+  try {
+    console.log('GAU init: carregando DB...');
+    await DB.load();
+    dbLoaded = true;
+    console.log('GAU DB ok, entradas:', DB.searchIndex.length);
+    searchEngine = new SearchEngine(DB);
 
-  window.addEventListener('hashchange', route);
-  route();
+    // Tema
+    const temaSalvo = storage.getTema();
+    document.documentElement.setAttribute('data-theme', temaSalvo);
+    updateThemeIcon(temaSalvo);
+
+    montarNav();
+    montarSeletorPersonagens();
+    setupEventosGlobais();
+    setupFiltros();
+
+    // Esconde fallback estático e loading, pois JS carregou
+    if (capaFallback) {
+      // Mantém fallback para rota capa, mas remove duplicação
+      // Se estivermos na capa, vamos re-renderizar via route() que substitui main
+      // Então apenas esconde loading
+    }
+    if (loadingEl) loadingEl.style.display = 'none';
+
+    window.addEventListener('hashchange', route);
+    route();
+
+    toast('Grimório conjurado! 📖', 'ok');
+
+  } catch (e) {
+    console.error('GAU init falhou:', e);
+    if (loadingError) {
+      loadingError.style.display = 'block';
+      loadingError.innerHTML = `
+        <strong>Falha ao carregar grimório:</strong> ${e.message}<br>
+        <small style="display:block;margin-top:.5rem;color:var(--ink-faint)">
+        Verifique:<br>
+        • Está rodando via servidor? (python -m http.server) — file:// não funciona por causa de fetch<br>
+        • GitHub Pages configurado para branch <code>arena/01a0543b-gua</code> ou <code>main</code>?<br>
+        • Caminho <code>data/</code> existe? Tentativas: ${DB._baseTried?.slice(0,3).join(', ') || 'nenhuma'}<br>
+        </small>
+        <div style="margin-top:.8rem">
+          <a href="#/livro/testes" class="btn small">📖 Tentar livro mesmo assim</a>
+          <button class="btn small" onclick="location.reload()">🔄 Recarregar</button>
+        </div>
+      `;
+    }
+    if (loadingEl) loadingEl.style.display = 'block';
+    // Mesmo com falha, tenta montar nav mínima
+    try {
+      montarNavFallback();
+      montarSeletorPersonagens();
+      setupEventosGlobais();
+      window.addEventListener('hashchange', route);
+      route();
+    } catch (e2) {
+      console.error('Fallback também falhou', e2);
+    }
+  }
 }
 
 function montarNav() {
   const nav = document.getElementById('nav');
+  if (!nav) return;
   nav.innerHTML = '';
   for (const p of PAGES.filter(p => p.showInNav)) {
     const btn = el('button', {
@@ -55,7 +109,6 @@ function montarNav() {
       dataset: { page: p.id },
       onclick: () => { location.hash = `#/${p.id}`; }
     }, `${p.icon} ${p.nome}`);
-    // efeito de luz no mouse
     btn.addEventListener('mousemove', (e) => {
       const rect = btn.getBoundingClientRect();
       btn.style.setProperty('--x', `${e.clientX - rect.left}px`);
@@ -65,26 +118,42 @@ function montarNav() {
   }
 }
 
+function montarNavFallback() {
+  // Se DB falhou, mantém links <a> estáticos já no HTML, mas garante que funcionem
+  const nav = document.getElementById('nav');
+  if (!nav || nav.children.length > 0) return;
+  nav.innerHTML = `
+    <a href="#/livro/testes" class="tab">📖 O Livro</a>
+    <a href="#/criar/novo/identidade" class="tab">⚔️ Criar</a>
+    <a href="#/personagens" class="tab">👥 Personagens</a>
+    <a href="#/glossario" class="tab">📚 Glossário</a>
+    <a href="#/config" class="tab">⚙️ Config</a>
+  `;
+}
+
 function montarSeletorPersonagens() {
   const sel = document.getElementById('charSelect');
   if (!sel) return;
   sel.innerHTML = '';
-  const lista = storage.getPersonagens();
-  if (lista.length === 0) {
-    sel.append(el('option', { value: '' }, 'Nenhum personagem'));
-    return;
+  try {
+    const lista = storage.getPersonagens();
+    if (lista.length === 0) {
+      sel.append(el('option', { value: '' }, 'Nenhum personagem'));
+      return;
+    }
+    for (const p of lista) {
+      sel.append(el('option', { value: p.id, selected: p.id === storage.getAtualId() }, p.nome || 'Sem nome'));
+    }
+    sel.onchange = () => {
+      storage.setAtualId(sel.value);
+      route();
+    };
+  } catch {
+    sel.append(el('option', { value: '' }, 'Erro storage'));
   }
-  for (const p of lista) {
-    sel.append(el('option', { value: p.id, selected: p.id === storage.getAtualId() }, p.nome || 'Sem nome'));
-  }
-  sel.onchange = () => {
-    storage.setAtualId(sel.value);
-    route();
-  };
 }
 
 function setupEventosGlobais() {
-  // Busca
   const btnSearch = document.getElementById('btnSearch');
   const searchModal = document.getElementById('searchModal');
   const searchInput = document.getElementById('searchInput');
@@ -92,26 +161,29 @@ function setupEventosGlobais() {
   const btnCloseSearch = document.getElementById('btnCloseSearch');
 
   const openSearch = () => {
+    if (!searchModal) return;
     searchModal.removeAttribute('hidden');
-    setTimeout(() => searchInput.focus(), 50);
+    setTimeout(() => searchInput?.focus(), 50);
   };
   const closeSearch = () => {
+    if (!searchModal) return;
     searchModal.setAttribute('hidden','');
-    searchInput.value = '';
-    searchResults.innerHTML = '';
+    if (searchInput) searchInput.value = '';
+    if (searchResults) searchResults.innerHTML = '';
   };
 
   btnSearch?.addEventListener('click', openSearch);
   btnCloseSearch?.addEventListener('click', closeSearch);
   searchModal?.addEventListener('click', (e) => { if (e.target === searchModal) closeSearch(); });
   document.addEventListener('keydown', (e) => {
-    if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+    if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
       e.preventDefault(); openSearch();
     }
-    if (e.key === 'Escape' && !searchModal.hasAttribute('hidden')) closeSearch();
+    if (e.key === 'Escape' && searchModal && !searchModal.hasAttribute('hidden')) closeSearch();
   });
 
   searchInput?.addEventListener('input', () => {
+    if (!searchEngine || !searchResults) return;
     const q = searchInput.value;
     const tipos = [...filterSystem.active];
     const results = searchEngine.search(q, { tipos });
@@ -123,7 +195,6 @@ function setupEventosGlobais() {
     searchResults.append(rendered);
   });
 
-  // Tema
   document.getElementById('btnTheme')?.addEventListener('click', () => {
     const atual = document.documentElement.getAttribute('data-theme') || 'dark';
     const novo = atual === 'dark' ? 'light' : 'dark';
@@ -132,21 +203,20 @@ function setupEventosGlobais() {
     toast(`Tema ${novo === 'dark' ? 'escuro' : 'claro'} ativado`, 'ok');
   });
 
-  // Menu mobile
   const btnMenu = document.getElementById('btnMenu');
   const sidebar = document.getElementById('sidebar');
   const btnCloseSidebar = document.getElementById('btnCloseSidebar');
-  btnMenu?.addEventListener('click', () => sidebar.classList.add('open'));
-  btnCloseSidebar?.addEventListener('click', () => sidebar.classList.remove('open'));
-  // fechar sidebar ao navegar no mobile
+  btnMenu?.addEventListener('click', () => sidebar?.classList.add('open'));
+  btnCloseSidebar?.addEventListener('click', () => sidebar?.classList.remove('open'));
   document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 900 && sidebar.classList.contains('open')) {
+    if (window.innerWidth <= 900 && sidebar?.classList.contains('open')) {
       if (!sidebar.contains(e.target) && e.target !== btnMenu) sidebar.classList.remove('open');
     }
   });
 
-  // Brand click -> capa
-  document.getElementById('brand')?.addEventListener('click', () => location.hash = '#/capa');
+  const brand = document.getElementById('brand');
+  brand?.addEventListener('click', () => location.hash = '#/capa');
+  brand?.addEventListener('keydown', (e) => { if (e.key === 'Enter') location.hash = '#/capa'; });
 }
 
 function updateThemeIcon(theme) {
@@ -157,16 +227,16 @@ function updateThemeIcon(theme) {
 function setupFiltros() {
   filterSystem.onChange(() => {
     storage.setFiltros([...filterSystem.active, ...filterSystem.weaponActive]);
-    // re-render se estiver no livro
     const hash = location.hash.replace(/^#\/?/, '');
     if (hash.startsWith('livro')) route();
   });
-  // restaura filtros salvos
-  const salvos = storage.getFiltros();
-  for (const f of salvos) {
-    if (['regra','manobra','arma','tabela','empunhadura'].includes(f)) filterSystem.active.add(f);
-    else filterSystem.weaponActive.add(f);
-  }
+  try {
+    const salvos = storage.getFiltros();
+    for (const f of salvos) {
+      if (['regra','manobra','arma','tabela','empunhadura'].includes(f)) filterSystem.active.add(f);
+      else filterSystem.weaponActive.add(f);
+    }
+  } catch {}
 }
 
 function route() {
@@ -174,13 +244,20 @@ function route() {
   const [pageId, ...params] = raw.split('/');
   const page = PAGES.find(p => p.id === pageId) || PAGES[0];
 
-  // Atualiza tabs
   document.querySelectorAll('.tab').forEach(t => {
-    t.toggleAttribute('aria-current', t.dataset.page === page.id);
+    if (t.dataset?.page) t.toggleAttribute('aria-current', t.dataset.page === page.id);
   });
 
   const main = document.getElementById('main');
-  main.innerHTML = '';
+  if (!main) return;
+  // Se for capa e temos fallback estático, mas DB carregou, limpa para re-render
+  if (dbLoaded || page.id !== 'capa') {
+    main.innerHTML = '';
+  } else {
+    // Se DB não carregou e é capa, mantém fallback estático
+    if (document.getElementById('capaFallback')) return;
+  }
+
   main.scrollTop = 0;
   window.scrollTo(0,0);
 
@@ -188,12 +265,18 @@ function route() {
     if (page.id === 'capa') {
       renderCapaPage(main);
     } else if (page.id === 'livro') {
+      if (!dbLoaded) {
+        main.append(el('div', { class: 'panel' }, 'Carregando grimório... Se demorar, recarregue.'));
+        return;
+      }
       renderBookPage(main, DB, params, storage, filterSystem);
     } else if (page.id === 'criar') {
+      if (!dbLoaded) {
+        main.append(el('div', { class: 'panel' }, 'Carregando...'));
+        return;
+      }
       const atual = storage.getAtual();
-      renderCharacterBuilder(main, DB, params, atual, (saved) => {
-        montarSeletorPersonagens();
-      });
+      renderCharacterBuilder(main, DB, params, atual, () => montarSeletorPersonagens());
     } else if (page.id === 'personagens') {
       renderMeusPersonagens(main);
     } else if (page.id === 'ficha') {
@@ -204,44 +287,58 @@ function route() {
     } else if (page.id === 'config') {
       renderConfig(main);
     } else if (page.id === 'buscar') {
-      // abre modal de busca
       document.getElementById('searchModal')?.removeAttribute('hidden');
-      renderBookPage(main, DB, ['testes'], storage, filterSystem);
+      if (dbLoaded) renderBookPage(main, DB, ['testes'], storage, filterSystem);
+      else renderCapaPage(main);
     } else {
       renderCapaPage(main);
     }
   } catch (e) {
-    console.error(e);
+    console.error('Erro route', e);
     main.append(el('div', { class: 'panel' },
       el('h2', {}, 'Erro ao renderizar página'),
       el('p', {}, e.message),
-      el('pre', { style: 'font-size:.8rem;overflow:auto' }, e.stack || '')
+      el('pre', { style: 'font-size:.8rem;overflow:auto;max-height:200px' }, e.stack || ''),
+      el('div', { class: 'btn-row' },
+        el('a', { href: '#/capa', class: 'btn' }, '🏰 Voltar à capa'),
+        el('button', { class: 'btn', onclick: () => location.reload() }, '🔄 Recarregar')
+      )
     ));
   }
 
-  // Mostra/esconde sidebar dependendo da página
   const sidebar = document.getElementById('sidebar');
   if (sidebar) {
-    if (page.id === 'livro') sidebar.style.display = '';
-    else sidebar.style.display = 'none';
+    if (page.id === 'livro') {
+      sidebar.style.display = '';
+    } else {
+      sidebar.style.display = 'none';
+      sidebar.classList.remove('open');
+    }
   }
 }
 
 /* -------------------- Páginas -------------------- */
 
 function renderCapaPage(main) {
-  const book = DB.book;
-  const allWeapons = DB.getAllWeapons();
+  // Se já existe fallback estático e não carregou DB, não duplica
+  if (!dbLoaded && document.getElementById('capaFallback')) return;
+
+  const book = DB.book || { titulo: 'GAU', subtitulo: 'Sistema Universal', capa: './book/images/capa.svg', capitulos: [] };
+  const allWeapons = DB.getAllWeapons ? DB.getAllWeapons() : [];
+  const numCaps = (book.capitulos || []).filter(c => c.id !== 'capa').length || 4;
+  const numManeuvers = DB.maneuvers ? Object.keys(DB.maneuvers).length : 5;
+
+  main.innerHTML = '';
   main.append(
     el('div', { class: 'capa-hero animate-fadeInUp' },
-      el('img', { src: book.capa || 'book/images/capa.svg', alt: 'Capa GAU', class: 'capa-logo' }),
+      el('img', { src: book.capa || './book/images/capa.svg', alt: 'Capa GAU', class: 'capa-logo', width: '180', height: '180' }),
       el('h1', { class: 'capa-title' }, book.titulo || 'GAU'),
       el('p', { class: 'capa-subtitle' }, book.subtitulo || 'Sistema Universal — Testes, Combate e Sobrevivência'),
       el('div', { class: 'capa-meta' },
-        el('span', { class: 'meta-item' }, `📖 ${(book.capitulos||[]).length -1} Capítulos`),
-        el('span', { class: 'meta-item' }, `⚔️ ${Object.keys(DB.maneuvers).length} Árvores Táticas`),
+        el('span', { class: 'meta-item' }, `📖 ${numCaps} Capítulos`),
+        el('span', { class: 'meta-item' }, `⚔️ ${numManeuvers} Árvores Táticas`),
         el('span', { class: 'meta-item' }, `🎲 Margem 10 = Humano`),
-        el('span', { class: 'meta-item' }, `🗡️ ${allWeapons.length} Armas`)
+        el('span', { class: 'meta-item' }, `🗡️ ${allWeapons.length || 64} Armas`)
       ),
       el('div', { class: 'capa-actions' },
         el('a', { href: '#/livro/testes', class: 'btn primary large' }, '📖 Entrar no Grimório'),
@@ -268,7 +365,10 @@ function renderCapaPage(main) {
         )
       ),
       el('div', { class: 'ornament-divider', style: 'margin-top:2.5rem;width:100%;max-width:500px' }, el('span', {}, '◈')),
-      el('div', { style: 'margin-top:1rem;font-size:.8rem;color:var(--ink-faint)' }, 'GAU v2.0 • Edição Digital • GitHub Pages • 100% client-side • localStorage • PDF/PNG/JSON')
+      el('div', { style: 'margin-top:1rem;font-size:.8rem;color:var(--ink-faint);text-align:center' },
+        'GAU v2.0 • Edição Digital • GitHub Pages • 100% client-side • localStorage • PDF/PNG/JSON',
+        el('div', { style: 'margin-top:.5rem' }, `Base: ${window.location.pathname} • Hash: ${window.location.hash || '#/capa'}`)
+      )
     )
   );
 }
@@ -296,7 +396,8 @@ function renderMeusPersonagens(main) {
 
   const grid = el('div', { class: 'grid cols-3' });
   for (const p of lista) {
-    const computed = computeCharacter(DB, p);
+    let computed;
+    try { computed = computeCharacter(DB, p); } catch { computed = { identidade: { categoria: { nome: p.categoria || 'mundano' } }, atributos: { margens: {} }, validacao: { nivel: 'ok' }, derivados: { pesoEquip: 0 } }; }
     const card = el('div', { class: 'char-sheet', style: 'padding:0;cursor:pointer' },
       el('div', { class: 'sheet-header', style: 'padding:1rem' },
         el('div', { class: 'sheet-title-row' },
@@ -312,7 +413,7 @@ function renderMeusPersonagens(main) {
       ),
       el('div', { class: 'sheet-body', style: 'padding:1rem;gap:.8rem' },
         el('div', { class: 'grid cols-4' },
-          ...Object.entries(computed.atributos.margens).map(([k,v]) => v ? el('div', { class: 'stat small' }, el('div', { class: 'label' }, k), el('div', { class: 'value' }, String(v.valor)), el('div', { class: 'hint' }, v.margemTexto)) : '')
+          ...Object.entries(computed.atributos.margens || {}).map(([k,v]) => v ? el('div', { class: 'stat small' }, el('div', { class: 'label' }, k), el('div', { class: 'value' }, String(v.valor)), el('div', { class: 'hint' }, v.margemTexto)) : '')
         ),
         el('div', { class: 'btn-row' },
           el('a', { href: `#/ficha/${p.id}`, class: 'btn small primary' }, '📜 Ver Ficha'),
@@ -320,7 +421,7 @@ function renderMeusPersonagens(main) {
           el('button', { class: 'btn small', onclick: (e) => { e.stopPropagation(); const dup = storage.duplicar(p.id); montarSeletorPersonagens(); renderMeusPersonagens(main); toast(`Duplicado: ${dup.nome}`,'ok'); } }, '⎘ Duplicar'),
           el('button', { class: 'btn small danger', onclick: (e) => { e.stopPropagation(); if (confirm(`Excluir ${p.nome}?`)) { storage.excluir(p.id); montarSeletorPersonagens(); renderMeusPersonagens(main); toast('Excluído','warn'); } } }, '🗑️ Excluir')
         ),
-        el('div', { style: 'font-size:.7rem;color:var(--ink-faint);margin-top:.4rem' }, `Atualizado: ${new Date(p.atualizadoEm).toLocaleString('pt-BR')} • ${p.equipamentos?.length || 0} equipamentos • ${p.pericias?.length || 0} perícias`)
+        el('div', { style: 'font-size:.7rem;color:var(--ink-faint);margin-top:.4rem' }, `Atualizado: ${new Date(p.atualizadoEm).toLocaleString('pt-BR')} • ${p.equipamentos?.length || 0} equip • ${p.pericias?.length || 0} perícias`)
       )
     );
     card.addEventListener('click', () => location.hash = `#/ficha/${p.id}`);
@@ -329,7 +430,6 @@ function renderMeusPersonagens(main) {
 
   main.append(grid);
 
-  // Ações backup
   main.append(
     el('div', { class: 'panel', style: 'margin-top:1.5rem' },
       el('h3', {}, '💾 Backup & Transporte'),
@@ -381,17 +481,16 @@ function renderFichaPage(main, id) {
     el('div', { class: 'btn-row no-print', style: 'margin-bottom:1rem' },
       el('a', { href: `#/criar/${char.id}/identidade`, class: 'btn' }, '✏️ Editar'),
       el('button', { class: 'btn', onclick: () => { const dup = storage.duplicar(char.id); montarSeletorPersonagens(); location.hash = `#/ficha/${dup.id}`; toast('Duplicado!','ok'); } }, '⎘ Duplicar'),
-      el('button', { class: 'btn', onclick: () => { downloadJSON(char, `GAU_${char.nome.replace(/\s+/g,'_')}.json`); toast('JSON exportado','ok'); } }, '📦 Exportar JSON'),
-      el('button', { class: 'btn', onclick: async () => { await exportarPDFFicha(computed, DB); toast('PDF gerado','ok'); } }, '📄 Exportar PDF'),
+      el('button', { class: 'btn', onclick: () => { downloadJSON(char, `GAU_${char.nome.replace(/\s+/g,'_')}.json`); toast('JSON exportado','ok'); } }, '📦 JSON'),
+      el('button', { class: 'btn', onclick: async () => { await exportarPDFFicha(computed, DB); toast('PDF gerado','ok'); } }, '📄 PDF'),
       el('button', { class: 'btn', onclick: async () => {
         const fichaEl = document.getElementById('fichaVisual');
         if (fichaEl) await exportarPNGFicha(fichaEl, `GAU_${char.nome.replace(/\s+/g,'_')}.png`);
         toast('PNG exportado','ok');
-      }}, '🖼️ Exportar PNG')
+      }}, '🖼️ PNG')
     )
   );
 
-  // Ficha visual
   const ficha = el('div', { id: 'fichaVisual', class: 'char-sheet animate-fadeInUp' },
     el('div', { class: 'sheet-header' },
       el('div', { class: 'sheet-title-row' },
@@ -407,7 +506,6 @@ function renderFichaPage(main, id) {
       )
     ),
     el('div', { class: 'sheet-body' },
-      // Atributos
       el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '💪'), 'Atributos & Margens'),
         el('div', { class: 'sheet-section-body' },
@@ -427,7 +525,6 @@ function renderFichaPage(main, id) {
           )
         )
       ),
-      // Derivados
       el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '📊'), 'Derivados & Carga'),
         el('div', { class: 'sheet-section-body' },
@@ -443,7 +540,6 @@ function renderFichaPage(main, id) {
           )
         )
       ),
-      // Perícias
       computed.pericias.length ? el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '📜'), `Perícias (${computed.pericias.length})`),
         el('div', { class: 'sheet-section-body' },
@@ -461,28 +557,22 @@ function renderFichaPage(main, id) {
           )
         )
       ) : '',
-      // Manobras
       computed.manobras.length ? el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '⚔️'), `Manobras (${computed.manobras.length})`),
         el('div', { class: 'sheet-section-body' },
-          el('div', { class: 'maneuver-chips' },
-            ...computed.manobras.map(m => el('span', { class: 'maneuver-chip active' }, m))
-          )
+          el('div', { class: 'maneuver-chips' }, ...computed.manobras.map(m => el('span', { class: 'maneuver-chip active' }, m)))
         )
       ) : '',
-      // Empunhadura
       computed.empunhadura ? el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '🤲'), 'Empunhadura'),
         el('div', { class: 'sheet-section-body' },
           el('div', { class: 'equip-card', style: 'border-color:var(--gold)' },
             el('div', { class: 'equip-name' }, computed.empunhadura.nome),
             el('div', { class: 'pill gold', style: 'margin:.3rem 0' }, `${computed.empunhadura.especialidade} • ${computed.empunhadura.vantagem}`),
-            el('div', { style: 'font-size:.85rem;color:var(--ink-dim)' }, computed.empunhadura.descricao),
-            el('div', { style: 'font-size:.8rem;color:var(--ink-faint);margin-top:.4rem' }, `Estilo: ${computed.empunhadura.estilo}`)
+            el('div', { style: 'font-size:.85rem;color:var(--ink-dim)' }, computed.empunhadura.descricao)
           )
         )
       ) : '',
-      // Equipamentos
       computed.equipamentos.length ? el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '🛡️'), `Equipamentos (${computed.equipamentos.length})`),
         el('div', { class: 'sheet-section-body' },
@@ -498,193 +588,59 @@ function renderFichaPage(main, id) {
                   eq.categoria ? el('span', { class: 'equip-stat' }, eq.categoria) : '',
                   eq.peso ? el('span', { class: 'equip-stat' }, `${eq.peso}kg`) : ''
                 ),
-                eq.caracteristica ? el('div', { style: 'font-size:.8rem;color:var(--ink-dim);margin-top:.3rem' }, eq.caracteristica) : '',
-                eq.tipo ? el('div', { style: 'margin-top:.3rem' }, el('span', { class: 'pill' }, eq.tipo)) : ''
+                eq.caracteristica ? el('div', { style: 'font-size:.8rem;color:var(--ink-dim);margin-top:.3rem' }, eq.caracteristica) : ''
               );
             })
           )
         )
       ) : '',
-      // História
       computed.identidade.historia ? el('div', { class: 'sheet-section' },
-        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '📖'), 'História & Anotações'),
-        el('div', { class: 'sheet-section-body' },
-          el('p', { style: 'white-space:pre-wrap;line-height:1.6' }, computed.identidade.historia)
-        )
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '📖'), 'História'),
+        el('div', { class: 'sheet-section-body' }, el('p', { style: 'white-space:pre-wrap' }, computed.identidade.historia))
       ) : '',
-      // Validação
       el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '✅'), 'Validação'),
         el('div', { class: 'sheet-section-body' },
           ...computed.validacao.erros.map(e => el('div', { class: 'validation-item bad' }, `⛔ ${e.msg}`)),
           ...computed.validacao.avisos.map(a => el('div', { class: 'validation-item warn' }, `⚠️ ${a.msg}`)),
           ...computed.validacao.infos.map(i => el('div', { class: 'validation-item ok' }, `ℹ️ ${i.msg}`)),
-          computed.validacao.total === 0 ? el('div', { class: 'validation-item ok' }, '✅ Ficha válida, pronta para jogo!') : ''
+          computed.validacao.total === 0 ? el('div', { class: 'validation-item ok' }, '✅ Ficha válida!') : ''
         )
       )
     )
   );
 
   main.append(ficha);
-
-  // Ações export (duplicado no final para mobile)
-  main.append(
-    el('div', { class: 'sheet-actions no-print' },
-      el('div', { class: 'action-group' },
-        el('span', { class: 'action-label' }, 'Exportar'),
-        el('button', { class: 'btn small', onclick: () => downloadJSON(char, `GAU_${char.nome.replace(/\s+/g,'_')}.json`) }, '📦 JSON'),
-        el('button', { class: 'btn small', onclick: async () => { await exportarPDFFicha(computed, DB); } }, '📄 PDF'),
-        el('button', { class: 'btn small', onclick: async () => { await exportarPNGFicha(document.getElementById('fichaVisual'), `GAU_${char.nome.replace(/\s+/g,'_')}.png`); } }, '🖼️ PNG')
-      ),
-      el('div', { class: 'action-group' },
-        el('span', { class: 'action-label' }, 'Testar'),
-        el('button', { class: 'btn small', onclick: () => {
-          const val = computed.atributos.ST;
-          const res = testarMargem(val, DB);
-          toast(`ST ${val}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}`, res.sucesso ? 'ok' : 'bad');
-        }}, '💪 ST'),
-        el('button', { class: 'btn small', onclick: () => {
-          const val = computed.atributos.DX;
-          const res = testarMargem(val, DB);
-          toast(`DX ${val}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}`, res.sucesso ? 'ok' : 'bad');
-        }}, '🤸 DX'),
-        el('button', { class: 'btn small', onclick: () => {
-          const val = computed.atributos.IQ;
-          const res = testarMargem(val, DB);
-          toast(`IQ ${val}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}`, res.sucesso ? 'ok' : 'bad');
-        }}, '🧠 IQ')
-      )
-    )
-  );
 }
 
 function renderGlossario(main) {
   const termos = [
-    { termo: 'Margem de Sucesso', def: 'Intervalo de resultados no d20 que representa sucesso. Determinada pelo valor do atributo/habilidade. Ex: valor 10 = margem 8–12.' },
-    { termo: 'Crítico', def: 'Resultado exatamente igual ao valor do atributo/habilidade. Efeito especial. Valor 10 crítico 10.' },
-    { termo: 'Categoria de Poder', def: 'Escala de existência. Mundano = 1d20, Sobre-Humano = 2d20, Lendário = 3d20, Cósmico = 4d20+. Quantidade de dados representa escala, não bônus.' },
-    { termo: 'Disputa de Habilidades', def: 'Quando ação ofensiva encontra defensiva, ambos testam. Vence quem estiver mais próximo do próprio crítico dentro da própria margem.' },
-    { termo: 'Disputa Rápida', def: 'Decide em 1 turno. Ex: lutar por arma. Se ambos sucesso/falha, vence maior margem de sucesso ou menor margem de falha.' },
-    { termo: 'Disputa Normal', def: 'Pode durar vários turnos. Ex: braço de ferro. Se ambos sucesso/falha, posição não muda.' },
-    { termo: 'Combate de Impacto', def: 'Dano sem intenção de matar, roteirizado pelos jogadores. Maioria dos NPCs usa.' },
-    { termo: 'Combate Mortal', def: 'Tentativa deliberada de matar. Inclui atacar caído, veneno, poderes letais, quedas, vácuo, etc.' },
-    { termo: 'Manobra', def: 'Ação declarada no turno (1 segundo). Árvore determina o que é capaz de fazer.' },
-    { termo: 'Movimento Linear', def: 'Deslocamento em linha reta. Ex: Investida (ataca durante percurso) e Mover-se e Atacar (ataca ao final).' },
-    { termo: 'Movimento Difuso', def: 'Deslocamento imprevisível, zigue-zague. Finta (-2 ataque, alvo -2 defesa) e Ataque em Círculos (+2).' },
-    { termo: 'Movimento Acrobático', def: 'Usa corpo para movimentos complexos: cambalhota, mortal. Pode atacar durante ou ao final.' },
-    { termo: 'Movimento Atlético', def: 'Força física + ambiente: escalar, correr por paredes. Combo com Cenário (+1, Ataque Pesado) e Grande Salto.' },
-    { termo: 'Ataque Simples', def: 'Ataque básico corpo-a-corpo. Deriva em Ataque Duplo (-2 no segundo) e Triplo (-4 no terceiro) e Golpe de Recuo.' },
-    { termo: 'Ataque Acrobático', def: 'Usa DX em vez de ST. Pode ser Preciso (ignora penalidade localização), Penetrante (ignora 1 RD), Sequência (-1 em ambos), Potência (+10 dano).' },
-    { termo: 'Ataque Pesado', def: 'Usa ST, +1d dano. Pode ser Duplo, Potente (arremessa ST/2 +1d cenário), Atordoante, Demolidor (área 5m, +10 vs estruturas).' },
-    { termo: 'Saraivada', def: '3 ataques à distância na mesma ação. Evolui para Semiautomático (5 ataques -2) e Automático (10 ataques).' },
-    { termo: 'Tiro Preciso', def: 'Concentra em único disparo, ignora penalidade localização.' },
-    { termo: 'Tiro de Supressão', def: 'Controla área em vez de mirar indivíduo.' },
-    { termo: 'Tiro Ricochete', def: 'Usa superfície para alterar trajetória. Pode exigir Analisar.' },
-    { termo: 'Preparar', def: 'Sacar, apanhar, guardar objeto. Saque Rápido e Saque em Movimento, Ajustar Equipamento e Empunhaduras.' },
-    { termo: 'Empunhadura', def: 'Estilo de segurar arma: Uma Mão (versátil), Bastarda (adaptação), Duas Mãos (+1 Força), Tsuka (+1 Movimento), Zatoichi (+2 após saque), Anatômica (+1 Acrobático).' },
-    { termo: 'Apontar', def: 'Concentra mira para +PREC da arma. Pontaria Certeira: +1 por segundo adicional. Arma Firmada: +1 com apoio.' },
-    { termo: 'PREC', def: 'Bônus de precisão da arma por categoria. Ex: Sniper +4, Rifle precisão +3, Arco simples +1.' },
-    { termo: 'Analisar', def: 'Estuda situação antes de agir. Analisar Indivíduo (Movimento, Poderes, Ação), Cenário, Ambiente.' },
-    { termo: 'Fazer Nada', def: 'Não realiza ação relevante. Usada quando surpreso, atordoado, esperando momento.' },
-    { termo: 'Grau de Dano (GD)', def: 'Intensidade do impacto: GD1 Raspão 1–20, GD2 Em cheio 21–64, GD3 Letal 65+. Localização determina onde.' },
-    { termo: 'Esquiva', def: 'Defesa ativa baseada em DX. Pode ser usada contra qualquer ataque.' },
-    { termo: 'Aparar', def: 'Defesa com arma ou desarmado. Contra corpo-a-corpo e alguns à distância.' },
-    { termo: 'Bloqueio', def: 'Defesa com escudo baseada em ST. Bônus do escudo.' },
-    { termo: 'Luminosidade', def: 'Penalidade em Visão e Combate por luz: Luz Total 0 até Escuridão Total -10.' },
-    { termo: 'Esforço Extra', def: 'Ir além dos limites por 1 PF. Vale para saltos, levantamento, defesas, etc.' },
-    { termo: 'Verificação de Pânico', def: 'Teste de Vontade quando algo aterroriza. Falha = rola 3d + margem de falha na tabela de pânico (4 a 40+).' },
+    { termo: 'Margem de Sucesso', def: 'Intervalo no d20 que é sucesso. Ex: 10 = 8–12.' },
+    { termo: 'Crítico', def: 'Roll exatamente igual ao valor. Ex: 10 crítico 10.' },
+    { termo: 'Categoria de Poder', def: 'Escala: Mundano 1d20, Sobre-Humano 2d20, Lendário 3d20, Cósmico 4d20+.' },
+    { termo: 'Disputa', def: 'Vence quem está mais próximo do próprio crítico.' },
+    { termo: 'Combate Impacto vs Mortal', def: 'Impacto = sem intenção de matar. Mortal = tentativa de matar.' },
+    { termo: 'GD', def: 'Grau Dano: GD1 1–20 Raspão, GD2 21–64 Em cheio, GD3 65+ Letal.' },
+    { termo: 'Empunhadura', def: 'Uma Mão, Bastarda, Duas Mãos +1 Força, Tsuka +1 Mov, Zatoichi +2 pós-saque, Anatômica +1 Acrobático.' },
   ];
-
-  main.append(
-    el('h1', { class: 'page-title' }, '📚 Glossário', el('small', {}, `${termos.length} termos`)),
-    el('p', { class: 'page-subtitle' }, 'Termos e conceitos do sistema GAU, extraídos diretamente do livro. Clique para buscar no grimório.')
-  );
-
+  main.append(el('h1', { class: 'page-title' }, '📚 Glossário'));
   const grid = el('div', { class: 'grid cols-2' });
-  for (const t of termos) {
-    const card = el('div', { class: 'panel', style: 'cursor:pointer' },
-      el('h3', {}, t.termo),
-      el('p', { style: 'font-size:.9rem;color:var(--ink-dim);margin:.4rem 0 0' }, t.def),
-      el('div', { class: 'btn-row' },
-        el('button', { class: 'btn small ghost', onclick: () => {
-          document.getElementById('searchInput').value = t.termo;
-          document.getElementById('searchModal').removeAttribute('hidden');
-          const ev = new Event('input'); document.getElementById('searchInput').dispatchEvent(ev);
-        }}, '🔍 Buscar')
-      )
-    );
-    grid.append(card);
-  }
+  for (const t of termos) grid.append(el('div', { class: 'panel' }, el('h3', {}, t.termo), el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, t.def)));
   main.append(grid);
 }
 
 function renderConfig(main) {
   const temaAtual = storage.getTema();
-  const bookMode = storage.getBookMode();
-
-  main.append(
-    el('h1', { class: 'page-title' }, '⚙️ Configurações'),
-    el('p', { class: 'page-subtitle' }, 'Personalize sua experiência de leitura e forja.')
-  );
-
-  main.append(
-    el('div', { class: 'grid cols-2' },
-      el('div', { class: 'panel' },
-        el('h3', {}, '🎨 Aparência'),
-        el('div', { class: 'field-grid' },
-          el('label', { class: 'field' }, 'Tema',
-            el('select', { onchange: (e) => { storage.setTema(e.target.value); document.documentElement.setAttribute('data-theme', e.target.value); updateThemeIcon(e.target.value); toast(`Tema ${e.target.value}`,'ok'); }, value: temaAtual },
-              el('option', { value: 'dark', selected: temaAtual==='dark' }, '🌙 Escuro — Grimório Noturno'),
-              el('option', { value: 'light', selected: temaAtual==='light' }, '☀️ Claro — Pergaminho')
-            )
-          ),
-          el('label', { class: 'field' }, 'Modo Livro Físico',
-            el('select', { onchange: (e) => { storage.setBookMode(e.target.value==='true'); toast('Modo livro '+(e.target.value==='true'?'ativado':'desativado'),'ok'); }, value: String(bookMode) },
-              el('option', { value: 'false', selected: !bookMode }, '📄 Normal'),
-              el('option', { value: 'true', selected: bookMode }, '📖 Livro Físico (moldura decorativa)')
-            )
-          )
-        )
-      ),
-      el('div', { class: 'panel' },
-        el('h3', {}, '💾 Dados'),
-        el('p', { style: 'font-size:.85rem;color:var(--ink-dim)' }, `${storage.getPersonagens().length} personagens salvos localmente.`),
-        el('div', { class: 'btn-row' },
-          el('button', { class: 'btn', onclick: () => {
-            const backup = storage.exportarBackup();
-            downloadJSON(backup, `gau_backup_${new Date().toISOString().slice(0,10)}.json`);
-          }}, '📦 Exportar Backup'),
-          el('button', { class: 'btn danger', onclick: () => {
-            if (confirm('Apagar TODOS os personagens? Esta ação não pode ser desfeita.')) {
-              localStorage.clear();
-              toast('Dados apagados','bad');
-              location.reload();
-            }
-          }}, '🗑️ Apagar Tudo')
-        )
-      ),
-      el('div', { class: 'panel' },
-        el('h3', {}, '📖 Sobre GAU'),
-        el('p', { style: 'font-size:.9rem;color:var(--ink-dim)' }, 'GAU — Sistema Universal v2.0. Sistema d20 com margens de sucesso, categorias de poder por quantidade de dados, árvores de manobras táticas e graus de dano.'),
-        el('ul', { style: 'font-size:.85rem;color:var(--ink-dim);padding-left:1.2rem' },
-          el('li', {}, 'Valor 10 = referência humana, margem 8–12, crítico 10'),
-          el('li', {}, '1 e 20 não são automáticos — apenas margem importa'),
-          el('li', {}, 'Disputa: vence quem está mais próximo do próprio crítico'),
-          el('li', {}, 'Combate: 1 turno = 1 segundo, sequência por deslocamento'),
-          el('li', {}, 'GD1 1–20 Raspão, GD2 21–64 Em cheio, GD3 65+ Letal')
-        )
-      ),
-      el('div', { class: 'panel' },
-        el('h3', {}, '⌨️ Atalhos'),
-        el('div', { class: 'tbl-scroll' },
-          el('table', { class: 'tbl' },
-            el('tr', {}, el('th', {}, 'Tecla'), el('th', {}, 'Ação')),
-            el('tr', {}, el('td', {}, '/'), el('td', {}, 'Abrir busca global')),
-            el('tr', {}, el('td', {}, 'ESC'), el('td', {}, 'Fechar modal/busca')),
-            el('tr', {}, el('td', {}, 'Ctrl+S'), el('td', {}, 'Salvar personagem (na forja)'))
-          )
-        )
-      )
-    )
-  );
+  main.append(el('h1', { class: 'page-title' }, '⚙️ Configurações'));
+  main.append(el('div', { class: 'panel' },
+    el('h3', {}, 'Tema'),
+    el('select', { onchange: (e) => { storage.setTema(e.target.value); document.documentElement.setAttribute('data-theme', e.target.value); updateThemeIcon(e.target.value); } },
+      el('option', { value: 'dark', selected: temaAtual==='dark' }, 'Escuro'),
+      el('option', { value: 'light', selected: temaAtual==='light' }, 'Claro')
+    ),
+    el('div', { style: 'margin-top:1rem;font-size:.85rem;color:var(--ink-dim)' }, `GitHub Pages base: ${window.location.pathname} • Se a primeira página estava bugada, agora tem fallback estático e loader robusto que tenta ./data/, /gua/data/, etc.`)
+  ));
 }
+
+// Inicia
+init();
