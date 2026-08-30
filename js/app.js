@@ -14,6 +14,7 @@ import { computeCharacter } from './character-calculator.js';
 import { exportarPDFFicha } from './export-pdf.js';
 import { exportarPNGFicha } from './export-png.js';
 import { testarMargem, getGrauDano } from './dice.js';
+import { calcularCustoTotal, PONTOS_PRESETS } from './points-system.js';
 
 const PAGES = [
   { id: 'capa', nome: 'Capa', icon: '🏰', showInNav: false },
@@ -139,19 +140,101 @@ function montarSeletorPersonagens() {
     const lista = storage.getPersonagens();
     if (lista.length === 0) {
       sel.append(el('option', { value: '' }, 'Nenhum personagem'));
-      return;
-    }
-    for (const p of lista) {
-      sel.append(el('option', { value: p.id, selected: p.id === storage.getAtualId() }, p.nome || 'Sem nome'));
+    } else {
+      for (const p of lista) {
+        sel.append(el('option', { value: p.id, selected: p.id === storage.getAtualId() }, p.nome || 'Sem nome'));
+      }
     }
     sel.onchange = () => {
       storage.setAtualId(sel.value);
       route();
+      atualizarPontosWidget();
     };
   } catch {
     sel.append(el('option', { value: '' }, 'Erro storage'));
   }
+  atualizarPontosWidget();
 }
+
+function atualizarPontosWidget() {
+  const widget = document.getElementById('pontosWidget');
+  if (!widget) return;
+  try {
+    const char = storage.getAtual();
+    if (!char) {
+      widget.innerHTML = `<span style="color:var(--ink-faint);font-size:.75rem">Sem personagem</span>`;
+      return;
+    }
+    const computed = computeCharacter(DB, char);
+    const pts = computed.pontos || calcularCustoTotal(char, DB);
+    const livreClass = pts.disponivel < 0 ? 'bad' : pts.disponivel <= 10 ? 'warn' : 'ok';
+    const pct = Math.min(100, Math.max(0, (pts.totalGasto / (pts.pontosTotais || 150)) * 100));
+
+    widget.innerHTML = '';
+    const totalEl = el('span', { class: 'pw-total', title: 'Pontos totais' }, `${pts.pontosTotais} pts`);
+    const gastoEl = el('span', { class: 'pw-gasto', title: `Gasto: ${pts.totalGasto}` }, `• ${pts.totalGasto} usados`);
+    const livreEl = el('span', { class: `pw-livre ${livreClass}`, title: `Livres: ${pts.disponivel}` }, `${pts.disponivel >= 0 ? '' : ''}${pts.disponivel} livres`);
+
+    const bar = el('span', { class: `pw-bar ${livreClass}` }, el('i', { style: `width:${pct}%` }));
+
+    const btnMinus = el('button', { class: 'pw-btn', title: '-10 pontos totais', onclick: (e) => { e.stopPropagation(); ajustarPontosTotais(-10); } }, '−');
+    const btnPlus = el('button', { class: 'pw-btn', title: '+10 pontos totais', onclick: (e) => { e.stopPropagation(); ajustarPontosTotais(10); } }, '+');
+
+    // Presets dropdown
+    const sel = el('select', {
+      title: 'Mudar escala de pontos',
+      onchange: (e) => {
+        const v = parseInt(e.target.value,10);
+        if (!isNaN(v)) definirPontosTotais(v);
+      }
+    });
+    sel.append(el('option', { value: '' }, 'Escala...'));
+    for (const pre of PONTOS_PRESETS) {
+      sel.append(el('option', { value: String(pre.pontos) }, `${pre.nome} ${pre.pontos}`));
+    }
+
+    widget.append(btnMinus, totalEl, gastoEl, livreEl, bar, btnPlus, el('span', { class: 'pw-presets' }, sel));
+
+    widget.onclick = () => {
+      // Ao clicar, vai para página de pontos / finalizar
+      const atualId = storage.getAtualId();
+      if (atualId) location.hash = `#/criar/${atualId}/final`;
+      else location.hash = `#/criar/novo/final`;
+    };
+    widget.style.cursor = 'pointer';
+  } catch (e) {
+    console.warn('pontos widget erro', e);
+    widget.innerHTML = `<span style="color:var(--bad);font-size:.7rem">Erro pts</span>`;
+  }
+}
+
+function ajustarPontosTotais(delta) {
+  const char = storage.getAtual();
+  if (!char) { toast('Crie um personagem primeiro','warn'); return; }
+  const novo = Math.max(0, (char.pontosTotais ?? 150) + delta);
+  char.pontosTotais = novo;
+  storage.salvarPersonagem(char);
+  atualizarPontosWidget();
+  // Se estiver na builder, re-render
+  const hash = location.hash;
+  if (hash.includes('/criar/')) route();
+  toast(`Pontos totais: ${novo}`,'ok');
+}
+
+function definirPontosTotais(total) {
+  const char = storage.getAtual();
+  if (!char) { toast('Crie um personagem primeiro','warn'); return; }
+  char.pontosTotais = total;
+  storage.salvarPersonagem(char);
+  atualizarPontosWidget();
+  if (location.hash.includes('/criar/')) route();
+  toast(`Escala ${total} pts aplicada`,'ok');
+}
+
+// Expõe para builder chamar
+window.atualizarPontosWidget = atualizarPontosWidget;
+window.ajustarPontosTotais = ajustarPontosTotais;
+window.definirPontosTotais = definirPontosTotais;
 
 function setupEventosGlobais() {
   const btnSearch = document.getElementById('btnSearch');
@@ -363,6 +446,9 @@ function route() {
       if (backdrop) backdrop.setAttribute('hidden','');
     }
   }
+
+  // Atualiza widget de pontos em todas páginas
+  try { atualizarPontosWidget(); } catch {}
 }
 
 /* -------------------- Páginas -------------------- */
@@ -481,7 +567,7 @@ function renderMeusPersonagens(main) {
           el('button', { class: 'btn small', onclick: (e) => { e.stopPropagation(); const dup = storage.duplicar(p.id); montarSeletorPersonagens(); renderMeusPersonagens(main); toast(`Duplicado: ${dup.nome}`,'ok'); } }, '⎘ Duplicar'),
           el('button', { class: 'btn small danger', onclick: (e) => { e.stopPropagation(); if (confirm(`Excluir ${p.nome}?`)) { storage.excluir(p.id); montarSeletorPersonagens(); renderMeusPersonagens(main); toast('Excluído','warn'); } } }, '🗑️ Excluir')
         ),
-        el('div', { style: 'font-size:.7rem;color:var(--ink-faint);margin-top:.4rem' }, `Atualizado: ${new Date(p.atualizadoEm).toLocaleString('pt-BR')} • ${p.equipamentos?.length || 0} equip • ${p.pericias?.length || 0} perícias`)
+        el('div', { style: 'font-size:.7rem;color:var(--ink-faint);margin-top:.4rem' }, `Atualizado: ${new Date(p.atualizadoEm).toLocaleString('pt-BR')} • ${p.equipamentos?.length || 0} equip • ${p.pericias?.length || 0} perícias • ${(() => { try { const c = computeCharacter(DB, p); return `${c.pontos.totalGasto}/${c.pontos.pontosTotais} pts`; } catch { return `${p.pontosTotais||150} pts`; } })()}`)
       )
     );
     card.addEventListener('click', () => location.hash = `#/ficha/${p.id}`);
@@ -677,6 +763,33 @@ function renderFichaPage(main, id) {
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '📖'), 'História'),
         el('div', { class: 'sheet-section-body' }, el('p', { style: 'white-space:pre-wrap' }, computed.identidade.historia))
       ) : '',
+      el('div', { class: 'sheet-section' },
+        el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '💰'), `Pontos — ${computed.pontos.pontosTotais} totais | ${computed.pontos.totalGasto} gastos | ${computed.pontos.disponivel} livres`),
+        el('div', { class: 'sheet-section-body' },
+          el('div', { class: 'bar gold', style: 'height:14px;margin-bottom:.8rem' }, el('i', { style: `width:${Math.min(100, (computed.pontos.totalGasto/computed.pontos.pontosTotais)*100)}%` })),
+          el('table', { class: 'pontos-table' },
+            el('tr', {}, el('th', {}, 'Categoria'), el('th', {}, 'Custo')),
+            el('tr', {}, el('td', {}, 'Atributos (ST,DX,IQ,HT) 10pts/nível'), el('td', { class: 'num' }, `${computed.pontos.breakdown.atributos.total} pts`)),
+            el('tr', {}, el('td', {}, 'Perícias 2pts/nível'), el('td', { class: 'num' }, `${computed.pontos.breakdown.pericias.total} pts`)),
+            el('tr', {}, el('td', {}, `Manobras ${computed.pontos.breakdown.manobras.quantidade}×5 pts`), el('td', { class: 'num' }, `${computed.pontos.breakdown.manobras.total} pts`)),
+            el('tr', {}, el('td', {}, `Empunhadura ${char.empunhadura ? '5 pts' : '0'}`), el('td', { class: 'num' }, `${computed.pontos.breakdown.empunhadura.total} pts`)),
+            el('tr', {}, el('td', {}, 'Poderes (Pot 5/3 + per 2)'), el('td', { class: 'num' }, `${computed.pontos.breakdown.poderes.total} pts`)),
+            el('tr', { style: 'font-weight:700;background:var(--panel2)' }, el('td', {}, 'TOTAL'), el('td', { class: 'num' }, `${computed.pontos.totalGasto}/${computed.pontos.pontosTotais}`))
+          ),
+          el('div', { class: 'btn-row', style: 'margin-top:.6rem' },
+            el('button', { class: 'btn small', onclick: () => { char.pontosTotais = Math.max(0, (char.pontosTotais||150)-10); storage.salvarPersonagem(char); location.reload(); } }, '−10 Totais'),
+            el('button', { class: 'btn small', onclick: () => { char.pontosTotais = (char.pontosTotais||150)+10; storage.salvarPersonagem(char); location.reload(); } }, '+10 Totais'),
+            el('button', { class: 'btn small', onclick: () => { char.pontosTotais = (char.pontosTotais||150)+50; storage.salvarPersonagem(char); location.reload(); } }, '+50'),
+            el('select', {
+              onchange: (e) => { const v = parseInt(e.target.value,10); if (!isNaN(v)) { char.pontosTotais = v; storage.salvarPersonagem(char); location.reload(); } },
+              style: 'max-width:150px'
+            },
+              el('option', { value: '' }, 'Preset...'),
+              ...PONTOS_PRESETS.map(pre => el('option', { value: String(pre.pontos) }, `${pre.nome} ${pre.pontos}`))
+            )
+          )
+        )
+      ),
       el('div', { class: 'sheet-section' },
         el('div', { class: 'sheet-section-header' }, el('span', { class: 'section-icon' }, '✅'), 'Validação'),
         el('div', { class: 'sheet-section-body' },

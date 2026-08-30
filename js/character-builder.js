@@ -8,6 +8,7 @@ import { el, toast } from './ui.js';
 import { novoPersonagemBase, storage } from './storage.js';
 import { computeCharacter } from './character-calculator.js';
 import { testarMargem } from './dice.js';
+import { PONTOS_PRESETS, CUSTOS } from './points-system.js';
 
 const STEPS = [
   { id: 'identidade', nome: 'Identidade', icon: '🧙', desc: 'Nome, conceito e categoria' },
@@ -76,12 +77,20 @@ export function renderCharacterBuilder(main, db, params, currentChar, onSave) {
 
   function doRender() {
     const computed = computeCharacter(db, editing);
+    const onPatch = (patch) => {
+      Object.assign(editing, patch);
+      saveDraft();
+      doRender();
+      if (window.atualizarPontosWidget) window.atualizarPontosWidget();
+    };
+
     main.innerHTML = '';
     const builder = el('div', { class: 'builder' });
 
     builder.append(
       el('h1', { class: 'page-title' }, '⚔️ Forja de Personagens', el('small', { id: 'builderTitleSmall' }, `${editing.nome ? editing.nome + ' • ' : ''}Margem 10 = humano comum`)),
-      el('p', { class: 'page-subtitle' }, 'Construa seu personagem. O sistema recalcula margens, carga, deslocamento e valida tudo automaticamente.')
+      el('p', { class: 'page-subtitle' }, 'Construa seu personagem. O sistema recalcula margens, carga, deslocamento e valida tudo automaticamente.'),
+      renderPontosBarra(computed, editing, onPatch, saveDraft)
     );
 
     // Steps
@@ -115,12 +124,6 @@ export function renderCharacterBuilder(main, db, params, currentChar, onSave) {
     // Conteúdo
     const content = el('div', { class: 'builder-content' });
 
-    const onPatch = (patch) => {
-      Object.assign(editing, patch);
-      saveDraft();
-      doRender();
-    };
-
     if (activeStep === 'identidade') content.append(renderIdentidade(editing, db, onPatch, saveDraft));
     if (activeStep === 'atributos') content.append(renderAtributos(editing, db, computed, onPatch));
     if (activeStep === 'pericias') content.append(renderPericias(editing, db, computed, onPatch));
@@ -149,6 +152,53 @@ export function renderCharacterBuilder(main, db, params, currentChar, onSave) {
   }
 
   doRender();
+}
+
+function renderPontosBarra(computed, editing, onPatch, saveDraft) {
+  const pts = computed.pontos;
+  if (!pts) return el('div', {});
+  const livreClass = pts.disponivel < 0 ? 'bad' : pts.disponivel <= 10 ? 'warn' : 'ok';
+  const pct = Math.min(100, Math.max(0, (pts.totalGasto / (pts.pontosTotais || 150)) * 100));
+
+  const barra = el('div', { class: 'panel', style: 'padding:.8rem 1rem;display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:space-between;border-color:var(--gold)' },
+    el('div', { style: 'display:flex;gap:.6rem;align-items:center;flex-wrap:wrap' },
+      el('span', { style: 'font-weight:700;color:var(--gold2);font-family:var(--font-display)' }, `💰 ${pts.pontosTotais} pts Totais`),
+      el('span', { class: `pill ${livreClass}` }, `${pts.totalGasto} gastos • ${pts.disponivel} livres`),
+      el('div', { class: 'bar gold', style: 'width:120px;height:10px' }, el('i', { style: `width:${pct}%` }))
+    ),
+    el('div', { style: 'display:flex;gap:.4rem;align-items:center;flex-wrap:wrap' },
+      el('button', { class: 'btn small', onclick: () => { const v = Math.max(0, (editing.pontosTotais||150)-10); onPatch({ pontosTotais: v }); } }, '−10'),
+      el('button', { class: 'btn small', onclick: () => { const v = (editing.pontosTotais||150)+10; onPatch({ pontosTotais: v }); } }, '+10'),
+      el('button', { class: 'btn small', onclick: () => { const v = (editing.pontosTotais||150)+50; onPatch({ pontosTotais: v }); } }, '+50'),
+      (() => {
+        const sel = el('select', {
+          style: 'max-width:160px',
+          onchange: (e) => { const v = parseInt(e.target.value,10); if (!isNaN(v)) onPatch({ pontosTotais: v }); }
+        });
+        sel.append(el('option', { value: '' }, 'Preset...'));
+        for (const pre of PONTOS_PRESETS) sel.append(el('option', { value: String(pre.pontos), selected: pre.pontos === pts.pontosTotais }, `${pre.nome} ${pre.pontos}`));
+        return sel;
+      })(),
+      el('input', {
+        type: 'number', min: '0', max: '5000', step: '10',
+        value: String(pts.pontosTotais),
+        style: 'width:90px',
+        onchange: (e) => { const v = parseInt(e.target.value,10); if (!isNaN(v)) onPatch({ pontosTotais: v }); },
+        oninput: (e) => { const v = parseInt(e.target.value,10); if (!isNaN(v)) { editing.pontosTotais = v; saveDraft(); } }
+      })
+    )
+  );
+
+  // Tabela de custos detalhada compacta
+  const breakdown = el('div', { class: 'grid cols-4', style: 'margin-top:.6rem;width:100%' },
+    el('div', { class: 'stat small' }, el('div', { class: 'label' }, 'Atributos'), el('div', { class: 'value' }, `${pts.breakdown.atributos.total} pts`), el('div', { class: 'hint' }, '10 pts/nível acima 10')),
+    el('div', { class: 'stat small' }, el('div', { class: 'label' }, 'Perícias'), el('div', { class: 'value' }, `${pts.breakdown.pericias.total} pts`), el('div', { class: 'hint' }, `${CUSTOS.pericia.porNivel} pts/nível`)),
+    el('div', { class: 'stat small' }, el('div', { class: 'label' }, 'Manobras'), el('div', { class: 'value' }, `${pts.breakdown.manobras.total} pts`), el('div', { class: 'hint' }, `${CUSTOS.manobra} pts cada`)),
+    el('div', { class: 'stat small gold' }, el('div', { class: 'label' }, 'Poderes'), el('div', { class: 'value' }, `${pts.breakdown.poderes.total} pts`), el('div', { class: 'hint' }, 'Pot 5/3 + per 2 pts'))
+  );
+
+  const container = el('div', { style: 'width:100%' }, barra, breakdown);
+  return container;
 }
 
 function renderIdentidade(char, db, onChange, saveDraft) {
@@ -186,6 +236,25 @@ function renderIdentidade(char, db, onChange, saveDraft) {
         placeholder: 'Seu nome',
         oninput: (e) => { char.jogador = e.target.value; saveDraft(); }
       })
+    ),
+    el('label', { class: 'field' }, 'Pontos Totais',
+      el('div', { style: 'display:flex;gap:.4rem;align-items:center' },
+        el('button', { class: 'btn small', onclick: () => { char.pontosTotais = Math.max(0, (char.pontosTotais||150)-10); saveDraft(); onChange({ pontosTotais: char.pontosTotais }); } }, '−'),
+        el('input', {
+          type: 'number', min: '0', max: '5000', value: String(char.pontosTotais||150),
+          style: 'width:90px',
+          onchange: (e) => { const v = parseInt(e.target.value,10)||150; onChange({ pontosTotais: v }); },
+          oninput: (e) => { const v = parseInt(e.target.value,10); if (!isNaN(v)) { char.pontosTotais = v; saveDraft(); } }
+        }),
+        el('button', { class: 'btn small', onclick: () => { char.pontosTotais = (char.pontosTotais||150)+10; saveDraft(); onChange({ pontosTotais: char.pontosTotais }); } }, '+'),
+        el('select', {
+          onchange: (e) => { const v = parseInt(e.target.value,10); if (!isNaN(v)) onChange({ pontosTotais: v }); },
+          style: 'max-width:130px'
+        },
+          el('option', { value: '' }, 'Preset...'),
+          ...PONTOS_PRESETS.map(pre => el('option', { value: String(pre.pontos), selected: pre.pontos === (char.pontosTotais||150) }, `${pre.nome} ${pre.pontos}`))
+        )
+      )
     ),
     el('label', { class: 'field' }, 'Categoria de Poder',
       (() => {
@@ -233,9 +302,11 @@ function renderAtributos(char, db, computed, onChange) {
   for (const attr of db.attributes.atributos || []) {
     const val = char.atributos?.[attr.id] ?? 10;
     const margem = db.getMarginForValue(val);
+    const custo = (val - 10) * CUSTOS.atributo.porNivel;
     const card = el('div', { class: 'attr-card' },
       el('div', { class: 'attr-name' }, `${attr.nome} (${attr.id})`),
       el('div', { class: 'attr-value' }, String(val)),
+      el('div', { class: `pill ${custo>0 ? 'warn' : custo<0 ? 'ok' : ''}`, style: 'margin:.2rem auto' }, `${custo>=0 ? '+' : ''}${custo} pts`),
       el('input', {
         type: 'range', min: '1', max: '20', value: String(val),
         oninput: (e) => {
@@ -289,10 +360,12 @@ function renderPericias(char, db, computed, onChange) {
   const list = el('div', { class: 'skill-list' });
   for (const p of char.pericias || []) {
     const margem = db.getMarginForValue(p.valor);
+    const baseVal = char.atributos?.[p.atributoBase] ?? 10;
+    const custo = p.redutor ? Math.max(0, (p.valor - (baseVal - p.redutor)) * CUSTOS.pericia.porNivel) : Math.max(CUSTOS.pericia.minimo, (p.valor - baseVal) * CUSTOS.pericia.porNivel);
     const row = el('div', { class: 'skill-item' },
       el('div', { class: 'grow' },
-        el('div', { class: 'skill-name' }, p.nome),
-        el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, `${p.descricao || ''} • Base ${p.atributoBase || '—'}`)
+        el('div', { class: 'skill-name' }, `${p.nome} ${custo>0 ? `• ${custo}pts` : ''}`),
+        el('div', { class: 'meta', style: 'font-size:.75rem;color:var(--ink-faint)' }, `${p.descricao || ''} • Base ${p.atributoBase || '—'} ${baseVal} • Custo ${custo} pts`)
       ),
       el('span', { class: 'skill-attr' }, p.atributoBase || ''),
       el('input', {
@@ -303,7 +376,6 @@ function renderPericias(char, db, computed, onChange) {
           onChange({ pericias: novas });
         },
         oninput: (e) => {
-          // Atualiza sem perder foco, mas não re-renderiza a cada tecla
           const v = parseInt(e.target.value,10);
           if (!isNaN(v)) {
             const item = (char.pericias||[]).find(x => x.nome === p.nome);
@@ -312,6 +384,7 @@ function renderPericias(char, db, computed, onChange) {
         }
       }),
       el('span', { class: 'skill-margin' }, margem ? margem.margemTexto : '—'),
+      el('span', { class: 'pill gold small' }, `${custo} pts`),
       el('button', { class: 'btn small ghost', onclick: () => {
         const res = testarMargem(p.valor, db);
         toast(`${p.nome} ${p.valor}: ${res.rolagem} → ${res.sucesso ? 'Sucesso' : 'Falha'}${res.critico ? ' CRÍTICO!' : ''}`, res.sucesso ? 'ok' : 'bad');
@@ -389,7 +462,7 @@ function renderManobras(char, db, computed, onChange) {
 
   for (const [grupo, lista] of Object.entries(grupos)) {
     const panel = el('div', { class: 'panel' },
-      el('h3', {}, grupo),
+      el('h3', {}, `${grupo} — ${CUSTOS.manobra} pts cada`),
       el('div', { class: 'maneuver-chips' },
         ...lista.map(m => {
           const active = selected.has(m.id);
@@ -400,8 +473,8 @@ function renderManobras(char, db, computed, onChange) {
               if (novas.has(m.id)) novas.delete(m.id); else novas.add(m.id);
               onChange({ manobras: [...novas] });
             },
-            title: m.desc
-          }, m.nome);
+            title: `${m.desc} • ${CUSTOS.manobra} pts`
+          }, `${m.nome} ${active ? `✓ ${CUSTOS.manobra}pts` : ''}`);
         })
       )
     );
@@ -560,9 +633,30 @@ function estimatePeso(arma) {
 }
 
 function renderFinal(char, db, computed, saveDraft) {
+  const pts = computed.pontos;
   const wrap = el('div', {},
-    el('h2', {}, '✨ Finalização'),
-    el('p', { style: 'color:var(--ink-dim);font-size:.9rem' }, 'Revise sua ficha, escreva história e finalize.'),
+    el('h2', {}, '✨ Finalização & Pontos'),
+    el('p', { style: 'color:var(--ink-dim);font-size:.9rem' }, 'Revise sua ficha, ajuste pontos totais, escreva história e finalize. Todos os custos são descontados automaticamente.'),
+    el('div', { class: 'panel', style: 'border-color:var(--gold);margin-bottom:1rem' },
+      el('h3', {}, `💰 Sistema de Pontos — ${pts.pontosTotais} totais | ${pts.totalGasto} gastos | ${pts.disponivel} livres`),
+      el('div', { class: 'bar gold', style: 'height:14px;margin:.6rem 0' }, el('i', { style: `width:${Math.min(100, (pts.totalGasto/pts.pontosTotais)*100)}%` })),
+      el('table', { class: 'pontos-table' },
+        el('tr', {}, el('th', {}, 'Categoria'), el('th', {}, 'Detalhe'), el('th', { class: 'num' }, 'Custo')),
+        el('tr', {}, el('td', {}, 'Atributos'), el('td', {}, `${Object.entries(pts.breakdown.atributos.detalhe).map(([k,v])=>`${k} ${v.valor} (${v.custo>=0?'+':''}${v.custo})`).join(', ')}`), el('td', { class: 'num' }, `${pts.breakdown.atributos.total} pts`)),
+        el('tr', {}, el('td', {}, 'Perícias'), el('td', {}, `${pts.breakdown.pericias.detalhe.slice(0,5).map(p=>`${p.nome} ${p.valor} (${p.custo})`).join(', ')}${pts.breakdown.pericias.detalhe.length>5 ? ' +...' : ''}`), el('td', { class: 'num' }, `${pts.breakdown.pericias.total} pts`)),
+        el('tr', {}, el('td', {}, 'Manobras'), el('td', {}, `${pts.breakdown.manobras.quantidade} × ${pts.breakdown.manobras.porUnidade} pts`), el('td', { class: 'num' }, `${pts.breakdown.manobras.total} pts`)),
+        el('tr', {}, el('td', {}, 'Empunhadura'), el('td', {}, char.empunhadura || 'nenhuma'), el('td', { class: 'num' }, `${pts.breakdown.empunhadura.total} pts`)),
+        el('tr', {}, el('td', {}, 'Poderes'), el('td', {}, `${pts.breakdown.poderes.detalhe.map(d=>`${d.nome} Pot${d.potencia} (${d.subtotal})`).join(', ') || 'nenhum'}`), el('td', { class: 'num' }, `${pts.breakdown.poderes.total} pts`)),
+        el('tr', { style: 'font-weight:700;background:var(--panel2)' }, el('td', {}, 'TOTAL'), el('td', {}, `${pts.disponivel>=0 ? 'Dentro do orçamento' : 'EXCEDIDO'}`), el('td', { class: 'num' }, `${pts.totalGasto}/${pts.pontosTotais}`))
+      ),
+      el('div', { class: 'btn-row', style: 'margin-top:.8rem' },
+        el('button', { class: 'btn small', onclick: () => { char.pontosTotais = Math.max(0, (char.pontosTotais||150)-10); saveDraft(); location.hash = `#/criar/${char.id}/final`; } }, '−10 Totais'),
+        el('button', { class: 'btn small', onclick: () => { char.pontosTotais = (char.pontosTotais||150)+10; saveDraft(); location.hash = `#/criar/${char.id}/final`; } }, '+10 Totais'),
+        el('button', { class: 'btn small', onclick: () => { char.pontosTotais = (char.pontosTotais||150)+50; saveDraft(); location.hash = `#/criar/${char.id}/final`; } }, '+50'),
+        ...PONTOS_PRESETS.map(pre => el('button', { class: 'btn small ghost', onclick: () => { char.pontosTotais = pre.pontos; saveDraft(); location.hash = `#/criar/${char.id}/final`; } }, `${pre.nome} ${pre.pontos}`))
+      ),
+      el('p', { style: 'font-size:.75rem;color:var(--ink-faint);margin-top:.5rem' }, 'Valores: Atributo (valor-10)*10 pts (ex: ST 14 = +40), Perícia 2 pts/nível acima base, Manobra 5 pts, Empunhadura 5 pts, Poder Potência 5 pts (TP/PK/Teleporte) ou 3 pts (PES/Cura/Anti-Psi), Perícia psi 2 pts/nível.')
+    ),
     el('label', { class: 'field', style: 'margin-top:1rem' }, 'História / Background / Anotações',
       el('textarea', {
         placeholder: 'Quem é seu personagem? De onde veio? Quais seus objetivos? Medos? Use para testes de Vontade e Pânico...',
@@ -679,7 +773,7 @@ function renderPoderes(char, db, computed, onChange, saveDraft) {
           ...(poder.pericias||[]).map(per => {
             const tem = (atual.pericias||[]).find(pp => pp.id===per.id);
             const nivel = tem?.nivel || 0;
-            return el('div', { style: 'display:flex;flex-direction:column;gap:.2rem;border:1px solid var(--border);border-radius:8px;padding:.4rem .5rem;background: nivel>0 ? 'rgba(201,165,92,.12)' : 'var(--panel2)' },
+            return el('div', { style: `display:flex;flex-direction:column;gap:.2rem;border:1px solid var(--border);border-radius:8px;padding:.4rem .5rem;background:${nivel>0 ? 'rgba(201,165,92,.12)' : 'var(--panel2)'}` },
               el('div', { style: 'font-size:.8rem;font-weight:600' }, `${per.nome} ${per.custo_unica ? `*${per.custo_unica}` : ''}`),
               el('div', { style: 'font-size:.7rem;color:var(--ink-faint)' }, (per.pre_requisito||'') + (per.custo_unica ? ` • única *${per.custo_unica}` : '')),
               el('div', { style: 'display:flex;gap:.3rem;align-items:center;margin-top:.2rem' },

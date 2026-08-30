@@ -6,6 +6,7 @@
 */
 
 import { calcularCarga, calcularLevantamento } from './dice.js';
+import { calcularCustoTotal } from './points-system.js';
 
 export function computeCharacter(db, char) {
   // char = { nome, conceito, categoria, atributos: {ST,DX,IQ,HT}, pericias: [], manobras: [], empunhadura, equipamentos: [], historia }
@@ -116,8 +117,11 @@ export function computeCharacter(db, char) {
   // Empunhadura
   const empunhadura = char.empunhadura ? (db.empunhaduras.empunhaduras || []).find(e => e.id === char.empunhadura) : null;
 
+  // Pontos
+  const pontos = calcularCustoTotal(char, db);
+
   // Validação
-  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc, poderesCalc, custoPoderes });
+  const validacao = validarPersonagem(db, char, { atributos, margens, carga, deslocAtual, periciasCalc, poderesCalc, custoPoderes, pontos });
 
   // Categoria
   const categoria = (db.categories.categorias || []).find(c => c.id === (char.categoria || 'mundano')) || { id: 'mundano', nome: 'Mundano', dados: '1d20' };
@@ -147,6 +151,7 @@ export function computeCharacter(db, char) {
     manobras,
     poderes: poderesCalc,
     custoPoderes,
+    pontos,
     empunhadura,
     equipamentos: char.equipamentos || [],
     validacao,
@@ -159,7 +164,7 @@ function validarPersonagem(db, char, calc) {
   const erros = [];
   const infos = [];
 
-  const { atributos, carga, poderesCalc, custoPoderes } = calc;
+  const { atributos, carga, poderesCalc, custoPoderes, pontos } = calc;
 
   // Atributos fora do limite mundano
   for (const [k, v] of Object.entries(atributos)) {
@@ -212,6 +217,17 @@ function validarPersonagem(db, char, calc) {
       }
     }
     infos.push({ tipo: 'info', msg: `Custo estimado poderes: ${custoPoderes} pts (Potência + perícias).`, campo: 'poderes' });
+  }
+
+  // Pontos
+  if (pontos) {
+    if (pontos.disponivel < 0) {
+      erros.push({ tipo: 'erro', msg: `Pontos excedidos: gastou ${pontos.totalGasto} de ${pontos.pontosTotais} (faltam ${-pontos.disponivel} pts). Reduza atributos/perícias/poderes ou aumente total.`, campo: 'pontos' });
+    } else if (pontos.disponivel <= 10) {
+      avisos.push({ tipo: 'aviso', msg: `Poucos pontos restantes: ${pontos.disponivel} de ${pontos.pontosTotais}.`, campo: 'pontos' });
+    } else {
+      infos.push({ tipo: 'info', msg: `Pontos: ${pontos.totalGasto}/${pontos.pontosTotais} gastos, ${pontos.disponivel} livres.`, campo: 'pontos' });
+    }
   }
 
   const total = erros.length + avisos.length;

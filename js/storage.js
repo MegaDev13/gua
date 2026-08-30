@@ -122,6 +122,7 @@ export function novoPersonagemBase() {
     conceito: '',
     jogador: '',
     categoria: 'mundano',
+    pontosTotais: 150,
     atributos: { ST: 10, DX: 10, IQ: 10, HT: 10 },
     pericias: [
       { nome: 'Arrombamento', atributoBase: 'IQ', valor: 6, redutor: 5, descricao: 'Base IQ-5' },
