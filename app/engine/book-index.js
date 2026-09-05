@@ -37,15 +37,93 @@ export function buildBookIndex(db) {
     add({ id: `capitulo-${chapter.id}`, title: chapter.titulo, text: `${chapter.subtitulo}. ${chapter.resumo}`, chapterId: chapter.id, kind: 'Capítulo', categories: chapter.categorias, source: chapter.fonte });
     for (const section of chapter.secoes || []) add({
       id: `secao-${chapter.id}-${section.id}`, title: section.titulo,
-      text: `${chapter.resumo} ${section.categorias?.join(' ') || ''}`,
+      text: `${chapter.resumo} ${section.nota || ''} ${section.categorias?.join(' ') || ''}`,
       chapterId: chapter.id, sectionId: section.id, kind: labelKind(section.tipo),
       categories: section.categorias, source: chapter.fonte,
     });
   }
 
+  /* Perícias (publicação oficial G.A.U.): custo em pontos, pré-definidos, modificadores e especializações. */
   for (const skill of db.skills || []) add({
-    id: `skill-${skill.id}`, title: skill.nome, text: `${skill.descricao || ''} ${(skill.defaults || []).join(' ')} ${(skill.prereqs || []).join(' ')}`,
-    chapterId: 'pericias', sectionId: `pericia-${skill.id}`, kind: 'Perícia', categories: ['Perícias', skill.categoria, skill.tipo, skill.dificuldade], source: skill.fonte, entityId: skill.id,
+    id: `skill-${skill.id}`, title: skill.nome,
+    text: [
+      skill.descricao || '',
+      `Grupo: ${skill.grupo || skill.categoria || '—'}.`,
+      skill.custoTexto ? `Custo publicado: ${skill.custoTexto}.` : '',
+      skill.custoPontos != null ? `Compra no nível 1 por ${skill.custoPontos} pontos; +1 nível por ponto adicional.` : '',
+      skill.custoNaoPublicado ? skill._avisoCusto || 'A publicação não informa o custo em pontos desta perícia.' : '',
+      skill.preDefinidoTexto ? `Pré-definido: ${skill.preDefinidoTexto}.` : '',
+      skill.semNivelPreDefinido ? 'Sem nível pré-definido.' : '',
+      (skill.modificadores || []).length
+        ? `Modificadores: ${skill.modificadores.map(m => `${m.situacao || ''} ${m.valor != null ? (m.valor >= 0 ? '+' : '') + m.valor : ''} ${m.nota || ''} ${m.vantagemNome ? `(exige ${m.vantagemNome})` : ''}`.replace(/\s+/g, ' ').trim()).join('; ')}.`
+        : (skill.modificadoresTexto || ''),
+      skill.especializacao ? `Especialização: ${skill.especializacao}.` : '',
+      (skill.especializacoes || []).length ? `Especializações: ${skill.especializacoes.map(op => op.nome || op).join(', ')}.` : '',
+      (skill.prereqs || []).length ? `Pré-requisitos: ${skill.prereqs.join('; ')}.` : '',
+      skill.nivelEspecialista ? `Especialista a partir de NH ${skill.nivelEspecialista}.` : '',
+      skill.ntMinimo ? `NT mínimo ${skill.ntMinimo}.` : '',
+      skill.testeSecreto ? 'Teste secreto (o MJ rola sem revelar).' : '',
+      skill.familiaridadeAplicavel ? 'Familiaridade: aplica-se o redutor publicado quando o equipamento não é familiar.' : '',
+      skill._notaGrafia ? `Nota de transcrição: ${skill._notaGrafia}` : '',
+      (skill.defaults || []).join(' '),
+    ].filter(Boolean).join(' '),
+    chapterId: 'pericias', sectionId: `pericia-${skill.id}`, kind: 'Perícia',
+    categories: ['Perícias', skill.grupo || skill.categoria, skill.tipo,
+      skill.custoPontos != null ? `${skill.custoPontos} pts` : 'Sem custo publicado',
+      skill.familiaridadeAplicavel ? 'Familiaridade' : null,
+      skill.especializacao || (skill.especializacoes || []).length ? 'Com especialização' : null,
+      skill.testeSecreto ? 'Teste secreto' : null,
+      skill.ntMinimo ? `NT ${skill.ntMinimo}+` : null,
+      skill.dificuldade].filter(Boolean),
+    source: skill.fonte, entityId: skill.id,
+  });
+
+  /* Regras do capítulo de perícias (data/pericias.json) */
+  const capPericias = db.pericias || {};
+  if (capPericias.familiaridade) {
+    const fam = capPericias.familiaridade;
+    add({
+      id: 'regra-familiaridade-pericias', title: fam.titulo || 'Familiaridade',
+      text: `${fam.texto || ''} Redutor de ${fam.redutor ?? -2} com equipamento não familiar; ${fam.horasParaFamiliarizar ?? 8} horas de prática tornam o novo modelo familiar. ${fam.testeApos6Tipos || ''} ${fam.similaridade || ''} ${fam.recemCriados?.texto || ''}`,
+      chapterId: 'pericias', sectionId: 'familiaridade', kind: 'Regra',
+      categories: ['Perícias', 'Regras', 'Familiaridade'], source: fam.fonte || capPericias._fonte,
+    });
+  }
+  if (capPericias.comprandoPericias) {
+    const cp = capPericias.comprandoPericias;
+    add({
+      id: 'regra-comprando-pericias', title: cp.titulo || 'Comprando perícias',
+      text: `${cp.texto || ''} ${cp.exemplo?.texto || ''}`,
+      chapterId: 'pericias', sectionId: 'comprando-pericias', kind: 'Regra',
+      categories: ['Perícias', 'Criação', 'Pontos'], source: cp.fonte || capPericias._fonte,
+    });
+  }
+  if (capPericias.escolhaInicial) {
+    const ei = capPericias.escolhaInicial;
+    add({
+      id: 'regra-escolha-inicial-pericias', title: ei.titulo || 'A escolha das perícias iniciais',
+      text: `${ei.texto || ''} Limite de criação: ${ei.limiteDePontos?.formula || '2 × idade'} (ex.: ${ei.limiteDePontos?.exemplo?.idade ?? 18} anos = ${ei.limiteDePontos?.exemplo?.pontos ?? 36} pontos). ${ei.aposCriacao || ''} ${ei.dinheiro || ''} ${ei.gm || ''}`,
+      chapterId: 'pericias', sectionId: 'escolha-inicial', kind: 'Regra',
+      categories: ['Perícias', 'Criação', 'Limite'], source: ei.fonte || capPericias._fonte,
+    });
+  }
+  for (const grupo of capPericias.grupos || []) add({
+    id: `grupo-pericias-${grupo.id}`, title: grupo.nome || grupo.id,
+    text: `${grupo.regra || ''} ${((grupo.pericias || []).map(item => item.nome || item).join(', '))}`,
+    chapterId: 'pericias', sectionId: 'grupos', kind: 'Grupo de perícias',
+    categories: ['Perícias', 'Grupos', grupo.nome || grupo.id], source: capPericias._fonte, entityId: grupo.id,
+  });
+  for (const divergencia of capPericias.divergencias || []) add({
+    id: `divergencia-pericias-${divergencia.id}`, title: divergencia.assunto || divergencia.id,
+    text: `${divergencia.descricao || ''} ${divergencia.resolucao || divergencia.adotado || ''}`,
+    chapterId: 'pericias', sectionId: 'divergencias', kind: 'Divergência',
+    categories: ['Perícias', 'Fontes', 'Divergências'], source: capPericias._fonte,
+  });
+  for (const lacuna of capPericias.naoDefinidas || []) add({
+    id: `lacuna-pericias-${lacuna.id}`, title: lacuna.item || lacuna.id,
+    text: `Regra não definida: ${lacuna.motivo || ''}`,
+    chapterId: 'pericias', sectionId: 'nao-definidas', kind: 'Regra não definida',
+    categories: ['Perícias', 'Fontes', 'Regras não definidas'], source: capPericias._fonte,
   });
   const ROTULO_GRUPO_VANTAGEM = { classica: 'Clássica', social: 'Custo variável', nova: 'Nova (2026)' };
   for (const advantage of db.advantages || []) add({

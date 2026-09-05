@@ -3,7 +3,7 @@
  * Cada valor sai com "breakdown" (origem de cada número) para tooltips.
  */
 import { custoAtributo, danoBasico, velocidadeBasica, limitesDeForca, penalidadeMaoInabil } from './attributes.js';
-import { nivelEfetivo, niveisTreinados, attrPadrao } from './skills.js';
+import { nivelEfetivo, niveisTreinados, attrPadrao, modeloDePericias, periciasGAU, nivelEfetivoGAU } from './skills.js';
 import { nivelMagia, iqMagico } from './spells.js';
 import { pesoCarregado, nivelCarga, deslocamento, defesaPassiva, penalidadesEscudo } from './encumbrance.js';
 import { contagemDePontos, aptidaoMagicaDe } from './character.js';
@@ -35,15 +35,25 @@ export function computeAll(db, personagem) {
   const dano = danoBasico(db, atributosComVantagens.ST);
   const vantagens = resumoDasVantagens(db, personagem);
 
-  // Perícias com níveis efetivos
+  // Perícias com níveis efetivos — modelo G.A.U. (custo em pontos) ou legado (tabela de dificuldade)
+  const ctxPericias = { ...ctx, elmo: temElmo(personagem), escudoGrande: esc.escudoGrande };
+  const modeloPericias = modeloDePericias(db, personagem);
+  const blocoGAU = modeloPericias === 'gau' ? periciasGAU(db, personagem, ctxPericias) : null;
   const pericias = (personagem.pericias || []).map(entry => {
-    const ef = nivelEfetivo(db, personagem, entry, {
-      ...ctx,
-      elmo: temElmo(personagem),
-      escudoGrande: esc.escudoGrande,
-    });
+    if (modeloPericias === 'gau') {
+      const ef = (blocoGAU?.itens || []).find(i => i.entrada === entry) || nivelEfetivoGAU(db, personagem, entry, ctxPericias);
+      return {
+        ...ef, entry, modelo: 'gau',
+        nome: ef.skill.nome + (entry.especialidade ? ` (${entry.especialidade})` : ''),
+        nivelTreinado: ef.nivelComprado,
+        treinada: ef.treinada,
+        porDefault: ef.default && (ef.nivelComprado === null || ef.default.valor > ef.nivelComprado),
+        atributo: ef.default?.fonte ?? attrPadrao(ef.skill),
+      };
+    }
+    const ef = nivelEfetivo(db, personagem, entry, ctxPericias);
     return {
-      ...ef, entry,
+      ...ef, entry, modelo: 'legado',
       nome: ef.skill.nome + (entry.especialidade ? ` (${entry.especialidade})` : ''),
       treinada: ef.nivelTreinado !== null,
       porDefault: ef.default && (ef.nivelTreinado === null || ef.default.valor > ef.nivelTreinado),
@@ -90,6 +100,7 @@ export function computeAll(db, personagem) {
     limitesForca: limitesDeForca(atributosComVantagens.ST),
     esquiva: esquiva(db, personagem, ctx).valor,
     pericias, magias, niveis,
+    periciasGAU: blocoGAU,
     vantagens,
     contagem,
     /* --- ficha oficial G.A.U. (data/ficha.json) --- */

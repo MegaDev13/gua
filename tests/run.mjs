@@ -21,6 +21,11 @@ import {
 } from '../app/engine/vantagens.js';
 const validarVantagemOk = (db, pc) => validarVantagens(db, pc).ok === true;
 import { computeAll } from '../app/engine/engine.js';
+import {
+  modeloDePericias, custoPublicado, nivelComprado, custoDaPericiaGAU, custoPericiasGAU,
+  limitePontosNaCriacao, defaultGAU, nivelEfetivoGAU, periciasGAU, validarPericiasGAU,
+  regraDeFamiliaridade, nivelDaEntrada, podeComprarNivelGAU,
+} from '../app/engine/skills.js';
 
 let pass = 0, fail = 0; const failures = [];
 function t(nome, cond, info = '') {
@@ -465,7 +470,7 @@ t('demônio: fórmula 3D/3D/2D/4D/2D', criarDemonio(DB, { dice: dadoFixo(6) }).a
 /* ---------------------------------------------------------- ficha: migração */
 const antigo = { versao: 1, nome: 'Veterano', atributos: { ST: 11, DX: 12, IQ: 10, HT: 11 }, pontos: { total: 100 }, magias: [{ id: 'luz', nome: 'Luz', pontos: 1 }], vantagens: [{ id: 'aptidao-magica', niveis: 2 }] };
 const migrado = migrarPersonagem(DB, antigo);
-t('migração v1 → v3', migrado.versao === 3);
+t('migração v1 → v4', migrado.versao === 4);
 t('migração: adiciona categoria, poderes, línguas e biografia', migrado.categoria === 'mundano' && Array.isArray(migrado.poderes) && migrado.linguas.escritas.length === 0 && migrado.biografia === '');
 t('migração: converte magias 3d em mágicas G.A.U.', migrado.magicas.length === 1 && migrado.magicas[0].legado === true);
 t('migração: Aptidão Mágica vem da vantagem', aptidaoMagicaDe(DB, migrado) === 2);
@@ -609,6 +614,111 @@ const snapGAU = computeAll(DB, gauPc);
 t('computeAll: secundários e parâmetros expostos', snapGAU.secundarios.PV.valor === 144 && snapGAU.parametros.ESQ.valor === 13);
 t('computeAll: bloco gau com categoria, margens e orçamento', snapGAU.gau.categoria.id === 'mundano' && snapGAU.gau.margens.ST.texto === '9–14' && snapGAU.gau.pontosDePoder.total === 150);
 t('computeAll: PF = HT com fadiga aplicada', snapGAU.gau.pf.max === 12 && snapGAU.gau.pf.disponiveis === 10);
+
+/* ============================================ PERÍCIAS G.A.U. (canal #『📕』perícias) */
+t('catálogo G.A.U.: 176 perícias em 16 grupos', DB.skills.length === 176 && (DB.pericias.grupos || []).length === 16);
+t('catálogo G.A.U.: ids únicos', new Set(DB.skills.map(s => s.id)).size === DB.skills.length);
+t('catálogo G.A.U.: nenhum remanescente do catálogo legado', (DB.pericias.remanescentesLegados || []).length === 0);
+t('catálogo G.A.U.: custo publicado em pontos para 172 perícias', DB.skills.filter(s => Number.isFinite(s.custoPontos)).length === 172);
+t('catálogo G.A.U.: 4 perícias sem custo publicado (Caligrafia, Dança, Arremessador de Lança, Língua)',
+  DB.skills.filter(s => s.custoNaoPublicado).length === 4
+  && ['Caligrafia', 'Dança', 'Arremessador de Lança', 'Língua (cada uma)'].every(n => DB.skills.some(s => s.nome === n && s.custoNaoPublicado)));
+t('catálogo G.A.U.: todas as fontes de pré-definido estão tipificadas',
+  DB.skills.flatMap(s => s.preDefinido || []).every(f => ['atributo', 'pericia', 'generica', 'sentido'].includes(f.tipo)));
+const tiposFonte = DB.skills.flatMap(s => s.preDefinido || []).reduce((a, f) => ((a[f.tipo] = (a[f.tipo] || 0) + 1), a), {});
+t('catálogo G.A.U.: 256 pré-definidos (151 atributo, 94 perícia, 10 genérica, 1 sentido)',
+  Object.values(tiposFonte).reduce((x, y) => x + y, 0) === 256 && tiposFonte.atributo === 151
+  && tiposFonte.pericia === 94 && tiposFonte.generica === 10 && tiposFonte.sentido === 1);
+t('catálogo G.A.U.: modificadores ligados a vantagens publicadas',
+  DB.skills.flatMap(s => s.modificadores || []).filter(m => m.vantagem).length === 12);
+t('catálogo G.A.U.: familiaridade aplicável a 12 perícias', DB.skills.filter(s => s.familiaridadeAplicavel).length === 12);
+t('catálogo G.A.U.: divergências da publicação registradas', (DB.pericias.divergencias || []).length >= 6);
+
+const pcG = novoPersonagem('Dai', 100, DB);
+pcG.idade = 18;
+pcG.atributos = { ST: 8, DX: 15, IQ: 12, HT: 12 };
+pcG.vantagens = [{ id: 'voz-melodiosa', nome: 'Voz Melodiosa' }, { id: 'ultra-flexibilidade-das-juntas', nome: 'Ultra-flexibilidade das Juntas' }];
+pcG.pericias = [
+  { id: 'espadas-curtas', nivel: 6 },
+  { id: 'furtividade', nivel: 4 },
+  { id: 'escalada', nivel: 3 },
+  { id: 'canto', nivel: 2 },
+];
+t('modelo G.A.U. é o padrão da ficha nova', modeloDePericias(DB, pcG) === 'gau');
+t('compra G.A.U.: nível 1 pelo custo publicado, +1 ponto por nível adicional',
+  custoDaPericiaGAU(DB.skill('espadas-curtas'), 1) === 3 && custoDaPericiaGAU(DB.skill('espadas-curtas'), 6) === 8);
+t('compra G.A.U.: custo total somado na ficha', custoPericiasGAU(DB, pcG).total === 8 + 6 + 4 + 2);
+t('compra G.A.U.: sem custo publicado não entra na conta',
+  custoPericiasGAU(DB, { ...pcG, pericias: [{ id: 'caligrafia', nivel: 5 }] }).semCustoPublicado === 1
+  && custoPericiasGAU(DB, { ...pcG, pericias: [{ id: 'caligrafia', nivel: 5 }] }).total === 0);
+t('limite de criação: 2 × idade (18 anos → 36 pontos)', limitePontosNaCriacao(DB, pcG).limite === 36);
+t('validação G.A.U.: exceder o limite de criação é erro',
+  validarPericiasGAU(DB, { ...pcG, pericias: [...pcG.pericias, { id: 'diplomacia', nivel: 20 }] }).ok === false);
+t('validação G.A.U.: ficha dentro do limite passa', validarPericiasGAU(DB, pcG).ok === true);
+t('pré-definido G.A.U. não encadeia: só perícia efetivamente treinada serve de base',
+  defaultGAU(DB, pcG, DB.skill('marcenaria'), { carpintaria: 14 }).valor === 11
+  && defaultGAU(DB, pcG, DB.skill('marcenaria'), { carpintaria: 14 }).tipo === 'pericia'
+  && defaultGAU(DB, pcG, DB.skill('marcenaria'), {}).tipo === 'atributo'
+  && defaultGAU(DB, pcG, DB.skill('marcenaria'), {}).valor === 10);
+t('pré-definido G.A.U.: maior entre as fontes publicadas', nivelEfetivoGAU(DB, pcG, { id: 'canto', nivel: 2 }).nivelBase === 4);
+t('modificadores publicados: Voz Melodiosa +2 em Canto', nivelEfetivoGAU(DB, pcG, { id: 'canto', nivel: 2 }).nivelEfetivo === 6);
+t('modificadores publicados: Ultra-flexibilidade das Juntas +3 em Escalada',
+  nivelEfetivoGAU(DB, pcG, { id: 'escalada', nivel: 3 }).nivelEfetivo === 8);
+t('modificadores publicados: especialista (NH ≥ 20) +2 em Diplomacia',
+  nivelEfetivoGAU(DB, { ...pcG, pericias: [{ id: 'diplomacia', nivel: 20 }] }, { id: 'diplomacia', nivel: 20 })
+    .modificadores.some(m => m.valor === 2 && /especialista/i.test(m.fonte)));
+t('modificadores publicados: carga pesada −3 em perícias físicas',
+  nivelEfetivoGAU(DB, pcG, { id: 'escalada', nivel: 3 }, { carga: 'pesada' }).modificadores.some(m => m.valor === -3));
+t('modificadores publicados: familiaridade não aplicada dá −2 (Condução)',
+  nivelEfetivoGAU(DB, pcG, { id: 'conducao', nivel: 5, familiarizado: false }).nivelEfetivo
+  === nivelEfetivoGAU(DB, pcG, { id: 'conducao', nivel: 5, familiarizado: true }).nivelEfetivo - 2);
+t('modificadores publicados: situacional escolhido na mesa entra na conta',
+  nivelEfetivoGAU(DB, pcG, { id: 'conducao', nivel: 5 }, { situacoes: ['veículo em mau estado'] })
+    .modificadores.some(m => m.valor === -2 && m.origem === 'situacao'));
+t('regra de familiaridade publicada: −2 e 8 horas de prática',
+  regraDeFamiliaridade(DB).redutor === -2 && regraDeFamiliaridade(DB).horasParaFamiliarizar === 8
+  && regraDeFamiliaridade(DB).pericias.length === 12);
+t('modos de leitura dos pré-definidos (conflito registrado)',
+  nivelEfetivoGAU(DB, { ...pcG, atributos: { ST: 10, DX: 18, IQ: 12, HT: 11 }, config: { ...pcG.config, modoPreDefinido: 'absoluto' } }, { id: 'arco', nivel: 3 }).default.valor === 7
+  && nivelEfetivoGAU(DB, { ...pcG, atributos: { ST: 10, DX: 18, IQ: 12, HT: 11 }, config: { ...pcG.config, modoPreDefinido: 'relativo' } }, { id: 'arco', nivel: 3 }).default.valor === 11);
+t('conflito registrado: notação dos pré-definidos', (DB.rules.conflitos || []).some(c => c.id === 'pericias-pre-definidos'));
+
+const fichaLegada = {
+  versao: 3, nome: 'Veterana', atributos: { ST: 10, DX: 14, IQ: 12, HT: 11 }, pontos: { total: 100 },
+  pericias: [{ id: 'espadas-curtas', pontos: 4 }],
+};
+const fichaConvertida = migrarPersonagem(DB, fichaLegada);
+t('migração v4: pontos investidos viram nível G.A.U. pelo NH legado',
+  fichaConvertida.pericias[0].nivel === 15 && fichaConvertida.pericias[0].pontosLegados === 4);
+t('migração v4: nada é apagado e o histórico registra a conversão',
+  fichaConvertida.versao === 4 && fichaConvertida.historico.some(h => /Perícias convertidas/.test(h.texto || '')));
+t('ficha antiga sem migração: o NH legado continua servindo de nível',
+  nivelDaEntrada(DB, fichaLegada, fichaLegada.pericias[0]) === 15);
+t('contagem de pontos usa o modelo G.A.U.',
+  contagemDePontos(DB, pcG).partes.find(p => p.tipo === 'pericias').detalhe.includes('custo publicado'));
+
+t('compra G.A.U.: entrar na ficha custa o valor publicado (Espadas Curtas = 3)',
+  podeComprarNivelGAU(DB, pcG, { id: 'espadas-curtas' }, 1, { disponiveis: 10 }).custo === 3
+  && podeComprarNivelGAU(DB, pcG, { id: 'espadas-curtas' }, 1, { disponiveis: 10 }).nivel === 1);
+t('compra G.A.U.: +1 nível custa 1 ponto',
+  podeComprarNivelGAU(DB, pcG, { id: 'espadas-curtas', nivel: 6 }, 1, { disponiveis: 10 }).custo === 1);
+t('compra G.A.U.: pontos insuficientes bloqueiam',
+  podeComprarNivelGAU(DB, pcG, { id: 'espadas-curtas', nivel: 6 }, 1, { disponiveis: 0 }).ok === false);
+t('compra G.A.U.: limite de criação (2 × idade) bloqueia',
+  podeComprarNivelGAU(DB, pcG, { id: 'espadas-curtas', nivel: 6 }, 1, { disponiveis: 50, limiteCriacao: 8 }).ok === false);
+t('compra G.A.U.: perícia sem custo publicado é anotada sem entrar na conta',
+  podeComprarNivelGAU(DB, pcG, { id: 'caligrafia' }, 1, { disponiveis: 0 }).ok === true
+  && podeComprarNivelGAU(DB, pcG, { id: 'caligrafia' }, 1, { disponiveis: 0 }).custo === 0
+  && podeComprarNivelGAU(DB, pcG, { id: 'caligrafia' }, 1, { disponiveis: 0 }).avisos.some(aviso => /custo em pontos/i.test(aviso)));
+t('compra G.A.U.: pré-requisito de nível publicado bloqueia (Bioquímica exige Química 12)',
+  podeComprarNivelGAU(DB, pcG, { id: 'bioquimica' }, 1, { disponiveis: 50 }).ok === false
+  && podeComprarNivelGAU(DB, { ...pcG, pericias: [{ id: 'quimica', nivel: 12 }] }, { id: 'bioquimica' }, 1, { disponiveis: 50 }).ok === true);
+t('compra G.A.U.: pré-requisito em texto é lembrado sem bloquear (Cirurgia exige Medicina)',
+  podeComprarNivelGAU(DB, pcG, { id: 'cirurgia' }, 1, { disponiveis: 50 }).ok === true
+  && podeComprarNivelGAU(DB, pcG, { id: 'cirurgia' }, 1, { disponiveis: 50 }).avisos.some(a => /Medicina/.test(a)));
+t('compra G.A.U: NT mínimo só bloqueia quando a ficha declara NT',
+  podeComprarNivelGAU(DB, pcG, { id: (DB.skills.find(s => s.ntMinimo) || {}).id }, 1, { disponiveis: 50 }).avisos.length >= 1
+  && podeComprarNivelGAU(DB, { ...pcG, nt: 1 }, { id: (DB.skills.find(s => Number(s.ntMinimo) > 1) || {}).id }, 1, { disponiveis: 50 }).ok === false);
 
 console.log(`\n===== RESULTADO: ${pass} passou, ${fail} falhou =====`);
 if (failures.length) { console.log(failures.join('\n')); process.exit(1); }

@@ -1,1329 +1,1440 @@
 {
-  "_fonte": "Manifesto editorial. O texto de regras continua vindo de resolucao/proezas/maneuvers/armas/estruturas/poderes/magia/ficha/tables/skills/advantages/disadvantages/spells/equipment.json; nenhuma regra é duplicada aqui.",
-  "titulo": "GUA",
-  "subtitulo": "Livro de Regras Digital",
-  "descricao": "Um guia de mesa para criar personagens, resolver ações e consultar regras sem interromper a aventura. Esta edição digital compartilha a mesma base de dados e os mesmos cálculos da ficha — agora sob a modulação G.A.U em d20.",
-  "edicao": "Edição Digital 2.0 — Modulação G.A.U (d20)",
-  "versao": "2.0.0",
-  "atualizadoEm": "2026-09-05",
-  "capituloFonte": "docs/analise/02-modulacao-gau-d20.md",
-  "capa": "book/images/capa-livro.jpg",
-  "ilustracoes": {
-    "combate": "book/images/abertura-combate.jpg",
-    "magia": "book/images/abertura-magia.jpg"
-  },
-  "alteracoes": [
-    "Núcleo de resolução migrado para 1d20 + Margem de Sucesso (tabela de valores 1–20 e crítico)",
-    "Categorias de Poder e escala de dados (Mundano = 1d20) com agregação multi-dado marcada como REGRA NÃO DEFINIDA",
-    "Novos secundários oficiais: PV = ST × HT, VON = IQ, PER = IQ, PF = HT",
-    "Parâmetros de ficha: ATQ, ESQ, APAR, BLOQ e DSL",
-    "Árvore de Manobras completa: Movimento (Linear, Difuso, Acrobático, Atlético), Atacar, Preparar, Apontar, Analisar e Fazer Nada",
-    "Empunhaduras (Uma Mão, Bastarda, Duas Mãos, Tsuka, Zatoichi, Anatômica)",
-    "Defesas Ativas, Grau de Dano (GD1–GD3), localização de acerto e tabela de luminosidade",
-    "Arsenal por era (medieval, moderno, futurista) com dano, média e precisão (PREC)",
-    "Sistema de dano para estruturas e objetos (Limiar, PE e estados de degradação) e Níveis de Tecnologia",
-    "Proezas físicas: corrida, esforço extra, saltos, escalada, levantamento, arremesso, cavar e natação",
-    "Testes dos sentidos, Testes de Vontade e Verificação de Pânico (tabela 3d de 4 a 40+)",
-    "Construtor modular de Poderes: Efeitos, Extensão, Potência, Condições, Bônus, PV e RD",
-    "Dimensionalidade e Hax como referência de escala de existência",
-    "Magia revisada: classes, cerimonial, objetos encantados e entidades mágicas",
-    "Conflitos de fonte registrados explicitamente em data/rules.json",
-    "Capítulo de Vantagens reescrito com a publicação oficial G.A.U.: 65 vantagens (38 clássicas, 6 de custo variável e 21 novas de 16/08/2026), efeitos estruturados aplicados pelo motor, regras de Aliado/Patrono/Riqueza, exemplo de Dai Blackthorn e migração automática de ids de fichas salvas"
-  ],
-  "capitulos": [
+ "_fonte": "Manifesto editorial. O texto de regras continua vindo de resolucao/proezas/maneuvers/armas/estruturas/poderes/magia/ficha/tables/skills/advantages/disadvantages/spells/equipment.json; nenhuma regra é duplicada aqui.",
+ "titulo": "GUA",
+ "subtitulo": "Livro de Regras Digital",
+ "descricao": "Um guia de mesa para criar personagens, resolver ações e consultar regras sem interromper a aventura. Esta edição digital compartilha a mesma base de dados e os mesmos cálculos da ficha — agora sob a modulação G.A.U em d20.",
+ "edicao": "Edição Digital 2.0 — Modulação G.A.U (d20)",
+ "versao": "2.0.0",
+ "atualizadoEm": "2026-09-05",
+ "capituloFonte": "docs/analise/02-modulacao-gau-d20.md",
+ "capa": "book/images/capa-livro.jpg",
+ "ilustracoes": {
+  "combate": "book/images/abertura-combate.jpg",
+  "magia": "book/images/abertura-magia.jpg"
+ },
+ "alteracoes": [
+  "Núcleo de resolução migrado para 1d20 + Margem de Sucesso (tabela de valores 1–20 e crítico)",
+  "Categorias de Poder e escala de dados (Mundano = 1d20) com agregação multi-dado marcada como REGRA NÃO DEFINIDA",
+  "Novos secundários oficiais: PV = ST × HT, VON = IQ, PER = IQ, PF = HT",
+  "Parâmetros de ficha: ATQ, ESQ, APAR, BLOQ e DSL",
+  "Árvore de Manobras completa: Movimento (Linear, Difuso, Acrobático, Atlético), Atacar, Preparar, Apontar, Analisar e Fazer Nada",
+  "Empunhaduras (Uma Mão, Bastarda, Duas Mãos, Tsuka, Zatoichi, Anatômica)",
+  "Defesas Ativas, Grau de Dano (GD1–GD3), localização de acerto e tabela de luminosidade",
+  "Arsenal por era (medieval, moderno, futurista) com dano, média e precisão (PREC)",
+  "Sistema de dano para estruturas e objetos (Limiar, PE e estados de degradação) e Níveis de Tecnologia",
+  "Proezas físicas: corrida, esforço extra, saltos, escalada, levantamento, arremesso, cavar e natação",
+  "Testes dos sentidos, Testes de Vontade e Verificação de Pânico (tabela 3d de 4 a 40+)",
+  "Construtor modular de Poderes: Efeitos, Extensão, Potência, Condições, Bônus, PV e RD",
+  "Dimensionalidade e Hax como referência de escala de existência",
+  "Magia revisada: classes, cerimonial, objetos encantados e entidades mágicas",
+  "Conflitos de fonte registrados explicitamente em data/rules.json",
+  "Capítulo de Vantagens reescrito com a publicação oficial G.A.U.: 65 vantagens (38 clássicas, 6 de custo variável e 21 novas de 16/08/2026), efeitos estruturados aplicados pelo motor, regras de Aliado/Patrono/Riqueza, exemplo de Dai Blackthorn e migração automática de ids de fichas salvas",
+  "Perícias no modelo G.A.U.: 176 perícias em 16 grupos com custo em pontos (compra no nível 1, +1 nível por ponto adicional), níveis pré-definidos estruturados, modificadores publicados, especializações, pré-requisitos e NT mínimo",
+  "Familiaridade: redutor −2 com equipamento não familiar e 8 horas de prática para tornar o modelo familiar",
+  "Limite de criação publicado: 2 × idade em pontos de perícia (não se aplica após a criação)",
+  "Conflito registrado na notação dos pré-definidos (\"IQ 10\" absoluto × \"IQ-5\" relativo) com leitura configurável em config.modoPreDefinido"
+ ],
+ "capitulos": [
+  {
+   "id": "apresentacao",
+   "numero": "I",
+   "ordem": 1,
+   "titulo": "Apresentação",
+   "subtitulo": "Como usar este livro",
+   "resumo": "Entenda a fonte das regras, a migração para o d20, a organização da edição digital e o compromisso de não inventar lacunas do material.",
+   "categorias": [
+    "Introdução",
+    "Referência"
+   ],
+   "fonte": "Manifesto do banco de regras (data/rules.json)",
+   "secoes": [
     {
-      "id": "apresentacao",
-      "numero": "I",
-      "ordem": 1,
-      "titulo": "Apresentação",
-      "subtitulo": "Como usar este livro",
-      "resumo": "Entenda a fonte das regras, a migração para o d20, a organização da edição digital e o compromisso de não inventar lacunas do material.",
-      "categorias": [
-        "Introdução",
-        "Referência"
-      ],
-      "fonte": "Manifesto do banco de regras (data/rules.json)",
-      "secoes": [
-        {
-          "id": "bem-vindo",
-          "titulo": "Bem-vindo ao GUA",
-          "tipo": "texto",
-          "categorias": [
-            "Introdução"
-          ]
-        },
-        {
-          "id": "fonte-verdade",
-          "titulo": "Uma única fonte de verdade",
-          "tipo": "regra",
-          "categorias": [
-            "Regras",
-            "Referência"
-          ]
-        },
-        {
-          "id": "o-que-mudou",
-          "titulo": "O que mudou na modulação G.A.U",
-          "tipo": "nota",
-          "categorias": [
-            "Regras",
-            "Introdução"
-          ]
-        },
-        {
-          "id": "como-consultar",
-          "titulo": "Como consultar",
-          "tipo": "nota",
-          "categorias": [
-            "Consulta"
-          ]
-        }
-      ]
+     "id": "bem-vindo",
+     "titulo": "Bem-vindo ao GUA",
+     "tipo": "texto",
+     "categorias": [
+      "Introdução"
+     ]
     },
     {
-      "id": "testes",
-      "numero": "II",
-      "ordem": 2,
-      "titulo": "Testes de Habilidade",
-      "subtitulo": "d20, margem de sucesso e escala",
-      "resumo": "O núcleo de resolução do sistema: a referência da jogada, a margem de sucesso, o crítico, as categorias de poder e as disputas.",
-      "categorias": [
-        "Regras",
-        "Testes",
-        "Tabelas",
-        "Dados"
-      ],
-      "fonte": "#『📕』testes-e-combate — TESTES DE HABILIDADE (16/08/2026)",
-      "secoes": [
-        {
-          "id": "como-funciona",
-          "titulo": "Como funciona um teste",
-          "tipo": "regra",
-          "ref": "resolucao.principios",
-          "categorias": [
-            "Regras",
-            "Testes"
-          ]
-        },
-        {
-          "id": "referencia",
-          "titulo": "A referência da jogada",
-          "tipo": "regra",
-          "ref": "resolucao.referencia",
-          "categorias": [
-            "Regras",
-            "Testes"
-          ]
-        },
-        {
-          "id": "margens",
-          "titulo": "Tabela de margens de sucesso e crítico",
-          "tipo": "tabela",
-          "ref": "resolucao.margens",
-          "categorias": [
-            "Tabelas",
-            "Testes",
-            "Dados"
-          ]
-        },
-        {
-          "id": "categorias",
-          "titulo": "Categorias de poder e escala",
-          "tipo": "regra",
-          "ref": "resolucao.categorias",
-          "categorias": [
-            "Regras",
-            "Categorias"
-          ]
-        },
-        {
-          "id": "pre-definidos",
-          "titulo": "Testes com níveis pré-definidos",
-          "tipo": "regra",
-          "ref": "resolucao.testesPreDefinidos",
-          "categorias": [
-            "Regras",
-            "Perícias"
-          ]
-        },
-        {
-          "id": "por-categoria",
-          "titulo": "Testes determinados por categoria",
-          "tipo": "regra",
-          "ref": "resolucao.testesPorCategoria",
-          "categorias": [
-            "Regras",
-            "Categorias"
-          ]
-        },
-        {
-          "id": "disputas",
-          "titulo": "Disputa de Habilidades",
-          "tipo": "regra",
-          "ref": "resolucao.disputas",
-          "categorias": [
-            "Regras",
-            "Combate",
-            "Testes"
-          ]
-        },
-        {
-          "id": "testes-do-mestre",
-          "titulo": "Quando o Mestre joga os dados",
-          "tipo": "nota",
-          "ref": "resolucao.testesDoMestre",
-          "categorias": [
-            "Mestre",
-            "Regras"
-          ]
-        },
-        {
-          "id": "sucesso-automatico",
-          "titulo": "Sucesso automático, 1 e 20",
-          "tipo": "regra",
-          "ref": "resolucao.sucessoAutomatico",
-          "categorias": [
-            "Regras",
-            "Testes"
-          ]
-        }
-      ]
+     "id": "fonte-verdade",
+     "titulo": "Uma única fonte de verdade",
+     "tipo": "regra",
+     "categorias": [
+      "Regras",
+      "Referência"
+     ]
     },
     {
-      "id": "criacao",
-      "numero": "III",
-      "ordem": 3,
-      "titulo": "Criação de Personagem",
-      "subtitulo": "Do conceito à planilha",
-      "resumo": "Atributos, secundários oficiais, parâmetros de ficha e o fluxo de criação recomendado: conceito, limites do cenário, complicações, orçamento e compras.",
-      "categorias": [
-        "Criação",
-        "Atributos",
-        "Ficha",
-        "Regras",
-        "Tabelas"
-      ],
-      "fonte": "#『📁』modelo-ficha · Como fazer o meu Personagem no sistema de G.A.U RPG?",
-      "secoes": [
-        {
-          "id": "atributos",
-          "titulo": "Atributos",
-          "tipo": "tabela",
-          "ref": "tables.custoAtributos",
-          "categorias": [
-            "Criação",
-            "Atributos"
-          ]
-        },
-        {
-          "id": "secundarios",
-          "titulo": "Secundários e parâmetros",
-          "tipo": "tabela",
-          "ref": "ficha.blocos",
-          "categorias": [
-            "Criação",
-            "Ficha",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "evolucao",
-          "titulo": "Como o personagem evolui",
-          "tipo": "regra",
-          "ref": "ficha.evolucao",
-          "categorias": [
-            "Criação",
-            "Categorias"
-          ]
-        },
-        {
-          "id": "custos-pericias",
-          "titulo": "Custos de perícias",
-          "tipo": "tabela",
-          "ref": "tables.custoPericias",
-          "categorias": [
-            "Criação",
-            "Perícias"
-          ]
-        },
-        {
-          "id": "fluxo-criacao",
-          "titulo": "Fluxo de criação",
-          "tipo": "dica",
-          "ref": "poderes.criacao",
-          "categorias": [
-            "Criação"
-          ]
-        },
-        {
-          "id": "modelo-ficha",
-          "titulo": "Modelo da planilha de personagem",
-          "tipo": "tabela",
-          "ref": "ficha",
-          "categorias": [
-            "Tabelas",
-            "Ficha"
-          ]
-        }
-      ]
+     "id": "o-que-mudou",
+     "titulo": "O que mudou na modulação G.A.U",
+     "tipo": "nota",
+     "categorias": [
+      "Regras",
+      "Introdução"
+     ]
     },
     {
-      "id": "pericias",
-      "numero": "IV",
-      "ordem": 4,
-      "titulo": "Perícias",
-      "subtitulo": "Treinamento, dificuldade e defaults",
-      "resumo": "O catálogo de perícias com atributo-base, dificuldade, pré-requisitos e níveis predefinidos — o NH é a referência usada na margem de sucesso do d20.",
-      "categorias": [
-        "Perícias",
-        "Criação",
-        "Regras",
-        "Catálogo"
-      ],
-      "fonte": "p. 104–180 (material-base) · níveis pré-definidos na modulação G.A.U",
-      "secoes": [
-        {
-          "id": "ler-pericia",
-          "titulo": "Como ler uma perícia",
-          "tipo": "regra",
-          "categorias": [
-            "Perícias",
-            "Regras"
-          ]
-        },
-        {
-          "id": "catalogo-pericias",
-          "titulo": "Catálogo de perícias",
-          "tipo": "catalogo",
-          "ref": "skills",
-          "categorias": [
-            "Perícias",
-            "Catálogo"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "vantagens",
-      "numero": "V",
-      "ordem": 5,
-      "titulo": "Vantagens & Desvantagens",
-      "subtitulo": "Aquilo que torna cada personagem único",
-      "resumo": "Vantagens transcritas da publicação oficial G.A.U. (clássicas e novas), com custos, efeitos estruturados que o motor aplica, requisitos e incompatibilidades — mais as regras de Aliado, Patrono e Riqueza, o exemplo de seleção de Dai Blackthorn, desvantagens e peculiaridades.",
-      "categorias": [
-        "Criação",
-        "Vantagens",
-        "Novas Vantagens",
-        "Aliado",
-        "Patrono",
-        "Riqueza",
-        "Desvantagens",
-        "Catálogo"
-      ],
-      "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026) · NOVAS VANTAGENS (16/08/2026) · p. 12–103 do material-base para Aliado, Patrono, Riqueza, desvantagens e peculiaridades",
-      "secoes": [
-        {
-          "id": "definicao",
-          "titulo": "O que são vantagens",
-          "tipo": "regra",
-          "ref": "vantagens.definicao",
-          "categorias": [
-            "Vantagens",
-            "Criação"
-          ]
-        },
-        {
-          "id": "vantagens",
-          "titulo": "Catálogo de vantagens",
-          "tipo": "catalogo",
-          "ref": "advantages",
-          "categorias": [
-            "Vantagens",
-            "Criação",
-            "Catálogo"
-          ]
-        },
-        {
-          "id": "novas-vantagens",
-          "titulo": "Novas Vantagens",
-          "tipo": "catalogo",
-          "ref": "vantagens.novasVantagens",
-          "categorias": [
-            "Vantagens",
-            "Novas Vantagens"
-          ]
-        },
-        {
-          "id": "aliado",
-          "titulo": "Aliado",
-          "tipo": "regra",
-          "ref": "vantagens.aliado",
-          "categorias": [
-            "Vantagens",
-            "Aliado",
-            "NPC"
-          ]
-        },
-        {
-          "id": "patrono",
-          "titulo": "Patrono",
-          "tipo": "regra",
-          "ref": "vantagens.patrono",
-          "categorias": [
-            "Vantagens",
-            "Patrono",
-            "NPC"
-          ]
-        },
-        {
-          "id": "riqueza",
-          "titulo": "Riqueza",
-          "tipo": "regra",
-          "ref": "vantagens.riqueza",
-          "categorias": [
-            "Vantagens",
-            "Riqueza",
-            "Economia"
-          ]
-        },
-        {
-          "id": "exemplo-selecao",
-          "titulo": "Exemplo de seleção de vantagens",
-          "tipo": "exemplo",
-          "ref": "vantagens.exemploSelecao",
-          "categorias": [
-            "Vantagens",
-            "Criação",
-            "Exemplo"
-          ]
-        },
-        {
-          "id": "conflitos-vantagens",
-          "titulo": "Conflitos registrados",
-          "tipo": "conflito",
-          "ref": "vantagens.conflitos",
-          "categorias": [
-            "Vantagens",
-            "Fontes"
-          ]
-        },
-        {
-          "id": "migracao-ids",
-          "titulo": "Migração de fichas salvas",
-          "tipo": "nota",
-          "ref": "vantagens.migracaoDeIds",
-          "categorias": [
-            "Vantagens",
-            "Dados"
-          ]
-        },
-        {
-          "id": "desvantagens",
-          "titulo": "Desvantagens",
-          "tipo": "catalogo",
-          "ref": "disadvantages",
-          "categorias": [
-            "Desvantagens",
-            "Criação"
-          ]
-        },
-        {
-          "id": "peculiaridades",
-          "titulo": "Peculiaridades",
-          "tipo": "regra",
-          "ref": "quirks",
-          "categorias": [
-            "Criação"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "proezas",
-      "numero": "VI",
-      "ordem": 6,
-      "titulo": "Proezas Físicas & Sentidos",
-      "subtitulo": "Correr, saltar, escalar, nadar e perceber",
-      "resumo": "As regras físicas do dia a dia da aventura: corrida, esforço extra, saltos, escalada, levantamento, arremesso, escavação, natação, sentidos e pânico.",
-      "categorias": [
-        "Proezas",
-        "Regras",
-        "Tabelas",
-        "Sentidos",
-        "Fadiga"
-      ],
-      "fonte": "#『📕』testes-e-combate — PROEZAS FÍSICAS · Testes dos Sentidos · Testes de Vontade",
-      "secoes": [
-        {
-          "id": "corrida",
-          "titulo": "Corrida e deslocamento",
-          "tipo": "regra",
-          "ref": "proezas.corrida",
-          "categorias": [
-            "Proezas",
-            "Movimento"
-          ]
-        },
-        {
-          "id": "esforco-extra",
-          "titulo": "Esforço Extra",
-          "tipo": "regra",
-          "ref": "proezas.esforcoExtra",
-          "categorias": [
-            "Proezas",
-            "Fadiga"
-          ]
-        },
-        {
-          "id": "saltos",
-          "titulo": "Saltos",
-          "tipo": "regra",
-          "ref": "proezas.saltos",
-          "categorias": [
-            "Proezas",
-            "Movimento"
-          ]
-        },
-        {
-          "id": "escalada",
-          "titulo": "Escalada",
-          "tipo": "tabela",
-          "ref": "proezas.escalada",
-          "categorias": [
-            "Proezas",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "levantamento",
-          "titulo": "Levantamento e movimentação de objetos",
-          "tipo": "tabela",
-          "ref": "proezas.levantamento",
-          "categorias": [
-            "Proezas",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "empurrar",
-          "titulo": "Empurrar e derrubar objetos",
-          "tipo": "regra",
-          "ref": "proezas.empurrarDerrubar",
-          "categorias": [
-            "Proezas",
-            "Combate"
-          ]
-        },
-        {
-          "id": "arremesso",
-          "titulo": "Arremessando objetos",
-          "tipo": "tabela",
-          "ref": "proezas.arremesso",
-          "categorias": [
-            "Proezas",
-            "Combate",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "cavar",
-          "titulo": "Cavar",
-          "tipo": "regra",
-          "ref": "proezas.cavar",
-          "categorias": [
-            "Proezas"
-          ]
-        },
-        {
-          "id": "natacao",
-          "titulo": "Natação e afogamento",
-          "tipo": "regra",
-          "ref": "proezas.natacao",
-          "categorias": [
-            "Proezas",
-            "Combate"
-          ]
-        },
-        {
-          "id": "sentidos",
-          "titulo": "Testes dos Sentidos",
-          "tipo": "regra",
-          "ref": "proezas.sentidos",
-          "categorias": [
-            "Sentidos",
-            "Regras"
-          ]
-        },
-        {
-          "id": "vontade",
-          "titulo": "Testes de Vontade",
-          "tipo": "regra",
-          "ref": "proezas.vontade",
-          "categorias": [
-            "Regras",
-            "Testes"
-          ]
-        },
-        {
-          "id": "panico",
-          "titulo": "Vontade e Verificação de Pânico",
-          "tipo": "tabela",
-          "ref": "proezas.panico",
-          "categorias": [
-            "Regras",
-            "Tabelas",
-            "Mestre"
-          ]
-        },
-        {
-          "id": "apanhar",
-          "titulo": "Apanhar objetos em combate",
-          "tipo": "nota",
-          "ref": "proezas.apanharObjetos",
-          "categorias": [
-            "Regras",
-            "Combate"
-          ]
-        },
-        {
-          "id": "salto-combate",
-          "titulo": "Salto durante o combate",
-          "tipo": "nota",
-          "ref": "proezas.saltoDuranteCombate",
-          "categorias": [
-            "Regras",
-            "Combate"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "combate",
-      "numero": "VII",
-      "ordem": 7,
-      "titulo": "Combate",
-      "subtitulo": "A árvore de manobras",
-      "resumo": "Combate de impacto e mortal, sequência de turnos, a árvore de manobras (Movimento, Atacar, Preparar, Apontar, Analisar, Fazer Nada), defesas ativas, grau de dano, localização, luminosidade e combate montado ou em veículos.",
-      "categorias": [
-        "Combate",
-        "Ações",
-        "Dano",
-        "Defesa",
-        "Regras",
-        "Tabelas"
-      ],
-      "fonte": "#『📕』testes-e-combate — SISTEMA DE COMBATE (16/08 e 30/08/2026)",
-      "ilustracao": "book/images/abertura-combate.jpg",
-      "secoes": [
-        {
-          "id": "tipos",
-          "titulo": "Combate de impacto e combate mortal",
-          "tipo": "regra",
-          "ref": "maneuvers.tiposCombate",
-          "categorias": [
-            "Combate",
-            "Regras"
-          ]
-        },
-        {
-          "id": "sequencia",
-          "titulo": "Sequência dentro de um combate",
-          "tipo": "regra",
-          "ref": "maneuvers.sequencia",
-          "categorias": [
-            "Combate",
-            "Ações"
-          ]
-        },
-        {
-          "id": "movimento",
-          "titulo": "Manobra básica: Movimento",
-          "tipo": "regra",
-          "categorias": [
-            "Combate",
-            "Movimento"
-          ]
-        },
-        {
-          "id": "atacar",
-          "titulo": "Manobra básica: Atacar",
-          "tipo": "regra",
-          "categorias": [
-            "Combate",
-            "Ações",
-            "Dano"
-          ]
-        },
-        {
-          "id": "preparar",
-          "titulo": "Manobra básica: Preparar e empunhaduras",
-          "tipo": "tabela",
-          "ref": "maneuvers.empunhaduras",
-          "categorias": [
-            "Combate",
-            "Equipamentos"
-          ]
-        },
-        {
-          "id": "apontar",
-          "titulo": "Manobra básica: Apontar",
-          "tipo": "tabela",
-          "ref": "armas.precisao",
-          "categorias": [
-            "Combate",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "analisar",
-          "titulo": "Manobra básica: Analisar",
-          "tipo": "regra",
-          "categorias": [
-            "Combate",
-            "Mestre"
-          ]
-        },
-        {
-          "id": "fazer-nada",
-          "titulo": "Manobra básica: Fazer Nada",
-          "tipo": "nota",
-          "categorias": [
-            "Combate"
-          ]
-        },
-        {
-          "id": "defesas",
-          "titulo": "Defesas Ativas",
-          "tipo": "tabela",
-          "ref": "maneuvers.defesasAtivas",
-          "categorias": [
-            "Combate",
-            "Defesa"
-          ]
-        },
-        {
-          "id": "grau-dano",
-          "titulo": "Grau de Dano",
-          "tipo": "tabela",
-          "ref": "maneuvers.grauDano",
-          "categorias": [
-            "Combate",
-            "Dano"
-          ]
-        },
-        {
-          "id": "localizacao",
-          "titulo": "Localização de acerto",
-          "tipo": "regra",
-          "ref": "maneuvers.localizacao",
-          "categorias": [
-            "Combate",
-            "Dano",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "luminosidade",
-          "titulo": "Luminosidade e escuridão",
-          "tipo": "tabela",
-          "ref": "maneuvers.luminosidade",
-          "categorias": [
-            "Combate",
-            "Tabelas",
-            "Sentidos"
-          ]
-        },
-        {
-          "id": "montado",
-          "titulo": "Combate montado ou sobre veículo",
-          "tipo": "regra",
-          "ref": "maneuvers.montado",
-          "categorias": [
-            "Combate",
-            "Movimento"
-          ]
-        },
-        {
-          "id": "veiculos",
-          "titulo": "Combate em veículos",
-          "tipo": "regra",
-          "ref": "maneuvers.veiculos",
-          "categorias": [
-            "Regras",
-            "Combate"
-          ]
-        },
-        {
-          "id": "arvores",
-          "titulo": "Árvores de manobra (transcrição)",
-          "tipo": "tabela",
-          "ref": "maneuvers.arvores",
-          "categorias": [
-            "Tabelas",
-            "Combate"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "arsenal",
-      "numero": "VIII",
-      "ordem": 8,
-      "titulo": "Arsenal, Estruturas & NT",
-      "subtitulo": "O limite do mundano",
-      "resumo": "Tabelas de dano mundano por era, precisão das armas, arremesso, dano em estruturas e objetos (limiar, PE e degradação) e os níveis de tecnologia.",
-      "categorias": [
-        "Equipamentos",
-        "Dano",
-        "Tabelas",
-        "Cenário"
-      ],
-      "fonte": "#『📕』testes-e-combate — TABELAS DE DANO MUNDANO · ESTRUTURAS · NT (30/08/2026)",
-      "secoes": [
-        {
-          "id": "armas-medievais",
-          "titulo": "Armas medievais",
-          "tipo": "tabela",
-          "ref": "armas.eras",
-          "categorias": [
-            "Equipamentos",
-            "Dano",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "armas-modernas",
-          "titulo": "Armas modernas",
-          "tipo": "tabela",
-          "ref": "armas.eras",
-          "categorias": [
-            "Tabelas",
-            "Arsenal",
-            "Dados"
-          ]
-        },
-        {
-          "id": "armas-futuristas",
-          "titulo": "Armas futuristas",
-          "tipo": "tabela",
-          "ref": "armas.eras",
-          "categorias": [
-            "Tabelas",
-            "Arsenal",
-            "Dados"
-          ]
-        },
-        {
-          "id": "precisao",
-          "titulo": "Precisão das armas (PREC)",
-          "tipo": "tabela",
-          "ref": "armas.precisao",
-          "categorias": [
-            "Equipamentos",
-            "Tabelas",
-            "Combate"
-          ]
-        },
-        {
-          "id": "arremesso",
-          "titulo": "Dano de objetos arremessados",
-          "tipo": "tabela",
-          "ref": "armas.arremesso",
-          "categorias": [
-            "Dano",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "estruturas",
-          "titulo": "Estruturas e objetos",
-          "tipo": "tabela",
-          "ref": "estruturas.estruturas",
-          "categorias": [
-            "Dano",
-            "Tabelas",
-            "Cenário"
-          ]
-        },
-        {
-          "id": "nt",
-          "titulo": "Nível de tecnologia (NT)",
-          "tipo": "tabela",
-          "ref": "estruturas.nivelTecnologico",
-          "categorias": [
-            "Cenário",
-            "Tabelas",
-            "Equipamentos"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "poderes",
-      "numero": "IX",
-      "ordem": 9,
-      "titulo": "Poderes",
-      "subtitulo": "Construção modular e escala de existência",
-      "resumo": "O catálogo de construção de poderes: orçamento, efeitos, extensão, potência, condições, bônus, PV e RD — mais dimensionalidade e hax como referência de escala.",
-      "categorias": [
-        "Poderes",
-        "Criação",
-        "Regras",
-        "Tabelas",
-        "Categorias"
-      ],
-      "fonte": "CRIANDO SEUS PODERES · DIMENSIONALIDADE · HAX",
-      "secoes": [
-        {
-          "id": "como-construir",
-          "titulo": "Como construir um poder",
-          "tipo": "regra",
-          "ref": "poderes.conceito",
-          "categorias": [
-            "Poderes",
-            "Criação"
-          ]
-        },
-        {
-          "id": "orcamento",
-          "titulo": "Orçamento de pontos de poder",
-          "tipo": "regra",
-          "ref": "poderes.orcamento",
-          "categorias": [
-            "Poderes",
-            "Criação"
-          ]
-        },
-        {
-          "id": "efeitos",
-          "titulo": "Efeitos",
-          "tipo": "tabela",
-          "ref": "poderes.modulos.efeitos",
-          "categorias": [
-            "Poderes",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "extensao",
-          "titulo": "Extensão",
-          "tipo": "tabela",
-          "ref": "poderes.modulos.extensao",
-          "categorias": [
-            "Poderes",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "potencia",
-          "titulo": "Potência",
-          "tipo": "tabela",
-          "ref": "poderes.modulos.potencia",
-          "categorias": [
-            "Poderes",
-            "Tabelas",
-            "Dano"
-          ]
-        },
-        {
-          "id": "condicoes",
-          "titulo": "Condições",
-          "tipo": "tabela",
-          "ref": "poderes.modulos.condicoes",
-          "categorias": [
-            "Poderes",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "bonus",
-          "titulo": "Bônus, PV, RD e outros",
-          "tipo": "tabela",
-          "ref": "poderes.modulos",
-          "categorias": [
-            "Poderes",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "dimensionalidade",
-          "titulo": "Dimensionalidade",
-          "tipo": "regra",
-          "ref": "poderes.dimensionalidade",
-          "categorias": [
-            "Poderes",
-            "Categorias"
-          ]
-        },
-        {
-          "id": "hax",
-          "titulo": "Hax",
-          "tipo": "regra",
-          "ref": "poderes.hax",
-          "categorias": [
-            "Poderes",
-            "Categorias",
-            "Combate"
-          ]
-        },
-        {
-          "id": "criacao-poderes",
-          "titulo": "Como fazer o meu personagem",
-          "tipo": "dica",
-          "ref": "poderes.criacao",
-          "categorias": [
-            "Dicas",
-            "Poderes"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "equipamento",
-      "numero": "X",
-      "ordem": 10,
-      "titulo": "Carga & Equipamento",
-      "subtitulo": "O peso de cada escolha",
-      "resumo": "Carga, armaduras, escudos, itens e encantamentos com atalhos para o banco de equipamentos e a ficha ativa.",
-      "categorias": [
-        "Equipamentos",
-        "Carga",
-        "Armaduras",
-        "Escudos",
-        "Tabelas"
-      ],
-      "fonte": "p. 181–200 · Encantamento p. 323 · limites de força na modulação G.A.U",
-      "secoes": [
-        {
-          "id": "carga",
-          "titulo": "Níveis de carga",
-          "tipo": "regra",
-          "ref": "tables.carga",
-          "categorias": [
-            "Carga",
-            "Regras"
-          ]
-        },
-        {
-          "id": "armaduras",
-          "titulo": "Armaduras",
-          "tipo": "tabela",
-          "ref": "equipment.armaduras",
-          "categorias": [
-            "Equipamentos",
-            "Armaduras"
-          ]
-        },
-        {
-          "id": "escudos",
-          "titulo": "Escudos",
-          "tipo": "tabela",
-          "ref": "equipment.escudos",
-          "categorias": [
-            "Equipamentos",
-            "Escudos"
-          ]
-        },
-        {
-          "id": "itens",
-          "titulo": "Itens citados",
-          "tipo": "catalogo",
-          "ref": "equipment.itensAvulsos",
-          "categorias": [
-            "Equipamentos"
-          ]
-        },
-        {
-          "id": "encantamento",
-          "titulo": "Encantamento",
-          "tipo": "tabela",
-          "ref": "equipment.encantamentoCustoLento",
-          "categorias": [
-            "Equipamentos",
-            "Magia"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "fadiga",
-      "numero": "XI",
-      "ordem": 11,
-      "titulo": "Fadiga",
-      "subtitulo": "Esforço, descanso e limites",
-      "resumo": "Pontos de Fadiga (PF = HT), custos de esforço e recuperação conectados ao estado de energia da ficha.",
-      "categorias": [
-        "Fadiga",
-        "Combate",
-        "Regras",
-        "Tabelas"
-      ],
-      "fonte": "p. 298–300 · Esforço Extra e PF na modulação G.A.U",
-      "secoes": [
-        {
-          "id": "custos-fadiga",
-          "titulo": "Custos de fadiga",
-          "tipo": "regra",
-          "ref": "tables.fadiga",
-          "categorias": [
-            "Fadiga",
-            "Combate"
-          ]
-        },
-        {
-          "id": "recuperacao",
-          "titulo": "Recuperação",
-          "tipo": "dica",
-          "categorias": [
-            "Fadiga"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "magia",
-      "numero": "XII",
-      "ordem": 12,
-      "titulo": "Magia",
-      "subtitulo": "Energia, conhecimento e efeito",
-      "resumo": "Mana, rituais, classes de mágicas, magia cerimonial, objetos encantados, entidades mágicas e o catálogo de magias com custos, duração e pré-requisitos.",
-      "categorias": [
-        "Magia",
-        "Regras",
-        "Catálogo",
-        "Pré-requisitos"
-      ],
-      "fonte": "#『📘』magia (20/08/2026) · p. 300–370",
-      "ilustracao": "book/images/abertura-magia.jpg",
-      "secoes": [
-        {
-          "id": "aptidao",
-          "titulo": "Aptidão Mágica",
-          "tipo": "regra",
-          "ref": "magia.aptidao",
-          "categorias": [
-            "Regras",
-            "Magia"
-          ]
-        },
-        {
-          "id": "aprendizado",
-          "titulo": "Aprendendo mágicas",
-          "tipo": "regra",
-          "ref": "magia.aprendizado",
-          "categorias": [
-            "Regras",
-            "Magia",
-            "Perícias"
-          ]
-        },
-        {
-          "id": "pre-requisitos",
-          "titulo": "Pré-requisitos",
-          "tipo": "regra",
-          "ref": "magia.preRequisitos",
-          "categorias": [
-            "Regras",
-            "Magia"
-          ]
-        },
-        {
-          "id": "fazendo-magica",
-          "titulo": "Fazendo uma mágica",
-          "tipo": "regra",
-          "ref": "magia.fazendoMagica",
-          "categorias": [
-            "Regras",
-            "Magia",
-            "Combate"
-          ]
-        },
-        {
-          "id": "tempo",
-          "titulo": "Tempo e concentração",
-          "tipo": "regra",
-          "ref": "magia.tempo",
-          "categorias": [
-            "Regras",
-            "Magia"
-          ]
-        },
-        {
-          "id": "energia",
-          "titulo": "Custo em energia",
-          "tipo": "regra",
-          "ref": "magia.custoEnergia",
-          "categorias": [
-            "Regras",
-            "Magia"
-          ]
-        },
-        {
-          "id": "duracao",
-          "titulo": "Duração e manutenção",
-          "tipo": "regra",
-          "ref": "magia.duracao",
-          "categorias": [
-            "Regras",
-            "Magia"
-          ]
-        },
-        {
-          "id": "toque-do-mago",
-          "titulo": "Toque do Mago",
-          "tipo": "regra",
-          "ref": "magia.toqueDoMago",
-          "categorias": [
-            "Regras",
-            "Magia",
-            "Combate"
-          ]
-        },
-        {
-          "id": "cajado",
-          "titulo": "Cajado e vara de condão",
-          "tipo": "regra",
-          "ref": "magia.cajadoEVara",
-          "categorias": [
-            "Regras",
-            "Magia",
-            "Equipamento"
-          ]
-        },
-        {
-          "id": "mana",
-          "titulo": "Níveis de mana",
-          "tipo": "regra",
-          "ref": "tables.mana",
-          "categorias": [
-            "Magia",
-            "Regras"
-          ]
-        },
-        {
-          "id": "rituais",
-          "titulo": "Rituais e custo",
-          "tipo": "regra",
-          "ref": "tables.rituaisMagia",
-          "categorias": [
-            "Magia",
-            "Regras"
-          ]
-        },
-        {
-          "id": "classes",
-          "titulo": "Escolas e classes de mágicas",
-          "tipo": "regra",
-          "ref": "magia.classes",
-          "categorias": [
-            "Magia",
-            "Regras"
-          ]
-        },
-        {
-          "id": "cerimonial",
-          "titulo": "Magia cerimonial e de grupo",
-          "tipo": "regra",
-          "ref": "magia.cerimonial",
-          "categorias": [
-            "Magia",
-            "Regras"
-          ]
-        },
-        {
-          "id": "objetos",
-          "titulo": "Objetos encantados",
-          "tipo": "regra",
-          "ref": "magia.objetosEncantados",
-          "categorias": [
-            "Magia",
-            "Equipamentos"
-          ]
-        },
-        {
-          "id": "entidades",
-          "titulo": "Entidades mágicas",
-          "tipo": "regra",
-          "ref": "magia.entidades",
-          "categorias": [
-            "Magia",
-            "Criaturas"
-          ]
-        },
-        {
-          "id": "catalogo-magias",
-          "titulo": "Catálogo de magias",
-          "tipo": "catalogo",
-          "ref": "spells",
-          "categorias": [
-            "Magia",
-            "Catálogo"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "referencia",
-      "numero": "XIII",
-      "ordem": 13,
-      "titulo": "Referência de Mesa",
-      "subtitulo": "Tabelas para consulta rápida",
-      "resumo": "Quedas, primeiros socorros, distância, tamanho, altura, aparência, ferimentos e probabilidades reunidos para uso durante a sessão.",
-      "categorias": [
-        "Referência",
-        "Tabelas",
-        "Consulta"
-      ],
-      "fonte": "Tabelas do material-base e da modulação G.A.U",
-      "secoes": [
-        {
-          "id": "ferimentos",
-          "titulo": "Ferimentos",
-          "tipo": "referencia",
-          "ref": "tables.ferimentos",
-          "categorias": [
-            "Referência",
-            "Dano"
-          ]
-        },
-        {
-          "id": "quedas",
-          "titulo": "Quedas",
-          "tipo": "tabela",
-          "ref": "tables.queda",
-          "categorias": [
-            "Referência"
-          ]
-        },
-        {
-          "id": "primeiros-socorros",
-          "titulo": "Primeiros socorros",
-          "tipo": "tabela",
-          "ref": "tables.primeirosSocorros",
-          "categorias": [
-            "Referência"
-          ]
-        },
-        {
-          "id": "modificadores",
-          "titulo": "Modificadores",
-          "tipo": "tabela",
-          "categorias": [
-            "Referência",
-            "Tabelas"
-          ]
-        },
-        {
-          "id": "probabilidades",
-          "titulo": "Probabilidades em 3d",
-          "tipo": "tabela",
-          "ref": "tables.probabilidades3d",
-          "categorias": [
-            "Referência",
-            "Dados"
-          ]
-        }
-      ]
+     "id": "como-consultar",
+     "titulo": "Como consultar",
+     "tipo": "nota",
+     "categorias": [
+      "Consulta"
+     ]
     }
-  ]
+   ]
+  },
+  {
+   "id": "testes",
+   "numero": "II",
+   "ordem": 2,
+   "titulo": "Testes de Habilidade",
+   "subtitulo": "d20, margem de sucesso e escala",
+   "resumo": "O núcleo de resolução do sistema: a referência da jogada, a margem de sucesso, o crítico, as categorias de poder e as disputas.",
+   "categorias": [
+    "Regras",
+    "Testes",
+    "Tabelas",
+    "Dados"
+   ],
+   "fonte": "#『📕』testes-e-combate — TESTES DE HABILIDADE (16/08/2026)",
+   "secoes": [
+    {
+     "id": "como-funciona",
+     "titulo": "Como funciona um teste",
+     "tipo": "regra",
+     "ref": "resolucao.principios",
+     "categorias": [
+      "Regras",
+      "Testes"
+     ]
+    },
+    {
+     "id": "referencia",
+     "titulo": "A referência da jogada",
+     "tipo": "regra",
+     "ref": "resolucao.referencia",
+     "categorias": [
+      "Regras",
+      "Testes"
+     ]
+    },
+    {
+     "id": "margens",
+     "titulo": "Tabela de margens de sucesso e crítico",
+     "tipo": "tabela",
+     "ref": "resolucao.margens",
+     "categorias": [
+      "Tabelas",
+      "Testes",
+      "Dados"
+     ]
+    },
+    {
+     "id": "categorias",
+     "titulo": "Categorias de poder e escala",
+     "tipo": "regra",
+     "ref": "resolucao.categorias",
+     "categorias": [
+      "Regras",
+      "Categorias"
+     ]
+    },
+    {
+     "id": "pre-definidos",
+     "titulo": "Testes com níveis pré-definidos",
+     "tipo": "regra",
+     "ref": "resolucao.testesPreDefinidos",
+     "categorias": [
+      "Regras",
+      "Perícias"
+     ]
+    },
+    {
+     "id": "por-categoria",
+     "titulo": "Testes determinados por categoria",
+     "tipo": "regra",
+     "ref": "resolucao.testesPorCategoria",
+     "categorias": [
+      "Regras",
+      "Categorias"
+     ]
+    },
+    {
+     "id": "disputas",
+     "titulo": "Disputa de Habilidades",
+     "tipo": "regra",
+     "ref": "resolucao.disputas",
+     "categorias": [
+      "Regras",
+      "Combate",
+      "Testes"
+     ]
+    },
+    {
+     "id": "testes-do-mestre",
+     "titulo": "Quando o Mestre joga os dados",
+     "tipo": "nota",
+     "ref": "resolucao.testesDoMestre",
+     "categorias": [
+      "Mestre",
+      "Regras"
+     ]
+    },
+    {
+     "id": "sucesso-automatico",
+     "titulo": "Sucesso automático, 1 e 20",
+     "tipo": "regra",
+     "ref": "resolucao.sucessoAutomatico",
+     "categorias": [
+      "Regras",
+      "Testes"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "criacao",
+   "numero": "III",
+   "ordem": 3,
+   "titulo": "Criação de Personagem",
+   "subtitulo": "Do conceito à planilha",
+   "resumo": "Atributos, secundários oficiais, parâmetros de ficha e o fluxo de criação recomendado: conceito, limites do cenário, complicações, orçamento e compras.",
+   "categorias": [
+    "Criação",
+    "Atributos",
+    "Ficha",
+    "Regras",
+    "Tabelas"
+   ],
+   "fonte": "#『📁』modelo-ficha · Como fazer o meu Personagem no sistema de G.A.U RPG?",
+   "secoes": [
+    {
+     "id": "atributos",
+     "titulo": "Atributos",
+     "tipo": "tabela",
+     "ref": "tables.custoAtributos",
+     "categorias": [
+      "Criação",
+      "Atributos"
+     ]
+    },
+    {
+     "id": "secundarios",
+     "titulo": "Secundários e parâmetros",
+     "tipo": "tabela",
+     "ref": "ficha.blocos",
+     "categorias": [
+      "Criação",
+      "Ficha",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "evolucao",
+     "titulo": "Como o personagem evolui",
+     "tipo": "regra",
+     "ref": "ficha.evolucao",
+     "categorias": [
+      "Criação",
+      "Categorias"
+     ]
+    },
+    {
+     "id": "custos-pericias",
+     "titulo": "Custos de perícias",
+     "tipo": "tabela",
+     "ref": "tables.custoPericias",
+     "categorias": [
+      "Criação",
+      "Perícias"
+     ]
+    },
+    {
+     "id": "fluxo-criacao",
+     "titulo": "Fluxo de criação",
+     "tipo": "dica",
+     "ref": "poderes.criacao",
+     "categorias": [
+      "Criação"
+     ]
+    },
+    {
+     "id": "modelo-ficha",
+     "titulo": "Modelo da planilha de personagem",
+     "tipo": "tabela",
+     "ref": "ficha",
+     "categorias": [
+      "Tabelas",
+      "Ficha"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "pericias",
+   "numero": "IV",
+   "ordem": 4,
+   "titulo": "Perícias",
+   "subtitulo": "Compra em pontos, pré-definidos, familiaridade e grupos",
+   "resumo": "O catálogo oficial de PERÍCIAS: 176 perícias em 16 grupos, com custo em pontos, níveis pré-definidos, modificadores publicados, especializações, pré-requisitos, a regra de familiaridade e o limite de criação (2 × idade).",
+   "categorias": [
+    "Perícias",
+    "Criação",
+    "Regras",
+    "Catálogo"
+   ],
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19) e adendo de 05/08/2026 · p. 104–180 do material-base para dificuldade e níveis pré-definidos legados",
+   "secoes": [
+    {
+     "id": "ler-pericia",
+     "titulo": "Como ler uma perícia",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Regras"
+     ]
+    },
+    {
+     "id": "definicao",
+     "titulo": "O que são perícias",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Regras"
+     ]
+    },
+    {
+     "id": "comprando-pericias",
+     "titulo": "Comprando perícias",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Criação",
+      "Regras"
+     ]
+    },
+    {
+     "id": "escolha-inicial",
+     "titulo": "A escolha das perícias iniciais",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Criação"
+     ],
+     "nota": "limite de criação 2 × idade"
+    },
+    {
+     "id": "desenvolvendo",
+     "titulo": "Desenvolvendo perícias",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Evolução"
+     ]
+    },
+    {
+     "id": "aperfeicoando",
+     "titulo": "Aperfeiçoando suas perícias",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Evolução"
+     ]
+    },
+    {
+     "id": "familiaridade",
+     "titulo": "Familiaridade",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Regras"
+     ],
+     "nota": "redutor −2 e 8 horas de prática"
+    },
+    {
+     "id": "grupos",
+     "titulo": "Os grupos de perícias",
+     "tipo": "tabela",
+     "categorias": [
+      "Perícias",
+      "Catálogo"
+     ],
+     "ref": "pericias.grupos"
+    },
+    {
+     "id": "linguas",
+     "titulo": "Línguas e comunicação",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Línguas"
+     ],
+     "ref": "pericias.linguas"
+    },
+    {
+     "id": "catalogo-pericias",
+     "titulo": "Catálogo de perícias",
+     "tipo": "catalogo",
+     "categorias": [
+      "Perícias",
+      "Catálogo"
+     ],
+     "ref": "skills"
+    },
+    {
+     "id": "divergencias",
+     "titulo": "Divergências da publicação",
+     "tipo": "aviso",
+     "categorias": [
+      "Perícias",
+      "Fontes"
+     ],
+     "ref": "pericias.divergencias"
+    },
+    {
+     "id": "nao-definidas",
+     "titulo": "Regras não definidas",
+     "tipo": "aviso",
+     "categorias": [
+      "Perícias",
+      "Fontes"
+     ],
+     "ref": "pericias.naoDefinidas"
+    },
+    {
+     "id": "migracao-de-modelo",
+     "titulo": "Do modelo legado para o G.A.U.",
+     "tipo": "regra",
+     "categorias": [
+      "Perícias",
+      "Ficha"
+     ],
+     "ref": "pericias.migracaoDeModelo"
+    }
+   ]
+  },
+  {
+   "id": "vantagens",
+   "numero": "V",
+   "ordem": 5,
+   "titulo": "Vantagens & Desvantagens",
+   "subtitulo": "Aquilo que torna cada personagem único",
+   "resumo": "Vantagens transcritas da publicação oficial G.A.U. (clássicas e novas), com custos, efeitos estruturados que o motor aplica, requisitos e incompatibilidades — mais as regras de Aliado, Patrono e Riqueza, o exemplo de seleção de Dai Blackthorn, desvantagens e peculiaridades.",
+   "categorias": [
+    "Criação",
+    "Vantagens",
+    "Novas Vantagens",
+    "Aliado",
+    "Patrono",
+    "Riqueza",
+    "Desvantagens",
+    "Catálogo"
+   ],
+   "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026) · NOVAS VANTAGENS (16/08/2026) · p. 12–103 do material-base para Aliado, Patrono, Riqueza, desvantagens e peculiaridades",
+   "secoes": [
+    {
+     "id": "definicao",
+     "titulo": "O que são vantagens",
+     "tipo": "regra",
+     "ref": "vantagens.definicao",
+     "categorias": [
+      "Vantagens",
+      "Criação"
+     ]
+    },
+    {
+     "id": "vantagens",
+     "titulo": "Catálogo de vantagens",
+     "tipo": "catalogo",
+     "ref": "advantages",
+     "categorias": [
+      "Vantagens",
+      "Criação",
+      "Catálogo"
+     ]
+    },
+    {
+     "id": "novas-vantagens",
+     "titulo": "Novas Vantagens",
+     "tipo": "catalogo",
+     "ref": "vantagens.novasVantagens",
+     "categorias": [
+      "Vantagens",
+      "Novas Vantagens"
+     ]
+    },
+    {
+     "id": "aliado",
+     "titulo": "Aliado",
+     "tipo": "regra",
+     "ref": "vantagens.aliado",
+     "categorias": [
+      "Vantagens",
+      "Aliado",
+      "NPC"
+     ]
+    },
+    {
+     "id": "patrono",
+     "titulo": "Patrono",
+     "tipo": "regra",
+     "ref": "vantagens.patrono",
+     "categorias": [
+      "Vantagens",
+      "Patrono",
+      "NPC"
+     ]
+    },
+    {
+     "id": "riqueza",
+     "titulo": "Riqueza",
+     "tipo": "regra",
+     "ref": "vantagens.riqueza",
+     "categorias": [
+      "Vantagens",
+      "Riqueza",
+      "Economia"
+     ]
+    },
+    {
+     "id": "exemplo-selecao",
+     "titulo": "Exemplo de seleção de vantagens",
+     "tipo": "exemplo",
+     "ref": "vantagens.exemploSelecao",
+     "categorias": [
+      "Vantagens",
+      "Criação",
+      "Exemplo"
+     ]
+    },
+    {
+     "id": "conflitos-vantagens",
+     "titulo": "Conflitos registrados",
+     "tipo": "conflito",
+     "ref": "vantagens.conflitos",
+     "categorias": [
+      "Vantagens",
+      "Fontes"
+     ]
+    },
+    {
+     "id": "migracao-ids",
+     "titulo": "Migração de fichas salvas",
+     "tipo": "nota",
+     "ref": "vantagens.migracaoDeIds",
+     "categorias": [
+      "Vantagens",
+      "Dados"
+     ]
+    },
+    {
+     "id": "desvantagens",
+     "titulo": "Desvantagens",
+     "tipo": "catalogo",
+     "ref": "disadvantages",
+     "categorias": [
+      "Desvantagens",
+      "Criação"
+     ]
+    },
+    {
+     "id": "peculiaridades",
+     "titulo": "Peculiaridades",
+     "tipo": "regra",
+     "ref": "quirks",
+     "categorias": [
+      "Criação"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "proezas",
+   "numero": "VI",
+   "ordem": 6,
+   "titulo": "Proezas Físicas & Sentidos",
+   "subtitulo": "Correr, saltar, escalar, nadar e perceber",
+   "resumo": "As regras físicas do dia a dia da aventura: corrida, esforço extra, saltos, escalada, levantamento, arremesso, escavação, natação, sentidos e pânico.",
+   "categorias": [
+    "Proezas",
+    "Regras",
+    "Tabelas",
+    "Sentidos",
+    "Fadiga"
+   ],
+   "fonte": "#『📕』testes-e-combate — PROEZAS FÍSICAS · Testes dos Sentidos · Testes de Vontade",
+   "secoes": [
+    {
+     "id": "corrida",
+     "titulo": "Corrida e deslocamento",
+     "tipo": "regra",
+     "ref": "proezas.corrida",
+     "categorias": [
+      "Proezas",
+      "Movimento"
+     ]
+    },
+    {
+     "id": "esforco-extra",
+     "titulo": "Esforço Extra",
+     "tipo": "regra",
+     "ref": "proezas.esforcoExtra",
+     "categorias": [
+      "Proezas",
+      "Fadiga"
+     ]
+    },
+    {
+     "id": "saltos",
+     "titulo": "Saltos",
+     "tipo": "regra",
+     "ref": "proezas.saltos",
+     "categorias": [
+      "Proezas",
+      "Movimento"
+     ]
+    },
+    {
+     "id": "escalada",
+     "titulo": "Escalada",
+     "tipo": "tabela",
+     "ref": "proezas.escalada",
+     "categorias": [
+      "Proezas",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "levantamento",
+     "titulo": "Levantamento e movimentação de objetos",
+     "tipo": "tabela",
+     "ref": "proezas.levantamento",
+     "categorias": [
+      "Proezas",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "empurrar",
+     "titulo": "Empurrar e derrubar objetos",
+     "tipo": "regra",
+     "ref": "proezas.empurrarDerrubar",
+     "categorias": [
+      "Proezas",
+      "Combate"
+     ]
+    },
+    {
+     "id": "arremesso",
+     "titulo": "Arremessando objetos",
+     "tipo": "tabela",
+     "ref": "proezas.arremesso",
+     "categorias": [
+      "Proezas",
+      "Combate",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "cavar",
+     "titulo": "Cavar",
+     "tipo": "regra",
+     "ref": "proezas.cavar",
+     "categorias": [
+      "Proezas"
+     ]
+    },
+    {
+     "id": "natacao",
+     "titulo": "Natação e afogamento",
+     "tipo": "regra",
+     "ref": "proezas.natacao",
+     "categorias": [
+      "Proezas",
+      "Combate"
+     ]
+    },
+    {
+     "id": "sentidos",
+     "titulo": "Testes dos Sentidos",
+     "tipo": "regra",
+     "ref": "proezas.sentidos",
+     "categorias": [
+      "Sentidos",
+      "Regras"
+     ]
+    },
+    {
+     "id": "vontade",
+     "titulo": "Testes de Vontade",
+     "tipo": "regra",
+     "ref": "proezas.vontade",
+     "categorias": [
+      "Regras",
+      "Testes"
+     ]
+    },
+    {
+     "id": "panico",
+     "titulo": "Vontade e Verificação de Pânico",
+     "tipo": "tabela",
+     "ref": "proezas.panico",
+     "categorias": [
+      "Regras",
+      "Tabelas",
+      "Mestre"
+     ]
+    },
+    {
+     "id": "apanhar",
+     "titulo": "Apanhar objetos em combate",
+     "tipo": "nota",
+     "ref": "proezas.apanharObjetos",
+     "categorias": [
+      "Regras",
+      "Combate"
+     ]
+    },
+    {
+     "id": "salto-combate",
+     "titulo": "Salto durante o combate",
+     "tipo": "nota",
+     "ref": "proezas.saltoDuranteCombate",
+     "categorias": [
+      "Regras",
+      "Combate"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "combate",
+   "numero": "VII",
+   "ordem": 7,
+   "titulo": "Combate",
+   "subtitulo": "A árvore de manobras",
+   "resumo": "Combate de impacto e mortal, sequência de turnos, a árvore de manobras (Movimento, Atacar, Preparar, Apontar, Analisar, Fazer Nada), defesas ativas, grau de dano, localização, luminosidade e combate montado ou em veículos.",
+   "categorias": [
+    "Combate",
+    "Ações",
+    "Dano",
+    "Defesa",
+    "Regras",
+    "Tabelas"
+   ],
+   "fonte": "#『📕』testes-e-combate — SISTEMA DE COMBATE (16/08 e 30/08/2026)",
+   "ilustracao": "book/images/abertura-combate.jpg",
+   "secoes": [
+    {
+     "id": "tipos",
+     "titulo": "Combate de impacto e combate mortal",
+     "tipo": "regra",
+     "ref": "maneuvers.tiposCombate",
+     "categorias": [
+      "Combate",
+      "Regras"
+     ]
+    },
+    {
+     "id": "sequencia",
+     "titulo": "Sequência dentro de um combate",
+     "tipo": "regra",
+     "ref": "maneuvers.sequencia",
+     "categorias": [
+      "Combate",
+      "Ações"
+     ]
+    },
+    {
+     "id": "movimento",
+     "titulo": "Manobra básica: Movimento",
+     "tipo": "regra",
+     "categorias": [
+      "Combate",
+      "Movimento"
+     ]
+    },
+    {
+     "id": "atacar",
+     "titulo": "Manobra básica: Atacar",
+     "tipo": "regra",
+     "categorias": [
+      "Combate",
+      "Ações",
+      "Dano"
+     ]
+    },
+    {
+     "id": "preparar",
+     "titulo": "Manobra básica: Preparar e empunhaduras",
+     "tipo": "tabela",
+     "ref": "maneuvers.empunhaduras",
+     "categorias": [
+      "Combate",
+      "Equipamentos"
+     ]
+    },
+    {
+     "id": "apontar",
+     "titulo": "Manobra básica: Apontar",
+     "tipo": "tabela",
+     "ref": "armas.precisao",
+     "categorias": [
+      "Combate",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "analisar",
+     "titulo": "Manobra básica: Analisar",
+     "tipo": "regra",
+     "categorias": [
+      "Combate",
+      "Mestre"
+     ]
+    },
+    {
+     "id": "fazer-nada",
+     "titulo": "Manobra básica: Fazer Nada",
+     "tipo": "nota",
+     "categorias": [
+      "Combate"
+     ]
+    },
+    {
+     "id": "defesas",
+     "titulo": "Defesas Ativas",
+     "tipo": "tabela",
+     "ref": "maneuvers.defesasAtivas",
+     "categorias": [
+      "Combate",
+      "Defesa"
+     ]
+    },
+    {
+     "id": "grau-dano",
+     "titulo": "Grau de Dano",
+     "tipo": "tabela",
+     "ref": "maneuvers.grauDano",
+     "categorias": [
+      "Combate",
+      "Dano"
+     ]
+    },
+    {
+     "id": "localizacao",
+     "titulo": "Localização de acerto",
+     "tipo": "regra",
+     "ref": "maneuvers.localizacao",
+     "categorias": [
+      "Combate",
+      "Dano",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "luminosidade",
+     "titulo": "Luminosidade e escuridão",
+     "tipo": "tabela",
+     "ref": "maneuvers.luminosidade",
+     "categorias": [
+      "Combate",
+      "Tabelas",
+      "Sentidos"
+     ]
+    },
+    {
+     "id": "montado",
+     "titulo": "Combate montado ou sobre veículo",
+     "tipo": "regra",
+     "ref": "maneuvers.montado",
+     "categorias": [
+      "Combate",
+      "Movimento"
+     ]
+    },
+    {
+     "id": "veiculos",
+     "titulo": "Combate em veículos",
+     "tipo": "regra",
+     "ref": "maneuvers.veiculos",
+     "categorias": [
+      "Regras",
+      "Combate"
+     ]
+    },
+    {
+     "id": "arvores",
+     "titulo": "Árvores de manobra (transcrição)",
+     "tipo": "tabela",
+     "ref": "maneuvers.arvores",
+     "categorias": [
+      "Tabelas",
+      "Combate"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "arsenal",
+   "numero": "VIII",
+   "ordem": 8,
+   "titulo": "Arsenal, Estruturas & NT",
+   "subtitulo": "O limite do mundano",
+   "resumo": "Tabelas de dano mundano por era, precisão das armas, arremesso, dano em estruturas e objetos (limiar, PE e degradação) e os níveis de tecnologia.",
+   "categorias": [
+    "Equipamentos",
+    "Dano",
+    "Tabelas",
+    "Cenário"
+   ],
+   "fonte": "#『📕』testes-e-combate — TABELAS DE DANO MUNDANO · ESTRUTURAS · NT (30/08/2026)",
+   "secoes": [
+    {
+     "id": "armas-medievais",
+     "titulo": "Armas medievais",
+     "tipo": "tabela",
+     "ref": "armas.eras",
+     "categorias": [
+      "Equipamentos",
+      "Dano",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "armas-modernas",
+     "titulo": "Armas modernas",
+     "tipo": "tabela",
+     "ref": "armas.eras",
+     "categorias": [
+      "Tabelas",
+      "Arsenal",
+      "Dados"
+     ]
+    },
+    {
+     "id": "armas-futuristas",
+     "titulo": "Armas futuristas",
+     "tipo": "tabela",
+     "ref": "armas.eras",
+     "categorias": [
+      "Tabelas",
+      "Arsenal",
+      "Dados"
+     ]
+    },
+    {
+     "id": "precisao",
+     "titulo": "Precisão das armas (PREC)",
+     "tipo": "tabela",
+     "ref": "armas.precisao",
+     "categorias": [
+      "Equipamentos",
+      "Tabelas",
+      "Combate"
+     ]
+    },
+    {
+     "id": "arremesso",
+     "titulo": "Dano de objetos arremessados",
+     "tipo": "tabela",
+     "ref": "armas.arremesso",
+     "categorias": [
+      "Dano",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "estruturas",
+     "titulo": "Estruturas e objetos",
+     "tipo": "tabela",
+     "ref": "estruturas.estruturas",
+     "categorias": [
+      "Dano",
+      "Tabelas",
+      "Cenário"
+     ]
+    },
+    {
+     "id": "nt",
+     "titulo": "Nível de tecnologia (NT)",
+     "tipo": "tabela",
+     "ref": "estruturas.nivelTecnologico",
+     "categorias": [
+      "Cenário",
+      "Tabelas",
+      "Equipamentos"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "poderes",
+   "numero": "IX",
+   "ordem": 9,
+   "titulo": "Poderes",
+   "subtitulo": "Construção modular e escala de existência",
+   "resumo": "O catálogo de construção de poderes: orçamento, efeitos, extensão, potência, condições, bônus, PV e RD — mais dimensionalidade e hax como referência de escala.",
+   "categorias": [
+    "Poderes",
+    "Criação",
+    "Regras",
+    "Tabelas",
+    "Categorias"
+   ],
+   "fonte": "CRIANDO SEUS PODERES · DIMENSIONALIDADE · HAX",
+   "secoes": [
+    {
+     "id": "como-construir",
+     "titulo": "Como construir um poder",
+     "tipo": "regra",
+     "ref": "poderes.conceito",
+     "categorias": [
+      "Poderes",
+      "Criação"
+     ]
+    },
+    {
+     "id": "orcamento",
+     "titulo": "Orçamento de pontos de poder",
+     "tipo": "regra",
+     "ref": "poderes.orcamento",
+     "categorias": [
+      "Poderes",
+      "Criação"
+     ]
+    },
+    {
+     "id": "efeitos",
+     "titulo": "Efeitos",
+     "tipo": "tabela",
+     "ref": "poderes.modulos.efeitos",
+     "categorias": [
+      "Poderes",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "extensao",
+     "titulo": "Extensão",
+     "tipo": "tabela",
+     "ref": "poderes.modulos.extensao",
+     "categorias": [
+      "Poderes",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "potencia",
+     "titulo": "Potência",
+     "tipo": "tabela",
+     "ref": "poderes.modulos.potencia",
+     "categorias": [
+      "Poderes",
+      "Tabelas",
+      "Dano"
+     ]
+    },
+    {
+     "id": "condicoes",
+     "titulo": "Condições",
+     "tipo": "tabela",
+     "ref": "poderes.modulos.condicoes",
+     "categorias": [
+      "Poderes",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "bonus",
+     "titulo": "Bônus, PV, RD e outros",
+     "tipo": "tabela",
+     "ref": "poderes.modulos",
+     "categorias": [
+      "Poderes",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "dimensionalidade",
+     "titulo": "Dimensionalidade",
+     "tipo": "regra",
+     "ref": "poderes.dimensionalidade",
+     "categorias": [
+      "Poderes",
+      "Categorias"
+     ]
+    },
+    {
+     "id": "hax",
+     "titulo": "Hax",
+     "tipo": "regra",
+     "ref": "poderes.hax",
+     "categorias": [
+      "Poderes",
+      "Categorias",
+      "Combate"
+     ]
+    },
+    {
+     "id": "criacao-poderes",
+     "titulo": "Como fazer o meu personagem",
+     "tipo": "dica",
+     "ref": "poderes.criacao",
+     "categorias": [
+      "Dicas",
+      "Poderes"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "equipamento",
+   "numero": "X",
+   "ordem": 10,
+   "titulo": "Carga & Equipamento",
+   "subtitulo": "O peso de cada escolha",
+   "resumo": "Carga, armaduras, escudos, itens e encantamentos com atalhos para o banco de equipamentos e a ficha ativa.",
+   "categorias": [
+    "Equipamentos",
+    "Carga",
+    "Armaduras",
+    "Escudos",
+    "Tabelas"
+   ],
+   "fonte": "p. 181–200 · Encantamento p. 323 · limites de força na modulação G.A.U",
+   "secoes": [
+    {
+     "id": "carga",
+     "titulo": "Níveis de carga",
+     "tipo": "regra",
+     "ref": "tables.carga",
+     "categorias": [
+      "Carga",
+      "Regras"
+     ]
+    },
+    {
+     "id": "armaduras",
+     "titulo": "Armaduras",
+     "tipo": "tabela",
+     "ref": "equipment.armaduras",
+     "categorias": [
+      "Equipamentos",
+      "Armaduras"
+     ]
+    },
+    {
+     "id": "escudos",
+     "titulo": "Escudos",
+     "tipo": "tabela",
+     "ref": "equipment.escudos",
+     "categorias": [
+      "Equipamentos",
+      "Escudos"
+     ]
+    },
+    {
+     "id": "itens",
+     "titulo": "Itens citados",
+     "tipo": "catalogo",
+     "ref": "equipment.itensAvulsos",
+     "categorias": [
+      "Equipamentos"
+     ]
+    },
+    {
+     "id": "encantamento",
+     "titulo": "Encantamento",
+     "tipo": "tabela",
+     "ref": "equipment.encantamentoCustoLento",
+     "categorias": [
+      "Equipamentos",
+      "Magia"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "fadiga",
+   "numero": "XI",
+   "ordem": 11,
+   "titulo": "Fadiga",
+   "subtitulo": "Esforço, descanso e limites",
+   "resumo": "Pontos de Fadiga (PF = HT), custos de esforço e recuperação conectados ao estado de energia da ficha.",
+   "categorias": [
+    "Fadiga",
+    "Combate",
+    "Regras",
+    "Tabelas"
+   ],
+   "fonte": "p. 298–300 · Esforço Extra e PF na modulação G.A.U",
+   "secoes": [
+    {
+     "id": "custos-fadiga",
+     "titulo": "Custos de fadiga",
+     "tipo": "regra",
+     "ref": "tables.fadiga",
+     "categorias": [
+      "Fadiga",
+      "Combate"
+     ]
+    },
+    {
+     "id": "recuperacao",
+     "titulo": "Recuperação",
+     "tipo": "dica",
+     "categorias": [
+      "Fadiga"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "magia",
+   "numero": "XII",
+   "ordem": 12,
+   "titulo": "Magia",
+   "subtitulo": "Energia, conhecimento e efeito",
+   "resumo": "Mana, rituais, classes de mágicas, magia cerimonial, objetos encantados, entidades mágicas e o catálogo de magias com custos, duração e pré-requisitos.",
+   "categorias": [
+    "Magia",
+    "Regras",
+    "Catálogo",
+    "Pré-requisitos"
+   ],
+   "fonte": "#『📘』magia (20/08/2026) · p. 300–370",
+   "ilustracao": "book/images/abertura-magia.jpg",
+   "secoes": [
+    {
+     "id": "aptidao",
+     "titulo": "Aptidão Mágica",
+     "tipo": "regra",
+     "ref": "magia.aptidao",
+     "categorias": [
+      "Regras",
+      "Magia"
+     ]
+    },
+    {
+     "id": "aprendizado",
+     "titulo": "Aprendendo mágicas",
+     "tipo": "regra",
+     "ref": "magia.aprendizado",
+     "categorias": [
+      "Regras",
+      "Magia",
+      "Perícias"
+     ]
+    },
+    {
+     "id": "pre-requisitos",
+     "titulo": "Pré-requisitos",
+     "tipo": "regra",
+     "ref": "magia.preRequisitos",
+     "categorias": [
+      "Regras",
+      "Magia"
+     ]
+    },
+    {
+     "id": "fazendo-magica",
+     "titulo": "Fazendo uma mágica",
+     "tipo": "regra",
+     "ref": "magia.fazendoMagica",
+     "categorias": [
+      "Regras",
+      "Magia",
+      "Combate"
+     ]
+    },
+    {
+     "id": "tempo",
+     "titulo": "Tempo e concentração",
+     "tipo": "regra",
+     "ref": "magia.tempo",
+     "categorias": [
+      "Regras",
+      "Magia"
+     ]
+    },
+    {
+     "id": "energia",
+     "titulo": "Custo em energia",
+     "tipo": "regra",
+     "ref": "magia.custoEnergia",
+     "categorias": [
+      "Regras",
+      "Magia"
+     ]
+    },
+    {
+     "id": "duracao",
+     "titulo": "Duração e manutenção",
+     "tipo": "regra",
+     "ref": "magia.duracao",
+     "categorias": [
+      "Regras",
+      "Magia"
+     ]
+    },
+    {
+     "id": "toque-do-mago",
+     "titulo": "Toque do Mago",
+     "tipo": "regra",
+     "ref": "magia.toqueDoMago",
+     "categorias": [
+      "Regras",
+      "Magia",
+      "Combate"
+     ]
+    },
+    {
+     "id": "cajado",
+     "titulo": "Cajado e vara de condão",
+     "tipo": "regra",
+     "ref": "magia.cajadoEVara",
+     "categorias": [
+      "Regras",
+      "Magia",
+      "Equipamento"
+     ]
+    },
+    {
+     "id": "mana",
+     "titulo": "Níveis de mana",
+     "tipo": "regra",
+     "ref": "tables.mana",
+     "categorias": [
+      "Magia",
+      "Regras"
+     ]
+    },
+    {
+     "id": "rituais",
+     "titulo": "Rituais e custo",
+     "tipo": "regra",
+     "ref": "tables.rituaisMagia",
+     "categorias": [
+      "Magia",
+      "Regras"
+     ]
+    },
+    {
+     "id": "classes",
+     "titulo": "Escolas e classes de mágicas",
+     "tipo": "regra",
+     "ref": "magia.classes",
+     "categorias": [
+      "Magia",
+      "Regras"
+     ]
+    },
+    {
+     "id": "cerimonial",
+     "titulo": "Magia cerimonial e de grupo",
+     "tipo": "regra",
+     "ref": "magia.cerimonial",
+     "categorias": [
+      "Magia",
+      "Regras"
+     ]
+    },
+    {
+     "id": "objetos",
+     "titulo": "Objetos encantados",
+     "tipo": "regra",
+     "ref": "magia.objetosEncantados",
+     "categorias": [
+      "Magia",
+      "Equipamentos"
+     ]
+    },
+    {
+     "id": "entidades",
+     "titulo": "Entidades mágicas",
+     "tipo": "regra",
+     "ref": "magia.entidades",
+     "categorias": [
+      "Magia",
+      "Criaturas"
+     ]
+    },
+    {
+     "id": "catalogo-magias",
+     "titulo": "Catálogo de magias",
+     "tipo": "catalogo",
+     "ref": "spells",
+     "categorias": [
+      "Magia",
+      "Catálogo"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "referencia",
+   "numero": "XIII",
+   "ordem": 13,
+   "titulo": "Referência de Mesa",
+   "subtitulo": "Tabelas para consulta rápida",
+   "resumo": "Quedas, primeiros socorros, distância, tamanho, altura, aparência, ferimentos e probabilidades reunidos para uso durante a sessão.",
+   "categorias": [
+    "Referência",
+    "Tabelas",
+    "Consulta"
+   ],
+   "fonte": "Tabelas do material-base e da modulação G.A.U",
+   "secoes": [
+    {
+     "id": "ferimentos",
+     "titulo": "Ferimentos",
+     "tipo": "referencia",
+     "ref": "tables.ferimentos",
+     "categorias": [
+      "Referência",
+      "Dano"
+     ]
+    },
+    {
+     "id": "quedas",
+     "titulo": "Quedas",
+     "tipo": "tabela",
+     "ref": "tables.queda",
+     "categorias": [
+      "Referência"
+     ]
+    },
+    {
+     "id": "primeiros-socorros",
+     "titulo": "Primeiros socorros",
+     "tipo": "tabela",
+     "ref": "tables.primeirosSocorros",
+     "categorias": [
+      "Referência"
+     ]
+    },
+    {
+     "id": "modificadores",
+     "titulo": "Modificadores",
+     "tipo": "tabela",
+     "categorias": [
+      "Referência",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "probabilidades",
+     "titulo": "Probabilidades em 3d",
+     "tipo": "tabela",
+     "ref": "tables.probabilidades3d",
+     "categorias": [
+      "Referência",
+      "Dados"
+     ]
+    }
+   ]
+  }
+ ]
 }

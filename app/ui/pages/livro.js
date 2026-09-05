@@ -6,6 +6,7 @@ import { store } from '../store.js';
 import { createFilterPanel } from '../filters.js';
 import { buildBookIndex } from '../../engine/book-index.js';
 import { novoItem } from '../../engine/economy.js';
+import { modeloDePericias } from '../../engine/skills.js';
 import { abrirExportacaoLivro, exportarPaginaLivroPNG } from '../book-export.js';
 
 const READING_KEY = 'gua.book.reading.v2';
@@ -286,25 +287,196 @@ const CHAPTER_RENDERERS = {
   },
 
   pericias(article, db) {
+    const cap = db.pericias || {};
+    const cp = cap.comprandoPericias || {};
+    const ei = cap.escolhaInicial || {};
+    const dv = cap.desenvolvendo || {};
+    const ap = cap.aperfeicoando || {};
+    const fam = cap.familiaridade || {};
+    const ling = cap.linguas || {};
+    const grupos = cap.grupos || [];
+    const porGrupo = nome => db.skills.filter(item => (item.grupo || 'Outras') === nome);
+    const semCusto = db.skills.filter(item => item.custoNaoPublicado);
+    const comFamiliaridade = db.skills.filter(item => item.familiaridadeAplicavel);
+    const limpa = texto => String(texto || '').replace(/^Pré-definido:? como:? ?/i, '');
+
     section(article, 'ler-pericia', 'Como ler uma perícia',
-      editorialBox('rule', 'NÍVEL EFETIVO', el('p', {}, 'O motor combina atributo-base, pontos investidos, melhor default aplicável e modificadores ativos. Clique em um valor na ficha para ver esse cálculo.'), actionLink('Ver minhas perícias', '#/pericias', 'inline')),
-      el('p', {}, `O catálogo contém ${db.skills.length} perícias. Os filtros da ficha permitem combinar atributo, categoria, dificuldade, treinamento e disponibilidade.`));
-    const groups = Object.groupBy ? Object.groupBy(db.skills, skill => skill.categoria || 'Outras') : groupBy(db.skills, skill => skill.categoria || 'Outras');
-    const catalogGroups = Object.entries(groups)
-      .sort((a, b) => a[0].localeCompare(b[0], 'pt-BR'))
-      .map(([category, skills]) => {
-        const rows = skills.map(skill => [
-          el('div', { id: `pericia-${skill.id}`, class: 'book-anchor' }, el('b', {}, skill.nome), el('small', {}, skill.descricao || ''), source(skill.fonte)),
-          `${skill.tipo === 'Física' ? 'Fís.' : 'Men.'}/${skill.dificuldade}`,
-          (skill.defaults || []).join(' · ') || '—',
-          (skill.prereqs || []).join('; ') || '—',
-          el('button', { class: 'book-add no-print', onclick: () => addSkill(skill) }, '+ Ficha'),
-        ]);
+      editorialBox('rule', 'CUSTO EM PONTOS',
+        el('p', {}, cp.texto || 'A perícia é comprada no nível 1 pelo custo publicado; cada ponto adicional depositado vale +1 nível.'),
+        cp.exemplo ? el('p', { class: 'book-source' }, cp.exemplo.texto || '') : ''),
+      editorialBox('note', 'NÍVEL EFETIVO',
+        el('p', {}, 'O motor combina o nível comprado, o melhor nível pré-definido publicado (atributo ou outra perícia efetivamente treinada — sem encadeamento) e os modificadores publicados que se aplicam à situação. Clique em um valor na ficha para ver esse cálculo.'),
+        actionLink('Ver minhas perícias', '#/pericias', 'inline')),
+      scrollTable(['Campo', 'O que significa'], [
+        ['Grupo', 'Um dos 16 grupos publicados (Perícias com Animais, Artísticas, Atléticas, com Armas e Combate, Artesanais, com Línguas, Mágicas, Médicas, Externas, Profissionais, Psíquicas, Científicas, Sociais, de Ladrões e Espiões, com Veículos, Outras).'],
+        ['Natureza', 'Física ou Mental — a publicação registra a natureza ao lado do custo.'],
+        ['Custo publicado', 'Pontos necessários para comprar a perícia no nível 1.'],
+        ['Pré-definido', 'Nível disponível sem treinamento, quando a publicação o informa.'],
+        ['Modificadores', 'Situações publicadas com valor fixo (equipamento não familiar, terreno, vantagem exigida, nível de Carga, especialista).'],
+        ['Especialização', 'Perícias que exigem a escolha de um tipo (Condução, Sobrevivência, Armas de Fogo, Língua…).'],
+        ['NT mínimo', 'Tecnologia mínima exigida pela perícia, quando publicada.'],
+        ['Teste secreto', 'O MJ rola sem revelar o resultado.'],
+      ]),
+      source(cap._fonte));
+
+    section(article, 'definicao', cap.definicao?.titulo || 'O que são perícias',
+      el('p', {}, cap.definicao?.texto || ''),
+      source(cap.definicao?.fonte || cap._fonte));
+
+    section(article, 'comprando-pericias', cp.titulo || 'Comprando perícias',
+      el('p', {}, cp.texto || ''),
+      cp.exemplo ? editorialBox('example', 'EXEMPLO PUBLICADO',
+        scrollTable(['Custo da perícia', 'Pontos depositados', 'Nível resultante'],
+          [[`${cp.exemplo.custoDaPericia} pts`, `${cp.exemplo.pontosDepositados} pt`, `nível ${cp.exemplo.nivelResultante}`]]),
+        el('p', {}, cp.exemplo.texto || '')) : '',
+      cp._notaGrafia ? el('p', { class: 'book-source' }, cp._notaGrafia) : '',
+      source(cp.fonte));
+
+    section(article, 'escolha-inicial', ei.titulo || 'A escolha das perícias iniciais',
+      el('p', {}, ei.texto || ''),
+      editorialBox('important', `LIMITE DE CRIAÇÃO: ${ei.limiteDePontos?.formula || '2 × idade'}`,
+        el('p', {}, `Um personagem de ${ei.limiteDePontos?.exemplo?.idade ?? 18} anos pode gastar até ${ei.limiteDePontos?.exemplo?.pontos ?? 36} pontos em perícias na criação.`),
+        el('p', {}, ei.aposCriacao || ''),
+        actionLink('Ver o limite na ficha', '#/pericias', 'inline')),
+      el('ul', {},
+        ei.dinheiro ? el('li', {}, ei.dinheiro) : '',
+        ei.gm ? el('li', {}, ei.gm) : ''),
+      source(ei.fonte));
+
+    section(article, 'desenvolvendo', dv.titulo || 'Desenvolvendo perícias',
+      el('p', {}, dv.texto || ''),
+      el('ul', {}, Object.entries(dv.grupos || {}).map(([chave, valor]) => el('li', {}, el('b', {}, `${chave}: `), valor))),
+      dv._avisoTabela ? editorialBox('warning', 'REGRA NÃO DEFINIDA', el('p', {}, dv._avisoTabela)) : '',
+      source(dv.fonte));
+
+    section(article, 'aperfeicoando', ap.titulo || 'Aperfeiçoando suas perícias',
+      el('p', {}, ap.texto || ''),
+      el('ul', {}, (ap.maneiras || []).map(maneira => el('li', {}, maneira))),
+      source(ap.fonte));
+
+    section(article, 'familiaridade', fam.titulo || 'Familiaridade',
+      el('p', {}, fam.texto || ''),
+      scrollTable(['Item', 'Valor publicado'], [
+        ['Redutor por equipamento não familiar', `${fam.redutor ?? -2}`],
+        ['Horas de prática para tornar o modelo familiar', `${fam.horasParaFamiliarizar ?? 8} horas`],
+        ['Limite de tipos familiares', fam.limiteDeTipos ?? 'não publicado'],
+        ['Depois de 6 tipos', fam.testeApos6Tipos || '—'],
+        ['Itens similares', fam.similaridade || '—'],
+      ]),
+      fam.recemCriados ? editorialBox('note', fam.recemCriados.titulo || 'Personagens recém-criados', el('p', {}, fam.recemCriados.texto || '')) : '',
+      el('p', {}, `Perícias do catálogo com bônus ou redutor de equipamento publicado (${comFamiliaridade.length}): `,
+        el('span', { class: 'book-source' }, comFamiliaridade.map(item => item.nome).join(', '))),
+      source(fam.fonte));
+
+    section(article, 'grupos', 'Os grupos de perícias',
+      el('p', {}, `A publicação organiza as ${db.skills.length} perícias em ${grupos.length} grupos; cada grupo traz sua própria regra de aprendizado. `
+        + `${grupos.filter(grupo => !porGrupo(grupo.nome || grupo.id).length).length} grupo(s) não têm entradas individuais publicadas — vale a regra do grupo (veja as lacunas registradas).`),
+      scrollTable(['Grupo', 'Regra publicada', 'Perícias'],
+        grupos.map(grupo => [grupo.nome || grupo.id, grupo.regra || '—', porGrupo(grupo.nome || grupo.id).length])),
+      el('details', { class: 'book-catalog-group' },
+        el('summary', {}, 'Detalhes publicados por grupo'),
+        ...grupos.map(grupo => {
+          const extras = [
+            grupo.exemplos ? ['Exemplos', Array.isArray(grupo.exemplos) ? grupo.exemplos.join(', ') : grupo.exemplos] : null,
+            grupo.padrao ? ['Padrão', Array.isArray(grupo.padrao) ? grupo.padrao.join(', ') : grupo.padrao] : null,
+            grupo.quantidade != null ? ['Quantidade publicada', String(grupo.quantidade)] : null,
+            grupo.semProfessor ? ['Sem professor', `aprendizado a ${grupo.semProfessor.multiplicador}× da velocidade${grupo.semProfessor.nota ? ` (${grupo.semProfessor.nota})` : ''}`] : null,
+            grupo.pericias ? ['Perícias citadas', (Array.isArray(grupo.pericias) ? grupo.pericias : [grupo.pericias]).map(item => item.nome || item).join(', ')] : null,
+          ].filter(Boolean);
+          if (!extras.length) return '';
+          return el('div', { class: 'book-subtable' }, el('h4', {}, grupo.nome || grupo.id),
+            keyValueTable('Item', 'Valor publicado', Object.fromEntries(extras)));
+        })),
+      source(cap._fonte));
+
+    section(article, 'linguas', 'Línguas e comunicação',
+      el('p', {}, ling.pericias?.regra || ''),
+      (ling.pericias?.dificuldades || []).length ? scrollTable(['Nível', 'Exemplos'],
+        ling.pericias.dificuldades.map(dificuldade => [dificuldade.nivel, dificuldade.exemplos || '—'])) : '',
+      ling.pericias?.modificadores ? el('p', { class: 'book-source' }, ling.pericias.modificadores) : '',
+      ling.pericias?.semProfessor ? editorialBox('note', 'Aprendizado sem professor',
+        el('p', {}, `O custo de aprendizado é multiplicado por ${ling.pericias.semProfessor.multiplicador} quando não há professor.`)) : '',
+      ling.pericias?.preDefinidos ? keyValueTable('Pré-definido', 'Valor publicado', ling.pericias.preDefinidos) : '',
+      ling.testesDeComunicacao ? el('div', {},
+        el('h3', {}, ling.testesDeComunicacao.nome || 'Testes de comunicação'),
+        el('p', {}, ling.testesDeComunicacao.regra || ''),
+        editorialBox('example', 'FÓRMULA PUBLICADA',
+          el('p', {}, ling.testesDeComunicacao.formula || ''),
+          el('p', {}, ling.testesDeComunicacao.exemplo?.texto || '')),
+        el('p', { class: 'book-source' }, `Redutores: ${ling.testesDeComunicacao.redutores?.conversaApresadaOuLigacaoRuimOuInstrucoesComplexas || '—'}`)) : '',
+      ling.niveisDeHabilidade ? el('div', {},
+        el('h3', {}, ling.niveisDeHabilidade.nome || 'Níveis de habilidade em línguas'),
+        el('p', {}, ling.niveisDeHabilidade.regra || ''),
+        scrollTable(['Nível', 'Resultado esperado'],
+          (ling.niveisDeHabilidade.tabela || []).map(linha => [linha.faixa, linha.resultado]))) : '',
+      ling.alfabetizacao ? el('div', {},
+        el('h3', {}, ling.alfabetizacao.nome || 'Alfabetização'),
+        el('p', {}, ling.alfabetizacao.regra || ''),
+        el('ul', {},
+          el('li', {}, `Tratada como ${ling.alfabetizacao.tratadaComo || 'vantagem'}.`),
+          el('li', {}, ling.alfabetizacao.semNivel || ''))) : '',
+      source(cap._fonte));
+
+    /* verbete de perícia — transcrição fiel da publicação */
+    const verbete = skill => el('article', { class: 'book-definition', id: `pericia-${skill.id}` },
+      el('div', { class: 'book-definition-head' },
+        el('h3', {}, skill.nome + (skill.ntMinimo ? `/NT ${skill.ntMinimo}` : ''),
+          skill.testeSecreto ? el('small', { class: 'book-tag' }, ' · teste secreto') : ''),
+        el('b', {}, skill.custoPontos != null ? `${skill.custoPontos} pts` : (skill.custoTexto || 'custo não publicado'))),
+      el('p', { class: 'book-source' }, [skill.tipo, skill.custoTexto].filter(Boolean).join(' · ')),
+      el('p', {}, skill.descricao || ''),
+      skill.preDefinidoTexto ? el('p', { class: 'book-source' }, el('b', {}, 'Pré-definido: '), limpa(skill.preDefinidoTexto)) : '',
+      (skill.modificadores || []).length ? el('div', { class: 'book-subtable' }, el('h4', {}, 'Modificadores publicados'),
+        scrollTable(['Situação', 'Valor', 'Nota'], skill.modificadores.map(mod => [
+          mod.situacao || '—', mod.valor != null ? `${mod.valor >= 0 ? '+' : ''}${mod.valor}` : 'variável',
+          [mod.nota, mod.vantagemNome ? `exige ${mod.vantagemNome}` : null].filter(Boolean).join(' · ') || '—']))) : '',
+      skill.modificadoresTexto && !(skill.modificadores || []).length ? el('p', { class: 'book-source' }, el('b', {}, 'Modificadores: '), skill.modificadoresTexto) : '',
+      (skill.especializacoes || []).length ? el('div', { class: 'book-subtable' }, el('h4', {}, 'Especializações publicadas'),
+        el('ul', {}, skill.especializacoes.map(op => el('li', {}, op.nome || String(op))))) : '',
+      skill.especializacao && !(skill.especializacoes || []).length ? el('p', { class: 'book-source' }, el('b', {}, 'Especialização: '), skill.especializacao) : '',
+      (skill.prereqs || []).length ? el('p', { class: 'book-source' }, el('b', {}, 'Pré-requisitos: '), skill.prereqs.join('; ')) : '',
+      skill.nivelEspecialista ? el('p', { class: 'book-source' }, el('b', {}, 'Especialista: '), `NH ≥ ${skill.nivelEspecialista}`) : '',
+      skill.familiaridadeAplicavel ? el('p', { class: 'book-source' }, el('b', {}, 'Familiaridade: '), `aplica-se o redutor publicado (${fam.redutor ?? -2}) quando o equipamento não é familiar.`) : '',
+      skill._avisoCusto ? editorialBox('warning', 'CUSTO NÃO PUBLICADO', el('p', {}, skill._avisoCusto)) : '',
+      skill._notaGrafia ? el('p', { class: 'book-source' }, `Nota de transcrição: ${skill._notaGrafia}`) : '',
+      el('footer', {}, source(skill.fonte || cap._fonte),
+        el('button', { class: 'book-add no-print', onclick: () => addSkill(db, skill) }, '+ Ficha')));
+
+    section(article, 'catalogo-pericias', 'Catálogo de perícias',
+      el('p', {}, `${db.skills.length} perícias transcritas da publicação oficial, agrupadas como no material. `
+        + `${db.skills.filter(item => Number.isFinite(item.custoPontos)).length} trazem custo em pontos; `
+        + `${semCusto.length} trazem apenas a dificuldade publicada.`),
+      ...grupos.map(grupo => {
+        const itens = porGrupo(grupo.nome || grupo.id);
+        if (!itens.length) return '';
         return el('details', { class: 'book-catalog-group' },
-          el('summary', {}, `${category} `, el('span', {}, skills.length)),
-          scrollTable(['Perícia', 'Tipo', 'Default', 'Pré-requisitos', ''], rows));
-      });
-    section(article, 'catalogo-pericias', 'Catálogo de perícias', ...catalogGroups);
+          el('summary', {}, `${grupo.nome || grupo.id} `, el('span', {}, itens.length)),
+          grupo.regra ? el('p', { class: 'book-source' }, grupo.regra) : '',
+          el('div', { class: 'book-definitions' }, itens.map(verbete)));
+      }),
+      cap.referenciasCruzadas ? el('p', { class: 'book-source' },
+        `Referência cruzada da publicação: ${cap.referenciasCruzadas.entrada} (${cap.referenciasCruzadas.grupo}) → ${cap.referenciasCruzadas.destino}: ${cap.referenciasCruzadas.texto}`) : '');
+
+    section(article, 'divergencias', 'Divergências da publicação',
+      el('p', {}, 'Trechos em que o material oficial diverge de si mesmo ou do material-base. Nada foi corrigido em silêncio: cada divergência fica registrada aqui e nos dados.'),
+      scrollTable(['Assunto', 'Registro'], (cap.divergencias || []).map(item => [item.assunto || item.id, item.descricao || '—'])),
+      semCusto.length ? editorialBox('warning', 'ENTRADAS SEM CUSTO EM PONTOS',
+        el('ul', {}, semCusto.map(item => el('li', {}, el('b', {}, `${item.nome}: `), item.custoTexto || '—')))) : '');
+
+    section(article, 'nao-definidas', 'Regras não definidas',
+      el('p', {}, 'O que a publicação não informa. O sistema marca a lacuna e não inventa valores.'),
+      el('ul', {}, (cap.naoDefinidas || []).map(item => el('li', {},
+        el('b', {}, `${item.item || item.id}: `), item.motivo || ''))),
+      (db.rules?.conflitos || []).filter(c => /pericia/i.test(c.id)).length ? editorialBox('warning', 'CONFLITOS REGISTRADOS',
+        el('ul', {}, db.rules.conflitos.filter(c => /pericia/i.test(c.id)).map(c => el('li', {},
+          el('b', {}, `${c.assunto || c.id}: `), c.resolucao || c.descricao || '')))) : '');
+
+    section(article, 'migracao-de-modelo', 'Do modelo legado para o G.A.U.',
+      el('p', {}, cap.migracaoDeModelo?.nota || ''),
+      editorialBox('rule', 'CONVERSÃO APLICADA', el('p', {}, cap.migracaoDeModelo?.conversao || '')),
+      cap.migracaoDeModelo?._aviso ? editorialBox('warning', 'REGRA NÃO DEFINIDA', el('p', {}, cap.migracaoDeModelo._aviso)) : '',
+      actionLink('Abrir perícias na ficha', '#/pericias', 'inline'),
+      actionLink('Ver conflitos e lacunas', '#/livro/ler/apresentacao/fonte-verdade', 'inline'));
   },
 
   vantagens(article, db) {
@@ -1075,8 +1247,20 @@ function chapterFooterLinks(left, right, leftLabel, rightLabel) { return el('nav
 function bookSubHeader(title, subtitle, icon = '☰') { return el('header', { class: 'book-subheader' }, actionLink('GUA', '#/livro', 'quiet'), el('div', {}, el('p', {}, icon), el('h1', {}, title), el('p', {}, subtitle))); }
 
 /* -------------------------------- integrações com a ficha ------------------ */
-function addSkill(skill) {
+function addSkill(db, skill) {
   if ((store.atual?.pericias || []).some(item => item.id === skill.id)) return toast(`${skill.nome} já está na ficha.`, 'bad');
+  const gau = modeloDePericias(db, store.atual) === 'gau';
+  if (gau) {
+    updateFromBook(pc => {
+      (pc.pericias ||= []).push({ id: skill.id, nivel: 1, especialidade: null });
+      pc.config ||= {};
+      if (pc.config.modeloPericias !== 'gau') pc.config.modeloPericias = 'gau';
+    });
+    toast(skill.custoPontos != null
+      ? `${skill.nome} comprada no nível 1 por ${skill.custoPontos} pontos.`
+      : `${skill.nome} anotada no nível 1 — a publicação não informa o custo em pontos.`, skill.custoPontos != null ? 'ok' : '');
+    return;
+  }
   updateFromBook(pc => pc.pericias.push({ id: skill.id, pontos: 0.5, especialidade: null }));
   toast(`${skill.nome} adicionada com ½ ponto.`, 'ok');
 }

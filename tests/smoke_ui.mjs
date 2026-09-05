@@ -20,6 +20,11 @@ class FakeNode {
   set innerHTML(v) { this._innerHTML = v; this.children = []; }
   toggleAttribute() {}
   count() { let n = 1; for (const c of this.children) n += c.nodeType ? c.count ? c.count() : 1 : 0; return n; }
+  text() {
+    let out = this.textContent || '';
+    for (const c of this.children) out += c.nodeType === 3 ? (c.text || '') : (c.text ? c.text() : '');
+    return out;
+  }
 }
 globalThis.document = {
   createElement: t => new FakeNode(t),
@@ -174,6 +179,30 @@ if (rotasQuebradas.length) {
 }
 const semTexto = docs.filter(doc => !doc.title || !doc.excerpt);
 if (semTexto.length) { falhas += semTexto.length; console.error(`✗ índice: ${semTexto.length} documentos sem título/resumo`); }
+
+/* ---------- Perícias no modelo G.A.U.: painel de compra, limite de criação e familiaridade */
+store.update(p => {
+  p.idade = 18;
+  p.config.modeloPericias = 'gau';
+  p.pericias = [{ id: 'espadas-curtas', nivel: 6 }, { id: 'conducao', nivel: 5, familiarizado: false }];
+});
+const paginaPericias = await import('../app/ui/pages/pericias.js');
+const mainGau = new FakeNode('main');
+paginaPericias.renderPericias(mainGau, { db: DB, params: [], ir() {} });
+const textoGau = mainGau.text();
+const esperadosPericias = ['Compra de perícias (G.A.U.)', 'Limite de criação', 'Familiaridade', 'Divergências da publicação', 'Espadas Curtas', 'Condução'];
+const faltandoPericias = esperadosPericias.filter(trecho => !textoGau.includes(trecho));
+if (faltandoPericias.length) { falhas += faltandoPericias.length; console.error(`✗ pericias/G.A.U.: conteúdo ausente — ${faltandoPericias.join(', ')}`); }
+else console.log(`✓ pericias/G.A.U.   painel de compra, limite de criação e familiaridade (${mainGau.count()} nós)`);
+
+/* ---------- Capítulo Perícias do livro (seções G.A.U.) */
+const mainLivroPericias = new FakeNode('main');
+livro.renderLivro(mainLivroPericias, { db: DB, params: ['ler', 'pericias'], ir() {} });
+const textoLivroPericias = mainLivroPericias.text();
+const secoesEsperadas = ['COMPRANDO PERÍCIAS', 'Familiaridade', 'Os grupos de perícias', 'Línguas e comunicação', 'Divergências da publicação', 'Do modelo legado para o G.A.U.'];
+const semSecao = secoesEsperadas.filter(trecho => !textoLivroPericias.includes(trecho));
+if (semSecao.length) { falhas++; console.error(`✗ livro/pericias: seções ausentes — ${semSecao.join(', ')}`); }
+else console.log(`✓ livro/pericias    ${secoesEsperadas.length} seções G.A.U. renderizadas`);
 
 console.log(falhas ? `\nFALHAS: ${falhas}` : '\nUI OK — todas as páginas e capítulos renderizam.');
 process.exit(falhas ? 1 : 0);

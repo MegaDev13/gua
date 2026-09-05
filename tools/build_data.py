@@ -10,35 +10,20 @@ def slug(nome):
 
 OUT = '/home/user/gua/data'
 os.makedirs(OUT, exist_ok=True)
-raw = json.load(open('/home/user/analysis/outdata/skills.json', encoding='utf-8'))
 dis = json.load(open('/home/user/analysis/outdata/disadvantages.json', encoding='utf-8'))
 spells_raw = json.load(open('/home/user/analysis/outdata/spells_raw.json', encoding='utf-8'))
 
-# ------------------------------------------------------------------ skills.json
-skills = []
-for s in raw:
-    e = {
-        'id': s['id'], 'nome': s['nome'], 'tipo': s['tipo'], 'dificuldade': s['dificuldade'],
-        'categoria': s['categoria'], 'defaults': s['default'], 'prereqs': s['pre'],
-        'descricao': s['descricao'], 'fonte': s['_fonte'],
-    }
-    if s.get('nt'): e['nt'] = True
-    if s.get('especializacao'): e['especializacao'] = s['especializacao']
-    e['id'] = slug(e['nome'])
-    skills.append(e)
-# correções/adições (origem citada)
-def sk(**kw):
-    kw['id'] = slug(kw['nome'])
-    skills.append(kw)
-sk(nome='Motonáutica', tipo='Física', dificuldade='Média', categoria='Perícias com Veículos',
-   defaults=['Pré-definido como IQ-5, DX-5 ou Remo/Vela-3'],
-   descricao='Habilidade para dirigir pequenas embarcações motorizadas. Teste ao entrar no barco e em situações de perigo.',
-   fonte='p. 178 (grafia original "Fisico")')
-sk(nome='Língua (cada uma)', tipo='Mental', dificuldade='Variável', categoria='Perícias com Línguas',
-   defaults=['Língua nativa: IQ automático; línguas relacionadas: NH-4; dialeto: NH-1 a -3'],
-   descricao='Cada língua é uma perícia independente. Fácil (jargões), Média (maioria), Difícil (basco, navajo), Muito Difícil (alienígenas não-faláveis). Língua nativa IQ+1 custa 1 ponto, IQ+2 custa 2 etc. Sem professor: 4× mais difícil.',
-   fonte='p. 135–136')
-json.dump(skills, open(f'{OUT}/skills.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+# ------------------------------------------------------------------ skills.json (G.A.U.) + pericias.json
+# data/skills.json e data/pericias.json NÃO são gerados aqui: o catálogo passou a vir da publicação
+# oficial de PERÍCIAS do sistema G.A.U. (canal #『📕』perícias — Impio, 02/08/2026 09:19 e adendo de
+# 05/08/2026), transcrito em 176 entradas com custo em pontos, níveis pré-definidos estruturados,
+# modificadores publicados, especializações, pré-requisitos e NT mínimo — consumidos por
+# app/engine/skills.js (modelo G.A.U.) e pelo capítulo IV do livro. Gerar de novo a partir da
+# extração do PDF legado sobrescreveria esse catálogo (inclusive os campos `defaults`/`dificuldade`
+# preservados para o modelo legado), por isso este script apenas confere os arquivos.
+skills = json.load(open(f'{OUT}/skills.json', encoding='utf-8'))
+pericias_cap = json.load(open(f'{OUT}/pericias.json', encoding='utf-8'))
+assert len(skills) >= 170 and len(pericias_cap.get('grupos', [])) >= 16, 'skills.json/pericias.json fora do padrão G.A.U.'
 
 # ------------------------------------------------------------------ vantagens (G.A.U.) + desvantagens (legado)
 # data/advantages.json e data/vantagens.json NÃO são mais gerados aqui: o catálogo passou a vir da
@@ -171,6 +156,6 @@ equipment = {
 }
 json.dump(equipment, open(f'{OUT}/equipment.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print('data/*.json gerados')
-print('skills', len(skills), '| dis', len(dis), '| spells', len(spells),
-      '| advantages.json preservado (catálogo G.A.U., não gerado aqui)')
+print('skills', len(skills), '(preservado, catálogo G.A.U.) | dis', len(dis), '| spells', len(spells),
+      '| advantages.json, vantagens.json, skills.json e pericias.json preservados (catálogos G.A.U., não gerados aqui)')
 EOF = None

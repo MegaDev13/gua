@@ -26,7 +26,7 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 | ⚙️ **Rule Engine** | **23 módulos** ES puros (`app/engine/`) — **100% dos cálculos** vivem aqui; a interface não contém fórmulas |
 | ☷ **FilterEngine** | Filtros reutilizáveis com `(A OU B) E C`, NOT, intervalos, relações com o personagem, favoritos e combinações salvas |
 | 🗄️ **Banco único** | **17 arquivos** `data/*.json` servem ao livro **e** à ficha (fonte única da verdade) |
-| ✅ **Testes** | **201** testes do engine + **17** do FilterEngine + smoke test de **13 páginas**, **13 capítulos × 4 rotas**, **2 modos de combate**, interações da aba Dados e integridade de todas as rotas do índice |
+| ✅ **Testes** | **300** testes do engine + **17** do FilterEngine + smoke test de **13 páginas**, **13 capítulos × 4 rotas**, **2 modos de combate**, interações da aba Dados, painel G.A.U. de perícias, capítulo *Perícias* e integridade de todas as rotas do índice |
 | 💾 **Dados do jogador** | localStorage do navegador — nada sai do dispositivo; import/export JSON, backup completo, PDF e PNG |
 
 ### Conteúdo do banco (extraído do material)
@@ -50,7 +50,8 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 
 | Arquivo | Conteúdo |
 |---|---|
-| `data/skills.json` | 175 perícias (tipo/dificuldade, defaults, pré-reqs, fonte por página) |
+| `data/skills.json` | **176 perícias da publicação oficial G.A.U.** em **16 grupos**: custo em pontos, `preDefinido[]` estruturado (256 fontes tipificadas), modificadores publicados (12 com vínculo a vantagem), especializações, pré-requisitos, NT mínimo, familiaridade — e os campos legados `defaults`/`dificuldade` preservados |
+| `data/pericias.json` | Regras do capítulo: definição, desenvolvimento e aperfeiçoamento, escolha inicial (**limite 2 × idade**), **comprando perícias** (nível 1 + 1 ponto por nível), **familiaridade** (−2 e 8 h), os 16 grupos, **línguas** (dificuldades, testes de comunicação, alfabetização), 7 divergências, 4 lacunas e `migracaoDeModelo` |
 | `data/disadvantages.json` | 82 desvantagens |
 | `data/quirks.json` | Peculiaridades: máx. 5, −1 pt cada, 32 exemplos do material |
 | `data/spells.json` | 85 magias em 11 escolas, com custo, duração, pré-reqs (também usadas como **Lista de Mágicas** do G.A.U.) |
@@ -95,7 +96,8 @@ data/*.json          ← FONTE ÚNICA DA VERDADE (livro e ficha leem daqui)
       │
 app/engine/*.js      ← TODO cálculo (resolução d20, derivados, dano/GD, manobras,
       │                poderes, categorias, proezas, magia, fadiga, vantagens,
-      │                personagem, além do legado: atributos, perícias, carga,
+      │                perícias G.A.U. (custo em pontos, pré-definidos, familiaridade),
+      │                personagem, além do legado: atributos, perícias 3d, carga,
       │                combate 3d, economia, requisitos) — cada valor sai com "breakdown"
       │
 app/engine/engine.js ← computeAll(db, personagem) — fachada única da UI
@@ -115,18 +117,18 @@ app/main.js          ← SPA hash-routing (Livro · Ficha · Combate), sem frame
 ### Ferramentas
 
 - `tools/extract_data.py` — extrai o bruto do PDF-fonte para `analysis/outdata/`
-- `tools/build_data.py` — gera `data/*.json` do material legado (reproduzível: rode de novo e o diff é vazio). **Não** gera `advantages.json` nem `vantagens.json`: esses vêm da publicação oficial G.A.U. de vantagens (canal #『📕』vantagens) e são preservados pelo script.
+- `tools/build_data.py` — gera `data/*.json` do material legado (reproduzível: rode de novo e o diff é vazio). **Não** gera `advantages.json`, `vantagens.json`, `skills.json` nem `pericias.json`: esses vêm das publicações oficiais G.A.U. de vantagens (canal #『📕』vantagens) e de perícias (canal #『📕』perícias) e são preservados (e conferidos) pelo script.
 
 ### Testes
 
 ```bash
-node tests/run.mjs        # 260 testes do engine vs. exemplos do próprio material
+node tests/run.mjs        # 300 testes do engine vs. exemplos do próprio material
 node tests/filters.mjs    # 17 testes de AND/OR/NOT, texto, intervalos e presets
 node tests/smoke_ui.mjs   # 13 páginas, 13 capítulos × 4 rotas, 2 modos de combate,
-                          # interações da aba Dados e integridade das 1056 rotas do índice
+                          # interações da aba Dados, painel G.A.U. de perícias e integridade das 1098 rotas do índice
 ```
 
-Exemplos validados: personagem-modelo Dai (ST8/DX15/IQ12/HT12 = 85 pts), margens de sucesso 1–20, crítico = referência, bloqueio por categoria, disputas pelos dois critérios, GD1/GD2/GD3, PV = ST × HT, 55 nós da árvore de manobras, empunhaduras, PREC, dano das 64 armas, Limiar de Dano/PE dos 7 materiais, NT, custos e validação de poderes (máx. 3 condições), mana/rituais/toque do mago, proezas físicas (salto, escalada, levantamento, arremesso, cavar, natação), sentidos, pânico 4–40+, **65 vantagens oficiais** (custos por nível, efeitos em sentidos/defesas/RD/vontade/pânico/resistências/atributos efetivos/IQ mágico, requisitos, incompatibilidades, unicidade) e migração de personagens antigos (ids normalizados, `VERSAO_FICHA` 3).
+Exemplos validados: personagem-modelo Dai (ST8/DX15/IQ12/HT12 = 85 pts), margens de sucesso 1–20, crítico = referência, bloqueio por categoria, disputas pelos dois critérios, GD1/GD2/GD3, PV = ST × HT, 55 nós da árvore de manobras, empunhaduras, PREC, dano das 64 armas, Limiar de Dano/PE dos 7 materiais, NT, custos e validação de poderes (máx. 3 condições), mana/rituais/toque do mago, proezas físicas (salto, escalada, levantamento, arremesso, cavar, natação), sentidos, pânico 4–40+, **65 vantagens oficiais** (custos por nível, efeitos em sentidos/defesas/RD/vontade/pânico/resistências/atributos efetivos/IQ mágico, requisitos, incompatibilidades, unicidade), **176 perícias oficiais** (custo publicado + 1 ponto por nível, limite de criação 2 × idade, pré-definidos sem encadeamento nos três modos de leitura, modificadores de vantagem/carga/especialista/familiaridade, compra bloqueada por pré-requisito e NT) e migração de personagens antigos (ids normalizados, pontos de perícia convertidos em nível, `VERSAO_FICHA` 4).
 
 ## O que o material não define (e o que fizemos)
 

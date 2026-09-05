@@ -71,6 +71,11 @@ export function renderConfig(main, { db }) {
     el('span', { class: 'grow' }, rotulo, el('div', { class: 'meta' }, meta)),
     el('select', { onchange: e => store.update(p => { p.config[chave] = e.target.value === 'padrao' ? null : e.target.value; }) },
       ...opcoes.map(([valor, texto]) => el('option', { value: valor, selected: String(cfg[chave] ?? 'padrao') === valor }, texto))));
+  /* mesma coisa, mas com valor padrão explícito (sem opção "padrão do modo") */
+  const escolherDireto = (chave, opcoes, rotulo, meta, padrao) => el('div', { class: 'row' },
+    el('span', { class: 'grow' }, rotulo, el('div', { class: 'meta' }, meta)),
+    el('select', { onchange: e => store.update(p => { p.config[chave] = e.target.value; }) },
+      ...opcoes.map(([valor, texto]) => el('option', { value: valor, selected: String(cfg[chave] ?? padrao) === valor }, texto))));
 
   const sistema = el('div', { class: 'panel' },
     el('h3', {}, 'Sistema de resolução'),
@@ -83,6 +88,10 @@ export function renderConfig(main, { db }) {
         'Testes de categoria com vários d20', 'A agregação de múltiplos dados não foi publicada — "soma" é marcada como HIPÓTESE no motor.'),
       escolher('criterioDisputa', [['proximidade-do-critico', 'Mais próximo do crítico'], ['maior-margem', 'Maior margem de sucesso']],
         'Critério de vitória em disputas', 'Disputa rápida: vence quem chegar mais perto do próprio valor crítico.'),
+      escolherDireto('modeloPericias', [['gau', 'G.A.U. (custo em pontos)'], ['legado', 'Legado (tabela de dificuldade)']],
+        'Modelo de perícias', 'G.A.U.: a perícia é comprada no nível 1 pelo custo publicado e cada ponto adicional depositado vale +1 nível. Legado: pontos investidos na tabela de dificuldade do material-base.', 'gau'),
+      escolherDireto('modoPreDefinido', [['publicado', 'Notação publicada em cada entrada'], ['absoluto', 'Tudo como valor absoluto'], ['relativo', 'Tudo como atributo/perícia − N']],
+        'Leitura dos níveis pré-definidos', 'A publicação mistura notação absoluta ("IQ 10") e relativa ("IQ-5"); o conflito está registrado em rules.conflitos → pericias-pre-definidos.', 'publicado'),
       el('div', { class: 'row' },
         el('span', { class: 'grow' }, 'Limite de pontos em desvantagens', el('div', { class: 'meta' }, 'vazio = sem limite; usado pela validação de criação')),
         el('input', {

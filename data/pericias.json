@@ -1,0 +1,690 @@
+{
+ "_fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)",
+ "_fonteAdendo": "PERÍCIAS — canal #『📕』perícias (Impio, 05/08/2026 20:35)",
+ "_nota": "Transcrição fiel da publicação oficial de PERÍCIAS do sistema G.A.U. O catálogo de entradas fica em data/skills.json; este arquivo traz as regras do capítulo (definição, desenvolvimento, escolha inicial, familiaridade, compra de perícias, grupos, línguas/comunicação e divergências). Nada foi inventado: lacunas aparecem marcadas.",
+ "definicao": {
+  "titulo": "PERÍCIAS",
+  "texto": "Uma “Perícia” é um tipo particular de conhecimento. Judô, Física Nuclear, Mecânica de automóveis, e a língua inglesa são todas perícias. As perícias são independentes, apesar de que algumas delas ajudam no aprendizado de outras. Cada uma de suas perícias é representada por um número — por exemplo “Espadas Curtas 17” significa que seu nível de habilidade no manuseio de espadas curtas é igual a 17. Quanto maior o número, maior a habilidade.",
+  "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+ },
+ "desenvolvendo": {
+  "titulo": "Desenvolvendo Perícias",
+  "texto": "Para aprender ou aperfeiçoar uma perícia é necessário gastar alguns pontos. O custo de uma perícia depende do tipo e da dificuldade em desenvolvê-la. Personagens inteligentes levarão uma certa vantagem no aprendizado de perícias mentais, enquanto personagens dotados de destreza aprenderão mais facilmente as perícias físicas. Ao despender pontos para adquirir uma perícia, você está recebendo treinamento para desenvolvê-la até um nível proveitoso. O primeiro aprendizado de uma perícia é fácil — com um pouco de treino se consegue muita coisa. No entanto, o aperfeiçoamento é mais custoso, como você poderá observar pelas tabelas que se seguem. As perícias estão divididas em dois grupos: mentais (baseadas em IQ) e físicas (normalmente calcadas em DX). A Tabela de Perícias mostra o custo em pontos para cada uma delas. Quanto mais difícil a perícia, maior o número de pontos que você precisará gastar para desenvolvê-la.",
+  "grupos": {
+   "mentais": "baseadas em IQ",
+   "fisicas": "normalmente calcadas em DX"
+  },
+  "_avisoTabela": "O texto cita a “Tabela de Perícias” com o custo em pontos por tipo e dificuldade; a publicação transcrita traz o custo em pontos entrada por entrada (ex.: “Mental/3 Pontos”). Onde uma entrada traz apenas a dificuldade (“Física/Média”), o custo em pontos NÃO foi publicado — REGRA NÃO DEFINIDA, nada foi inventado.",
+  "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+ },
+ "aperfeicoando": {
+  "titulo": "Aperfeiçoando suas Perícias",
+  "texto": "Depois de ter criado um personagem, você poderá melhorar seu nível de habilidade de duas maneiras diferentes. A primeira são os bônus em pontos que você recebe por boa atuação em uma aventura. É possível também gastar tempo-de-jogo estudando. É uma das maneiras de como desenvolver suas perícias ou aprender novas.",
+  "maneiras": [
+   "bônus em pontos por boa atuação em uma aventura",
+   "gastar tempo-de-jogo estudando"
+  ],
+  "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+ },
+ "escolhaInicial": {
+  "titulo": "A Escolha das Perícias Iniciais",
+  "texto": "Ao criar um personagem novo, você usa pontos para “comprar” Perícias (veja a lista completa de Perícias existente no folheto Personagens Instantâneos). O número máximo de pontos que um personagem em processo de criação pode usar para comprar Perícias é igual ao dobro de sua idade. Um personagem com 18 anos, por exemplo, não poderá empregar mais do que 36 de seus pontos em perícias. A razão disso é que este número representa a quantidade máxima de treinamento que alguém seria capaz de acumular durante toda a sua vida até o momento em que entrou no jogo. Este limite não se aplica às perícias acrescentadas após a criação do personagem. Não é preciso gastar dinheiro para a obtenção das perícias com que o personagem é criado. O GM pode proibir um personagem de começar com uma perícia que ele entenda como inadequada. Um caçador da idade da pedra não poderia ser, por exemplo, um piloto de jatos, e um espadachim da Renascença não poderia saber mergulhar. Um cavalheiro vivendo em Londres na Época Vitoriana iria precisar de uma explicação muito boa (e provavelmente a vantagem de Antecedentes Incomuns), se ele desejasse começar como um feiticeiro experiente. Da mesma maneira, aventureiros em universos futuristas poderiam vir a ter dificuldades para encontrar instrução em tópicos como Sobrevivência e perícias com armas e veículos “arcaicos” (uma formação militar ajudaria neste caso). Como regra, o GM deverá permitir a um personagem que seja rico ou tenha um status elevado uma liberdade maior na escolha de perícias.",
+  "limiteDePontos": {
+   "formula": "2 × idade",
+   "exemplo": {
+    "idade": 18,
+    "pontos": 36
+   }
+  },
+  "aposCriacao": "Este limite não se aplica às perícias acrescentadas após a criação do personagem.",
+  "dinheiro": "Não é preciso gastar dinheiro para a obtenção das perícias com que o personagem é criado.",
+  "gm": "O GM pode proibir um personagem de começar com uma perícia que ele entenda como inadequada.",
+  "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+ },
+ "familiaridade": {
+  "titulo": "Familiaridade",
+  "texto": "Muitas perícias (Condução de Automóveis, Armas de Feixe e muitas outras) têm um redutor quando a pessoa se vê de frente com um tipo de ferramenta com o qual não está familiarizada. Ex.: Se um Ranger Estelar tiver sido treinado com a pistola de feixe iônico Fisher, o modelo Hammil será estranho para ele. O uso de um tipo estranho de ferramenta tem um redutor de -2 em todos os testes de habilidade. Como regra, se você tem o conhecimento geral para lidar com uma peça do equipamento, você será considerado familiarizado com um novo modelo daquela ferramenta depois de 8 horas de prática com ela. Não existe limite para o número de tipos de carros, aviões, armas de fogo, etc., com os quais você pode se familiarizar. Se você tiver familiaridade com 6 tipos, o GM pode fazer um teste de sua habilidade quando você pega um tipo novo. No caso de um sucesso, você já estará familiarizado com alguma coisa semelhante e poderá usar o novo dispositivo sem nenhum redutor. O GM sempre pode decidir que o item é tão similar a um outro já conhecido que ele será familiar (ex.: dois modelos similares de revólveres Colt deveriam ser considerados idênticos).",
+  "redutor": -2,
+  "horasParaFamiliarizar": 8,
+  "limiteDeTipos": null,
+  "testeApos6Tipos": "Se você tiver familiaridade com 6 tipos, o GM pode fazer um teste de sua habilidade quando você pega um tipo novo; sucesso = usa o novo dispositivo sem redutor.",
+  "similaridade": "O GM sempre pode decidir que o item é tão similar a um outro já conhecido que ele será familiar.",
+  "recemCriados": {
+   "titulo": "Familiaridade para Personagens Recém-Criados",
+   "texto": "Note que a especialização e a familiaridade funcionam para várias perícias. Ex.: É necessário escolher uma especialização com a perícia Condução (por ex., Automóveis). Você pode então começar com um veículo (provavelmente o seu) com o qual estará familiarizado."
+  },
+  "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+ },
+ "comprandoPericias": {
+  "titulo": "COMPRANDO PERÍCIAS",
+  "texto": "A compra e o avanço de perícias em G.A.U ocorre quando um jogador comprar uma perícia, já no nível 1, e deposita pontos adicionais nela. Cada ponto representa o nível do jogador naquela perícia, sendo definidos na criação do personagem ou adquiridos durante a evolução por meio de pontos ou de treinamento.",
+  "exemplo": {
+   "custoDaPericia": 3,
+   "pontosDepositados": 1,
+   "nivelResultante": 2,
+   "texto": "Por exemplo se você comprou uma perícia que custa 3 Pontos, e depoista 1 ponto nela, esta perícia é nível 2."
+  },
+  "_notaGrafia": "“depoista” no original — grafia preservada.",
+  "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+ },
+ "grupos": [
+  {
+   "id": "pericias-com-animais",
+   "nome": "Perícias com Animais",
+   "regra": "Estas perícias podem ser aprendidas facilmente em qualquer cultura de baixo nível tecnológico ou na área rural de qualquer cultura. Um “garoto da cidade” poderia vir a ter dificuldade para encontrar um professor, a menos que ele seja rico. Qualquer uma destas perícias pode ser aprendida com uma especialização opcional em um tipo de animal (por ex.: cavalos, gatos, aves de rapina).",
+   "quantidade": 6,
+   "pericias": [
+    "Adestramento de Animais",
+    "Falcoaria",
+    "Carregamento",
+    "Cavalgar (qualquer tipo)",
+    "Carreiro",
+    "Veterinária/NT"
+   ]
+  },
+  {
+   "id": "pericias-artisticas",
+   "nome": "Perícias Artísticas",
+   "regra": "Estas perícias podem ser aprendidas em qualquer lugar ou época, desde que a perícia seja conhecida pela civilização do personagem. Muitas pessoas parecem ter uma aptidão artística “inata”. Para simplificar, todas as habilidades serão tratadas como uma perícia ao invés de uma vantagem. No entanto, para compensar esta simplificação, assuma que o personagem pode começar com qualquer nível de talento artístico, independente de sua idade ou disponibilidade de um professor.",
+   "quantidade": 10,
+   "pericias": [
+    "Artista",
+    "Trovador",
+    "Caligrafia",
+    "Dança",
+    "Instrumento Musical",
+    "Fotografia/NT",
+    "Poesia",
+    "Escultura",
+    "Canto",
+    "Escrita"
+   ]
+  },
+  {
+   "id": "pericias-atleticas",
+   "nome": "Perícias Atléticas",
+   "regra": null,
+   "quantidade": 11,
+   "pericias": [
+    "Acrobacia",
+    "Controle da Respiração",
+    "Gravidade Zero/NT",
+    "Salto",
+    "Pára-quedismo",
+    "Corrida",
+    "Mergulho",
+    "Esqui",
+    "Esportes (vários tipos)",
+    "Natação",
+    "Arremesso"
+   ]
+  },
+  {
+   "id": "pericias-com-armas-e-combate",
+   "nome": "Perícias com Armas e Combate",
+   "regra": "Normalmente, qualquer pessoa interessada em aprender técnicas de combate é capaz de encontrar um professor, se a técnica for conhecida em sua cultura. A melhor maneira de aprender é ter um passado como mercenário, policial ou militar. Os termos especiais usados na descrição destas perícias estão explicados nos capítulos 13 e 14 e no glossário. Note, também, que várias delas estão incluídas nesta lista, mas não aparecem em nenhum outro lugar. Elas são cobertas em outros suplementos e foram incluídas aqui somente para complementação.",
+   "quantidade": 40,
+   "pericias": [
+    "Machado/Maça",
+    "Arremesso de Machado",
+    "Traje de Combate/NT",
+    "Armas de Feixe/NT",
+    "“Blackjack”",
+    "Armas de Pólvora",
+    "Zarabatana",
+    "Boleadeiras",
+    "Arco",
+    "Briga",
+    "Espadas de Lâmina Larga",
+    "Broquel",
+    "Besta",
+    "Sacar Rápido",
+    "Esgrima",
+    "Mangual",
+    "Escudo de Força",
+    "Espada de Luz",
+    "Artilharia/NT",
+    "Armas de Fogo/NT",
+    "Judô",
+    "Caratê",
+    "Faca",
+    "Arremesso de Faca",
+    "Lança de Justa",
+    "Laço (Reata)",
+    "Rede",
+    "Armas de Haste",
+    "Escudo",
+    "Espadas Curtas",
+    "Funda",
+    "Lança",
+    "Arremessador de Lança",
+    "Arremesso de Lança",
+    "Rapidez de Recarga",
+    "Bastão",
+    "Armas Arremessadas",
+    "Machado de Duas Mãos/Maça",
+    "Espadas de Duas Mãos",
+    "Chicote"
+   ]
+  },
+  {
+   "id": "pericias-artesanais",
+   "nome": "Perícias Artesanais",
+   "regra": "Qualquer uma destas perícias pode ser aprendida através do autoestudo, com ou sem livros. No entanto, muitas técnicas artesanais, apesar de simples, não são óbvias. Todas as perícias Artesanais, com exceção da Carpintaria e Trabalhos em Couro, devem ser aprendidas a 1/4 da velocidade (i.e., 4 vezes o custo em pontos), se não houver nenhum instrutor disponível.",
+   "semProfessor": {
+    "multiplicador": 4,
+    "excecoes": [
+     "Carpintaria",
+     "Trabalhos em Couro"
+    ]
+   },
+   "quantidade": 10,
+   "pericias": [
+    "Armeiro/NT",
+    "Ferreiro/NT",
+    "Carpintaria",
+    "Culinária",
+    "Joalheiro/NT",
+    "Trabalhos em Couro",
+    "Mecânica/NT",
+    "Cerâmica",
+    "Construção de Naves/NT",
+    "Marcenaria"
+   ]
+  },
+  {
+   "id": "pericias-originarias-de-passatempos",
+   "nome": "Perícias Originárias de Passatempos",
+   "regra": "Muitos campos de estudo têm pouco a ver com aventura ou subsistência, mas eles são estudados da mesma maneira e não requerem nenhum instrutor. Alguns exemplos: gibis, trens elétricos, rock & roll, peixes tropicais, ópera, cinema, ficção científica, Roleplaying game ... Em geral, estas perícias são do tipo Mental/Média, com valor pré-definido aproximadamente igual a IQ 5. Alguns pontos gastos neste tipo de perícia podem tornar o jogo mais divertido e vir a calhar, de vez em quando. Como este tipo de perícia é desenvolvido basicamente durante as horas de folga, o GM pode permitir que eles sejam assumidos inicialmente pela metade do preço. Não faça isto com alguma perícia obviamente útil. Esgrima, por exemplo, poderia ser o passatempo de um homem rico mas, para fins de jogo, ela não poderia ser aprendida pela metade do preço.",
+   "exemplos": [
+    "gibis",
+    "trens elétricos",
+    "rock & roll",
+    "peixes tropicais",
+    "ópera",
+    "cinema",
+    "ficção científica",
+    "Roleplaying game"
+   ],
+   "padrao": {
+    "tipo": "Mental",
+    "dificuldade": "Média",
+    "preDefinidoAproximado": "IQ 5",
+    "descontoPossivel": 0.5
+   },
+   "quantidade": 0,
+   "pericias": []
+  },
+  {
+   "id": "pericias-com-linguas",
+   "nome": "Perícias com Línguas",
+   "regra": "Cada língua é uma perícia independente. O valor pré-definido de seu nível de habilidade em sua língua nativa é igual a seu atributo IQ (veja abaixo). Outras línguas não têm valor pré-definido, a menos que elas estejam estreitamente relacionadas (ex.: Inglês e um jargão comercial baseado no inglês). Nestes casos, o usuário de qualquer uma das línguas pode usar a outra com um nível de habilidade pré-definido igual ao da sua língua-4. Um dialeto de uma língua terá valor pré-definido igual ao NH na língua com um redutor variando entre -1 e -3. Dialetos podem ter níveis pré-definidos entre si, com um redutor de -1 a -4. Sem um professor (ou no mínimo alguém que a fale) o estudo de uma língua é quatro vezes mais difícil. Uma língua estranha é uma perícia mental.",
+   "dificuldades": [
+    {
+     "nivel": "Fácil",
+     "exemplos": "Jargão Comercial, Esperanto, etc."
+    },
+    {
+     "nivel": "Média",
+     "exemplos": "A maioria das línguas: Francês, Chinês, Élfico, Romeno, etc."
+    },
+    {
+     "nivel": "Difícil",
+     "exemplos": "Basco, Navajo, a maioria das línguas alienígenas, ou qualquer língua baseada em conceitos diferentes da fala humana “normal”."
+    },
+    {
+     "nivel": "Muito Difícil",
+     "exemplos": "Línguas alienígenas que não podem ser faladas com o equipamento vocal natural do personagem ou com a ajuda de mecanismos simples."
+    }
+   ],
+   "modificadores": "Aptidão para Línguas e a perícia Linguística darão um bônus no aprendizado de qualquer língua.",
+   "semProfessor": {
+    "multiplicador": 4
+   },
+   "preDefinidos": {
+    "linguaNativa": "igual ao atributo IQ",
+    "linguaRelacionada": "língua-4",
+    "dialeto": "NH na língua com redutor de -1 a -3",
+    "dialetosEntreSi": "redutor de -1 a -4"
+   },
+   "quantidade": 4,
+   "pericias": [
+    "Língua (cada uma)",
+    "Mímica/Pantomima",
+    "Linguagem de Sinais",
+    "Telegrafia"
+   ]
+  },
+  {
+   "id": "pericias-magicas",
+   "nome": "Perícias Mágicas",
+   "regra": "Cada operação mágica é considerada uma perícia independente. É melhor aprender magia tendo um mago como professor, mas isto pode ser feito através de autoestudo (na metade da velocidade), usando um bom “grimoire” como referência. A Magia é coberta mais adiante.",
+   "semProfessor": {
+    "multiplicador": 0.5,
+    "nota": "autoestudo na metade da velocidade, usando um bom “grimoire” como referência"
+   },
+   "quantidade": 0,
+   "pericias": []
+  },
+  {
+   "id": "pericias-medicas",
+   "nome": "Perícias Médicas",
+   "regra": "A medicina é um assunto complexo. A perícia “Medicina” representa a habilidade de “clínica geral”. Um bom médico teria níveis de habilidade maiores do que 16 em Medicina, Diagnose e Primeiros Socorros, e no mínimo 14 em Cirurgia. Um cirurgião habilidoso teria um nível maior ou igual a 20 em Cirurgia. Uma enfermeira poderia ser um personagem com um NH alto em Primeiros Socorros ou um nível moderado em Medicina e a vantagem da Empatia. Um paramédico poderia ser uma enfermeira com habilidade na Operação de Equipamentos Eletrônicos (equipamento médico) e Reflexos em Combate. Uma parteira seria uma médica com uma especialização opcional em partos.",
+   "aprendizado": "As perícias médicas podem ser aprendidas (além dos lugares óbvios) em qualquer força militar. Primeiros Socorros podem ser aprendidos na metade da velocidade sem um professor. As outras perícias médicas são aprendidas em 1/4 da velocidade se não houver professor e, tanto os textos médicos quanto os pacientes reais, são necessários.",
+   "semProfessor": {
+    "primeirosSocorros": 0.5,
+    "demais": 4,
+    "nota": "textos médicos e pacientes reais são necessários"
+   },
+   "especializacaoPorFisiologia": "Em campanhas com várias raças muito diferentes, todas as perícias médicas exigem especialização em um tipo escolhido de fisiologia (ex.: mamíferos, aves, artrópodes). A falta de familiaridade com uma raça específica dentro de um tipo imporá um redutor de -2. Exceções: Primeiros Socorros exigem apenas familiaridade com a raça, não especialização.",
+   "modificadores": [
+    {
+     "situacao": "raça específica não familiar dentro do tipo de fisiologia",
+     "valor": -2
+    }
+   ],
+   "interrelacao": "Note que a maioria destas perícias está interrelacionada, e serve como valor pré-definido umas das outras. Lembre-se também, que a perícia Medicina pode ser usada sem redutor, em testes de Primeiros Socorros. Veja Ferimentos, para informações mais detalhadas sobre o uso destas perícias.",
+   "referencia": {
+    "medicinaEmPrimeirosSocorros": "sem redutor"
+   },
+   "quantidade": 5,
+   "pericias": [
+    "Diagnose/NT",
+    "Primeiros Socorros/NT",
+    "Hipnotismo",
+    "Medicina/NT",
+    "Cirurgia/NT"
+   ]
+  },
+  {
+   "id": "pericias-externas",
+   "nome": "Perícias Externas",
+   "regra": "A maioria das Perícias Externas pode ser aprendida tão rápido com a prática, quanto com um instrutor (se você conseguir sobreviver). As exceções são Remo/Vela, Navegação, Marinhagem e Rastreamento, que levam o dobro do tempo para serem aprendidas sem um professor. Personagens que vivem no campo encontrarão com facilidade professores e oportunidades para usar estas perícias. Os que vivem na cidade poderão vir a ter dificuldades.",
+   "semProfessor": {
+    "multiplicador": 2,
+    "apenas": [
+     "Remo/Vela",
+     "Navegação",
+     "Marinhagem",
+     "Rastreamento"
+    ]
+   },
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)",
+   "quantidade": 7,
+   "pericias": [
+    "Escalada",
+    "Pescaria",
+    "Naturalista",
+    "Navegação/NT",
+    "Marinhagem/NT",
+    "Sobrevivência (tipo de área)",
+    "Rastreamento"
+   ]
+  },
+  {
+   "id": "pericias-profissionais",
+   "nome": "Perícias Profissionais",
+   "regra": "Esta é uma expressão geral que designa aquelas perícias úteis para ganhar a vida, mas que (quase) nunca terão alguma utilidade em uma aventura. Não existe, neste livro, uma descrição individual para cada uma destas perícias (mas você pode aprendê-las se quiser). Para um personagem cujas perícias não valem muito dinheiro, uma perícia profissional é uma boa maneira de se qualificar para um emprego e um rendimento fixo. O GM deverá exigir que todo personagem criado explicitamente como um profissional tenha a perícia relacionada com sua profissão em nível maior ou igual a 12, a menos que ele tenha sido concebido como um incompetente.",
+   "exemplos": [
+    "barbearia",
+    "construção civil (operário)",
+    "edição de RPGs",
+    "jornalismo",
+    "vendedor",
+    "corretor de valores",
+    "almoxarife",
+    "alfaiataria",
+    "taverneiro",
+    "tecelão",
+    "tratador de animais"
+   ],
+   "padrao": {
+    "tipo": "Mental",
+    "dificuldade": "Média",
+    "preDefinidoProximo": "IQ-5"
+   },
+   "criacao": "Como regra, as perícias profissionais serão do tipo Mental/Média com nível pré-definido próximo de IQ-5. Uma perícia profissional específica também pode ter seu nível pré-definido por uma outra perícia relacionada (ex.: Um nível pré-definido aceitável para jornalismo seria Escrita-3), ou ter uma outra como pré-requisito (Adestramento de Animais para Tratador de Animais). Isto também depende do GM. A maioria das perícias profissionais só pode ser aprendida em escolas ou “no trabalho”.",
+   "nivelMinimoProfissional": 12,
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 05/08/2026 20:35)",
+   "quantidade": 5,
+   "pericias": [
+    "Contabilidade",
+    "Operação de Computadores/NT",
+    "Operação de Aparelhos Eletrônicos/NT",
+    "Heráldica",
+    "Jurisprudência"
+   ]
+  },
+  {
+   "id": "pericias-psiquicas",
+   "nome": "Perícias Psíquicas",
+   "regra": "Estas perícias são habilidades mentais especiais. Na maioria dos casos, você precisa ter nascido com um potencial para uma determinada habilidade (i.e., ter criado o personagem com aquela habilidade) e depois treiná-lo para poder fazer uso de seu talento. As perícias psíquicas estão cobertas mais adiante e, como a maioria das perícias mágicas, elas são do tipo Mental/Difícil.",
+   "padrao": {
+    "tipo": "Mental",
+    "dificuldade": "Difícil"
+   },
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)",
+   "quantidade": 0,
+   "pericias": []
+  },
+  {
+   "id": "pericias-cientificas",
+   "nome": "Perícias Científicas",
+   "regra": "As perícias científicas são úteis, em geral, como fontes de informação. Um personagem com uma perícia científica estará mais apto a saber alguma coisa do que fazer algo. É claro que existem exceções (um químico poderia fazer um teste de habilidade para analisar ou preparar algum produto; um matemático poderia fazer um teste para resolver um problema complexo). Mas, em geral, um problema se apresentará e o cenário (ou o GM) dirá, “Faça um teste de Arqueologia para tentar traduzir aquela inscrição estranha”, ou “Faça um teste de Metalografia, ou Química-5, para tentar identificar o metal esverdeado da porta”. Em muitos casos, o GM jogará os dados para os personagens e lhes dará um fragmento de informação, no caso de o teste ter sido bem sucedido. Se o teste falhar, o Mestre nem mesmo dirá aos jogadores porque estava jogando. Toda vez que houver uma descrição de uma especialidade na lista a seguir — ex.: “Um químico será capaz de identificar elementos e compostos simples” — deverá ser entendido que será necessário um sucesso em um teste de habilidade para usar esta especialidade. O tempo necessário fica a cargo do GM.",
+   "nt": "A maioria das perícias científicas muda com o nível tecnológico. Se você fizer um teste usando o nível pré-definido de uma perícia que você não tem, este nível deverá ser avaliado em seu NT de origem.",
+   "especializacao": "Algumas perícias científicas exigem que o discípulo se especialize. Pode-se escolher uma especialização mesmo que ela não seja exigida. Pode-se ter até duas especializações. Você terá um bônus de +5 em questões concernentes à sua especialidade e um redutor de -1 em questões fora dela (ou -2 se você tiver duas especialidades). Ex.: Um arqueólogo poderia se especializar no Egito antigo e Suméria, ou um zoólogo poderia escolher os felinos.",
+   "maxEspecializacoes": 2,
+   "modificadores": [
+    {
+     "situacao": "questões concernentes à sua especialidade",
+     "valor": 5
+    },
+    {
+     "situacao": "questões fora da especialidade",
+     "valor": -1,
+     "nota": "-2 se você tiver duas especialidades"
+    }
+   ],
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)",
+   "quantidade": 34,
+   "pericias": [
+    "Agronomia/NT",
+    "Alquimia/NT",
+    "Antropologia",
+    "Arqueologia",
+    "Arquitetura/NT",
+    "Astronavegação",
+    "Astronomia/NT",
+    "Bioquímica/NT",
+    "Botânica/NT",
+    "Química/NT",
+    "Programação de Computadores/NT",
+    "Criminologia/NT",
+    "Economia",
+    "Ecologia/NT",
+    "Eletrônica/NT",
+    "Engenharia Mecânica/NT",
+    "Técnicas Judiciais/NT",
+    "Genética/NT",
+    "Geologia/NT",
+    "História",
+    "Linguística",
+    "Literatura",
+    "Matemática",
+    "Metalografia/NT",
+    "Metereologia/NT",
+    "Física Nuclear/NT",
+    "Ocultismo",
+    "Física/NT",
+    "Fisiologia/NT",
+    "Prospecção",
+    "Psicologia",
+    "Pesquisa",
+    "Teologia",
+    "Zoologia"
+   ]
+  },
+  {
+   "id": "pericias-sociais",
+   "nome": "Perícias Sociais",
+   "regra": null,
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)",
+   "quantidade": 16,
+   "pericias": [
+    "Dissimulação",
+    "Administração",
+    "Conhecimento do Terreno",
+    "Boemia",
+    "Diplomacia",
+    "Lábia",
+    "Jogo",
+    "Liderança",
+    "Comércio",
+    "Atuação",
+    "Política",
+    "Trato Social",
+    "Sex-Appeal",
+    "Estratégia",
+    "Tática",
+    "Pedagogia"
+   ]
+  },
+  {
+   "id": "pericias-de-ladroes-e-espioes",
+   "nome": "Perícias de Ladrões e Espiões",
+   "regra": "Muitas perícias nesta categoria são ensinadas apenas por militares, grupos de espionagem ou tipo-ninja e o submundo. Entre as exceções se incluem a Manha (aprendida nas ruas), Detecção de Mentiras (aprendida em qualquer lugar), Fuga e Ventriloquismo (aprendida no teatro).",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 05/08/2026 20:35)",
+   "quantidade": 21,
+   "pericias": [
+    "Camuflagem",
+    "Demolição/NT",
+    "Detecção de Mentiras",
+    "Disfarce",
+    "Fuga",
+    "Falsificação/NT",
+    "Ocultamento",
+    "Serviço Secreto",
+    "Interrogatório",
+    "Leitura Labial",
+    "Arrombamento/NT",
+    "Punga",
+    "Venefício",
+    "Captação",
+    "Sombra",
+    "Prestidigitação",
+    "Furtividade",
+    "Manha",
+    "Armadilhas/NT",
+    "Demolição Subaquática",
+    "Ventriloquismo"
+   ]
+  },
+  {
+   "id": "pericias-com-veiculos",
+   "nome": "Perícias com Veículos",
+   "regra": "A maioria destas perícias são aprendidas na prática, apesar de elas serem ensinadas em escolas. Só é possível aprender sem um professor, se você tiver o tipo de veículo adequado para praticar e mesmo assim o aprendizado levará o dobro do tempo. Quando usarmos o nível pré-definido de uma perícia com Veículos, será necessário uma jogada de teste ao darmos a partida no veículo. Uma falha pode significar qualquer coisa entre o motor se recusar a pegar imediatamente e um acidente imediato. O GM pode exigir um novo teste sempre que uma situação difícil ou perigosa ocorrer; aterrissar uma aeronave sempre exige um teste destes. Se o piloto/motorista for um especialista (NH 15+), qualquer falha crítica exigirá um segundo teste logo em seguida. O acidente só acontecerá se este segundo teste resultar numa falha. Do contrário, terá sido por pouco.",
+   "semProfessor": {
+    "multiplicador": 2,
+    "condicao": "só é possível aprender sem professor se você tiver o tipo de veículo adequado para praticar"
+   },
+   "especialistaNH": 15,
+   "falhaCriticaEspecialista": "qualquer falha crítica exigirá um segundo teste logo em seguida; o acidente só acontecerá se este segundo teste resultar numa falha",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 05/08/2026 20:35)",
+   "quantidade": 7,
+   "pericias": [
+    "Ciclismo",
+    "Remo/Vela",
+    "Condução (tipo de veículo)",
+    "Motociclismo",
+    "Pilotagem (tipo de aeronave)",
+    "Motonáutica",
+    "Traje Pressurizado/NT"
+   ]
+  }
+ ],
+ "linguas": {
+  "pericias": {
+   "id": "pericias-com-linguas",
+   "nome": "Perícias com Línguas",
+   "regra": "Cada língua é uma perícia independente. O valor pré-definido de seu nível de habilidade em sua língua nativa é igual a seu atributo IQ (veja abaixo). Outras línguas não têm valor pré-definido, a menos que elas estejam estreitamente relacionadas (ex.: Inglês e um jargão comercial baseado no inglês). Nestes casos, o usuário de qualquer uma das línguas pode usar a outra com um nível de habilidade pré-definido igual ao da sua língua-4. Um dialeto de uma língua terá valor pré-definido igual ao NH na língua com um redutor variando entre -1 e -3. Dialetos podem ter níveis pré-definidos entre si, com um redutor de -1 a -4. Sem um professor (ou no mínimo alguém que a fale) o estudo de uma língua é quatro vezes mais difícil. Uma língua estranha é uma perícia mental.",
+   "dificuldades": [
+    {
+     "nivel": "Fácil",
+     "exemplos": "Jargão Comercial, Esperanto, etc."
+    },
+    {
+     "nivel": "Média",
+     "exemplos": "A maioria das línguas: Francês, Chinês, Élfico, Romeno, etc."
+    },
+    {
+     "nivel": "Difícil",
+     "exemplos": "Basco, Navajo, a maioria das línguas alienígenas, ou qualquer língua baseada em conceitos diferentes da fala humana “normal”."
+    },
+    {
+     "nivel": "Muito Difícil",
+     "exemplos": "Línguas alienígenas que não podem ser faladas com o equipamento vocal natural do personagem ou com a ajuda de mecanismos simples."
+    }
+   ],
+   "modificadores": "Aptidão para Línguas e a perícia Linguística darão um bônus no aprendizado de qualquer língua.",
+   "semProfessor": {
+    "multiplicador": 4
+   },
+   "preDefinidos": {
+    "linguaNativa": "igual ao atributo IQ",
+    "linguaRelacionada": "língua-4",
+    "dialeto": "NH na língua com redutor de -1 a -3",
+    "dialetosEntreSi": "redutor de -1 a -4"
+   }
+  },
+  "testesDeComunicacao": {
+   "id": "testes-de-comunicacao",
+   "nome": "Testes de Comunicação",
+   "regra": "Quando duas pessoas tentam se comunicar em uma língua e uma ou as duas a falam mal, o GM poderá exigir uma jogada de teste para ver se um determinado conceito será transmitido corretamente. Faça um teste contra o menor NH somado com 1/5 do melhor NH (arredondado para baixo). Exemplo: Jacques fala Francês em nível 12 e Fred 8. Com um resultado menor ou igual a 10, um conceito poderá ser transmitido. No caso de uma conversa apressada, ligações telefônicas ruins, instruções complexas, etc., use um redutor variando entre -2 e -8. Para determinar se você é realmente capaz de ler ou escrever em uma língua estrangeira (admitindo que você é alfabetizado), o GM fará um teste de sua habilidade naquela língua apenas. Ele poderá conceder bônus quando o texto for simples (lista de compras, instruções simples), e redutores para textos muito difíceis. Por conseguinte, é mais difícil ler e escrever (onde você não tem retorno), do que falar com alguém cara a cara (onde você pode corrigir rapidamente vários erros).",
+   "formula": "menor NH + 1/5 do melhor NH (arredondado para baixo)",
+   "exemplo": {
+    "jacques": 12,
+    "fred": 8,
+    "resultado": 10,
+    "texto": "Jacques fala Francês em nível 12 e Fred 8. Com um resultado menor ou igual a 10, um conceito poderá ser transmitido."
+   },
+   "redutores": {
+    "conversaApresadaOuLigacaoRuimOuInstrucoesComplexas": "-2 a -8"
+   }
+  },
+  "niveisDeHabilidade": {
+   "id": "niveis-de-habilidade-em-linguas",
+   "nome": "Níveis de Habilidade em Línguas",
+   "regra": "Esta tabela dá uma ideia de que tipo de sucesso esperar em cada nível de habilidade em uma língua:",
+   "tabela": [
+    {
+     "faixa": "4 ou menor",
+     "resultado": "Reconhecer algumas palavras importantes."
+    },
+    {
+     "faixa": "5-6",
+     "resultado": "Normalmente entende sentenças simples, ditas lentamente."
+    },
+    {
+     "faixa": "7-8",
+     "resultado": "Vocabulário adequado para leitura e diálogo. Os estrangeiros conservarão um sotaque marcante e divertido aos ouvidos dos habitantes locais."
+    },
+    {
+     "faixa": "9-10",
+     "resultado": "Comando da língua igual à média daqueles para quem esta é a língua-mãe. Os estrangeiros terão um ligeiro sotaque."
+    },
+    {
+     "faixa": "11-12",
+     "resultado": "Comando da língua equivalente a uma pessoa educada. Os estrangeiros terão um ligeiro sotaque."
+    },
+    {
+     "faixa": "13-15",
+     "resultado": "Domínio completo da língua, incluindo expressões idiomáticas. Nenhum sotaque. Pode adotar um sotaque regional se desejar."
+    },
+    {
+     "faixa": "16+",
+     "resultado": "Fluência total. Será capaz de pensar na língua, mesmo que seja estrangeiro."
+    }
+   ]
+  },
+  "alfabetizacao": {
+   "id": "alfabetizacao",
+   "nome": "Alfabetização",
+   "regra": "Esta perícia varia bastante em disponibilidade e importância, conforme o cenário do jogo. Além disso, ela é adquirida quando o personagem é muito jovem, ou não será jamais. Portanto, ela é tratada como uma vantagem em culturas onde a capacidade de ler não é comum. Em culturas onde a maioria das pessoas é capaz de ler, presume-se que o personagem é alfabetizado, a menos que ele tenha assumido a desvantagem de ser analfabeto. Se você nunca tiver a chance (ou dedicar o tempo) para aprender a escrever o básico, você poderá ter experiência em várias línguas sem ser capaz de ler ou escrever nelas. Isto significa que não há um nível de habilidade em leitura ou escrita; ou você é alfabetizado ou não. Se for, seu grau de alfabetização em cada língua será medido pelo seu nível de habilidade correspondente.",
+   "tratadaComo": "vantagem (Alfabetização) em culturas onde a capacidade de ler não é comum",
+   "semNivel": "não há um nível de habilidade em leitura ou escrita; ou você é alfabetizado ou não"
+  }
+ },
+ "referenciasCruzadas": [
+  {
+   "grupo": "Perícias Sociais",
+   "entrada": "Trovador (Mental/Média)",
+   "destino": "Perícias Artísticas",
+   "texto": "*Veja Perícias Artísticas*"
+  },
+  {
+   "grupo": "Perícias Atléticas",
+   "entrada": "Natação",
+   "destino": "『📕』testes-e-combate",
+   "texto": "Veja Natação, para as regras completas sobre natação, afogamento e salvamento de vidas."
+  }
+ ],
+ "divergencias": [
+  {
+   "id": "custo-em-pontos-vs-dificuldade",
+   "assunto": "Custo em pontos × dificuldade",
+   "descricao": "A maioria das entradas publica o custo em pontos (“Mental/3 Pontos”), mas algumas trazem apenas a dificuldade (“Caligrafia (Física/Média)”, “Dança (Física/Média)”, “Arremessador de Lança (Física/Média)”, “Trovador (Mental/Média)”, “Língua”).",
+   "resolucaoAdotada": "custo marcado como não publicado (custoNaoPublicado) nas entradas afetadas; nenhuma conversão foi inventada.",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+  },
+  {
+   "id": "notacao-dos-pre-definidos",
+   "assunto": "Notação dos níveis pré-definidos",
+   "descricao": "A publicação mistura notação absoluta (“Pré-definido como IQ 10”, “DX 5”) com notação relativa herdada do material-base (“IQ-5”, “DX-6”, “Carpintaria-3”).",
+   "resolucaoAdotada": "o texto é preservado em preDefinidoTexto e a estrutura marca cada fonte como modo “absoluto” ou “relativo”; o motor usa o modo publicado, sem converter um no outro.",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+  },
+  {
+   "id": "ferreiro-st-acima-de-13",
+   "assunto": "Modificador de Ferreiro por ST acima de 13",
+   "descricao": "Publicado como “-1 para cada ponto de ST acima de 13” (sinal negativo para um atributo alto).",
+   "resolucaoAdotada": "transcrito como está, com nota no modificador; nada foi corrigido.",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+  },
+  {
+   "id": "zoologia-custo",
+   "assunto": "Grafia do custo de Zoologia",
+   "descricao": "Publicado como “Mental//2 Pontos”.",
+   "resolucaoAdotada": "grafia preservada em custoTexto e registrada em _notaGrafia; custo em pontos = 2.",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+  },
+  {
+   "id": "motonautica-tipo",
+   "assunto": "Grafia do tipo de Motonáutica",
+   "descricao": "Publicado como “Fisico/3 Pontos”.",
+   "resolucaoAdotada": "grafia preservada em custoTexto; tipo normalizado como “Física” para os filtros.",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 05/08/2026 20:35)"
+  },
+  {
+   "id": "ciclismo-paragrafo-duplicado",
+   "assunto": "Parágrafo duplicado em Ciclismo",
+   "descricao": "A entrada de Ciclismo traz colado um trecho inteiro de Armadilhas (“(entre outras coisas) a detecção de uma armadilha…”), repetido da entrada anterior.",
+   "resolucaoAdotada": "o trecho duplicado não foi copiado para Ciclismo; a divergência fica registrada aqui.",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 05/08/2026 20:35)"
+  },
+  {
+   "id": "artilharia-veja-mecanica",
+   "assunto": "Quebra de parágrafo em Artilharia",
+   "descricao": "“Veja Mecânica. Se você quiser aprender esta perícia para dois ou mais tipos de arma.” aparece como parágrafo solto antes da lista de armas.",
+   "resolucaoAdotada": "texto mantido no campo de especialização da entrada, como publicado.",
+   "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+  }
+ ],
+ "naoDefinidas": [
+  {
+   "id": "tabela-de-pericias",
+   "item": "Tabela de Perícias (custo em pontos por tipo e dificuldade)",
+   "motivo": "o texto a cita, mas apenas os custos por entrada foram publicados; algumas entradas trazem só a dificuldade."
+  },
+  {
+   "id": "custo-de-linguas",
+   "item": "Custo em pontos das línguas por dificuldade (Fácil/Média/Difícil/Muito Difícil)",
+   "motivo": "a publicação dá as dificuldades e o multiplicador sem professor (4×), mas não o custo em pontos por dificuldade."
+  },
+  {
+   "id": "pericias-magicas-e-psiquicas",
+   "item": "Lista de perícias mágicas e psíquicas",
+   "motivo": "“cada operação mágica é considerada uma perícia independente” e “as perícias psíquicas estão cobertas mais adiante” — a lista não foi publicada neste canal."
+  },
+  {
+   "id": "pericias-profissionais",
+   "item": "Descrição individual das perícias profissionais",
+   "motivo": "“Não existe, neste livro, uma descrição individual para cada uma destas perícias” — apenas exemplos e a regra geral."
+  }
+ ],
+ "migracaoDeModelo": {
+  "nota": "Fichas salvas no modelo legado guardavam pontos investidos por perícia; o modelo G.A.U. compra a perícia no nível 1 e deposita 1 ponto por nível adicional.",
+  "conversao": "o NH legado (atributo + offset da tabela de dificuldade) é adotado como nível G.A.U.; o custo passa a ser \"custo publicado + (nível − 1)\".",
+  "_aviso": "A publicação não define como converter fichas do material-base para o modelo G.A.U. — a conversão acima é registrada aqui e no histórico da ficha, e nada é apagado.",
+  "versaoFicha": 4
+ }
+}

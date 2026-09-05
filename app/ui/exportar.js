@@ -29,7 +29,7 @@ export function exportarPDF(snap) {
     sec('Perícias',
       tabela([['Perícia', 'Nível', 'Pts']], snap.pericias
         .filter(p => p.nivelEfetivo !== null)
-        .map(p => [p.nome, p.nivelEfetivo, p.entry.pontos]))),
+        .map(p => [p.nome, p.nivelEfetivo, p.custo ?? p.entry?.pontos ?? '—']))),
 
     sec('Vantagens', lista((pc.vantagens || []).map(v => v.nome || v.id))
       , secInline('Desvantagens', lista((pc.desvantagens || []).map(v => v.nome || v.id))),

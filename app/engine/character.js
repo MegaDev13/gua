@@ -7,15 +7,20 @@
  * ('aptid-o-m-gica' → 'aptidao-magica'), níveis estruturados por nome (Rijeza "RD 2",
  * Memória Eidética "2º nível", Sorte "Extraordinária") e remoção da entrada corrompida
  * vinda da extração do PDF. `migrarPersonagem()` traz fichas v1/v2 para v3 sem perda de dados.
+ * v4 (PERÍCIAS — canal #『📕』perícias): modelo G.A.U. de compra de perícias — a perícia é
+ * comprada no nível 1 pelo custo publicado e cada ponto adicional depositado vale +1 nível.
+ * Fichas antigas (pontos investidos) são convertidas pelo NH legado, sem apagar nada.
  */
 import { custoAtributo, APARENCIA } from './attributes.js';
 import { custoTrait, pontosPeculiaridades, MAX_PECULIARIDADES } from './traits.js';
-import { totalPontosEmPericias } from './skills.js';
+import {
+  totalPontosEmPericias, modeloDePericias, custoPericiasGAU, validarPericiasGAU, nivelDaEntrada,
+} from './skills.js';
 import { registrarHistorico } from './economy.js';
 import { custoDoPoder } from './powers.js';
 import { definicaoDaVantagem, normalizarEntradaDeVantagem, validarVantagens, nivelDaVantagem } from './vantagens.js';
 
-export const VERSAO_FICHA = 3;
+export const VERSAO_FICHA = 4;
 
 export function novoPersonagem(nome = 'Novo Personagem', pontos = 100, db = null) {
   return {
@@ -46,7 +51,12 @@ export function novoPersonagem(nome = 'Novo Personagem', pontos = 100, db = null
       nivelSaga: db?.poderes?.orcamento?.nivelInicial ?? 'mundano',
     },
     combate: { ferimentos: 0, fadiga: 0, condicoes: [], manobra: null, rodada: 0, pv: null, pf: null, energia: null },
-    config: { emCriacao: true, modoCombate: 'gau', limiteDesvantagens: null, resolucaoMagia: null, modoEscala: 'melhor', criterioDisputa: 'proximidade-do-critico' },
+    config: {
+      emCriacao: true, modoCombate: 'gau', limiteDesvantagens: null, resolucaoMagia: null,
+      modoEscala: 'melhor', criterioDisputa: 'proximidade-do-critico',
+      modeloPericias: db?.rules?.configuraveis?.modeloPericias?.default ?? 'gau',
+      modoPreDefinido: db?.rules?.configuraveis?.modoPreDefinido?.default ?? 'publicado',
+    },
     historico: [{ quando: new Date().toISOString(), tipo: 'criacao', texto: 'Personagem criado.' }],
   };
 }
@@ -87,6 +97,27 @@ export function migrarPersonagem(db, personagem) {
         + `${mudados} id(s) normalizado(s), ${antes - migrado.vantagens.length} entrada(s) inválida(s) removida(s).`,
     });
   }
+  /* v4: perícias — converte entradas do modelo legado (pontos investidos) para o modelo G.A.U. (nível). */
+  const periciasAntigas = (migrado.pericias || []).filter(e => !Number.isFinite(e?.nivel) && Number.isFinite(e?.pontos));
+  if (periciasAntigas.length) {
+    migrado.pericias = (migrado.pericias || []).map(entrada => {
+      if (Number.isFinite(entrada?.nivel) || !Number.isFinite(entrada?.pontos)) return entrada;
+      const nivel = nivelDaEntrada(db, migrado, entrada);
+      if (nivel === null || nivel === undefined) return entrada;
+      const nova = { ...entrada, nivel, pontosLegados: entrada.pontos };
+      delete nova.pontos;
+      return nova;
+    });
+    migrado.historico.push({
+      quando: new Date().toISOString(), tipo: 'migracao',
+      texto: `Perícias convertidas para o modelo G.A.U. (v${VERSAO_FICHA}): ${periciasAntigas.length} entrada(s) passaram de `
+        + 'pontos investidos para nível comprado (o NH legado foi adotado como nível; os pontos antigos ficaram em `pontosLegados`).',
+    });
+  }
+  if (migrado.config && migrado.config.modeloPericias == null) {
+    migrado.config.modeloPericias = db?.rules?.configuraveis?.modeloPericias?.default ?? 'gau';
+  }
+
   // Aptidão Mágica: em v1 ela só existia como vantagem; em v2 também é campo da ficha.
   migrado.aptidaoMagica = Math.max(
     Number(migrado.aptidaoMagica) || 0,
@@ -135,9 +166,20 @@ export function contagemDePontos(db, personagem) {
   const pq = pontosPeculiaridades(personagem);
   gastos += pq.pontos;
   partes.push({ tipo: 'peculiaridade', nome: `${pq.quantidade} peculiaridade(s)`, custo: pq.pontos, detalhe: `máx ${MAX_PECULIARIDADES}` });
-  const ptsSkills = totalPontosEmPericias(db, personagem);
+  const modelo = modeloDePericias(db, personagem);
+  const custosSkills = modelo === 'gau'
+    ? custoPericiasGAU(db, personagem)
+    : { total: totalPontosEmPericias(db, personagem), partes: [], semCustoPublicado: 0 };
+  const ptsSkills = custosSkills.total;
   gastos += ptsSkills;
-  partes.push({ tipo: 'pericias', nome: 'Perícias', custo: ptsSkills });
+  partes.push({
+    tipo: 'pericias', nome: 'Perícias', custo: ptsSkills,
+    detalhe: modelo === 'gau'
+      ? `${(personagem.pericias || []).length} perícias · custo publicado + 1 ponto por nível acima de 1`
+        + (custosSkills.semCustoPublicado ? ` · ${custosSkills.semCustoPublicado} sem custo publicado` : '')
+      : 'modelo legado: pontos investidos na tabela de dificuldade',
+    modelo,
+  });
   const ptsMagias = (personagem.magias || []).reduce((a, m) => a + (m.pontos || 0), 0);
   gastos += ptsMagias;
   partes.push({ tipo: 'magias', nome: 'Magias (legado 3d)', custo: ptsMagias });
@@ -163,11 +205,11 @@ export function contagemDePontos(db, personagem) {
       poderes: poderes.map(p => ({ id: p.poder.id, nome: p.poder.nome, custo: p.custo.total, itens: p.custo.partes.length })),
       regra: db?.poderes?.orcamento?.regra || '',
     },
-    validacoes: validar(db, personagem, { gastosSkills: ptsSkills, gastoEmPoderes, orcamento }),
+    validacoes: validar(db, personagem, { gastosSkills: ptsSkills, gastoEmPoderes, orcamento, modeloPericias: modelo }),
   };
 }
 
-function validar(db, personagem, { gastosSkills, gastoEmPoderes = 0, orcamento = null }) {
+function validar(db, personagem, { gastosSkills, gastoEmPoderes = 0, orcamento = null, modeloPericias = 'gau' }) {
   const avisos = [];
   if (orcamento != null && gastoEmPoderes > orcamento) {
     avisos.push(`Pontos de poder excedidos: ${gastoEmPoderes} gastos de um orçamento de ${orcamento} (o valor é baseado no nível de poder da saga).`);
@@ -179,7 +221,11 @@ function validar(db, personagem, { gastosSkills, gastoEmPoderes = 0, orcamento =
   if ((personagem.atributos?.HT ?? 0) > 0 && personagem.combate?.pf != null && personagem.combate.pf > personagem.atributos.HT) {
     avisos.push('PF acima da reserva (PF = HT na ficha oficial).');
   }
-  if (personagem.config?.emCriacao && personagem.idade && gastosSkills > 2 * personagem.idade) {
+  if (modeloPericias === 'gau') {
+    /* Perícias: pré-requisitos publicados, limite de criação (2 × idade) e NT mínimo. */
+    const validacaoPericias = validarPericiasGAU(db, personagem);
+    avisos.push(...validacaoPericias.erros, ...validacaoPericias.avisos);
+  } else if (personagem.config?.emCriacao && personagem.idade && gastosSkills > 2 * personagem.idade) {
     avisos.push(`Pontos em perícias (${gastosSkills}) excedem 2× idade (${2 * personagem.idade}) — limite de criação (p. 103).`);
   }
   if ((personagem.peculiaridades || []).length > MAX_PECULIARIDADES) {

@@ -314,6 +314,7 @@ Referida (p. 102: bônus por boa atuação, estudo; atributo sobe → perícias 
 | Poderes, dimensionalidade, hax | `poderes.json` | `powers.js`, `categories.js` | cap. *Poderes* | aba **Poderes** |
 | Magia | `magia.json`, `spells.json` | `magic.js` | cap. *Magia* | aba **Magias** |
 | Vantagens (catálogo e regras do capítulo) | `advantages.json`, `vantagens.json` | `vantagens.js`, `traits.js` | cap. *Vantagens* | aba **Vantagens** |
+| Perícias (catálogo G.A.U. e regras do capítulo) | `skills.json`, `pericias.json` | `skills.js`, `character.js` | cap. *Perícias* | aba **Perícias** |
 | Personagem, migração, pontos | `ficha.json`, `rules.json` | `character.js`, `engine.js` | cap. *Criação* | todas |
 
 ## 28. Conflitos entre as duas camadas
@@ -323,6 +324,7 @@ Registrados em `data/rules.json → conflitos` (com a resolução adotada e a fo
 1. **`magia-3d-vs-d20`** — rolagem de magia: 3 dados (MAGIA) × d20 (TESTES). Adotado: d20 + margem, com modo 3d configurável.
 2. **`disputa-criterio`** — vitória por proximidade do crítico × maior margem. Adotado: ambos calculados; padrão proximidade do crítico.
 3. **`ataque-corpo-a-corpo-distancia`** — o texto publicado exige "pelo menos 2 metros" para o ataque iniciado dessa maneira, o que conflita com a proximidade do corpo a corpo. Adotado: transcrito como está, com `_aviso` no dado e aviso na interface.
+4. **`pericias-pre-definidos`** — notação dos níveis pré-definidos: a publicação mistura valor absoluto ("Pré-definido como IQ 10", "DX 7") com a notação relativa do material-base ("IQ-5", "Carpintaria-3"). Adotado: vale a notação publicada em cada entrada (modo `publicado`), com leitura configurável em `config.modoPreDefinido` (`absoluto` × `relativo`).
 
 ## 29. Vantagens G.A.U. (publicação oficial)
 
@@ -334,6 +336,17 @@ Registrados em `data/rules.json → conflitos` (com a resolução adotada e a fo
 - **Consumidores:** `derived.js` (secundários, esquiva/aparar/bloqueio, RD), `encumbrance.js` (defesa passiva), `proezas.js` (testes de sentido, vontade e pânico), `spells.js` (IQ mágico e teto de Aptidão Mágica), `character.js` (pontos, validação, `VERSAO_FICHA` 3), `engine.js` (`computeAll` expõe `vantagens`, `atributosEfetivos`, `ajustesDeAtributos`, `defesasAtivas`, `sentidos`).
 - **Efeitos tipados** (`efeitos[].tipo`): `sentido`, `defesaAtiva`, `pericia`, `panico`, `iniciativa`, `despertar`, `imunidade`, `atributoEfetivo`, `resistenciaMagica`, `resistenciaPsiquica`, `atributo`, `testeGeral`, `dano`, `acoesExtras`, `statusDerivado`, `deteccao`, `dispensaPericia`. Valores condicionais usam `valorEfetivo` (ex.: Amuleto da Sorte com/sem o amuleto).
 - **Conflito registrado:** `sobrevivente-do-inferno-custo` — 40 pontos na publicação oficial × outra grafia no bloco de novas vantagens. Adotado: **40 pontos**.
+
+## 30. Perícias G.A.U. (publicação oficial)
+
+**Fonte:** `PERÍCIAS` — canal #『📕』perícias (Impio, 02/08/2026 09:19) e adendo (05/08/2026). Substitui a transcrição anterior feita a partir do PDF legado (p. 104–180), que permanece como camada subsidiária para dificuldade e pré-definidos legados.
+
+- **`data/skills.json` — 176 perícias em 16 grupos** (Animais, Artísticas, Atléticas, com Armas e Combate, Artesanais, com Línguas, Mágicas, Médicas, Externas, Profissionais, Psíquicas, Científicas, Sociais, de Ladrões e Espiões, com Veículos e Outras). Cada entrada traz `grupo`, `tipo` (Física/Mental), `custoPontos` + `custoTexto` publicados, `preDefinido[]` **estruturado** (256 fontes tipificadas: 151 atributo, 94 perícia, 10 referência genérica, 1 sentido), `descricao`, `modificadores[]` (situação, valor, nota e **vínculo com vantagem** quando o texto a cita — 12 mods ligados a Voz Melodiosa, Ultra-flexibilidade das Juntas, Senso de Direção, Talento para Matemática, Empatia e Carisma), `especializacao`/`especializacoes[]`, `prereqs`/`prerequisitoNivel[]`, `ntMinimo`, `nivelEspecialista`, `testeSecreto`, `familiaridadeAplicavel` (12 perícias) e `fonte`. Os campos legados `defaults` e `dificuldade` foram preservados para o modelo antigo; `dificuldadeLegada` e `_notaGrafia` registram divergências de transcrição.
+- **4 entradas sem custo publicado** (`custoNaoPublicado: true`): Caligrafia, Dança, Arremessador de Lança e Língua (cada uma) — a publicação traz apenas "(Física/Média)"/"(Mental/Média)". O nível pode ser anotado na ficha, mas não entra na conta de pontos; o aviso é exibido na aba e no livro.
+- **`data/pericias.json`:** definição do capítulo, *Desenvolvendo Perícias*, *Aperfeiçoando suas Perícias*, *A Escolha das Perícias Iniciais* (**limite de criação 2 × idade**), **COMPRANDO PERÍCIAS** (compra no nível 1 + 1 ponto por nível, com o exemplo publicado), **Familiaridade** (−2, 8 horas de prática, teste após 6 tipos, similaridade, recém-criados), os 16 grupos com a regra de cada um, **Línguas** (dificuldades, pré-definidos, aprendizado sem professor ×4, testes de comunicação "menor NH + 1/5 do melhor NH", tabela de níveis e Alfabetização), referências cruzadas, **7 divergências** registradas, 4 lacunas e `migracaoDeModelo`.
+- **`app/engine/skills.js` (modelo G.A.U.):** `modeloDePericias`, `custoPublicado`, `nivelComprado`, `custoDaPericiaGAU` (custo publicado + nível − 1), `custoPericiasGAU`, `limitePontosNaCriacao` (2 × idade), `defaultGAU` (**sem encadeamento**: só perícia efetivamente treinada serve de base), `modoPreDefinido` (`publicado`/`absoluto`/`relativo`), `niveisPericiasGAU`, `modificadoresPublicadosGAU` (vantagens, Carisma em Liderança, especialista NH ≥ 20, nível de Carga, familiaridade, situacionais escolhidos na mesa), `nivelEfetivoGAU`, `periciasGAU`, `validarPericiasGAU`, `regraDeFamiliaridade`, `podeComprarNivelGAU` (compra/venda com pré-requisitos, NT mínimo, pontos disponíveis e limite de criação) e `nivelDaEntrada` (aceita fichas legadas convertendo o NH antigo em nível).
+- **Consumidores:** `character.js` (custo de perícias na contagem de pontos, validação e **`VERSAO_FICHA` 4** com conversão automática `pontos → nivel` preservando `pontosLegados`), `engine.js` (`computeAll` expõe `pericias` no modelo ativo e o bloco `periciasGAU` com custo, partes e limite de criação), `exportar.js` (coluna de custo na ficha exportada), `book-index.js` (documentos de perícia enriquecidos + regras do capítulo, grupos, divergências e lacunas).
+- **Interface:** aba **Perícias** com painel de compra (pontos gastos, perícias sem custo publicado), barra do limite de criação, painel de familiaridade, stepper de nível (+1/−1), alternador 🔧 de equipamento não familiar, escolha de especialização, breakdown clicável do nível efetivo e filtros por grupo, natureza, custo publicado, atributo-base, treinamento, familiaridade, nível e tags. O capítulo *Perícias* do livro tem 13 seções (das regras de compra ao catálogo com verbetes por grupo).
 
 ---
 
@@ -349,7 +362,7 @@ Registrados em `data/rules.json → conflitos` (com a resolução adotada e a fo
 
 **Decisão de arquitetura:** todos esses dados são carregados dos arquivos JSON (`data/*.json`). Quando o usuário fornecer os capítulos ausentes, basta popular os arquivos — sem alteração do motor. Onde o próprio material traz exemplos numéricos autoconsistentes (modificadores de velocidade/distância), a tabela foi reconstruída **a partir dos exemplos** e marcada como `"_fonte": "reconstruído dos exemplos"`.
 
-**Parte II (material G.A.U.):** o registro vivo e completo está em `data/rules.json → naoDefinidas` (15 itens) e é exibido em *Configurações → Regras não definidas*. Principais lacunas:
+**Parte II (material G.A.U.):** o registro vivo e completo está em `data/rules.json → naoDefinidas` (19 itens) e é exibido em *Configurações → Regras não definidas*. Principais lacunas:
 
 1. **Nomes oficiais das Categorias de Poder** acima de Mundano (o material cita apenas "categoria superior" e "cósmico").
 2. **Agregação dos d20 adicionais** de categorias superiores (soma, melhor dado ou avaliação por dado).
@@ -361,6 +374,10 @@ Registrados em `data/rules.json → conflitos` (com a resolução adotada e a fo
 8. **PREC para armas corpo a corpo** (a tabela lista apenas categorias de ataque à distância).
 9. **Custo de atributos acima de 20** (a tabela legada vai até 20).
 10. **Encontrões** (citados em "Empurrar e Derrubar Objetos" como regra separada, ainda não publicada).
+11. **Tabela de Perícias** (custo em pontos por tipo e dificuldade): citada pelo texto, mas só os custos por entrada foram publicados; Caligrafia, Dança, Arremessador de Lança e Língua trazem apenas a dificuldade.
+12. **Custo em pontos das línguas** por dificuldade (Fácil/Média/Difícil/Muito Difícil) — a publicação dá as dificuldades e o multiplicador sem professor (4×).
+13. **Lista de perícias mágicas e psíquicas** — "cada operação mágica é considerada uma perícia independente" e "as perícias psíquicas estão cobertas mais adiante".
+14. **Descrição individual das perícias profissionais** — "Não existe, neste livro, uma descrição individual para cada uma destas perícias".
 
 A mesma decisão de arquitetura vale: nada é inventado, tudo é carregado de `data/*.json`, e cada lacuna aparece na interface como bloqueio ou aviso com o motivo exato.
 
@@ -375,3 +392,4 @@ A mesma decisão de arquitetura vale: nada é inventado, tudo é carregado de `d
 - A transcrição anterior trazia uma "vantagem" chamada *"Se o Patrono for um indivíduo extremamente poderoso…"* — era um fragmento da tabela de Poder do Patrono. Removida do catálogo e registrada em `vantagens.json → migracaoDeIds.removidos`.
 - Ids gerados pela extração anterior cortavam letras acentuadas (`aptid-o-m-gica`, `mem-ria-eid-tica`, `g-nio`…). Normalizados e mapeados em `migracaoDeIds.mapa`; fichas salvas são migradas automaticamente (`VERSAO_FICHA` 3).
 - Nomes coloquiais das novas vantagens ("Amigo 'Escudeiro'", "Irmão/irmã Gostosa(o)", "Kawaii", "Spoiler", "Super Bolso", "Guarda Roupas Astral") mantidos exatamente como publicados.
+- **Perícias (publicação G.A.U.):** Zoologia aparece como "Mental//2 Pontos" (barra dupla) e Motonáutica como "Fisico/3 Pontos" — grafias preservadas em `custoTexto` com `_notaGrafia` (o `tipo` é normalizado). Ferreiro declara bônus por ST acima de 13 sem valor numérico; Ciclismo repete o parágrafo de Armadilhas (artefato de copiar/colar, excluído da entrada e registrado); Artilharia tem quebra de parágrafo no meio do "Veja Mecânica"; Escalada publica "DX 5 **ou ST 5**" e Liderança publica "ST 5" como pré-definido — transcritos como estão. Todas em `data/pericias.json → divergencias`.

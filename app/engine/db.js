@@ -6,11 +6,13 @@
  * resolucao (testes), proezas (físicas/sentidos/vontade), armas (arsenal por era),
  * estruturas (dano em objetos/NT), poderes (construtor modular), magia (sistema mágico),
  * ficha (modelo da planilha oficial) e vantagens (regras do capítulo de Vantagens:
- * introdução, custos, Aliado, Patrono, novas vantagens, exemplo de seleção e migração de ids). */
+ * introdução, custos, Aliado, Patrono, novas vantagens, exemplo de seleção e migração de ids) e
+ * pericias (regras do capítulo de Perícias: definição, desenvolvimento, escolha inicial, familiaridade,
+ * compra de perícias em G.A.U., grupos, línguas/comunicação e divergências transcritas). */
 const FILES = [
   'rules', 'tables', 'skills', 'advantages', 'disadvantages', 'quirks', 'equipment', 'spells',
   'maneuvers', 'book',
-  'resolucao', 'proezas', 'armas', 'estruturas', 'poderes', 'magia', 'ficha', 'vantagens',
+  'resolucao', 'proezas', 'armas', 'estruturas', 'poderes', 'magia', 'ficha', 'vantagens', 'pericias',
 ];
 
 class Database {
@@ -67,6 +69,7 @@ class Database {
   get magia() { return this._data.magia || {}; }
   get ficha() { return this._data.ficha || {}; }
   get vantagens() { return this._data.vantagens || {}; }
+  get pericias() { return this._data.pericias || {}; }
 
   skill(id) { return this.skills.find(s => s.id === id); }
   spell(id) { return this.spells.find(s => s.id === id); }
