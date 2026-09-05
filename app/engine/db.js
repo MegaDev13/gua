@@ -68,26 +68,32 @@ class Database {
     return `data/${name}.json`;
   }
 
-  get tables() { return this._data.tables || {}; }
-  get skills() { return this._data.skills || []; }
-  get advantages() { return this._data.advantages || []; }
-  get disadvantages() { return this._data.disadvantages || []; }
-  get quirks() { return this._data.quirks || {}; }
-  get equipment() { return this._data.equipment || {}; }
-  get spells() { return this._data.spells || []; }
-  get maneuvers() { return this._data.maneuvers || {}; }
-  get rules() { return this._data.rules || {}; }
-  get book() { return this._data.book || {}; }
+  /* Um arquivo que falhou fica guardado como `{ _erro }`; os getters nunca devolvem esse
+     objeto como se fosse dado — devolvem a estrutura vazia do tipo certo ([] ou {}).
+     Assim uma falha de rede vira "—" na interface, não uma exceção dentro de uma fórmula. */
+  _lista(nome) { const v = this._data[nome]; return Array.isArray(v) ? v : []; }
+  _objeto(nome) { const v = this._data[nome]; return v && typeof v === 'object' && !v._erro ? v : {}; }
+
+  get tables() { return this._objeto('tables'); }
+  get skills() { return this._lista('skills'); }
+  get advantages() { return this._lista('advantages'); }
+  get disadvantages() { return this._lista('disadvantages'); }
+  get quirks() { return this._objeto('quirks'); }
+  get equipment() { return this._objeto('equipment'); }
+  get spells() { return this._lista('spells'); }
+  get maneuvers() { return this._objeto('maneuvers'); }
+  get rules() { return this._objeto('rules'); }
+  get book() { return this._objeto('book'); }
   /* --- material G.A.U. (d20) --- */
-  get resolucao() { return this._data.resolucao || {}; }
-  get proezas() { return this._data.proezas || {}; }
-  get armas() { return this._data.armas || {}; }
-  get estruturas() { return this._data.estruturas || {}; }
-  get poderes() { return this._data.poderes || {}; }
-  get magia() { return this._data.magia || {}; }
-  get ficha() { return this._data.ficha || {}; }
-  get vantagens() { return this._data.vantagens || {}; }
-  get pericias() { return this._data.pericias || {}; }
+  get resolucao() { return this._objeto('resolucao'); }
+  get proezas() { return this._objeto('proezas'); }
+  get armas() { return this._objeto('armas'); }
+  get estruturas() { return this._objeto('estruturas'); }
+  get poderes() { return this._objeto('poderes'); }
+  get magia() { return this._objeto('magia'); }
+  get ficha() { return this._objeto('ficha'); }
+  get vantagens() { return this._objeto('vantagens'); }
+  get pericias() { return this._objeto('pericias'); }
 
   skill(id) { return this.skills.find(s => s.id === id); }
   spell(id) { return this.spells.find(s => s.id === id); }

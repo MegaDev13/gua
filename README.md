@@ -125,8 +125,10 @@ app/main.js          ← SPA hash-routing (Livro · Ficha · Combate), sem frame
 ```bash
 node tests/run.mjs        # 311 testes do engine vs. exemplos do próprio material
 node tests/filters.mjs    # 17 testes de AND/OR/NOT, texto, intervalos e presets
-node tests/smoke_ui.mjs   # 13 páginas, 13 capítulos × 4 rotas, 2 modos de combate,
-                          # interações da aba Dados, painel G.A.U. de perícias e integridade das 1098 rotas do índice
+node tests/smoke_ui.mjs   # 13 páginas, 13 capítulos × 4 rotas, 2 modos de combate, interações da aba Dados,
+                          # painel G.A.U. de perícias, bootstrap (app/main.js) e as 1098 rotas do índice
+node tests/smoke_dados_faltando.mjs   # boot com data/*.json fora do ar: aviso nomeando os arquivos,
+                          # páginas em "—", ficha antiga preservada e DB.recarregar() rebuscando só o que falhou
 ```
 
 Exemplos validados: personagem-modelo Dai (ST8/DX15/IQ12/HT12 = 85 pts), margens de sucesso 1–20, crítico = referência, bloqueio por categoria, disputas pelos dois critérios, GD1/GD2/GD3, PV = ST × HT, 55 nós da árvore de manobras, empunhaduras, PREC, dano das 64 armas, Limiar de Dano/PE dos 7 materiais, NT, custos e validação de poderes (máx. 3 condições), mana/rituais/toque do mago, proezas físicas (salto, escalada, levantamento, arremesso, cavar, natação), sentidos, pânico 4–40+, **65 vantagens oficiais** (custos por nível, efeitos em sentidos/defesas/RD/vontade/pânico/resistências/atributos efetivos/IQ mágico, requisitos, incompatibilidades, unicidade), **176 perícias oficiais** (custo publicado + 1 ponto por nível, limite de criação 2 × idade, pré-definidos sem encadeamento nos três modos de leitura, modificadores de vantagem/carga/especialista/familiaridade, compra bloqueada por pré-requisito e NT) e migração de personagens antigos (ids normalizados, pontos de perícia convertidos em nível, `VERSAO_FICHA` 4).

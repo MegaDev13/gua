@@ -123,9 +123,11 @@ function avisarFalhaDeDados(falhas) {
           location.reload();
         },
       }, '↻ Tentar novamente')));
-  const topo = document.querySelector('header.topbar');
-  if (topo?.after) topo.after(banner);
-  else document.getElementById('main')?.prepend(banner);
+  /* fora do #main: route() limpa o #main a cada navegação e o aviso precisa persistir */
+  const main = document.getElementById('main');
+  if (main?.before) main.before(banner);
+  else if (document.querySelector('header.topbar')?.after) document.querySelector('header.topbar').after(banner);
+  else document.body.prepend(banner);
 }
 
 (async () => {
