@@ -1,0 +1,511 @@
+{
+  "_fonte": "MAGIA — canal #『📘』magia (Impio, 20/08/2026 19:17). Complementa tables.json (mana, rituais, redução de custo, choques de retorno) sem duplicar valores.",
+  "definicao": "Magia é uma força poderosa e caprichosa controlada através de procedimentos chamados mágicas. A magia consome uma energia chamada mana, mas mesmo os magos mais poderosos são incapazes de compreendê-la totalmente. Ou, se o são, eles nunca o admitiram.",
+  "aptidao": {
+    "regra": "Algumas pessoas têm uma aptidão inata para aprender e usar magia. Esta vantagem é chamada Aptidão Mágica. Qualquer pessoa com algum grau de Aptidão Mágica é considerada um mago.",
+    "cenarios": "Em muitos cenários, apenas os magos são capazes de usar a magia. Em outros, eles se saem melhor com a magia que os não-magos.",
+    "limite": "Ninguém pode ter uma Aptidão Mágica maior do que 3."
+  },
+  "aprendizado": {
+    "regras": [
+      "A maioria das mágicas pode ser aprendida por qualquer um (mas na maioria dos cenários elas só podem ser usadas por magos). Algumas mágicas podem ser aprendidas somente por magos (este é um pré-requisito da mágica).",
+      "Cada mágica é considerada uma perícia e é aprendida da mesma maneira que todas as outras perícias.",
+      "Mágicas não têm um nível pré-definido; você precisa ter sido treinado em uma determinada mágica para ser capaz de usá-la.",
+      "As mágicas podem ser do tipo Mental/Difícil ou Mental/Muito Difícil.",
+      "Seu nível de Aptidão Mágica é somado a seu atributo IQ para o aprendizado de mágicas.",
+      "Para aprender uma mágica você precisa gastar no mínimo um ponto, mesmo que seja brilhante e abençoado com a Aptidão Mágica.",
+      "A Memória Eidética não tem muita utilidade no aprendizado de mágicas: ela lhe dá uma memória mecânica, mas nenhum entendimento real. O primeiro nível vale +1 somado à Inteligência no aprendizado de Mágicas; o segundo nível dá +2. E nenhum outro bônus."
+    ],
+    "exemplo": "Se você tiver o atributo IQ igual a 12 e 3 níveis de Aptidão Mágica, você aprenderá as mágicas como se tivesse uma Inteligência igual a 15.",
+    "grimoire": "Quando estiver representando um personagem que conhece algumas mágicas, você pode desejar preparar um 'grimoire' para ele: um livro com mágicas — a lista das mágicas que ele conhece, sua habilidade com elas, a energia que custa cada uma delas e outros detalhes importantes. Isto economizará muito tempo durante o jogo."
+  },
+  "preRequisitos": {
+    "regra": "Todas as mágicas, com exceção das mais básicas, têm pré-requisitos (exigências que devem ser satisfeitas antes que a operação possa ser aprendida).",
+    "outraMagica": "Se o pré-requisito for uma outra mágica, ela deverá ser conhecida em um nível maior ou igual a 12 antes que a operação mais elevada possa ser estudada.",
+    "aptidao": "A Aptidão Mágica é um pré-requisito para a maioria das mágicas mais poderosas: ninguém, a não ser um mago, é capaz de aprendê-las. 'Aptidão Mágica 2' significa que são necessários dois níveis de Aptidão Mágica para se poder aprender aquela mágica, e assim por diante.",
+    "atributos": "Algumas mágicas exigem também um valor básico mínimo para os atributos DX ou IQ."
+  },
+  "professor": {
+    "mundoComMagia": "Num mundo onde a magia é comum, ela provavelmente será ensinada como qualquer outra profissão. Você pode se empregar como aprendiz de um feiticeiro para aprender seu ofício… ou contratar um instrutor de magia para ensinar-lhe algumas fórmulas mágicas.",
+    "mundoSemMagia": "Num mundo onde a magia é rara (ou no qual poucos acreditam em sua existência), conseguir um instrutor será muito mais difícil. A maioria dos magos manter-se-ia oculta, pertenceria a cultos misteriosos e secretos ou acabaria por se revelar uma fraude.",
+    "semInstrutor": "A magia, como qualquer outra habilidade intelectual, pode ser aprendida sem um instrutor. Para isso é necessário ser alfabetizado e ter acesso a bons livros-texto. Mesmo com os melhores manuais, um estudante sem instrutor aprenderá na metade da velocidade que o faria sob orientação (cada mágica custará o dobro de pontos).",
+    "grimoires": "A maioria dos 'grimoires', principalmente os encontrados em mundos não-mágicos, são complexos e deliberadamente obscuros."
+  },
+  "contratacao": {
+    "regra": "É possível que os PCs venham a desejar contratar um feiticeiro como instrutor, ou que um grupo precise de um mago de aluguel. Use o mesmo procedimento e faça o pagamento como para qualquer outro mercenário. Quanto mais comum for a magia, mais fácil será encontrar um feiticeiro e menos você terá que lhe pagar.",
+    "exemplos": [
+      "Para encontrar um mago capaz de fazer a mágica Criar Fogo, você estaria submetido a um redutor de apenas −1 em seu teste, visto que esta é uma mágica comum.",
+      "Para encontrar um mago que conheça tanto Criar Elemental do Fogo quanto Cura Profunda (duas fórmulas complexas e sem relação entre si), você precisaria ser bem sucedido em um teste com um redutor igual a −8!"
+    ],
+    "bonus": "Todo mago recebe um bônus de +1 quando está à procura de um outro mago para contratar. Conexões com as guildas de magos ou estruturas de poder locais podem ser úteis e merecer um bônus adicional que varia entre +1 e +3.",
+    "definicao": "A definição destas penalidades é uma tarefa do Mestre."
+  },
+  "fazendoMagica": {
+    "requisitos": "Para fazer uma mágica, o personagem precisa conhecê-la ou possuir um objeto que permita usá-la. Depois é necessário gastar uma ou duas rodadas se concentrando.",
+    "sequencia": "No início da rodada, depois de sua última rodada em concentração, o personagem deve fazer um teste de habilidade para aquela mágica. Depois ele pode fazer qualquer outra coisa (usar uma arma, começar a se concentrar novamente etc.).",
+    "resolucao": {
+      "comoPublicado": "Fazer uma mágica funciona como o uso de qualquer outra perícia. O operador joga 3 dados e compara o resultado com seu 'nível de habilidade' naquela mágica. Se o resultado for menor ou igual ao nível de habilidade, a mágica funcionou; se for maior, a mágica falhou.",
+      "_conflito": "CONFLITO DE FONTE — o capítulo de magia fala em 3 dados, enquanto TESTES DE HABILIDADE define o d20 como base de resolução do sistema ('O sistema utiliza o d20 como base de resolução'). A ficha usa d20 + margem de sucesso por padrão (config.resolucaoMagia = 'd20'); o modo '3d' permanece disponível.",
+      "modificadores": "Vários modificadores serão adicionados ou subtraídos do nível de habilidade básico do operador. Os modificadores dependem da classe da mágica."
+    },
+    "resultados": {
+      "sucesso": "Um sucesso no teste de habilidade significa que a mágica foi feita e seu custo em energia deve ser subtraído do atributo ST (como Fadiga) ou do atributo HT (como lesão) do operador.",
+      "sucessoDecisivo": "Um sucesso decisivo significa que a mágica funcionou muito bem. A magia é caprichosa, por isso a natureza deste sucesso é deixada inteiramente por conta do GM, que deveria ser generoso e criativo. Não há dispêndio de energia quando você consegue um sucesso decisivo.",
+      "falha": "Uma falha significa que a mágica não funcionou. Se uma mágica bem sucedida teria seu custo em energia, o operador perderá um ponto de energia. Se a mágica não requeria energia, o operador não perderá nada."
+    }
+  },
+  "mana": { "ref": "tables.mana", "resumo": "Mana é a energia por trás da magia. A mágica funcionará somente se o mana do mundo (ou área específica) assim o permitir. As regiões são classificadas segundo sua intensidade de Mana em: Muito Alta, Alta, Normal, Baixa e Nula." },
+  "rituais": { "ref": "tables.rituaisMagia", "nota": "Quanto maior for o seu nível de habilidade com uma mágica, mais fácil será realizá-la — isto se aplica tanto ao 'custo' em energia quanto ao 'ritual' exigido. Se você não puder realizar o ritual, não poderá fazer a mágica." },
+  "etica": {
+    "titulo": "O Sistema de Ética da Magia",
+    "visaoReligiosa": "Algumas religiões ensinam que a magia é intrinsecamente má e que qualquer um que venha a usá-la estará pondo em risco sua alma imortal. Sem dúvida nenhuma, fórmulas mágicas mal utilizadas parecem atrair a atenção de alguma entidade poderosa e maligna. Em algumas ocasiões um mágico desajeitado é devorado por um demônio de verdade!",
+    "contraponto": "Mas é verdade também que muitos homens bons conhecem e usam a magia, e os mais santificados deles parecem ser imunes às piores 'trapalhadas' com ela. Ninguém sabe na verdade.",
+    "consenso": "O consenso é que a magia em si não é boa nem ruim. É a intenção por trás dela que determina se a magia é 'branca' ou 'negra'. Mas não há dúvida de que certos tipos de magia (sacrifícios humanos, por exemplo) são intrinsecamente maus e menosprezados por todos os magos honestos."
+  },
+  "operadorEObjetivo": {
+    "operador": "O 'operador' de uma mágica é a pessoa que está tentando realizá-la.",
+    "objetivo": "O 'objetivo' de uma mágica é uma pessoa, lugar ou coisa a que a mágica é dirigida. Se alguém estiver fazendo uma mágica sobre si mesmo, ele será o operador e o objetivo ao mesmo tempo. O objetivo também pode ser uma outra pessoa, ser, objeto inanimado ou mesmo uma área no mapa de jogo.",
+    "lugar": "Se o objetivo for um lugar, o operador poderá 'tocá-lo', estendendo sua mão sobre ele ou tocando o solo, como for mais apropriado para a mágica."
+  },
+  "tempo": {
+    "regra": "A maioria das mágicas exige um turno para ser realizada. O operador usa a manobra de 'Concentração' durante um segundo. No início do próximo turno ele tentará um teste de habilidade. A mágica terá efeito instantâneo em caso de sucesso. O operador então estará livre para iniciar uma nova manobra ou se concentrar novamente.",
+    "exemplo": "Wat deseja fazer a mágica Criar Fogo (uma mágica de 1 segundo). No primeiro turno Wat diz: 'Estou me concentrando'. Ele deve dizer ao GM que mágica pretende realizar e não poderá fazer mais nada naquele turno. No início do próximo turno ele faz um teste de habilidade e é bem sucedido: o fogo é criado.",
+    "multiplasRodadas": "Algumas mágicas complexas exigem mais de um turno para serem executadas. Todo esse tempo deve ser passado em 'concentração'. Se uma mágica exige 3 turnos, o feiticeiro deverá passar 3 turnos em concentração, sem fazer mais nada; a mágica será lançada no início do quarto turno.",
+    "abortar": "O operador pode 'abortar' uma mágica antes de seu término sem sofrer nenhuma penalidade, mas deverá começar novamente do início se quiser tentar de novo."
+  },
+  "vocabulario": [
+    { "termo": "Abortar", "significado": "Interromper o processo de fazer mágica antes de seu término." },
+    { "termo": "Aptidão Mágica", "significado": "É a vantagem de se estar 'sintonizado' com as forças da magia." },
+    { "termo": "Cancelar", "significado": "Descontinuar uma mágica feita por você mesmo, antes que seus efeitos cessem normalmente." },
+    { "termo": "Choque de Retorno", "significado": "Uma falha crítica durante a execução de uma operação mágica. O mesmo que 'Fiasco'." },
+    { "termo": "Energia", "significado": "O 'custo' para se fazer uma mágica. Pode ser pago tanto em pontos de ST (fadiga) quanto de HT (vida). A energia será recobrada da forma usual." },
+    { "termo": "Grimoire", "significado": "Um livro de mágicas. Mais especificamente, uma lista das mágicas conhecidas por um personagem e seus respectivos custos." },
+    { "termo": "Mágica Básica", "significado": "Uma mágica que não tem nenhuma outra como pré-requisito." },
+    { "termo": "Mágica de Projétil", "significado": "Uma mágica que é primeiro feita e depois 'arremessada' contra o objetivo. Exige dois testes: um de habilidade para fazer a mágica e um de Arremesso (ou DX-3) para ver se atinge o alvo." },
+    { "termo": "Mágica Dominada", "significado": "Uma mágica tão bem conhecida (Nível de Habilidade tão alto) que o personagem não tem necessidade de se concentrar para realizá-la." },
+    { "termo": "Mágico", "significado": "Qualquer usuário de magia, seja ele um mago ou não." },
+    { "termo": "Mago", "significado": "Qualquer pessoa que tenha a vantagem Aptidão Mágica." },
+    { "termo": "Mana", "significado": "A energia que impulsiona a magia. Áreas (ou mundos) diferentes têm níveis de intensidade de mana diferentes." },
+    { "termo": "Manter", "significado": "Sustentar os efeitos de uma mágica por um intervalo de tempo maior do que sua duração normal." },
+    { "termo": "Nível de Habilidade Básico", "significado": "É o nível de habilidade em uma operação mágica que um personagem pode conseguir gastando 1 ponto (Mental/Difícil) ou 2 pontos (Mental/MD)." },
+    { "termo": "Nível de Habilidade Efetivo", "significado": "Seu nível de habilidade real, acrescido dos modificadores (bônus ou redutores) devido à distância, circunstâncias etc. Os testes são feitos levando em conta o NH efetivo." },
+    { "termo": "Objetivo", "significado": "A pessoa, coisa ou lugar sobre a qual a mágica será feita." },
+    { "termo": "Operador", "significado": "A pessoa que faz a mágica." },
+    { "termo": "Pré-requisito", "significado": "Uma condição que deve ser satisfeita para se aprender uma mágica." },
+    { "termo": "Resistível", "significado": "Qualquer mágica contra a qual o objetivo pode oferecer resistência." }
+  ],
+  "distracaoEFerimentos": {
+    "regra": "Se o operador for ferido, nocauteado, forçado a usar alguma defesa ativa ou distraído de alguma outra maneira durante o período de concentração, ele deverá ser bem sucedido num teste de Vontade com um redutor igual a −3 para conseguir manter a operação.",
+    "falha": "Uma falha nesta jogada significa que ele deve começar novamente.",
+    "ferido": "Se ele for ferido enquanto estiver se concentrando, seu nível de habilidade efetivo para aquela mágica ficará reduzido em um número de pontos igual ao número de pontos de vida perdidos.",
+    "redutorVontade": -3
+  },
+  "custoEnergia": {
+    "ref": "tables.reducaoCustoEnergia",
+    "regras": [
+      "Cada mágica tem seu custo em energia. Quando um personagem faz uma mágica, ele gasta energia (ST ou HT). Quanto melhor ele conhecer uma determinada mágica, menos energia será despendida para realizá-la. Se o personagem conhecer a mágica bem o suficiente, ele será capaz de fazê-la sem gastar nenhuma energia.",
+      "A intensidade de mana da área afeta o nível de habilidade efetivo do feiticeiro. A intensidade baixa de mana também impede o uso da mágica Recuperação de Força, reduzindo a frequência com que qualquer outra mágica pode ser realizada.",
+      "Se seu nível de habilidade básico em uma mágica (modificado pelo nível de intensidade de mana) for maior ou igual a 15, o custo em energia será reduzido em um ponto. Se for maior ou igual a 20, o dispêndio será reduzido em 2 pontos, e assim por diante.",
+      "A energia continua sendo canalizada para a mágica, mas sua habilidade lhe permite supri-la a partir do mana ambiente, ao invés de usar a sua própria.",
+      "O total de energia a ser dispendido em uma mágica é calculado antes de qualquer subtração devido a um nível alto de habilidade.",
+      "Normalmente, a energia gasta para executar uma mágica é considerada 'Fadiga', que pode ser recuperada com descanso. Um mago que conheça a mágica 'Recuperação de Força' poderá recuperar a ST mais rápido do que o usual."
+    ],
+    "exemplo": "Com um nível de habilidade igual a 20, numa área de intensidade de mana normal, seria possível fazer uma mágica para produzir uma bola de fogo de 2D (que exige 2 pontos de energia) sem despender nenhuma energia. Para produzir uma bola de fogo de 3D, você precisaria gastar 1 ponto de sua própria energia.",
+    "energiaVital": {
+      "regra": "Um operador pode retirar energia de sua força vital ao invés de sua Força: retira todos os pontos de energia gastos de sua HT ao invés de ST. Em outras palavras, a mágica está provocando um dano real ao operador.",
+      "risco": "Isto é perigoso, mas pode vir a ser necessário se o operador estiver muito fatigado. A HT perdida desta maneira deve ser tratada como outro ferimento qualquer.",
+      "penalidade": "O nível de habilidade de um mago fica reduzido em um ponto para cada ponto de HT usados para fazer mágicas.",
+      "limite": "Um mago é capaz de 'queimar' HT até cair inconsciente. Quando um teste de HT falhar, indicando a morte do mago, a Vitalidade destinada àquela mágica não terá sido realmente gasta e ele desmaiará ao invés de morrer, interrompendo a drenagem de energia."
+    }
+  },
+  "duracao": {
+    "regras": [
+      "O efeito de algumas mágicas é instantâneo e não pode ser mantido. Outras duram algum tempo (veja a Lista de Mágicas) e depois se desfazem, a menos que sejam mantidas.",
+      "Se uma mágica puder ser mantida ativa, ela continuará por um período de tempo igual à sua duração original. Uma mágica poderá ser mantida sempre que o operador o desejar, desde que ele continue despendendo a energia necessária.",
+      "Ninguém consegue manter uma mágica enquanto dorme; o operador é o único capaz de manter sua mágica ativa.",
+      "Não há necessidade de um novo teste de habilidade. No entanto, será necessário gastar mais energia. Se uma mágica puder ser mantida, seu custo em energia estará indicado na Lista de Mágicas.",
+      "Se um operador estiver consciente, ele saberá quando uma de suas mágicas precisa ser renovada. A distância não é um fator importante na manutenção do efeito de uma mágica."
+    ],
+    "exemplo": "Luz tem um minuto de duração e sua manutenção custa 1 por minuto. Portanto, os efeitos da mágica desaparecem depois de 1 minuto, a menos que no fim daquele minuto o mágico gaste mais um ponto de energia para mantê-la.",
+    "concentracao": "A maioria das mágicas pode ser mantida sem 'concentração' do operador, mas qualquer mágica que requeira mudança ou manipulação constante (ex.: controle de um ser vivo) exigirá naturalmente uma concentração constante. Isto obriga o operador a fazer somente a manobra de 'Concentração'. Se ele for distraído, será necessário um teste de Vontade com um redutor igual a −3 em cada turno. Uma falha não encerrará a mágica, mas o alvo não fará nada até que o operador possa se concentrar novamente. Uma falha crítica quebrará o encanto.",
+    "custoReduzido": "Se você souber uma mágica tão bem que o custo em energia para fazê-la fica reduzido, então o custo para mantê-la ficará reduzido na mesma proporção. Se você realiza uma mágica com NH ≥ 15, custará um ponto a menos para mantê-la. Exemplo: se o 'custo de manutenção' de uma mágica é um ponto e ela foi feita com NH ≥ 15, você poderá mantê-la indefinidamente sem usar nenhuma energia.",
+    "cancelamento": "Um operador pode querer terminar uma mágica antes de seu período de duração normal. Se ele o especificar no momento em que a mágica estiver sendo feita, ela durará exatamente o tempo desejado. Mas, se de repente ele se decidir a 'cancelar' uma mágica antes de seu término normal, haverá um custo adicional de 1 ponto de energia, independente da mágica.",
+    "custoCancelar": 1
+  },
+  "multiplasMagias": {
+    "regra": "Um personagem só pode fazer uma mágica por vez. No entanto, um operador pode fazer uma segunda mágica antes que as anteriores terminem. Isto é relativamente fácil se as mágicas em andamento não exigirem concentração (controle ativo). Se exigirem controle, torna-se muito mais difícil.",
+    "modificadores": [
+      { "situacao": "cada uma das outras mágicas nas quais o operador mantém sua concentração no momento", "modificador": -3, "nota": "a lista de mágicas especifica quais exigem concentração" },
+      { "situacao": "cada mágica que o operador tem em andamento no momento", "modificador": -1 },
+      { "situacao": "mágicas que duram para sempre (ex.: Acalmar Animais, Purificação de Água, Encantar)", "modificador": 0, "nota": "não impõem redutor" }
+    ]
+  },
+  "escolas": {
+    "regra": "As mágicas ligadas pelo mesmo tipo de objetivo pertencem à mesma 'escola'. Na Lista de Mágicas estão representadas 12 escolas de Magia, mas existem outras. As mágicas básicas de uma escola são pré-requisito para as mais difíceis.",
+    "especializacao": "A maioria dos magos se especializa em apenas algumas escolas (tornando com isso possível aprender algumas mágicas avançadas), mas é possível aprender mágicas de todas as escolas.",
+    "duplaPertinencia": "Algumas mágicas se enquadram em mais de uma escola. Ex.: Terra para Ar é tanto uma mágica de Terra quanto de Ar. Isto é importante apenas quando for necessário verificar os pré-requisitos."
+  },
+  "classes": {
+    "regra": "Cada mágica pertence a uma ou mais classes: Comum, Área, Projétil, Informação, Resistível, Encantamento e Especial.",
+    "lista": [
+      {
+        "id": "comum", "nome": "Mágicas Comuns",
+        "descricao": "A maioria das mágicas pertence a esta categoria. Uma mágica comum afeta apenas um objetivo por vez.",
+        "regras": [
+          "Para um objetivo maior do que um hexágono (ex.: um pedaço de terra com 3 hex, ou um elefante), multiplique o custo em energia pelo tamanho do objetivo em metros.",
+          "Aplique um redutor igual à distância em metros entre o operador e o objetivo, se o operador não puder tocá-lo.",
+          "Se a mágica exigir um período de tempo para ser feita, a distância entre o operador e o objetivo deverá ser calculada no momento em que a mágica for lançada.",
+          "Se o operador não puder tocar nem ver o objetivo, haverá um redutor adicional igual a −5. Não há necessidade de ver através de seus próprios olhos: qualquer mágica que o permita ver será o suficiente.",
+          "Nenhuma barreira física afetará uma mágica comum. Uma mágica comum nunca atinge o alvo errado, a menos que ocorra um 'choque de retorno'."
+        ],
+        "modosDeDirigir": [
+          { "modo": "'O espaço atrás desta porta'", "nota": "Você apanhará quem quer que esteja naquele espaço. Se não houver ninguém lá, a mágica terá sido desperdiçada." },
+          { "modo": "'A pessoa mais próxima na sala ao lado' ou 'George, que eu sei que está em algum lugar por aqui'", "nota": "O GM calcula a distância real entre o operador e o objetivo. Isto é arriscado: o operador está se sujeitando a uma falha ou mesmo a uma falha crítica. Se o objetivo estiver mais longe do que ele pensa, ou não estiver lá, ele poderá ser vítima de um 'choque de retorno'." }
+        ]
+      },
+      {
+        "id": "area", "nome": "Mágicas de Área",
+        "descricao": "Estas mágicas podem afetar uma área de vários metros. Se a mágica afeta seres vivos, ela afetará todos os que estiverem dentro da área. No mais, elas funcionam exatamente como as mágicas comuns.",
+        "regras": [
+          "O tamanho da área governa o custo em energia, mas não a dificuldade da jogada.",
+          "O custo destas mágicas é dado como Custo Básico: este é o custo para afetar apenas um hexágono. Para afetar um círculo com 2 hex de raio (um hexágono e todos os adjacentes), o custo será o dobro do custo básico, e assim por diante.",
+          "Algumas mágicas têm o custo básico muito baixo (ex.: 1/10 de ponto para Chuva). Nestes casos, o custo em energia será no mínimo 1 ponto.",
+          "Você pode decidir afetar apenas uma parte da área ao invés de todo o círculo, mas o custo continuará o mesmo.",
+          "Se o operador não puder tocar alguma área da parte afetada, o redutor a ser aplicado será igual à distância entre o operador e o hexágono mais próximo da área.",
+          "Assuma que as mágicas de área alcançam até 4 metros acima do solo, exceto para aquelas que afetam o clima."
+        ]
+      },
+      {
+        "id": "projetil", "nome": "Mágicas de Projétil",
+        "descricao": "Certos ataques a longa distância (Bola de Fogo, Relâmpago etc.) são 'Mágicas de Projétil'. Estas mágicas exigem dois testes de habilidade.",
+        "testes": [
+          "O primeiro é o teste normal para ver se a mágica funcionará ou não; isto é feito quando se inicia a mágica, sem nenhum modificador devido à distância.",
+          "O segundo é um teste de DX com um redutor de −3 (ou Perícia de Arremesso), feito no momento em que a mágica é lançada, para ver se ela atinge o alvo. Calcule como qualquer outro ataque à distância, levando em conta o tamanho do alvo, sua velocidade e distância."
+        ],
+        "regras": [
+          "Uma mágica deste tipo viaja em linha reta. Se ela encontrar uma barreira e rompê-la, a energia remanescente continuará seu percurso.",
+          "Uma mágica destas lançada com precisão pode ser bloqueada ou evitada com uma esquiva, mas nunca aparada. Se o defensor falha em sua jogada de defesa, a mágica surtirá efeito.",
+          "As armaduras protegem de dano causado por mágicas do tipo projétil.",
+          "A força de uma destas mágicas depende da quantidade de energia aplicada nela. Ex.: uma Bola de Fogo provoca 1D pontos de dano para cada ponto de energia aplicado nela.",
+          "O tempo necessário para preparar uma mágica deste tipo depende da energia que se aplicará nela: cada turno aumenta 1 ponto de energia.",
+          "O operador se concentra em um turno e tenta seu teste no turno seguinte. Se for bem sucedido, o projétil terá 1 ponto de energia e poderá ser lançado naquele turno. Ou ele pode segurá-lo e aumentar seu poder: outro segundo de concentração aumenta mais 1 ponto; um terceiro segundo fará dela um projétil de 3 pontos, tão grande quanto a maioria deles pode ser.",
+          "Um feiticeiro é capaz de criar e arremessar um projétil de 1 ponto por segundo, ou um de 2 pontos a cada dois turnos, e assim por diante.",
+          "Ele não pode apontar enquanto estiver criando o projétil; se vai apontar, deverá usar mais um turno depois que o projétil estiver pronto.",
+          "Um feiticeiro pode manter uma mágica deste tipo 'na mão' depois que ela estiver pronta. Pode se movimentar ou realizar a manobra Apontar enquanto a mantém; não precisa arremessá-la enquanto não o desejar. Este é o único tipo de mágica que pode ser segurado até que se 'esteja preparado'.",
+          "Um feiticeiro não pode fazer outra mágica enquanto mantém uma do tipo projétil em sua mão.",
+          "Se um feiticeiro for ferido enquanto tiver um projétil em sua mão, ele deverá fazer um teste de Vontade. Se falhar, perderá o controle do projétil: um projétil sólido simplesmente cairá no chão, mas outros projéteis (Bolas de Fogo etc.) afetarão o operador imediatamente."
+        ],
+        "alcances": [
+          { "magia": "Projétil de Pedra", "tr": 13, "prec": 2, "meioDano": 40, "max": 80 },
+          { "magia": "Raio", "tr": 13, "prec": 3, "meioDano": 50, "max": 100 },
+          { "magia": "Bola de Fogo", "tr": 13, "prec": 1, "meioDano": 25, "max": 50 },
+          { "magia": "Esfera de Gelo", "tr": 13, "prec": 2, "meioDano": 40, "max": 80 }
+        ]
+      },
+      {
+        "id": "informacao", "nome": "Mágicas de Informação",
+        "descricao": "Uma mágica de 'informação' é feita para se obter informação sobre alguma coisa. Algumas destas mágicas exigem que o objetivo seja tocado pelo operador. Os modificadores para cada uma destas mágicas são fornecidos na lista.",
+        "regras": [
+          "Quando uma mágica de informação é feita, o jogador não faz a sua jogada de teste — e sim o GM, em segredo.",
+          "Em caso de sucesso, o GM dará ao operador a informação desejada (quanto melhor o resultado, melhor a informação). No caso de uma falha, o GM dirá: 'Você não sente nada'. No caso de uma falha crítica, o GM mentirá para o jogador.",
+          "Logo, o operador sempre paga todo o custo em energia para fazer uma mágica de Informação (ele não sabe se foi bem sucedido ou não).",
+          "A maioria destas mágicas só pode ser tentada uma vez por dia por operador (ou grupo). As mágicas de 'Localização' são uma exceção a esta regra.",
+          "A maioria das mágicas de Informação tem menos chance de funcionar se o objetivo estiver muito distante."
+        ]
+      },
+      {
+        "id": "resistivel", "nome": "Mágicas Resistíveis",
+        "descricao": "É possível opor resistência a determinadas mágicas. Elas são assinaladas na Lista de Mágicas.",
+        "regras": [
+          "Quando uma mágica destas é feita, ela funcionará automaticamente apenas no caso de um sucesso decisivo. Se o operador conseguir apenas um sucesso, será necessária uma 'Disputa Rápida' para ver se a mágica vence a resistência do objetivo.",
+          "O objetivo estará sempre consciente de que alguma coisa está acontecendo e tem uma chance de resistir. Mas ele não terá que resistir se não quiser, mesmo que ele tenha a vantagem Abascanto.",
+          "Numa situação em que houve 'resistência', o operador tenta seu teste de habilidade. Se falhar, a mágica falhou e o objetivo não percebe nada. Se for bem sucedido, anote sua margem de sucesso. Exemplo: um resultado igual a 6 quando se precisava de 13 indica uma margem de sucesso de 7.",
+          "Se o objetivo for um ser vivo, o operador fará sua jogada contra 16 se seu nível de habilidade for maior do que 16. Desta maneira, a 'vitória automática sobre a resistência' será impossível. Se o objetivo for uma outra mágica, não haverá limite para o nível de habilidade do operador.",
+          "Note que se o objetivo tiver Abascanto, ele afetará sua jogada, mesmo que o objetivo esteja desejando a mágica.",
+          "O objetivo pode então tentar um Teste de Resistência. Um objetivo vivo pode tentar resistir a uma mágica de combate com IQ, ST, DX ou HT, dependendo da mágica usada no ataque. A Força de Vontade é sempre somada à resistência; a Vontade Fraca é subtraída. O Abascanto do objetivo, se ele o tiver, será adicionado à sua resistência e contará em dobro contra mágicas de área.",
+          "Exemplo: Abascanto 1 adiciona 1 à resistência à mágica Sono e 2 contra Sono Coletivo.",
+          "Se a margem de sucesso do objetivo for maior ou igual à margem de sucesso do operador, a mágica não funcionará (mas a energia terá sido gasta). Se o objetivo estiver consciente, ele sentirá um desconforto físico ou mental (dependendo do atributo com que resistiu: IQ, DX ou HT), mas nenhum outro efeito. O operador terá conhecimento de que sua mágica foi rechaçada.",
+          "Resistência contra Mágicas de Área: se uma mágica de área puder ser rechaçada por objetivos dentro da área, faça o teste habitual para ver se ela foi feita normalmente e depois um para cada um dos objetivos dentro da área, para ver se eles sucumbem à mágica."
+        ],
+        "limiteOperadorContraSerVivo": 16
+      },
+      { "id": "encantamento", "nome": "Encantamentos", "descricao": "Mágicas da Escola de Encantamentos são usadas para criar ou desfazer objetos encantados." },
+      { "id": "especial", "nome": "Mágicas Especiais", "descricao": "Estas são mágicas que não se enquadram em nenhuma das outras categorias; siga as regras fornecidas na descrição da mágica." }
+    ]
+  },
+  "toqueDoMago": {
+    "regra": "Tocar um objeto cancela todas as penalidades devido à distância; o mago pode usar um cajado ou uma vara de condão com esta finalidade. Algumas mágicas exigem que o operador toque o objetivo: este é o 'Toque do Mago'.",
+    "sequencia": "Primeiro o mago faz a mágica. Sua próxima ação (supondo que a mágica tenha sido bem sucedida) será tentar atingir o oponente com sua mão, cajado ou vara de condão.",
+    "combate": "Em caso de combate, faça as jogadas como se fosse um outro ataque qualquer. Se um toque for conseguido (o mago golpeia e a defesa do adversário falha) a mágica será bem sucedida. Se o mago errar ou o inimigo se defender, a mágica estará perdida.",
+    "armadura": "A DP da armadura e do escudo normalmente não ajudarão contra o 'toque do mago', e aparar com uma arma não salvará o oponente.",
+    "dano": "Um ataque com o cajado ou com as mãos nuas provoca o dano físico normal (se o mago o desejar) além do dano provocado pela mágica. O toque de uma vara de condão não provoca dano.",
+    "varaFragil": "Uma vara de condão é muito leve e tem 1/3 de chance de se quebrar se for aparada com alguma coisa mais pesada do que uma mão ou faca.",
+    "combateDePerto": [
+      "Um mágico que entre num Combate de Perto e tente um toque no mesmo turno deverá fazer seu teste como se fosse um ataque normal; o oponente poderá usar qualquer defesa ativa.",
+      "Um mágico que já esteja num Combate de Perto no início de um turno poderá 'tocar' o objetivo, a menos que suas mãos estejam imobilizadas. Mas, como é impossível se concentrar quando se está num Combate de Perto, apenas mágicas dominadas podem ser usadas deste modo."
+    ]
+  },
+  "cajadoEVara": {
+    "regra": "Cajados e varas de condão são objetos encantados feitos com a mágica Cajado. Muitas varas de condão são encantadas de modo a só poderem ser usadas por seus donos; algumas contêm, também, outras mágicas poderosas.",
+    "materiais": "Apenas materiais orgânicos (madeira, osso, marfim, coral etc.) podem ser usados para se fazer uma vara de condão.",
+    "funcao": "Tocar um objeto com uma vara de condão, em termos de magia, é a mesma coisa que tocar o objeto com um dedo. Por isso, o uso básico de uma vara de condão ou de um cajado é aumentar o alcance do toque do mago.",
+    "limite": "Uma vara de condão ou um cajado não podem aumentar o alcance de uma mágica de projétil, a menos que tenham sido encantados especificamente para ter esta capacidade."
+  },
+  "magiaNoCombate": {
+    "regra": "Estas regras contêm descrições precisas de alcance e área afetada, na suposição de que a maioria das campanhas usará algumas ou todas as regras do sistema avançado de combate.",
+    "semMapa": [
+      "As Mágicas de Projétil são sempre feitas com o nível de habilidade básico do operador.",
+      "Outras mágicas de combate serão feitas no nível de habilidade básico se o GM decidir que o objetivo está 'ao alcance de um golpe' do operador. Caso contrário, subtraia 3 do nível de habilidade efetivo do operador.",
+      "Numa ocasião rara em que um GM atuando sem mapa precisar de uma distância ou alcance com precisão, use aquelas dadas. Caso contrário, apenas divirta-se."
+    ],
+    "redutorSemMapa": -3
+  },
+  "areaAfetada": {
+    "regra": "A área afetada por uma mágica de área é um círculo cujo tamanho depende da energia usada na operação.",
+    "aneis": [
+      { "anel": 1, "descricao": "um anel simples em 1 metro (1 hex)", "custo": "custo básico em energia" },
+      { "anel": 2, "descricao": "2 anéis de hexes (o centro e o anel em volta dele)", "custo": "o dobro do custo básico" },
+      { "anel": 3, "descricao": "3 anéis de hexágonos", "custo": "o triplo do custo básico" },
+      { "anel": 4, "descricao": "4 anéis", "custo": "o quádruplo do custo básico" }
+    ],
+    "custoMinimo": "Algumas mágicas de área têm um custo mínimo em energia para serem feitas (ex.: Percepção de Inimigos tem custo básico igual a 1 e custo mínimo para ser feita igual a 2 pontos. Isto significa que serão necessários 2 pontos de energia para fazê-la, mesmo que você decida restringir seu efeito a um único hex)."
+  },
+  "dicas": {
+    "titulo": "Dicas sobre Operações Mágicas",
+    "lista": [
+      "Várias mágicas pequenas são, com frequência, melhores do que uma grande. Se você conhece a mágica Nevoeiro, poderia fazer mágicas pequenas em metros independentes com um dispêndio menor de energia, mas uma área grande lhe custaria alguns pontos.",
+      "Se você faz várias mágicas em seguida, pode entrar no espaço e fazer a mágica ao seu redor, evitando os redutores devido à distância.",
+      "Uma mágica pequena desperdiça menos energia se falhar.",
+      "Mágicas grandes e rápidas são melhor aproveitadas quando guardadas para uma emergência."
+    ]
+  },
+  "modificadoresLongaDistancia": {
+    "uso": "Use estes modificadores para mágicas do tipo 'Localizar' e para outras mágicas que funcionam a longa distância.",
+    "tabela": [
+      { "distancia": "Menos de 100 metros", "modificador": 0 },
+      { "distancia": "Até 800 metros", "modificador": -1 },
+      { "distancia": "Até 1,5 km", "modificador": -2 },
+      { "distancia": "Até 5 km", "modificador": -3 },
+      { "distancia": "Até 15 km", "modificador": -4 },
+      { "distancia": "Até 80 km", "modificador": -5 },
+      { "distancia": "Até 150 km", "modificador": -6 },
+      { "distancia": "Até 500 km", "modificador": -7 },
+      { "distancia": "Até 1500 km", "modificador": -8 },
+      { "distancia": "Acima de 1500 km", "modificador": "mais um redutor adicional de −1 para cada 1.500 km adicionais" }
+    ],
+    "ignorarObjetos": "Subtraia também 1 ponto do nível de habilidade efetivo para cada objeto 'conhecido' que você decidir ignorar em sua busca. Exemplo: você precisa ignorar a água que traz em seu cantil quando faz uma mágica Localizar Água no deserto."
+  },
+  "limitesProtecao": {
+    "regra": "Diversas mágicas (Penumbra, por exemplo) oferecem níveis variados de proteção. Em todos estes casos, a maior proteção que alguém pode obter destas mágicas, independente se de um ou mais operadores, é de 5 pontos.",
+    "maximo": 5,
+    "naoCumulativo": "Se a mesma mágica protetora for feita mais de uma vez sobre o mesmo objetivo, apenas a mais forte surtirá efeito. Elas não são cumulativas. O mesmo é válido para ataques mágicos que visam reduzir os atributos do objetivo."
+  },
+  "cerimonial": {
+    "titulo": "Magia Cerimonial e de Grupo",
+    "introducao": "A magia comum é feita por um único mágico e é relativamente rápida. A magia cerimonial é muito mais lenta (visto que envolve um ritual complexo), mas permite que outras pessoas ajudem o operador. Desta maneira, é possível realizar mágicas poderosas que podem ser mantidas por mais tempo. Mágicas como Energização quase nunca são feitas a não ser por métodos cerimoniais.",
+    "tempo": "O tempo necessário é 10 vezes o indicado na lista quando se usa magia cerimonial.",
+    "multiplicadorTempo": 10,
+    "custo": "Igual ao normal. Toda energia necessária será gasta no fim do processo, quando o operador fizer a sua jogada de teste para ver se a mágica funcionou. A energia será gasta naquele momento, independente da mágica ter funcionado ou não.",
+    "cooperacao": [
+      {
+        "id": "circulo", "nome": "Círculo",
+        "regras": [
+          "Qualquer número de magos pode se 'unir' para fazer uma mágica, se todos a conhecerem num nível maior ou igual a 15. Eles devem estar de algum modo unidos fisicamente: por exemplo, segurando as mãos, tocando um centro comum etc.",
+          "Qualquer um deles poderá ser o operador e fazer as jogadas de teste.",
+          "O custo em energia pode ser dividido entre os magos da maneira que eles quiserem.",
+          "Se houver um 'choque de retorno', o GM poderá estimar um resultado maior ou fazer uma jogada para cada pessoa no círculo. Um 'choque de retorno' envolvendo uma dúzia de magos pode ser um evento realmente caótico.",
+          "Se a união física for quebrada durante a execução da mágica, será necessário começar novamente.",
+          "Se qualquer um dos magos do círculo for ferido, o efeito será o mesmo como se o operador tivesse sido ferido.",
+          "Se algum dos magos for nocauteado ou morto, todos os magos do círculo ficarão atordoados e deverão ser bem sucedidos em um teste de IQ para se recuperar.",
+          "Magos que não têm NH ≥ 15 naquela mágica, ou não-magos que a conhecem em nível 15, podem ajudar de um modo menos intenso: podem se juntar ao círculo como acima e sofrer as mesmas consequências se o círculo for quebrado, mas poderão contribuir com apenas 3 pontos de energia em cada mágica."
+        ],
+        "nhMinimo": 15,
+        "energiaAuxiliar": 3
+      },
+      {
+        "id": "espectadores", "nome": "Espectadores",
+        "regras": [
+          "Observadores sem experiência podem ajudar em uma cerimônia; usualmente eles cantam, seguram velas etc. Cada espectador contribui com um único ponto de energia para cada mágica, até um máximo de 100 pontos de energia de espectador por mágica.",
+          "Será necessário uma fé sincera e vontade de ajudar; o operador não pode contratar gente nas ruas para fazê-lo.",
+          "Se algum dos presentes se opuser à mágica, subtraia 5 pontos do total de energia para cada um dos que se opõem. Se isto significar que não há energia suficiente para fazer a mágica, o operador (e/ou o círculo) terá que contribuir com mais energia (possivelmente de sua HT) ou abortar a mágica, perdendo toda energia já colocada nela.",
+          "Esta é uma das razões pelas quais as bruxas e os templários não realizam suas cerimônias em público."
+        ],
+        "energiaPorEspectador": 1,
+        "maximoEspectadores": 100,
+        "oposicao": -5
+      }
+    ],
+    "trocaEnergiaPorHabilidade": {
+      "titulo": "Troca: Energia por Habilidade",
+      "regra": "Se houver uma grande quantidade de energia disponível para uma mágica cerimonial, o operador receberá um bônus em seu teste de habilidade. Isto pode assegurar o sucesso de uma mágica comum (com exceção dos casos de falha automática). Ele também pode fazer uma mágica defensiva capaz de resistir a quase todos os ataques.",
+      "bonus": [
+        { "energiaExtra": "20%", "bonus": 1 },
+        { "energiaExtra": "40%", "bonus": 2 },
+        { "energiaExtra": "60%", "bonus": 3 },
+        { "energiaExtra": "100%", "bonus": 4 },
+        { "energiaExtra": "+100% adicionais", "bonus": "+1 para cada 100% de energia necessária adicionais" }
+      ],
+      "objetos": "Este método também pode ser usado para criar objetos encantados com um Poder maior."
+    },
+    "observacoes": {
+      "concentracao": "Um grupo ajuda na concentração. Se o operador de magia cerimonial for distraído, mas não ferido, ele fará um teste de Vontade (sem nenhum redutor) para ver se continua.",
+      "falhaAutomatica": "Fazer magia cerimonial é mais difícil de coordenar do que uma mágica comum. Ela falhará automaticamente no caso de um resultado igual a 16. Resultados iguais a 17 ou 18 sempre significarão 'choques de retorno', mesmo que o NH efetivo do operador seja maior ou igual a 16.",
+      "energiaPerdida": "Se uma cerimônia mágica falhar, toda energia terá sido desperdiçada.",
+      "circuloMantido": "Um círculo pode ser mantido por um longo tempo, com magos entrando e saindo. Eles não podem fazê-lo enquanto a mágica está sendo lançada, mas se o círculo estiver apenas mantendo suas mágicas, sua composição poderá mudar. Portanto, um círculo pode manter uma mágica indefinidamente.",
+      "semApressar": "Como os rituais de magia cerimonial não podem ser apressados, nem o nível de habilidade do operador, nem o de mais ninguém, será capaz de reduzir seu custo ou tempo.",
+      "sorte": "A vantagem Sorte não pode ser usada para aumentar as chances do operador com magia cerimonial."
+    }
+  },
+  "objetosEncantados": {
+    "regras": [
+      "É possível transferir poderes mágicos para determinados objetos usando-se Encantamentos. Usar um objeto encantado é a única maneira de se fazer uma mágica que não se conhece.",
+      "A maioria desses objetos pode ser usada por qualquer pessoa. Alguns podem ser usados apenas por magos. Se um objeto contiver alguma mágica que só possa ser usada por magos, então todo o objeto só poderá ser usado por magos.",
+      "Objetos encantados duram para sempre. Os encantamentos podem ser removidos pela mágica Remoção de Encantamento.",
+      "Um Encantamento também será removido se o objeto se quebrar, desgastar etc. O conserto de um objeto anteriormente encantado não lhe devolverá a magia.",
+      "Um objeto pode conter qualquer número de mágicas, cada uma delas requerendo um encantamento independente. A presença de uma mágica em um objeto não afeta os encantamentos subsequentes. Mas, se um objeto desses se quebrar, todas as mágicas estarão perdidas."
+    ],
+    "criacao": {
+      "regra": "Objetos mágicos devem ser criados através de magia cerimonial (normalmente, mas não sempre, em grupo). Um encantamento pode ser 'rápido e sujo' ou 'lento e seguro'.",
+      "materiais": "Alguns objetos encantados exigem um item ou material para se começar (ex.: uma pedra preciosa). Outros exigem uma certa quantidade de dinheiro para a compra de suprimentos mágicos 'genéricos'. Outros ainda não exigem nenhum material em especial, apenas tempo e energia.",
+      "requisito": "Para criar um objeto encantado, o operador (e todos os seus assistentes) deve conhecer a mágica Encantar e a mágica a ser incorporada no objeto em um nível maior ou igual a 15 (20 em uma área de baixa intensidade de mana).",
+      "exemplo": "Para criar um bastão com a mágica Projétil de Pedra, o operador precisa conhecer as mágicas Projétil de Pedra e Encantar.",
+      "nhMinimo": 15,
+      "nhMinimoManaBaixa": 20
+    },
+    "poder": {
+      "regra": "Todo objeto encantado tem o seu 'poder' estabelecido quando ele é criado. Normalmente, o Poder de um objeto é igual ao menor nível de habilidade do operador em uma das seguintes mágicas: (a) a mágica Encantar ou (b) aquela contida no objeto.",
+      "registro": "Este valor deveria ser anotado toda vez que um objeto encantado for encontrado ou criado (o poder de um objeto encontrado será de conhecimento apenas do GM até a operação Analisar Mágica ser usada nele).",
+      "multiplas": "Um objeto pode conter várias mágicas; cada uma delas resultado de um encantamento diferente. Neste caso, o Poder de cada mágica deverá ser anotado separadamente.",
+      "resistencia": "Se um personagem for atacado com um objeto encantado e tentar resistir, a disputa será feita contra seu Poder.",
+      "minimo": "O Poder de um objeto precisa ser maior ou igual a 15 ou ele não funcionará.",
+      "manaBaixa": "O Poder de qualquer objeto em uma área de baixa intensidade de mana estará temporariamente reduzido em 5. Portanto, objetos com Poder menor do que 20 não funcionarão em áreas de baixa intensidade de mana.",
+      "manaNula": "Nenhum objeto encantado funciona numa área de intensidade zero."
+    },
+    "custoFabricacao": { "ref": "equipment.encantamentoCustoLento", "nota": "A Economia da Magia pode ser tão elementar ou detalhada quanto você queira. O GM tem toda a liberdade para ignorar tudo o que vem a seguir e definir os preços da magia como julgar mais apropriado. Qualquer objeto com um custo em energia maior do que 270 deveria ser feito pelo método Lento e Seguro: ele custará apenas $25 por ponto de energia, mais o custo dos elementos necessários e do objeto que será encantado. Para valores intermediários, faça uma média ponderada dos valores acima e abaixo." },
+    "testesDeHabilidade": {
+      "regra": "O GM faz o teste de habilidade quando o PC tenta criar um objeto encantado. Um sucesso significa que a mágica funciona e que o objeto fica encantado. Os resultados de uma falha dependem do método que está sendo usado para encantar o objeto.",
+      "sucessoDecisivo": "No caso de um sucesso decisivo o encantamento funciona magnificamente e o Poder do objeto criado é maior. O acréscimo de Poder será igual a 2D. Se for igual a 3, o objeto poderá, ainda, ser 'melhorado' de alguma maneira (de acordo com a vontade do GM). O operador saberá que sua mágica surtiu efeito, mas ele terá que usar Análise de Mágica para saber quão bem.",
+      "falhaCritica": "Uma falha crítica destruirá o objeto e os materiais usados."
+    },
+    "rapidoESujo": {
+      "uso": "Este método é usado quando há necessidade de um objeto encantado para já.",
+      "tempo": "Leva uma hora para cada 100 pontos de energia requerida (arredonde para cima). No fim deste período, toda a energia terá sido gasta e o teste será feito.",
+      "limiteOperador": "Desta maneira, um operador solitário estará limitado à energia fornecida por sua própria HT e ST e uma Gema de Energia.",
+      "assistentes": [
+        "O operador poderá ter assistentes. Cada um deles poderá usar uma Gema de Energia (desse modo, os assistentes podem aumentar dramaticamente a energia disponível).",
+        "O inconveniente: seu nível de habilidade efetivo estará diminuído em 1 ponto para cada um dos assistentes.",
+        "O número máximo de assistentes permitido é aquele que reduzirá o nível de habilidade efetivo do operador a 15. Com mais assistentes, o encantamento não funcionará.",
+        "Se houver alguém presente além do operador e seus assistentes (num raio de 10 metros ou capaz de ver o operador), a mágica estará submetida a mais um redutor igual a −1. Por este motivo, ter guardas para prevenir contra um 'choque de retorno' aumenta o perigo de ele ocorrer."
+      ],
+      "falha": "Uma falha no teste significa que o encantamento foi pervertido de alguma maneira ou se transformou em uma mágica completamente diferente (a escolha é do GM). O operador não saberá que sua mágica não deu certo a menos que ele experimente o objeto ou use Analisar Mágica.",
+      "penalidadePorAssistente": -1,
+      "penalidadeEspectadores": -1,
+      "raioEspectadores": 10
+    },
+    "lentoESeguro": {
+      "uso": "Este método é usado quando o 'rápido e sujo' não é capaz de gerar energia suficiente ou quando o mago deseja ter certeza de que tudo correu bem.",
+      "tempo": "O processo precisa de um dia-mago para cada ponto de energia exigido. Logo, se um objeto tem um custo em energia igual a 100, ele poderá ser criado por 1 mago em 100 dias, 2 magos em 50 dias, 3 magos em 34 dias e assim por diante. Serão exigidos dias de trabalho de 8 horas.",
+      "assistentes": "Da mesma maneira que para os outros tipos de magia cerimonial, todos os assistentes do operador deverão estar presentes todos os dias. Espectadores não ajudam em nada.",
+      "exemplo": "Quatro magos estão preparando um bastão Projétil de Pedra. Isto exige 400 pontos de energia, logo a operação levará 400/4, ou 100 dias. Todos os magos do círculo precisarão estar presentes todos os dias. Se um dia de trabalho for perdido ou pulado, serão necessários 2 dias para compensar cada dia pulado.",
+      "perdaDeMago": "A perda de um mago encerra o projeto. O teste de habilidade final é feito no último dia. Não há necessidade de dispêndio de energia: ela foi aplicada gradualmente com o progresso da operação.",
+      "falha": "Uma falha significa que o encantamento simplesmente não funcionou. O tempo, a energia e os materiais usados estão simplesmente perdidos. (Exceção: se o objeto já era encantado, ele estará ileso, mas o material extra estará perdido.) Note que, do mesmo modo que toda a magia cerimonial, um resultado igual a 16 significa uma falha automática.",
+      "combinacao": "Este método pode ser combinado com a troca 'energia por habilidade' para permitir que um mago possa criar um objeto com um grande Poder ao longo de um período bastante extenso.",
+      "horasPorDia": 8,
+      "diasPorPonto": 1
+    },
+    "uso": {
+      "regra": "Os objetos encantados seguem as regras dadas para a(s) mágica(s) que eles contêm (veja a Lista de Mágicas). A maioria dos objetos dá ao usuário o poder de fazer aquela mágica. Alguns permitem que ele faça a mágica nele mesmo; outros permitem que a mágica seja feita sobre qualquer objetivo. Se uma mágica puder ser colocada em um objeto encantado, este fato estará especificado no fim de sua descrição.",
+      "padroes": [
+        "O Tempo de realização é o descrito para a mágica. Um Poder alto não afeta este tempo.",
+        "Nenhum ritual é exigido, a menos que seja especificado para um objeto em particular. Em geral, o usuário apenas deseja e ele funciona.",
+        "O Custo em energia é o mesmo que para a realização normal de uma mágica e não é afetado pelo Poder do objeto (um objeto pode ser 'auto-energizado' para reduzir a energia necessária para seu uso).",
+        "O sucesso é determinado normalmente, usando o Poder do objeto como nível de habilidade básico do operador e aplicando os modificadores normais. O Poder está submetido a um redutor igual a −5 em áreas de baixa intensidade de mana.",
+        "O objeto pode ser usado indefinidamente; a mágica não se 'desgasta'.",
+        "Todos os outros efeitos são como descritos para o uso normal da mágica.",
+        "Apenas uma pessoa de cada vez pode controlar um objeto encantado. Se duas pessoas estiverem tocando um objeto encantado (lutando pelo controle de um bastão, por exemplo), apenas o primeiro a tocá-lo poderá usá-lo. Se um deles não puder usá-lo (por ex., pelo fato de o objeto ser apenas para magos), seu toque não contará."
+      ],
+      "resistencia": "Se for possível resistir a uma mágica quando ela é feita normalmente, será possível resistir-lhe quando ela for feita através de um objeto encantado. Faça uma disputa de habilidades entre o Poder do objeto e a resistência do objetivo àquela mágica. Por isso, objetos encantados de Poder maior serão mais difíceis de resistir. Além disso, é mais fácil resistir a objetos encantados em áreas de baixa intensidade de mana: seu Poder fica reduzido em 5 pontos."
+    },
+    "permanentementeAtivos": {
+      "regra": "Certos objetos mágicos são descritos como 'permanentemente ativos'. Eles devem ser vestidos ou transportados para funcionar. Estes objetos não permitem que a pessoa que os usa faça a mágica; eles fazem a mágica sobre quem os carrega automaticamente, sem dispêndio de energia.",
+      "detalhes": [
+        "Se a mágica é do tipo a que se pode resistir, o teste de resistência pode ser feito normalmente.",
+        "Apanhar um objeto por um momento para examiná-lo não é 'usá-lo'. Mas levá-lo em sua mão, ou vesti-lo, sim.",
+        "Como regra, um objeto benéfico deve fazer parte de seu vestuário ou ser levado para funcionar, mas um maléfico irá afetá-lo mesmo que esteja sendo carregado em seu bolso.",
+        "Se uma flecha ou dardo estiver encantado com magia hostil, ele poderá ser transportado sem nenhum problema: afetará apenas a pessoa em quem for cravado. Aquela pessoa o estará 'usando' até que ele seja removido por um sucesso em um teste de Medicina ou Primeiros Socorros (exige um minuto) ou pela força bruta (provoca o mesmo dano que o projétil provocou inicialmente).",
+        "O novo dono de um objeto encantado pode não aprender imediatamente seus poderes. Alguns efeitos (ex.: aumento de ST ou DX) serão óbvios imediatamente. Outros (ex.: respirar água) não serão notados até que ocorra uma situação em que possam surtir efeito. Neste caso, o GM deve tentar não dar, inadvertidamente, pistas sobre a verdadeira natureza do objeto.",
+        "O tempo para fazer a mágica é irrelevante para todos os objetos do tipo 'permanentemente ativo'. O objeto não permite que o usuário faça a mágica; ele veste a mágica nele.",
+        "Objetos mágicos 'hostis' são às vezes preparados para ter efeito depois de um período de mais ou menos 5 minutos, de modo que não será imediatamente óbvio que eles são perigosos. Objetos benéficos funcionam instantaneamente.",
+        "O Custo em energia é zero.",
+        "Os objetivos têm direito a um teste de resistência, se a mágica for hostil e puder ser resistida.",
+        "O objeto pode ser usado indefinidamente. O efeito dura por todo o tempo em que ele for usado."
+      ]
+    }
+  },
+  "entidades": {
+    "titulo": "Entidades Mágicas",
+    "introducao": "Existem muitos tipos diferentes de espíritos e entidades mágicas. Dois tipos importantes são Demônios e Elementais.",
+    "demonios": {
+      "descricao": "Os demônios são criaturas mágicas malignas, convocadas de outros planos com o uso de magia. Eles aparecem frequentemente devido a 'choques de retorno'.",
+      "comportamento": "Quando for 'convocado' deste modo, um demônio atacará o operador e qualquer outra pessoa que esteja por perto, até ser morto. Mas um demônio não é capaz de ferir uma pessoa realmente boa ou inocente (a decisão cabe ao GM), apesar de poder destruir seus bens.",
+      "formula": { "ST": "3D", "DX": "3D", "IQ": "2D", "HT": "4D", "Deslocamento": "2D", "nota": "fórmula simples para um demônio que ataca somente com suas garras; alguns demônios podem ter algumas mágicas ou atacar com armas" }
+    },
+    "elementais": {
+      "descricao": "Espíritos elementais, ou 'elementais', são materializações dos elementos: Terra, Ar, Fogo e Água. As mágicas para convocar, controlar e criar estes elementais estão relacionadas nos capítulos adiante.",
+      "regraGeral": "Os Elementais terão DX e IQ menor ou igual a 12, mas sua ST e HT são ilimitadas.",
+      "tipos": [
+        {
+          "id": "terra", "nome": "Elementais de Terra",
+          "caracteristicas": ["+2 em qualquer teste de resistência ao controle", "reação frente à maioria das pessoas tem um redutor de −1 (bônus de +1 no caso de fazendeiros)", "Deslocamento 3", "RD 2", "Serão afetados por todas as mágicas e armas, mas receberão apenas metade do dano provocado por mágicas hostis de Fogo e Água e nenhum de Ar (com exceção de Relâmpagos)", "Luta com as mãos, provocando dano por Contusão/Perfuração devido à sua ST"]
+        },
+        {
+          "id": "ar", "nome": "Elementais de Ar",
+          "caracteristicas": ["+1 em testes para resistir ao controle", "Deslocamento 12", "Não são afetados por armas materiais", "Atacam usando a mágica Semear Ventos"]
+        },
+        {
+          "id": "fogo", "nome": "Elementais do Fogo (salamandras)",
+          "caracteristicas": ["Frente a pessoas em geral, sua reação tem um redutor igual a −2", "Frente a qualquer proposta de incêndio tem um bônus de +2"]
+        },
+        {
+          "id": "agua", "nome": "Elementais de Água",
+          "caracteristicas": ["A reação frente a propostas de incêndio tem um redutor de −4", "Deslocamento: fora da água 4; dentro, 10", "RD = 0", "Atacam como seres humanos desarmados", "São imunes às mágicas de Água, mas sofrem o dobro do dano devido a mágicas de Fogo", "Podem se misturar a qualquer grande massa de água, tornando-se invisíveis e recuperando 1 ponto de HT por minuto", "Se forem congelados, ficarão imobilizados mas não sofrerão dano"]
+        }
+      ]
+    }
+  },
+  "listaDeMagicas": {
+    "titulo": "Lista de Mágicas",
+    "quantidade": "Existem 97 mágicas descritas nas páginas a seguir. Estas não são de modo algum todas as mágicas possíveis; haverão mais magias (dependendo de quando você estiver lendo esse texto). Selecionamos mágicas que são adequadas para campanhas de principiantes.",
+    "formatoDaDescricao": [
+      { "campo": "Nome da mágica e Classe(s)", "nota": "Um (MD) indica uma mágica Muito Difícil; do contrário, ela é Difícil." },
+      { "campo": "Descrição do efeito e regras especiais", "nota": "Se alguns objetos especiais forem necessários, assuma que a mágica os usa a menos que a descrição indique o contrário." },
+      { "campo": "Duração", "nota": "O tempo de duração do efeito da mágica. Se for mantida, ela terá uma duração igual à original. Algumas mágicas têm efeito instantâneo e por isso nenhuma duração é indicada." },
+      { "campo": "Custo", "nota": "A energia (ST ou HT) gasta quando a mágica é feita. Se for fornecido como Custo Básico, será o custo para cada hexágono de raio no caso de uma mágica de área. Algumas mágicas têm também um custo de manutenção. As mágicas que têm efeito instantâneo não podem ser mantidas." },
+      { "campo": "Tempo de operação", "nota": "Se nenhum tempo for indicado, a mágica exigirá um segundo de Concentração e será realizada no início do próximo turno." },
+      { "campo": "Pré-requisitos", "nota": "Aptidão Mágica e/ou exigências de IQ e outras mágicas que devem ser conhecidas em um nível maior ou igual a 12 antes de esta mágica poder ser estudada." },
+      { "campo": "Objeto", "nota": "Tipo de objeto que pode ser encantado para conter a mágica e regras especiais (se houver). Custo em energia para criar estes objetos encantados e custo dos materiais necessários (se houver). Se não houver uma lista de 'objetos', não será possível construir nenhum objeto com esta mágica, pelo menos até onde os PCs sabem." }
+    ]
+  },
+  "confecaoEmCampanha": {
+    "titulo": "A confecção de Objetos Encantados em uma Campanha",
+    "contexto": "Frequentemente, os jogadores querem objetos encantados que não estão disponíveis no mercado. Uma maneira de obtê-los é conseguir que os PCs que têm Aptidão Mágica os preparem.",
+    "metodos": "Encantamentos do tipo 'rápido e sujo' serão possíveis para objetos de poder menor, mas para os objetos mais importantes será necessário usar o método 'lento e seguro'. Este método requer 8 horas de trabalho por dia de todos os magos participantes. Mas isto não tira o personagem do jogo: ele pode fazer outras coisas enquanto não está trabalhando… ou os inimigos poderiam vir a interrompê-lo enquanto ele trabalha.",
+    "regras": [
+      "Se for interrompido enquanto trabalha, ele se sentirá um tanto fatigado: jogue um dado para determinar a quantidade de fadiga.",
+      "Se ele for interrompido enquanto trabalha, precisará se manter concentrado em seu encantamento. Portanto, o uso de qualquer outra mágica estará submetido a um redutor igual a −3. Ou ele pode parar de se concentrar e, neste caso, perderá o dia de trabalho.",
+      "50% do tempo gasto na confecção de um objeto encantado conta como estudo da mágica Encantar e 50% como estudo da mágica que está sendo incorporada ao objeto.",
+      "Um feiticeiro que seja molestado enquanto não estiver trabalhando ativamente em seu encantamento não estará submetido a nenhuma desvantagem, a menos que ele tenha acabado de deixar o serviço e esteja fatigado (o GM pode decidir esta questão).",
+      "Um mago pode trabalhar em apenas um encantamento por vez. Ele não pode trabalhar dois turnos, nem no mesmo nem em objetos diferentes."
+    ],
+    "limitesDoGM": "Os GMs não são obrigados a permitir a criação de feiticeiros que não fazem nada a não ser fabricar objetos encantados. Os jogadores que quiserem um feiticeiro destes a seu serviço devem contratar um."
+  },
+  "controleDePC": {
+    "titulo": "Encantamento para Controlar um PC",
+    "contexto": "Os GMs provavelmente vão querer limitar o número de objetos encantados em uma campanha. A restrição a estes objetos pode levar os PCs a se decidirem a fazer os seus próprios. Se o GM sentir que qualquer objeto é fácil demais de se fazer, eis aqui algumas maneiras de tornar a tarefa mais difícil:",
+    "maneiras": [
+      { "id": "materiais-raros", "nome": "Materiais Raros", "texto": "O objeto poderia exigir outros ingredientes além do tempo e energia. A tentativa de conseguir o material necessário poderia se transformar em uma aventura em si." },
+      { "id": "efeitos-colaterais", "nome": "Efeitos Colaterais", "texto": "Depois de fazer um objeto, os PCs poderiam descobrir que acontecem coisas estranhas quando eles tentam usá-lo. O GM poderia resolver que são necessárias precauções e/ou rituais obscuros para tornar o uso do objeto seguro." },
+      { "id": "gastos-adicionais", "nome": "Gastos adicionais", "texto": "O GM pode exigir que materiais adicionais comuns, mas caros (tais como pedras preciosas ou metais raros), sejam necessários para obter o objeto, aumentando o custo para o nível que ele achar necessário." }
+    ]
+  }
+}

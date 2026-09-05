@@ -1,14 +1,25 @@
 /* GUA Rule Engine — Modelo de Personagem e Contagem de Pontos
  * Estrutura modular: novos campos podem ser adicionados sem quebrar versões antigas.
+ *
+ * v2 (G.A.U. d20 — data/ficha.json): acrescenta categoria de poder, poderes modulares com
+ * orçamento próprio de pontos de poder, línguas (escritas/faladas), biografia e mágicas.
+ * v3 (VANTAGENS — canal #『📕』vantagens): ids de vantagens normalizados
+ * ('aptid-o-m-gica' → 'aptidao-magica'), níveis estruturados por nome (Rijeza "RD 2",
+ * Memória Eidética "2º nível", Sorte "Extraordinária") e remoção da entrada corrompida
+ * vinda da extração do PDF. `migrarPersonagem()` traz fichas v1/v2 para v3 sem perda de dados.
  */
 import { custoAtributo, APARENCIA } from './attributes.js';
 import { custoTrait, pontosPeculiaridades, MAX_PECULIARIDADES } from './traits.js';
 import { totalPontosEmPericias } from './skills.js';
 import { registrarHistorico } from './economy.js';
+import { custoDoPoder } from './powers.js';
+import { definicaoDaVantagem, normalizarEntradaDeVantagem, validarVantagens, nivelDaVantagem } from './vantagens.js';
 
-export function novoPersonagem(nome = 'Novo Personagem', pontos = 100) {
+export const VERSAO_FICHA = 3;
+
+export function novoPersonagem(nome = 'Novo Personagem', pontos = 100, db = null) {
   return {
-    versao: 1,
+    versao: VERSAO_FICHA,
     id: `pc-${Date.now().toString(36)}-${Math.floor(Math.random() * 1e6).toString(36)}`,
     criadoEm: new Date().toISOString(),
     nome, conceito: '', jogador: '', idade: null, mano: 'destro',
@@ -21,12 +32,75 @@ export function novoPersonagem(nome = 'Novo Personagem', pontos = 100) {
     reputacoes: [],
     vantagens: [], desvantagens: [], peculiaridades: [],
     pericias: [],
-    magias: [],
+    magias: [],            // legado 3d (pontos gastos na ficha)
+    magicas: [],           // G.A.U.: cada mágica é uma perícia — { id, nome, nh, pontos }
     inventario: [],
-    combate: { ferimentos: 0, fadiga: 0, condicoes: [], manobra: null, rodada: 0 },
-    config: { emCriacao: true, modoCombate: 'basico', limiteDesvantagens: null },
+    /* --- G.A.U. (data/ficha.json) --- */
+    categoria: 'mundano',  // categoria de poder / escala (data/resolucao.json → categorias)
+    poderes: [],           // poderes modulares (data/poderes.json) — ver app/engine/powers.js
+    linguas: { escritas: [], faladas: [] },
+    biografia: '',
+    aptidaoMagica: 0,      // máximo 3 (data/magia.json → aptidao.limite)
+    pontosDePoder: {
+      total: db?.poderes?.orcamento?.exemploPadrao ?? 150,
+      nivelSaga: db?.poderes?.orcamento?.nivelInicial ?? 'mundano',
+    },
+    combate: { ferimentos: 0, fadiga: 0, condicoes: [], manobra: null, rodada: 0, pv: null, pf: null, energia: null },
+    config: { emCriacao: true, modoCombate: 'gau', limiteDesvantagens: null, resolucaoMagia: null, modoEscala: 'melhor', criterioDisputa: 'proximidade-do-critico' },
     historico: [{ quando: new Date().toISOString(), tipo: 'criacao', texto: 'Personagem criado.' }],
   };
+}
+
+/** Traz uma ficha antiga (v1) para o modelo G.A.U. (v2), preservando tudo que já existia. */
+export function migrarPersonagem(db, personagem) {
+  if (!personagem || typeof personagem !== 'object') return personagem;
+  if (personagem.versao === VERSAO_FICHA) return personagem;
+  const base = novoPersonagem(personagem.nome || 'Novo Personagem', personagem.pontos?.total ?? 100, db);
+  const migrado = {
+    ...base,
+    ...personagem,
+    versao: VERSAO_FICHA,
+    pontos: { total: personagem.pontos?.total ?? 100, extrasGanhos: personagem.pontos?.extrasGanhos ?? 0 },
+    atributos: { ...base.atributos, ...(personagem.atributos || {}) },
+    linguas: { escritas: [], faladas: [], ...(personagem.linguas || {}) },
+    poderes: Array.isArray(personagem.poderes) ? personagem.poderes : [],
+    magicas: Array.isArray(personagem.magicas) ? personagem.magicas
+      : (personagem.magias || []).map(m => ({ id: m.id, nome: m.nome || db.spell?.(m.id)?.nome || m.id, nh: m.nh ?? null, pontos: m.pontos ?? 0, legado: true })),
+    combate: { ...base.combate, ...(personagem.combate || {}) },
+    config: { ...base.config, ...(personagem.config || {}) },
+    historico: [
+      ...(personagem.historico || []),
+      { quando: new Date().toISOString(), tipo: 'migracao', texto: `Ficha migrada para o modelo G.A.U. (v${VERSAO_FICHA}): categoria de poder, poderes modulares, línguas, biografia e secundários PV/VON/PER/PF.` },
+    ],
+  };
+  if (migrado.categoria == null) migrado.categoria = 'mundano';
+  /* v3: vantagens — ids normalizados, níveis estruturados e entradas corrompidas removidas. */
+  const antes = (migrado.vantagens || []).length;
+  migrado.vantagens = (migrado.vantagens || [])
+    .map(entrada => normalizarEntradaDeVantagem(db, entrada))
+    .filter(Boolean);
+  const mudados = (migrado.vantagens || []).filter((v, i) => v.id !== (personagem.vantagens || [])[i]?.id).length;
+  if (mudados || migrado.vantagens.length !== antes) {
+    migrado.historico.push({
+      quando: new Date().toISOString(), tipo: 'migracao',
+      texto: `Vantagens atualizadas para a publicação oficial do canal #『📕』vantagens (v${VERSAO_FICHA}): `
+        + `${mudados} id(s) normalizado(s), ${antes - migrado.vantagens.length} entrada(s) inválida(s) removida(s).`,
+    });
+  }
+  // Aptidão Mágica: em v1 ela só existia como vantagem; em v2 também é campo da ficha.
+  migrado.aptidaoMagica = Math.max(
+    Number(migrado.aptidaoMagica) || 0,
+    nivelDaVantagem(db, migrado, 'aptidao-magica'),
+  );
+  return migrado;
+}
+
+/** Aptidão Mágica efetiva (limitada a 3) — vantagem ou campo próprio da ficha. */
+export function aptidaoMagicaDe(db, personagem) {
+  const limite = Number(String(db?.magia?.aptidao?.limite || '').match(/(\d+)/)?.[1] ?? 3);
+  const daVantagem = (personagem?.vantagens || []).find(v => v.id === 'aptidao-magica');
+  const valor = personagem?.aptidaoMagica ?? (daVantagem ? (daVantagem.niveis ?? daVantagem.nivel ?? 1) : 0);
+  return Math.max(0, Math.min(limite, Number(valor) || 0));
 }
 
 /** Contabilidade completa de pontos (criação: p. 1-112). */
@@ -47,7 +121,7 @@ export function contagemDePontos(db, personagem) {
     partes.push({ tipo: 'vantagem', nome: `Status ${personagem.statusSocial}`, custo: c, detalhe: '5 pts/nível' + (c !== personagem.statusSocial * 5 ? ' (−5 por Riqueza ≥ Rico)' : '') });
   }
   for (const v of personagem.vantagens || []) {
-    const def = db.advantages.find(a => a.id === v.id);
+    const def = definicaoDaVantagem(db, v.id);
     const { custo } = custoTrait(personagem, v, def);
     gastos += custo;
     partes.push({ tipo: 'vantagem', nome: def?.nome || v.nome || v.id, custo, detalhe: v.nivel || v.niveis ? `nível ${v.nivel ?? v.niveis}` : '' });
@@ -66,25 +140,56 @@ export function contagemDePontos(db, personagem) {
   partes.push({ tipo: 'pericias', nome: 'Perícias', custo: ptsSkills });
   const ptsMagias = (personagem.magias || []).reduce((a, m) => a + (m.pontos || 0), 0);
   gastos += ptsMagias;
-  partes.push({ tipo: 'magias', nome: 'Magias', custo: ptsMagias });
+  partes.push({ tipo: 'magias', nome: 'Magias (legado 3d)', custo: ptsMagias });
+  const ptsMagicas = (personagem.magicas || []).reduce((a, m) => a + (m.pontos || 0), 0);
+  gastos += ptsMagicas;
+  if (ptsMagicas) partes.push({ tipo: 'magicas', nome: 'Mágicas (G.A.U.)', custo: ptsMagicas, detalhe: 'Cada mágica é uma perícia; mínimo de 1 ponto por mágica aprendida.' });
   const total = personagem.pontos.total + (personagem.pontos.extrasGanhos || 0);
+
+  /* Poderes modulares têm ORÇAMENTO PRÓPRIO (pontos de poder da saga) — não entram
+   * na contagem de pontos do personagem. Fonte: data/poderes.json → orcamento. */
+  const orcamento = personagem.pontosDePoder?.total ?? db?.poderes?.orcamento?.exemploPadrao ?? 150;
+  const poderes = (personagem.poderes || []).map(poder => ({ poder, custo: custoDoPoder(db, poder) }));
+  const gastoEmPoderes = poderes.reduce((soma, p) => soma + p.custo.total, 0);
+
   return {
     total, gastos, disponiveis: total - gastos,
     partes,
-    validacoes: validar(db, personagem, { gastosSkills: ptsSkills }),
+    pontosDePoder: {
+      total: orcamento,
+      gasto: gastoEmPoderes,
+      disponiveis: orcamento - gastoEmPoderes,
+      nivelSaga: personagem.pontosDePoder?.nivelSaga ?? personagem.categoria ?? 'mundano',
+      poderes: poderes.map(p => ({ id: p.poder.id, nome: p.poder.nome, custo: p.custo.total, itens: p.custo.partes.length })),
+      regra: db?.poderes?.orcamento?.regra || '',
+    },
+    validacoes: validar(db, personagem, { gastosSkills: ptsSkills, gastoEmPoderes, orcamento }),
   };
 }
 
-function validar(db, personagem, { gastosSkills }) {
+function validar(db, personagem, { gastosSkills, gastoEmPoderes = 0, orcamento = null }) {
   const avisos = [];
+  if (orcamento != null && gastoEmPoderes > orcamento) {
+    avisos.push(`Pontos de poder excedidos: ${gastoEmPoderes} gastos de um orçamento de ${orcamento} (o valor é baseado no nível de poder da saga).`);
+  }
+  for (const poder of personagem.poderes || []) {
+    const maxCond = db?.poderes?.modulos?.condicoes?.maximo ?? 3;
+    if ((poder.condicoes || []).length > maxCond) avisos.push(`Poder "${poder.nome}": mais de ${maxCond} Condições.`);
+  }
+  if ((personagem.atributos?.HT ?? 0) > 0 && personagem.combate?.pf != null && personagem.combate.pf > personagem.atributos.HT) {
+    avisos.push('PF acima da reserva (PF = HT na ficha oficial).');
+  }
   if (personagem.config?.emCriacao && personagem.idade && gastosSkills > 2 * personagem.idade) {
     avisos.push(`Pontos em perícias (${gastosSkills}) excedem 2× idade (${2 * personagem.idade}) — limite de criação (p. 103).`);
   }
   if ((personagem.peculiaridades || []).length > MAX_PECULIARIDADES) {
     avisos.push(`Mais de ${MAX_PECULIARIDADES} peculiaridades (p. 88).`);
   }
-  const am = (personagem.vantagens || []).find(v => v.id === 'aptidao-magica');
-  if (am && (am.niveis || 1) > 3) avisos.push('Aptidão Mágica máxima: 3 níveis (p. 301).');
+  if (nivelDaVantagem(db, personagem, 'aptidao-magica') > 3) avisos.push('Aptidão Mágica máxima: 3 níveis (p. 301).');
+  if (aptidaoMagicaDe(db, personagem) > 3) avisos.push('Aptidão Mágica máxima: 3 níveis (data/magia.json → aptidao.limite).');
+  /* Vantagens: requisitos de atributo, incompatibilidades (Abascanto × Aptidão Mágica), unicidade e níveis máximos. */
+  const validacaoVantagens = validarVantagens(db, personagem);
+  avisos.push(...validacaoVantagens.erros, ...validacaoVantagens.avisos);
   for (const [k, v] of Object.entries(personagem.atributos)) {
     if (v < 1 || v > 20) avisos.push(`Atributo ${k} fora da faixa 1–20.`);
   }

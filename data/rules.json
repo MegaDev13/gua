@@ -1,28 +1,103 @@
 {
-  "_fonte": "Manifesto do banco de regras. Constantes de jogo vivem em tables.json/equipment.json; nada aqui duplica valores.",
+  "_fonte": "Manifesto do banco de regras. Constantes de jogo vivem em tables.json/resolucao.json/maneuvers.json/armas.json/estruturas.json/poderes.json/proezas.json/magia.json/ficha.json; nada aqui duplica valores.",
   "projeto": "GUA — Ecossistema Digital (livro + ficha sobre a mesma base)",
-  "material": "GURPS® Basic Set 3ª edição (PT-BR, 370 pp.) — única fonte de verdade",
-  "versao": 1,
+  "material": [
+    {
+      "id": "gau-2026",
+      "nome": "Modulações oficiais G.A.U (2026)",
+      "descricao": "Núcleo d20 com margens de sucesso, categorias de poder, árvore de manobras, grau de dano, arsenal por era, estruturas/NT, construtor de poderes, dimensionalidade/hax, magia revisada e modelo de ficha.",
+      "fontes": [
+        "#『📕』testes-e-combate — Impio, 16/08/2026 08:56 (TESTES DE HABILIDADE, combate montado/veículos, disputas, proezas físicas, sentidos, pânico, sistema de combate, árvore de manobras, defesas ativas)",
+        "#『📕』testes-e-combate — Impio, 30/08/2026 13:17 (localização de acerto, luminosidade, grau de dano, tabelas de dano mundano, estruturas, NT)",
+        "#『📘』magia — Impio, 20/08/2026 19:17 (MAGIA completa)",
+        "CRIANDO SEUS PODERES / DIMENSIONALIDADE / HAX — construtor modular de poderes",
+        "#『📁』modelo-ficha — Impio, 04/09/2026 18:49 e 21:38 (planilha de personagem e contas dos secundários)"
+      ],
+      "prioridade": "fonte primária do sistema"
+    },
+    {
+      "id": "gurps-3e-pdf",
+      "nome": "Material-base legado (docs/fonte-gua-material.pdf)",
+      "descricao": "GURPS® Basic Set 3ª edição (PT-BR, 370 pp.) — origem dos catálogos de perícias, vantagens, desvantagens, peculiaridades, magias, armaduras/escudos, custos de criação e tabelas de apoio que as modulações G.A.U ainda não redefiniram.",
+      "prioridade": "subsidiária: vale onde a modulação G.A.U não fala; quando conflita, prevalece a modulação G.A.U"
+    }
+  ],
+  "versao": 2,
+  "edicao": "Modulação G.A.U — d20",
   "moeda": "$",
   "principios": [
-    "O material é a única fonte de verdade: nada inventado, nada 'melhorado'",
-    "Regra ausente = REGRA NÃO DEFINIDA (bloqueio com explicação, nunca chute)",
+    "O material publicado é a única fonte de verdade: nada inventado, nada 'melhorado'",
+    "Regra ausente = REGRA NÃO DEFINIDA (bloqueio ou aviso com explicação, nunca chute)",
+    "Resolução padrão: 1d20 dentro da MARGEM DE SUCESSO da referência (atributo ou NH); o valor crítico é o próprio valor da referência",
+    "A quantidade de dados representa a ESCALA (categoria de poder), não um bônus",
     "Todo cálculo no Rule Engine (app/engine); a interface não contém fórmulas",
     "Números intermediários nunca são arredondados, exceto onde o material manda",
-    "Banco único (data/*.json) serve ao livro digital e à ficha"
+    "Banco único (data/*.json) serve ao livro digital e à ficha",
+    "Conflito entre fontes: prevalece a modulação G.A.U (2026) e o conflito fica registrado em rules.conflitos"
+  ],
+  "resolucao": {
+    "padrao": "d20",
+    "referencia": "data/resolucao.json",
+    "legado": "3d6 roll-under (material-base) permanece disponível para as tabelas que ainda o usam — ex.: Verificação de Pânico (3d + margem da falha) e o modo '3d' opcional de magia",
+    "configuravel": "config.resolucaoMagia, config.modoEscala"
+  },
+  "conflitos": [
+    {
+      "id": "magia-3d-vs-d20",
+      "assunto": "Rolagem de magia",
+      "descricao": "O capítulo MAGIA diz 'o operador joga 3 dados e compara o resultado com seu nível de habilidade', enquanto TESTES DE HABILIDADE define 'o sistema utiliza o d20 como base de resolução' e '1 e 20 não importam mais'.",
+      "resolucaoAdotada": "d20 + margem de sucesso por padrão; modo 3d mantido como opção (config.resolucaoMagia).",
+      "fonte": "#『📘』magia 20/08/2026 × #『📕』testes-e-combate 16/08/2026"
+    },
+    {
+      "id": "disputa-criterio",
+      "assunto": "Critério de vitória em Disputa de Habilidades",
+      "descricao": "A regra geral diz 'vence quem obtiver o resultado mais próximo de seu próprio valor crítico'; a descrição de Disputa Rápida/Normal diz 'vence quem foi bem sucedido pela maior margem, ou falhou pela menor'.",
+      "resolucaoAdotada": "ambos os critérios são calculados e exibidos; o padrão é 'proximidade-do-critico' (config.criterioDisputa)."
+    },
+    {
+      "id": "ataque-corpo-a-corpo-distancia",
+      "assunto": "Distância do ataque corpo a corpo",
+      "descricao": "O texto publicado diz que 'para que o ataque seja iniciado dessa maneira, o alvo deve estar a pelo menos 2 metros do atacante', o que conflita com a lógica de proximidade do ataque corpo a corpo (leitura usual: no máximo 2 metros).",
+      "resolucaoAdotada": "transcrito como publicado em maneuvers.json, com aviso de ambiguidade; a ficha não bloqueia ataques por distância."
+    },
+    {
+      "id": "pv-base",
+      "assunto": "Pontos de Vida",
+      "descricao": "O modelo de ficha define PV = ST × HT; o material-base legado define PV = HT.",
+      "resolucaoAdotada": "PV = ST × HT (modelo oficial de ficha, 04/09/2026)."
+    },
+    {
+      "id": "esquiva-base",
+      "assunto": "Esquiva",
+      "descricao": "Defesas Ativas G.A.U.: 'Esquiva: Baseada na DX'. Legado: Esquiva = Deslocamento.",
+      "resolucaoAdotada": "Esquiva = DX (G.A.U). A exceção publicada é a montaria: 'A Esquiva de um cavalo é igual a DX ou Deslocamento, o que for maior'."
+    }
   ],
   "naoDefinidas": [
-    "Tabela de armas corpo-a-corpo (Quadros e Tabelas não fornecidos — cadastro manual na aba Equipamentos)",
-    "Golpes Fulminantes / Erros Críticos (tabelas 3d não incluídas no material)",
-    "Local de impacto aleatório 3d — tabela reconstruída em tables.json com aviso _aviso",
-    "Modificadores Velocidade/Distance e Tamanho — reconstruídos por regra textual, com aviso",
-    "Preços da Lista de Equipamentos (somente itens citados no texto existem)",
+    "Nomes oficiais das Categorias de Poder acima de Mundano (o material cita 'categoria superior' e 'cósmico') — data/resolucao.json → categorias",
+    "Como combinar os dados adicionais de uma categoria superior (soma, melhor dado ou avaliação por dado) — data/resolucao.json → categorias.agregacaoDeDados",
+    "Margem de sucesso para referências acima de 20 — a tabela publicada vai até 20",
+    "Tabela de Localização de Acerto (humanóide): publicada como IMAGEM no canal — apenas as notas textuais foram capturadas",
+    "Custo dos níveis adicionais dos itens escalonáveis do construtor de poderes ('5+', '15+', '25+', '40+', '45+')",
+    "Valores numéricos exatos dos parâmetros de ficha (ATQ/ESQ/DSL/APAR/BLOQ) além da referência de atributo publicada",
+    "Orçamento de pontos de poder por nível de saga (o material dá 150 como exemplo de comparação)",
+    "Modificadores da Tabela de Precisão aplicados a armas corpo a corpo (a tabela lista apenas categorias de ataque à distância)",
+    "Custo em pontos de atributos acima de 20 (tabela legada vai até 20)",
+    "Tabela de armas corpo-a-corpo legada (Quadros e Tabelas não fornecidos) — hoje substituída por data/armas.json",
+    "Golpes Fulminantes / Erros Críticos (tabelas 3d do material-base não incluídas)",
+    "Preços da Lista de Equipamentos (somente itens citados no texto existem); as tabelas G.A.U de armas publicam dano, não preço",
     "Economia de empregos e preço de revenda (fator de venda configurável; padrão = valor integral)",
     "Evolução pós-criação de perícias/atributos (XP registrável no Histórico)",
-    "Poderes não-mágicos (módulo pronto e vazio)"
+    "Encontrões (citados em 'Empurrar e Derrubar Objetos' como regra separada, ainda não publicada)"
   ],
   "configuraveis": {
+    "modoEscala": { "default": "melhor", "opcoes": ["melhor", "cada-dado", "soma"], "nota": "REGRA NÃO DEFINIDA — como combinar d20 adicionais de categorias superiores" },
+    "resolucaoMagia": { "default": "d20", "opcoes": ["d20", "3d"], "nota": "conflito registrado em rules.conflitos → magia-3d-vs-d20" },
+    "criterioDisputa": { "default": "proximidade-do-critico", "opcoes": ["proximidade-do-critico", "maior-margem"], "nota": "conflito registrado em rules.conflitos → disputa-criterio" },
+    "pontosDePoder": { "default": 150, "nota": "orçamento de pontos de poder da saga (exemplo publicado: 150)" },
+    "categoriaPadrao": { "default": "mundano", "nota": "categoria de poder inicial do personagem" },
     "fatorVenda": { "default": 1, "nota": "REGRA NÃO DEFINIDA — multiplicador do preço na venda de itens" },
-    "riquezaMediaCenario": { "default": 1000, "nota": "média multiplicada pelo nível de Riqueza (p. 12)" }
+    "riquezaMediaCenario": { "default": 1000, "nota": "média multiplicada pelo nível de Riqueza (p. 12 do material-base)" }
   }
 }

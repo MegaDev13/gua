@@ -1,0 +1,396 @@
+{
+  "_fonte": "CRIANDO SEUS PODERES · Como fazer o meu Personagem no sistema de G.A.U RPG? · DIMENSIONALIDADE · HAX — canais #『📕』testes-e-combate e #『📁』modelo-ficha.",
+  "conceito": {
+    "titulo": "Criando seus poderes",
+    "regra": "O sistema está modulado como um catálogo de construção de poderes, em que o jogador recebe um orçamento e compra separadamente efeitos, extensão, potência, condições e bônus.",
+    "modular": "O mais importante é que essas listas são modulares: o jogador não precisa usar todas as categorias em todo poder. Use a criatividade.",
+    "obrigatorios": {
+      "regra": "Para poderes que possuam um efeito, deve possuir obrigatoriamente: Efeito, Extensão e Potência. As demais podem ser acrescentadas se os jogadores assim quiserem.",
+      "modulos": ["efeito", "extensao", "potencia"]
+    },
+    "escalonaveis": "Itens marcados com '+' (ex.: Aumentar Força 5+, empurrar 15+, Ataque Adicional 45+) têm custo inicial publicado; o custo dos níveis adicionais é REGRA NÃO DEFINIDA — a ficha permite informar o custo pago por nível."
+  },
+  "orcamento": {
+    "titulo": "Pontos de poder",
+    "regra": "Definido o conceito, você receberá os pontos de poder para gastar, como se você tivesse 150 reais, e fosse fazer as compras. Esse valor será baseado no nível de poder da saga (que é como se chama um 'arco' da história). Normalmente se começa no nível Mundano.",
+    "limite": "Contudo, o preço de algumas características limita você a comprar certas coisas.",
+    "exemploPadrao": 150,
+    "nivelInicial": "mundano"
+  },
+  "modulos": {
+    "efeitos": {
+      "titulo": "EFEITOS",
+      "descricao": "Os Efeitos determinam o que o poder é capaz de fazer.",
+      "grupos": [
+        {
+          "id": "manipulacao", "nome": "Manipulação",
+          "itens": [
+            { "id": "criar", "nome": "Criar", "pontos": 10 },
+            { "id": "destruir", "nome": "Destruir", "pontos": 10 },
+            { "id": "manipular", "nome": "Manipular", "pontos": 20 },
+            { "id": "transformar", "nome": "Transformar", "pontos": 15 },
+            { "id": "absorver", "nome": "Absorver", "pontos": 15 },
+            { "id": "redirecionar", "nome": "Redirecionar", "pontos": 15 },
+            { "id": "copiar", "nome": "Copiar", "pontos": 20 },
+            { "id": "anular", "nome": "Anular", "pontos": 20 },
+            { "id": "selar", "nome": "Selar", "pontos": 25 },
+            { "id": "reproduzir", "nome": "Reproduzir", "pontos": 10 }
+          ]
+        },
+        {
+          "id": "movimento", "nome": "Movimento",
+          "itens": [
+            { "id": "acelerar", "nome": "Acelerar", "pontos": 5 },
+            { "id": "desacelerar", "nome": "Desacelerar", "pontos": 5 },
+            { "id": "voar", "nome": "Voar", "pontos": 5 },
+            { "id": "levitar", "nome": "Levitar", "pontos": 3 },
+            { "id": "teleportar", "nome": "Teleportar", "pontos": 20 },
+            { "id": "criar-portais", "nome": "Criar portais", "pontos": 20 },
+            { "id": "parar-movimento", "nome": "Parar movimento", "pontos": 10 },
+            { "id": "alterar-trajetoria", "nome": "Alterar trajetória", "pontos": 5 },
+            { "id": "caminhar-sobre-superficies", "nome": "Caminhar sobre superfícies", "pontos": 3 }
+          ]
+        },
+        {
+          "id": "espaco", "nome": "Espaço",
+          "itens": [
+            { "id": "distorcer-espaco", "nome": "Distorcer espaço", "pontos": 25 },
+            { "id": "expandir-espaco", "nome": "Expandir espaço", "pontos": 25 },
+            { "id": "comprimir-espaco", "nome": "Comprimir espaço", "pontos": 25 },
+            { "id": "teleportar-espaco", "nome": "Teleportar", "pontos": 20 },
+            { "id": "criar-dimensoes", "nome": "Criar dimensões", "pontos": 100 },
+            { "id": "criar-barreiras-espaciais", "nome": "Criar barreiras espaciais", "pontos": 25 },
+            { "id": "alterar-distancia", "nome": "Alterar distância", "pontos": 20 }
+          ]
+        },
+        {
+          "id": "tempo", "nome": "Tempo",
+          "itens": [
+            { "id": "acelerar-tempo", "nome": "Acelerar tempo", "pontos": 20 },
+            { "id": "retardar-tempo", "nome": "Retardar tempo", "pontos": 20 },
+            { "id": "parar-tempo", "nome": "Parar tempo", "pontos": 30 },
+            { "id": "retroceder", "nome": "Retroceder", "pontos": 15 },
+            { "id": "avancar", "nome": "Avançar", "pontos": 15 },
+            { "id": "precognicao", "nome": "Precognição", "pontos": 10 },
+            { "id": "criar-repeticao-temporal", "nome": "Criar repetição temporal", "pontos": 15 },
+            { "id": "alterar-idade", "nome": "Alterar idade", "pontos": 15 },
+            { "id": "criar-efeitos-temporais", "nome": "Criar efeitos temporais", "pontos": 25 }
+          ]
+        },
+        {
+          "id": "mente", "nome": "Mente",
+          "itens": [
+            { "id": "ler-pensamentos", "nome": "Ler pensamentos", "pontos": 15 },
+            { "id": "comunicar-mentalmente", "nome": "Comunicar mentalmente", "pontos": 5 },
+            { "id": "influenciar", "nome": "Influenciar", "pontos": 20 },
+            { "id": "confundir", "nome": "Confundir", "pontos": 15 },
+            { "id": "apagar-memoria", "nome": "Apagar memória", "pontos": 20 },
+            { "id": "criar-memoria", "nome": "Criar memória", "pontos": 20 },
+            { "id": "detectar-emocoes", "nome": "Detectar emoções", "pontos": 10 },
+            { "id": "criar-ilusoes", "nome": "Criar ilusões", "pontos": 10 },
+            { "id": "controlar-comportamento", "nome": "Controlar comportamento", "pontos": 10 }
+          ]
+        },
+        {
+          "id": "corpo", "nome": "Corpo",
+          "itens": [
+            { "id": "aumentar-forca", "nome": "Aumentar Força", "pontos": 5, "escalonavel": true },
+            { "id": "aumentar-destreza", "nome": "Aumentar Destreza", "pontos": 5, "escalonavel": true },
+            { "id": "aumentar-resistencia", "nome": "Aumentar resistência", "pontos": 5, "escalonavel": true },
+            { "id": "regenerar", "nome": "Regenerar", "pontos": 20 },
+            { "id": "curar", "nome": "Curar", "pontos": 5, "escalonavel": true },
+            { "id": "alterar-tamanho", "nome": "Alterar tamanho", "pontos": 15 },
+            { "id": "alterar-forma", "nome": "Alterar forma", "pontos": 15 },
+            { "id": "criar-membros", "nome": "Criar membros", "pontos": 5 },
+            { "id": "modificar-sentidos", "nome": "Modificar sentidos", "pontos": 20 },
+            { "id": "modificar-propriedades-fisicas", "nome": "Modificar propriedades físicas", "pontos": 20 }
+          ]
+        },
+        {
+          "id": "percepcao", "nome": "Percepção",
+          "itens": [
+            { "id": "visao-ampliada", "nome": "Visão ampliada", "pontos": 5 },
+            { "id": "visao-atraves-de-objetos", "nome": "Visão através de objetos", "pontos": 5 },
+            { "id": "detectar-energia", "nome": "Detectar energia", "pontos": 10 },
+            { "id": "detectar-seres", "nome": "Detectar seres", "pontos": 15 },
+            { "id": "detectar-movimento", "nome": "Detectar movimento", "pontos": 15 },
+            { "id": "sentidos-sobrenaturais", "nome": "Sentidos sobrenaturais", "pontos": 10 },
+            { "id": "percepcao-temporal", "nome": "Percepção temporal", "pontos": 50 },
+            { "id": "percepcao-espacial", "nome": "Percepção espacial", "pontos": 50 }
+          ]
+        },
+        {
+          "id": "invocacao", "nome": "Invocação",
+          "itens": [
+            { "id": "criar-criatura", "nome": "Criar criatura", "pontos": 20 },
+            { "id": "invocar-criatura", "nome": "Invocar criatura", "pontos": 25 },
+            { "id": "invocar-objeto", "nome": "Invocar objeto", "pontos": 10 },
+            { "id": "criar-armas", "nome": "Criar armas", "pontos": 10 },
+            { "id": "criar-estruturas", "nome": "Criar estruturas", "pontos": 10 },
+            { "id": "criar-copias", "nome": "Criar cópias", "pontos": 10 },
+            { "id": "manifestar-entidades", "nome": "Manifestar entidades", "pontos": 50 }
+          ]
+        },
+        {
+          "id": "defesa", "nome": "Defesa",
+          "itens": [
+            { "id": "criar-barreira", "nome": "Criar barreira", "pontos": 10 },
+            { "id": "criar-escudo", "nome": "Criar escudo", "pontos": 5 },
+            { "id": "aumentar-rd", "nome": "Aumentar RD", "pontos": 5, "escalonavel": true },
+            { "id": "reduzir-dano", "nome": "Reduzir dano", "pontos": 5 },
+            { "id": "anular-dano", "nome": "Anular dano", "pontos": 25 },
+            { "id": "refletir-ataque", "nome": "Refletir ataque", "pontos": 25 },
+            { "id": "absorver-ataque", "nome": "Absorver ataque", "pontos": 20 },
+            { "id": "resistir-a-efeito", "nome": "Resistir a determinado efeito", "pontos": 20 },
+            { "id": "adaptar", "nome": "Adaptar", "pontos": 25 }
+          ]
+        }
+      ]
+    },
+    "extensao": {
+      "titulo": "EXTENSÃO",
+      "descricao": "A Extensão determina quanto do efeito o poder consegue alcançar. Um mesmo efeito pode custar pouco ou muito dependendo de sua extensão.",
+      "submodulos": ["alcance", "area", "alvos", "duracao"],
+      "alcance": {
+        "descricao": "Alcance",
+        "itens": [
+          { "id": "toque", "nome": "Toque", "exemplo": "Precisa tocar o alvo", "pontos": 0 },
+          { "id": "2m", "nome": "2 m", "exemplo": "Distância imediata", "pontos": 5 },
+          { "id": "5m", "nome": "5 m", "exemplo": "Curto alcance", "pontos": 10 },
+          { "id": "10m", "nome": "10 m", "exemplo": "Alcance próximo", "pontos": 15 },
+          { "id": "50m", "nome": "50 m", "exemplo": "Médio", "pontos": 20 },
+          { "id": "100m", "nome": "100 m", "exemplo": "Longo", "pontos": 40 },
+          { "id": "1km", "nome": "1 km", "exemplo": "Grande distância", "pontos": 60 },
+          { "id": "10km", "nome": "10 km", "exemplo": "Extenso", "pontos": 80 },
+          { "id": "100km", "nome": "100 km", "exemplo": "Regional", "pontos": 100 },
+          { "id": "1000km", "nome": "1.000 km", "exemplo": "Continental", "pontos": 150 },
+          { "id": "global", "nome": "Global", "exemplo": "Todo o planeta", "pontos": 200 },
+          { "id": "astronomico", "nome": "Astronômico", "exemplo": "Escala planetária/espacial", "pontos": 350 },
+          { "id": "dimensional", "nome": "Dimensional", "exemplo": "Entre dimensões", "pontos": 800 }
+        ]
+      },
+      "area": {
+        "descricao": "Abrange a área sob efeito",
+        "itens": [
+          { "id": "um-individuo", "nome": "Um indivíduo", "pontos": 5 },
+          { "id": "pequena-area", "nome": "Pequena área", "pontos": 10 },
+          { "id": "area-media", "nome": "Área média", "pontos": 20 },
+          { "id": "grande-area", "nome": "Grande área", "pontos": 40 },
+          { "id": "regiao", "nome": "Região", "pontos": 60 },
+          { "id": "cidade", "nome": "Cidade", "pontos": 80 },
+          { "id": "pais", "nome": "País", "pontos": 100 },
+          { "id": "continente", "nome": "Continente", "pontos": 150 },
+          { "id": "planeta", "nome": "Planeta", "pontos": 200 },
+          { "id": "sistema", "nome": "Sistema", "pontos": 400 },
+          { "id": "dimensao", "nome": "Dimensão", "pontos": 800 }
+        ]
+      },
+      "alvos": {
+        "descricao": "Quantidade de alvos",
+        "itens": [
+          { "id": "1-alvo", "nome": "1 alvo", "pontos": 5, "quantidade": 1 },
+          { "id": "2-alvos", "nome": "2 alvos", "pontos": 10, "quantidade": 2 },
+          { "id": "5-alvos", "nome": "5 alvos", "pontos": 25, "quantidade": 5 },
+          { "id": "10-alvos", "nome": "10 alvos", "pontos": 50, "quantidade": 10 },
+          { "id": "50-alvos", "nome": "50 alvos", "pontos": 100, "quantidade": 50 },
+          { "id": "100-alvos", "nome": "100 alvos", "pontos": 150, "quantidade": 100 },
+          { "id": "todos-na-area", "nome": "Todos dentro da área", "pontos": 200, "quantidade": null }
+        ]
+      },
+      "duracao": {
+        "descricao": "Determina a duração do poder",
+        "itens": [
+          { "id": "instantaneo", "nome": "Instantâneo", "pontos": -15 },
+          { "id": "1-segundo", "nome": "1 segundo", "pontos": 5 },
+          { "id": "5-segundos", "nome": "5 segundos (1 turno)", "pontos": 10, "turnos": 1 },
+          { "id": "10-segundos", "nome": "10 segundos", "pontos": 20 },
+          { "id": "1-minuto", "nome": "1 minuto", "pontos": 40 },
+          { "id": "5-minutos", "nome": "5 minutos", "pontos": 90 },
+          { "id": "1-hora", "nome": "1 hora", "pontos": 120 },
+          { "id": "1-dia", "nome": "1 dia", "pontos": 150 },
+          { "id": "permanente", "nome": "Permanente", "pontos": 200 }
+        ]
+      }
+    },
+    "potencia": {
+      "titulo": "POTÊNCIA",
+      "descricao": "A Potência determina o quanto o efeito consegue fazer.",
+      "submodulos": ["intensidade", "dano", "forca", "velocidade"],
+      "intensidade": {
+        "descricao": "Intensidade",
+        "itens": [
+          { "id": "fraca", "nome": "Fraca", "pontos": 5 },
+          { "id": "moderada", "nome": "Moderada", "pontos": 10 },
+          { "id": "forte", "nome": "Forte", "pontos": 25 },
+          { "id": "extrema", "nome": "Extrema", "pontos": 50 },
+          { "id": "maxima-da-categoria", "nome": "Máxima da categoria", "pontos": 95 },
+          { "id": "alem-da-categoria", "nome": "Além da categoria", "pontos": 120 }
+        ]
+      },
+      "dano": {
+        "descricao": "Podemos relacionar diretamente à escala de dano (Grau)",
+        "itens": [
+          { "id": "dano-baixo", "nome": "Dano baixo", "pontos": 5, "grau": 1 },
+          { "id": "dano-moderado", "nome": "Dano moderado", "pontos": 10, "grau": 1 },
+          { "id": "dano-alto", "nome": "Dano alto", "pontos": 20, "grau": 2 },
+          { "id": "dano-extremo", "nome": "Dano extremo", "pontos": 45, "grau": 2 },
+          { "id": "dano-letal", "nome": "Dano letal", "pontos": 90, "grau": 3 },
+          { "id": "dano-categoria-superior", "nome": "Dano equivalente à categoria superior", "pontos": 120, "grau": 3 }
+        ]
+      },
+      "forca": {
+        "descricao": "Pode determinar quanto o poder consegue:",
+        "itens": [
+          { "id": "empurrar", "nome": "empurrar", "pontos": 15, "escalonavel": true },
+          { "id": "levantar", "nome": "levantar", "pontos": 15, "escalonavel": true },
+          { "id": "esmagar", "nome": "esmagar", "pontos": 20 },
+          { "id": "romper", "nome": "romper", "pontos": 20 },
+          { "id": "arremessar", "nome": "arremessar", "pontos": 15, "escalonavel": true }
+        ]
+      },
+      "velocidade": {
+        "descricao": "Pode aumentar:",
+        "itens": [
+          { "id": "velocidade-deslocamento", "nome": "velocidade de deslocamento", "pontos": 25, "escalonavel": true },
+          { "id": "velocidade-reativa", "nome": "velocidade reativa", "pontos": 30, "escalonavel": true },
+          { "id": "velocidade-ataque", "nome": "velocidade de ataque", "pontos": 30, "escalonavel": true },
+          { "id": "velocidade-execucao", "nome": "velocidade de execução do poder", "pontos": 40, "escalonavel": true }
+        ]
+      }
+    },
+    "condicoes": {
+      "titulo": "CONDIÇÕES",
+      "descricao": "As Condições determinam o que precisa acontecer para o poder funcionar. Essa categoria é muito importante porque permite que jogadores ganhem pontos ao colocarem limites em seus poderes.",
+      "maximo": 3,
+      "limite": "Os jogadores podem escolher até três Condições para cada poder.",
+      "itens": [
+        { "id": "uso-livre", "nome": "Uso Livre", "pontos": 0 },
+        { "id": "requer-contato", "nome": "Requer contato", "pontos": -10 },
+        { "id": "requer-linha-de-visao", "nome": "Requer linha de visão", "pontos": -10 },
+        { "id": "requer-alvo-visivel", "nome": "Requer alvo visível", "pontos": -10 },
+        { "id": "requer-concentracao", "nome": "Requer concentração", "pontos": -15 },
+        { "id": "requer-preparacao", "nome": "Requer preparação", "pontos": -20 },
+        { "id": "requer-movimento", "nome": "Requer movimento", "pontos": -5 },
+        { "id": "requer-estar-parado", "nome": "Requer estar parado", "pontos": -5 },
+        { "id": "requer-determinado-objeto", "nome": "Requer determinado objeto", "pontos": -10 },
+        { "id": "requer-determinada-arma", "nome": "Requer determinada arma", "pontos": -10 },
+        { "id": "requer-determinado-ambiente", "nome": "Requer determinado ambiente", "pontos": -10 },
+        { "id": "requer-determinada-energia", "nome": "Requer determinada energia/afinidade", "pontos": -15 },
+        { "id": "requer-estar-ferido", "nome": "Requer estar ferido", "pontos": -20 },
+        { "id": "requer-sofrer-dano", "nome": "Requer sofrer dano", "pontos": -15 },
+        { "id": "requer-perder-pv", "nome": "Requer perder PV", "pontos": -15 },
+        { "id": "requer-utilizar-acao", "nome": "Requer utilizar uma ação", "pontos": -5 },
+        { "id": "requer-utilizar-reacao", "nome": "Requer utilizar uma reação", "pontos": -5 },
+        { "id": "uso-unico", "nome": "Só pode ser utilizado uma vez", "pontos": -30 },
+        { "id": "usos-limitados", "nome": "Número limitado de usos", "pontos": -25 },
+        { "id": "recarga", "nome": "Recarga", "pontos": -10 },
+        { "id": "intervalo-determinado", "nome": "Só pode ser utilizado em determinado intervalo", "pontos": -20 },
+        { "id": "alvo-determinado", "nome": "Só funciona contra determinado tipo de alvo", "pontos": -25 },
+        { "id": "distancia-determinada", "nome": "Só funciona em determinada distância", "pontos": -20 },
+        { "id": "estado-emocional", "nome": "Só funciona em determinado estado emocional", "pontos": -30 },
+        { "id": "apos-determinada-acao", "nome": "Só funciona após determinada ação", "pontos": -25 },
+        { "id": "apos-determinado-evento", "nome": "Só funciona após determinado evento", "pontos": -30 },
+        { "id": "exige-sacrificio", "nome": "Exige sacrifício", "pontos": -35 },
+        { "id": "exige-custo-pv", "nome": "Exige custo de PV", "pontos": -25 },
+        { "id": "exige-custo-fadiga", "nome": "Exige custo de Fadiga", "pontos": -25 },
+        { "id": "exige-custo-outro-recurso", "nome": "Exige custo de outro recurso", "pontos": -20 },
+        { "id": "alvo-pode-resistir", "nome": "Alvo pode realizar um teste para resistir", "pontos": -30 }
+      ]
+    },
+    "bonus": {
+      "titulo": "BÔNUS",
+      "descricao": "Bônus gerais que o poder pode fornecer.",
+      "itens": [
+        { "id": "bonus-1", "bonus": 1, "pontos": 3 },
+        { "id": "bonus-2", "bonus": 2, "pontos": 7 },
+        { "id": "bonus-3", "bonus": 3, "pontos": 12 },
+        { "id": "bonus-4", "bonus": 4, "pontos": 17 },
+        { "id": "bonus-5", "bonus": 5, "pontos": 23 },
+        { "id": "bonus-6", "bonus": 6, "pontos": 28 },
+        { "id": "bonus-7", "bonus": 7, "pontos": 34 },
+        { "id": "bonus-8", "bonus": 8, "pontos": 44 },
+        { "id": "bonus-9", "bonus": 9, "pontos": 55 },
+        { "id": "bonus-10", "bonus": 10, "pontos": 85 }
+      ]
+    },
+    "penalidades": {
+      "titulo": "PENALIDADES",
+      "descricao": "Penalidades gerais que o poder pode assumir (o material repete o cabeçalho 'Bônus gerais que o poder pode fornecer'; mantido o sentido de penalidade pelos valores negativos).",
+      "itens": [
+        { "id": "penalidade-1", "penalidade": -1, "pontos": -3 },
+        { "id": "penalidade-2", "penalidade": -2, "pontos": -7 },
+        { "id": "penalidade-3", "penalidade": -3, "pontos": -12 },
+        { "id": "penalidade-4", "penalidade": -4, "pontos": -17 },
+        { "id": "penalidade-5", "penalidade": -5, "pontos": -23 },
+        { "id": "penalidade-6", "penalidade": -6, "pontos": -28 },
+        { "id": "penalidade-7", "penalidade": -7, "pontos": -34 },
+        { "id": "penalidade-8", "penalidade": -8, "pontos": -44 },
+        { "id": "penalidade-9", "penalidade": -9, "pontos": -55 },
+        { "id": "penalidade-10", "penalidade": -10, "pontos": -85 }
+      ]
+    },
+    "pv": {
+      "titulo": "PONTOS DE VIDA",
+      "descricao": "O poder pode conceder mais PV.",
+      "itens": [
+        { "id": "pv-5", "nome": "+5 PV", "pv": 5, "pontos": 5 },
+        { "id": "pv-10", "nome": "+10 PV", "pv": 10, "pontos": 10 },
+        { "id": "pv-25", "nome": "+25 PV", "pv": 25, "pontos": 20 },
+        { "id": "pv-50", "nome": "+50 PV", "pv": 50, "pontos": 45 },
+        { "id": "pv-100", "nome": "+100 PV", "pv": 100, "pontos": 85 }
+      ]
+    },
+    "rd": {
+      "titulo": "REDUÇÃO DE DANO (RD)",
+      "descricao": "O poder pode conceder RD adicional.",
+      "itens": [
+        { "id": "rd-1", "nome": "+1 RD", "rd": 1, "pontos": 5 },
+        { "id": "rd-2", "nome": "+2 RD", "rd": 2, "pontos": 10 },
+        { "id": "rd-3", "nome": "+3 RD", "rd": 3, "pontos": 20 },
+        { "id": "rd-5", "nome": "+5 RD", "rd": 5, "pontos": 35 },
+        { "id": "rd-10", "nome": "+10 RD", "rd": 10, "pontos": 75 }
+      ]
+    },
+    "outros": {
+      "titulo": "OUTROS BÔNUS",
+      "descricao": "Também podemos transformar praticamente qualquer vantagem numérica em compra.",
+      "itens": [
+        { "id": "ataque-adicional", "nome": "Ataque Adicional", "pontos": 45, "escalonavel": true },
+        { "id": "dano-adicional", "nome": "Dano Adicional", "pontos": 40, "escalonavel": true },
+        { "id": "deslocamento-adicional", "nome": "Deslocamento Adicional", "pontos": 45, "escalonavel": true },
+        { "id": "usar-poder-sem-custo", "nome": "Usar Poder Sem Custo", "pontos": 50 }
+      ]
+    }
+  },
+  "criacao": {
+    "titulo": "Como fazer o meu Personagem no sistema de G.A.U RPG?",
+    "passos": [
+      { "id": "conceito", "titulo": "Conceito", "texto": "A primeira coisa a pensar é: qual o conceito do seu personagem? Quais os seus poderes, e como ele os utiliza? Qual o seu objetivo? Como é a sua personalidade? Existe algo de que ele tem medo? Ele ama alguém? Quem ele mais ama?" },
+      { "id": "limites-do-cenario", "titulo": "Limites do cenário", "texto": "Junto a isso, você deve saber quais as limitações do cenário para com a história. Como ele vai dizer o que pode ou não pode na campanha, se limite a isso." },
+      { "id": "complicacoes", "titulo": "Complicações", "texto": "Pense nas complicações do seu personagem: motivações, fobias, fraquezas, um inimigo, uma obsessão… Em #『📕』vantagens e #『📕』desvantagens do sistema base existem algumas de inspiração. Elas te darão pontos por desvantagem, e cobram algum por vantagens." },
+      { "id": "orcamento", "titulo": "Orçamento", "texto": "Definido isso, você receberá os pontos de poder para gastar, como se você tivesse 150 reais, e fosse fazer as compras. Esse valor será baseado no nível de poder da saga. Normalmente se começa no nível Mundano. Contudo, o preço de algumas características limita você a comprar certas coisas." },
+      { "id": "compras", "titulo": "Compras", "texto": "Então vamos às compras! Qual a primeira coisa a se comprar? Sempre recomendamos começar pelos poderes: entender o que seu personagem vai fazer durante uma luta o ajudará a pensar nas demais coisas e nos custos para cada qual." }
+    ]
+  },
+  "dimensionalidade": {
+    "titulo": "DIMENSIONALIDADE",
+    "definicao": "A dimensionalidade pode ser utilizada na estatística de determinado personagem para referir-se à superioridade geométrica ou euclidiana do ser, implicando quantas vezes um certo personagem poderá superar a existência do outro em determinadas vezes por se localizar em uma região superior que tais regras de tal dimensão inferior não possa afetar o mesmo por qualquer meio.",
+    "operacao": [
+      "Entidade A = 4D que reside no reino X (4D).",
+      "Entidade B = 3D que reside no reino Y (3D).",
+      "Entidade A > Entidade B = Reino X > Reino Y.",
+      "Reino X > Entidade B + Reino Y."
+    ],
+    "exemplo": "Suponhamos que existam duas entidades A & B: Entidade A, por residir em um continuum espaço-tempo Reino X de quatro dimensões, estará em uma existência dimensional muito maior que Entidade B (com modos de regras e concepção de lógica totalmente diferentes desta última), enquanto Entidade B se localiza em seu continuum Reino Y de três dimensões, que se mantém qualitativamente inferior ao Reino X. Assim que Entidade A decide se mover para Reino Y, tal entidade, por possuir natureza e física totalmente superiores, não estará submetida a quaisquer modos de regras, diretrizes e leis que facilitam a operação do Reino Y. Na inversão de papéis, as formas serão diferentes: Entidade B, que reside no Reino Y e eventualmente decide penetrar o Reino X, por residir em um reino de lógica inferior e totalmente limitada por três planos dimensionais, não poderá ter compreensão do reino em que estará habitando e eventualmente não terá acesso por essa medida (embora o terreno ficcional tenha revelado exemplos que podem ser utilizados de exceção ao sistema, devemos lembrar que isso se mantém como uma suposição do exemplo em geral mais abrangente).",
+    "implicacoes": "É possível dizer que, em exemplos gerais, o conceito de dimensionalidade pode implicar de forma significativa nos Poderes e Habilidades, já que em algumas circunstâncias a grande e esmagadora maioria dos hax atuais não consegue interferir na natureza dimensional superior — e dessa forma pode ser levado em consideração o pensamento de que entidades com dimensionalidade superior são livres, mas não totalmente imunes.",
+    "exemploDeImunidade": "Por exemplo, uma entidade 4-dimensional dificilmente correria perigo contra um adversário usuário de hax naturais com Manipulação de Veneno, Manipulação de Água ou Manipulação de Areia.",
+    "ressalva": "Mesmo sendo explicado no início que isto se trata de um exemplo geral, não deve ser levado como uma regra 100% absoluta, pois futuramente exemplos ficcionais poderão demonstrar o inverso da ideia.",
+    "dimensoesInferiores": "Em dimensões de ordem inferior (0D–2D) considera-se a altura e o comprimento (também referido como 'largura'), onde somente é possível se locomover através de um único caminho, sem mudar/alterar o fundo e sem mesmo se locomover para o fundo, já que essa dimensão carece de profundidade e sua superfície é plana como uma folha de papel. O nível de potência pode eventualmente estar relacionado a dimensões superiores."
+  },
+  "hax": {
+    "titulo": "HAX",
+    "definicao": "Hax é um termo usado para designar um caso ou um personagem que, embora tenha uma potência de ataque e escala de efeito menor que o oponente, tem uma chance maior de vencer que seu oponente por virtude de suas vastas habilidades.",
+    "relatividade": "Vale-se lembrar que Hax é relativo: Paralisação Temporal e Desintegração Atômica podem ser fortes habilidades para o nível parede, porém não vão ser tão úteis em categorias mais elevadas. O mesmo se aplica a Manipulação da Realidade, Probabilidade etc.",
+    "limite": "Também é importante esclarecer que ter tais habilidades por si só não dará uma vitória em 100% das ocasiões, ao menos que essas habilidades possuam feitos poderosos a esse ponto, mesmo que o oponente tenha estatísticas superiores."
+  }
+}

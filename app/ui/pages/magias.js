@@ -12,7 +12,7 @@ const normalize = value => String(value || '').normalize('NFKD').replace(/[\u030
 export function renderMagias(main, { db }) {
   const pc = store.atual;
   const snap = computeAll(db, pc);
-  const magicIQ = iqMagico(pc);
+  const magicIQ = iqMagico(pc, db);
   const favorites = createFavoriteStore('spells');
   const known = new Set((pc.magias || []).map(spell => spell.id));
   const aptitude = (pc.vantagens || []).find(trait => /aptid[aã]o m[aá]gica/i.test(trait.nome || '') || trait.id === 'aptidao-magica');

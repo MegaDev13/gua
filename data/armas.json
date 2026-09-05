@@ -1,0 +1,136 @@
+{
+  "_fonte": "TABELAS DE DANO MUNDANO — canal #『📕』testes-e-combate (Impio, 30/08/2026). Dano em dados (d6 por padrão na notação 1D/2D/3D do material); 'Média' transcrita da tabela oficial.",
+  "notaDano": "Estas tabelas representam o limite do dano mundano. Poderes e categorias superiores podem ultrapassá-lo (veja data/poderes.json → Potência/Dano e Grau de Dano em data/maneuvers.json).",
+  "eras": [
+    {
+      "id": "medieval",
+      "nome": "Armas Medievais",
+      "armas": [
+        { "id": "soco", "nome": "Soco", "dano": "1d6", "media": 3.5, "caracteristica": "Desarmado", "tipo": "corpo-a-corpo" },
+        { "id": "chute", "nome": "Chute", "dano": "1d8", "media": 4.5, "caracteristica": "Desarmado", "tipo": "corpo-a-corpo" },
+        { "id": "adaga", "nome": "Adaga", "dano": "1d10", "media": 5.5, "caracteristica": "Leve, rápida", "tipo": "corpo-a-corpo" },
+        { "id": "faca", "nome": "Faca", "dano": "1d10", "media": 5.5, "caracteristica": "Leve", "tipo": "corpo-a-corpo" },
+        { "id": "porrete", "nome": "Porrete", "dano": "1d10", "media": 5.5, "caracteristica": "Impacto", "tipo": "corpo-a-corpo" },
+        { "id": "machado-de-mao", "nome": "Machado de mão", "dano": "2d8", "media": 9, "caracteristica": "Cortante", "tipo": "corpo-a-corpo" },
+        { "id": "maca", "nome": "Maça", "dano": "2d8", "media": 9, "caracteristica": "Impacto", "tipo": "corpo-a-corpo" },
+        { "id": "espada-curta", "nome": "Espada curta", "dano": "2d8", "media": 9, "caracteristica": "Equilibrada", "tipo": "corpo-a-corpo" },
+        { "id": "espada-longa", "nome": "Espada longa", "dano": "2d10", "media": 11, "caracteristica": "Equilibrada", "tipo": "corpo-a-corpo" },
+        { "id": "sabre", "nome": "Sabre", "dano": "2d10", "media": 11, "caracteristica": "Cortante", "tipo": "corpo-a-corpo" },
+        { "id": "katana", "nome": "Katana", "dano": "2d10", "media": 11, "caracteristica": "Precisa", "tipo": "corpo-a-corpo" },
+        { "id": "lanca", "nome": "Lança", "dano": "2d10", "media": 11, "caracteristica": "Alcance corporal aumentado", "tipo": "corpo-a-corpo" },
+        { "id": "alabarda", "nome": "Alabarda", "dano": "3d8", "media": 13.5, "caracteristica": "Longa", "tipo": "corpo-a-corpo" },
+        { "id": "machado-de-batalha", "nome": "Machado de batalha", "dano": "3d8", "media": 13.5, "caracteristica": "Pesada", "tipo": "corpo-a-corpo" },
+        { "id": "mangual", "nome": "Mangual", "dano": "3d8", "media": 13.5, "caracteristica": "Impacto", "tipo": "corpo-a-corpo" },
+        { "id": "espada-bastarda", "nome": "Espada bastarda", "dano": "3d10", "media": 16.5, "caracteristica": "Versátil", "tipo": "corpo-a-corpo" },
+        { "id": "montante", "nome": "Montante", "dano": "3d12", "media": 19.5, "caracteristica": "Muito pesada", "tipo": "corpo-a-corpo" },
+        { "id": "martelo-de-guerra", "nome": "Martelo de guerra", "dano": "3d12", "media": 19.5, "caracteristica": "Impacto pesado", "tipo": "corpo-a-corpo" },
+        { "id": "arco-curto", "nome": "Arco curto", "dano": "2d8", "media": 9, "caracteristica": "Ataque à distância", "tipo": "distancia" },
+        { "id": "arco-longo", "nome": "Arco longo", "dano": "2d10", "media": 11, "caracteristica": "Ataque à distância", "tipo": "distancia" },
+        { "id": "besta", "nome": "Besta", "dano": "3d8", "media": 13.5, "caracteristica": "Ataque à distância", "tipo": "distancia" },
+        { "id": "besta-pesada", "nome": "Besta pesada", "dano": "3d10", "media": 16.5, "caracteristica": "Ataque à distância", "tipo": "distancia" },
+        { "id": "arco-composto", "nome": "Arco composto", "dano": "3d10", "media": 16.5, "caracteristica": "Ataque à distância", "tipo": "distancia" }
+      ]
+    },
+    {
+      "id": "moderna",
+      "nome": "Armas Modernas",
+      "introducao": "Aqui começa uma diferença importante: armas modernas possuem maior capacidade de causar dano rapidamente, principalmente por velocidade do projétil e capacidade de repetição.",
+      "armas": [
+        { "id": "pistola-leve", "nome": "Pistola leve", "dano": "2d8", "media": 9, "caracteristica": "Compacta", "tipo": "distancia" },
+        { "id": "pistola-pesada", "nome": "Pistola pesada", "dano": "2d10", "media": 11, "caracteristica": "Maior impacto", "tipo": "distancia" },
+        { "id": "revolver", "nome": "Revólver", "dano": "3d8", "media": 13.5, "caracteristica": "Alto impacto", "tipo": "distancia" },
+        { "id": "submetralhadora", "nome": "Submetralhadora", "dano": "2d10", "media": 11, "caracteristica": "Alta cadência", "tipo": "distancia" },
+        { "id": "espingarda", "nome": "Espingarda", "dano": "4d10", "media": 22, "caracteristica": "Grande dano próximo", "tipo": "distancia" },
+        { "id": "carabina", "nome": "Carabina", "dano": "3d10", "media": 16.5, "caracteristica": "Versátil", "tipo": "distancia" },
+        { "id": "rifle-de-assalto", "nome": "Rifle de assalto", "dano": "3d12", "media": 19.5, "caracteristica": "Versátil", "tipo": "distancia" },
+        { "id": "rifle-de-batalha", "nome": "Rifle de batalha", "dano": "4d10", "media": 22, "caracteristica": "Alto impacto", "tipo": "distancia" },
+        { "id": "rifle-de-precisao", "nome": "Rifle de precisão", "dano": "4d12", "media": 26, "caracteristica": "Precisão elevada", "tipo": "distancia" },
+        { "id": "rifle-antimaterial", "nome": "Rifle antimaterial", "dano": "6d10", "media": 33, "caracteristica": "Extremamente pesado", "tipo": "distancia" },
+        { "id": "arma-automatica-pesada", "nome": "Arma automática pesada", "dano": "5d12", "media": 32.5, "caracteristica": "Alto volume de fogo", "tipo": "distancia" },
+        { "id": "arco-moderno", "nome": "Arco moderno", "dano": "3d10", "media": 16.5, "caracteristica": "Silencioso", "tipo": "distancia" },
+        { "id": "besta-moderna", "nome": "Besta moderna", "dano": "3d12", "media": 19.5, "caracteristica": "Alto impacto", "tipo": "distancia" },
+        { "id": "granada-de-fragmentacao", "nome": "Granada de fragmentação", "dano": "5d10", "media": 27.5, "caracteristica": "Área", "tipo": "area" },
+        { "id": "granada-de-impacto", "nome": "Granada de impacto", "dano": "4d12", "media": 26, "caracteristica": "Área", "tipo": "area" },
+        { "id": "mina-antipessoal", "nome": "Mina antipessoal", "dano": "6d10", "media": 33, "caracteristica": "Área", "tipo": "area" },
+        { "id": "mina-antiveiculo", "nome": "Mina antiveículo", "dano": "7d12", "media": 45.5, "caracteristica": "Explosiva", "tipo": "area" },
+        { "id": "lanca-granadas", "nome": "Lança-granadas", "dano": "6d12", "media": 39, "caracteristica": "Explosiva", "tipo": "distancia" },
+        { "id": "lanca-foguetes", "nome": "Lança-foguetes", "dano": "7d12", "media": 45.5, "caracteristica": "Explosiva", "tipo": "distancia" },
+        { "id": "missil-portatil", "nome": "Míssil portátil", "dano": "8d12", "media": 52, "caracteristica": "Explosiva", "tipo": "distancia" },
+        { "id": "canhao-pesado", "nome": "Canhão pesado", "dano": "8d10", "media": 44, "caracteristica": "Altíssimo impacto", "tipo": "veiculo" }
+      ]
+    },
+    {
+      "id": "futurista",
+      "nome": "Armas Futuristas",
+      "introducao": "Armas futuristas combinam conceitos teóricos de alta energia, tecnologias de micro-ondas e inovações de design de Ficção Científica. Elas podem representar o limite tecnológico que um ser mundano consegue produzir.",
+      "armas": [
+        { "id": "pistola-laser", "nome": "Pistola laser", "dano": "3d10", "media": 16.5, "caracteristica": "Precisão", "tipo": "distancia" },
+        { "id": "rifle-laser", "nome": "Rifle laser", "dano": "4d10", "media": 22, "caracteristica": "Precisão elevada", "tipo": "distancia" },
+        { "id": "rifle-laser-pesado", "nome": "Rifle laser pesado", "dano": "5d12", "media": 32.5, "caracteristica": "Alto impacto", "tipo": "distancia" },
+        { "id": "rifle-de-plasma", "nome": "Rifle de plasma", "dano": "5d12", "media": 32.5, "caracteristica": "Energia térmica", "tipo": "distancia" },
+        { "id": "pistola-de-plasma", "nome": "Pistola de plasma", "dano": "4d10", "media": 22, "caracteristica": "Compacta", "tipo": "distancia" },
+        { "id": "canhao-de-plasma", "nome": "Canhão de plasma", "dano": "7d12", "media": 45.5, "caracteristica": "Altíssimo impacto", "tipo": "veiculo" },
+        { "id": "rifle-eletromagnetico", "nome": "Rifle eletromagnético", "dano": "5d10", "media": 27.5, "caracteristica": "Projétil acelerado", "tipo": "distancia" },
+        { "id": "railgun", "nome": "Railgun", "dano": "8d10", "media": 44, "caracteristica": "Penetração extrema", "tipo": "veiculo" },
+        { "id": "canhao-magnetico", "nome": "Canhão magnético", "dano": "8d12", "media": 52, "caracteristica": "Impacto extremo", "tipo": "veiculo" },
+        { "id": "rifle-de-particulas", "nome": "Rifle de partículas", "dano": "6d12", "media": 39, "caracteristica": "Alta precisão", "tipo": "distancia" },
+        { "id": "canhao-de-particulas", "nome": "Canhão de partículas", "dano": "9d12", "media": 58.5, "caracteristica": "Energia concentrada", "tipo": "veiculo" },
+        { "id": "lanca-de-energia", "nome": "Lança de energia", "dano": "5d10", "media": 27.5, "caracteristica": "Corpo a corpo", "tipo": "corpo-a-corpo" },
+        { "id": "espada-de-energia", "nome": "Espada de energia", "dano": "4d12", "media": 26, "caracteristica": "Cortante", "tipo": "corpo-a-corpo" },
+        { "id": "espada-de-plasma", "nome": "Espada de plasma", "dano": "5d12", "media": 32.5, "caracteristica": "Cortante/energética", "tipo": "corpo-a-corpo" },
+        { "id": "arma-sonica", "nome": "Arma sônica", "dano": "4d10", "media": 22, "caracteristica": "Impacto vibracional", "tipo": "distancia" },
+        { "id": "canhao-sonico", "nome": "Canhão sônico", "dano": "7d10", "media": 38.5, "caracteristica": "Área/impacto", "tipo": "area" },
+        { "id": "granada-de-plasma", "nome": "Granada de plasma", "dano": "7d10", "media": 38.5, "caracteristica": "Área", "tipo": "area" },
+        { "id": "granada-gravitacional", "nome": "Granada gravitacional", "dano": "6d12", "media": 39, "caracteristica": "Controle/impacto", "tipo": "area" },
+        { "id": "lanca-foguetes-avancado", "nome": "Lança-foguetes avançado", "dano": "9d10", "media": 49.5, "caracteristica": "Explosiva", "tipo": "distancia" },
+        { "id": "canhao-de-fusao", "nome": "Canhão de fusão", "dano": "10d12", "media": 65, "caracteristica": "Potencialmente letal", "tipo": "veiculo" }
+      ]
+    }
+  ],
+  "precisao": {
+    "fonte": "Tabela de Precisão das Armas — PRECISÃO EXTRAORDINÁRIA (PREC), manobra Apontar",
+    "regra": "No primeiro segundo apontando, o personagem adiciona ao teste de ataque o bônus de precisão da arma, determinado pela categoria da arma.",
+    "tabela": [
+      { "id": "arco-simples", "categoria": "Arco simples", "exemplos": "arco curto, arco longo", "prec": 1 },
+      { "id": "besta", "categoria": "Besta", "exemplos": "besta leve, besta pesada", "prec": 2 },
+      { "id": "arco-composto", "categoria": "Arco composto", "exemplos": "arco composto, arco de caça", "prec": 2 },
+      { "id": "pistola", "categoria": "Pistola", "exemplos": "pistolas e revólveres", "prec": 1 },
+      { "id": "submetralhadora", "categoria": "Submetralhadora", "exemplos": "SMGs", "prec": 0 },
+      { "id": "espingarda", "categoria": "Espingarda", "exemplos": "escopetas", "prec": 0 },
+      { "id": "fuzil", "categoria": "Fuzil", "exemplos": "rifles e fuzis de assalto", "prec": 2 },
+      { "id": "carabina", "categoria": "Carabina", "exemplos": "carabinas e rifles compactos", "prec": 2 },
+      { "id": "rifle-de-precisao", "categoria": "Rifle de precisão", "exemplos": "rifles de precisão", "prec": 3 },
+      { "id": "sniper", "categoria": "Sniper", "exemplos": "rifles de longo alcance especializados", "prec": 4 },
+      { "id": "metralhadora", "categoria": "Metralhadora", "exemplos": "armas automáticas pesadas", "prec": 1 },
+      { "id": "lancador", "categoria": "Lançador", "exemplos": "granadas, lançadores e armas similares", "prec": 0 },
+      { "id": "bazuca", "categoria": "Bazuca", "exemplos": "lançadores antiblindagem", "prec": 1 },
+      { "id": "arma-de-energia", "categoria": "Arma de energia", "exemplos": "armas laser convencionais", "prec": 2 },
+      { "id": "laser-de-precisao", "categoria": "Laser de precisão", "exemplos": "armas laser especializadas", "prec": 4 }
+    ]
+  },
+  "arremesso": {
+    "fonte": "O Dano Provocado por Objetos Arremessados — #『📕』testes-e-combate",
+    "regra": "Se você for atingido por um objeto rombudo arremessado, o dano que ele provocará dependerá de seu peso e da força com que foi arremessado. Esta tabela não leva em conta quinas afiadas e não deve ser usada para armas.",
+    "tabela": [
+      { "stMin": 5, "stMax": 6, "ate5kg": "1D-5", "ate25kg": "1D-4", "ate50kg": "1D-5", "acima50kg": null },
+      { "stMin": 7, "stMax": 8, "ate5kg": "1D-4", "ate25kg": "1D-3", "ate50kg": "1D-3", "acima50kg": null },
+      { "stMin": 9, "stMax": 10, "ate5kg": "1D-3", "ate25kg": "1D-2", "ate50kg": "1D-2", "acima50kg": "2D-3" },
+      { "stMin": 11, "stMax": 12, "ate5kg": "1D-2", "ate25kg": "1D-1", "ate50kg": "1D-1", "acima50kg": "2D-2" },
+      { "stMin": 13, "stMax": 14, "ate5kg": "1D-1", "ate25kg": "1D", "ate50kg": "1D", "acima50kg": "3D" },
+      { "stMin": 15, "stMax": 16, "ate5kg": "1D", "ate25kg": "1D+1", "ate50kg": "1D+2", "acima50kg": "3D+2" },
+      { "stMin": 17, "stMax": 18, "ate5kg": "1D+1", "ate25kg": "1D+2", "ate50kg": "2D-2", "acima50kg": "4D-1" },
+      { "stMin": 19, "stMax": 20, "ate5kg": "1D+2", "ate25kg": "2D-2", "ate50kg": "2D-1", "acima50kg": "5D+" }
+    ],
+    "colunas": [
+      { "id": "ate5kg", "rotulo": "1/4 a 5 kg" },
+      { "id": "ate25kg", "rotulo": "5+ a 25 kg" },
+      { "id": "ate50kg", "rotulo": "25+ a 50 kg" },
+      { "id": "acima50kg", "rotulo": "Mais de 50 kg" }
+    ],
+    "notas": [
+      "Principalmente para os valores mais baixos de ST, o fato de um projétil ser mais pesado não implica necessariamente num dano maior, já que ele não pode ser arremessado com muita força.",
+      "Um projétil frágil (ou um personagem arremessado) sofrerá o mesmo dano que ele provoca. Determine o dano sofrido pelo objeto arremessado e pelo alvo em jogadas diferentes.",
+      "O dano produzido por objetos que caem (por ex.: o matacão que você rolou contra seu inimigo) segue a mesma lógica."
+    ]
+  }
+}

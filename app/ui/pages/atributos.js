@@ -3,6 +3,7 @@ import { el, valorCalculado, fmtKg } from '../ui.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { ATRIBUTOS, custoAtributo, danoBasico, velocidadeBasica, limitesDeForca } from '../../engine/attributes.js';
+import { margemDeSucesso } from '../../engine/resolution.js';
 
 const NOMES = { ST: 'Força', DX: 'Destreza', IQ: 'Inteligência', HT: 'Vitalidade' };
 const DESCR = {
@@ -73,6 +74,75 @@ export function renderAtributos(main, { db }) {
 
   main.append(
     el('h1', { class: 'page-title' }, '🎲 Atributos'),
-    painelAtributos, derivados, forca,
+    painelAtributos, secundariosGAU(snap), parametrosGAU(snap), painelMargens(db, pc, snap), derivados, forca,
+  );
+}
+
+/* ------------------------------------------------------------------ G.A.U. (d20) */
+
+/** Secundários da planilha oficial: PV = ST × HT · VON = IQ · PER = IQ · PF = HT. */
+function secundariosGAU(snap) {
+  const s = snap.secundarios;
+  const stat = (rotulo, bloco, extra = '') => el('div', { class: 'stat' },
+    el('div', { class: 'label' }, `${rotulo} (${bloco.formula || ''})`),
+    valorCalculado(bloco.valor, bloco.breakdown || [{ fonte: rotulo, valor: bloco.valor }]),
+    extra ? el('div', { class: 'label' }, extra) : '');
+  return el('div', { class: 'panel' },
+    el('h3', {}, 'Secundários (ficha oficial G.A.U.)'),
+    el('div', { class: 'grid cols-4' },
+      stat('PV', s.PV, `atual ${s.PV.atual} · ferimentos ${s.PV.ferimentos}`),
+      stat('VON', s.VON),
+      stat('PER', s.PER),
+      stat('PF', s.PF, `atual ${s.PF.atual} · fadiga ${s.PF.fadiga}`),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'RD de poderes'), el('div', { class: 'value' }, String(s.RD.valor))),
+    ),
+    el('p', { class: 'fonte' }, 'Fontes: data/ficha.json → secundarios. Ferimentos reduzem PV; a fadiga reduz a reserva de PF (PF = HT).'),
+  );
+}
+
+/** Parâmetros da planilha: ATQ, ESQ, DSL, APAR, BLOQ. */
+function parametrosGAU(snap) {
+  const p = snap.parametros;
+  const celula = (id) => {
+    const bloco = p[id];
+    const def = (p.definicoes || []).find(d => d.id === id);
+    return el('div', { class: 'stat' },
+      el('div', { class: 'label' }, `${id} — ${def?.nome || id}`),
+      valorCalculado(bloco.valor, bloco.breakdown, `Como ${id} foi calculado`),
+      el('div', { class: 'label' }, `margem ${bloco.margem?.texto ?? '—'} · crítico ${bloco.margem?.critico ?? '—'}`),
+      el('div', { class: 'label', style: 'font-size:.7rem' }, def?.base || ''),
+      bloco.aviso ? el('div', { class: 'label', style: 'color:var(--warn)' }, '⚠ regra não definida') : '');
+  };
+  return el('div', { class: 'panel' },
+    el('h3', {}, 'Parâmetros'),
+    el('div', { class: 'grid cols-5' }, celula('ATQ'), celula('ESQ'),
+      el('div', { class: 'stat' },
+        el('div', { class: 'label' }, 'DSL — Deslocamento'),
+        valorCalculado(p.DSL.valor, p.DSL.breakdown, 'Como DSL foi calculado'),
+        el('div', { class: 'label' }, `caminhada ${p.DSL.caminhada} (metade, arredondada para cima)`)),
+      celula('APAR'), celula('BLOQ')),
+    el('p', { class: 'fonte' }, p._aviso || 'Os parâmetros usam a referência publicada (atributo-base ou NH da arma). Clique em cada valor para ver o cálculo.'),
+  );
+}
+
+/** Margens de sucesso do d20: o valor do atributo É a referência (não há CD arbitrária). */
+function painelMargens(db, pc, snap) {
+  return el('div', { class: 'panel' },
+    el('h3', {}, 'Margens de sucesso (d20)'),
+    el('table', { class: 'tbl' },
+      el('tr', {}, ['Referência', 'Margem de sucesso', 'Valor crítico'].map(h => el('th', {}, h))),
+      ...['ST', 'DX', 'IQ', 'HT'].map(k => el('tr', {},
+        el('td', {}, `${k} ${pc.atributos[k]}`),
+        el('td', { class: 'num' }, snap.gau.margens[k].texto),
+        el('td', { class: 'num' }, String(snap.gau.margens[k].critico)))),
+      ...Object.entries(snap.niveis || {}).filter(([nome]) => /^[A-ZÁÉÍÓÚÂÊÔÃÕÇ]/.test(nome)).slice(0, 14).map(([nome, nh]) => {
+        const m = margemDeSucesso(db, nh);
+        return el('tr', {},
+          el('td', {}, `${nome} (NH ${nh})`),
+          el('td', { class: 'num' }, m.texto),
+          el('td', { class: 'num' }, String(m.critico)));
+      }),
+    ),
+    el('p', { class: 'fonte' }, 'O próprio valor do atributo/habilidade determina a referência da jogada; o crítico é exatamente o valor da referência. 1 e 20, sozinhos, não decidem nada.'),
   );
 }

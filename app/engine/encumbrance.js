@@ -2,6 +2,7 @@
  * Fonte: Carga (p. 195-197), Deslocamento (p. 197), Armaduras (p. 181-186), Escudos (p. 194-195).
  */
 import { velocidadeBasica } from './attributes.js';
+import { rdNatural } from './vantagens.js';
 
 /** Peso total carregado (kg): itens carregados (equipados + carregados). Armazenado não conta (p. 181). */
 export function pesoCarregado(personagem) {
@@ -54,8 +55,9 @@ export function deslocamento(db, personagem, ctx = {}) {
   return { valor: mov, breakdown, velocidadeBasica: vb, carga };
 }
 
-/** Defesa Passiva total: armadura + escudo equipados + Rijeza (p. 186, 195, 228, 29). */
-export function defesaPassiva(personagem) {
+/** Defesa Passiva total: armadura + escudo equipados + Rijeza (p. 186, 195, 228, 29).
+ *  Com `db`, a RD natural vem de engine/vantagens.js (níveis nomeados: "RD 1"/"RD 2"). */
+export function defesaPassiva(personagem, db = null) {
   const parts = [];
   let dp = 0, rd = 0;
   for (const item of personagem.inventario || []) {
@@ -69,11 +71,17 @@ export function defesaPassiva(personagem) {
       parts.push({ fonte: `${item.nome} (escudo)`, dp: item.dp || 0, rd: 0, notas: 'Não protege ataques pelas costas' });
     }
   }
-  const rijeza = (personagem.vantagens || []).find(v => v.id === 'rijeza');
-  if (rijeza) {
-    const rdNat = rijeza.niveis >= 2 ? 2 : 1;
-    rd += rdNat;
-    parts.push({ fonte: `Rijeza (nível ${rijeza.niveis})`, dp: 0, rd: rdNat, notas: '' });
+  if (db) {
+    const natural = rdNatural(db, personagem);
+    if (natural.rd) { rd += natural.rd; parts.push(...natural.partes.map(p => ({ fonte: p.fonte, dp: 0, rd: p.valor, notas: p.notas || '' }))); }
+  } else {
+    const rijeza = (personagem.vantagens || []).find(v => v.id === 'rijeza');
+    if (rijeza) {
+      const nivel = Number(rijeza.niveis) || Number(String(rijeza.nivel || '').match(/(\d+)/)?.[1]) || 1;
+      const rdNat = nivel >= 2 ? 2 : 1;
+      rd += rdNat;
+      parts.push({ fonte: `Rijeza (RD ${rdNat})`, dp: 0, rd: rdNat, notas: '' });
+    }
   }
   return { dp, rd, parts };
 }

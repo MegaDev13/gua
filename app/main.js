@@ -9,6 +9,8 @@ import { renderVantagens } from './ui/pages/vantagens.js';
 import { renderEquipamentos } from './ui/pages/equipamentos.js';
 import { renderCombate } from './ui/pages/combate.js';
 import { renderMagias } from './ui/pages/magias.js';
+import { renderPoderes } from './ui/pages/poderes.js';
+import { renderProezas } from './ui/pages/proezas.js';
 import { renderDados } from './ui/pages/dados.js';
 import { renderHistorico } from './ui/pages/historico.js';
 import { renderConfig } from './ui/pages/config.js';
@@ -20,7 +22,9 @@ const PAGES = [
   { id: 'pericias', nome: 'Perícias', icon: '📜', render: renderPericias, area: 'ficha' },
   { id: 'vantagens', nome: 'Vantagens/Desv.', icon: '⚖️', render: renderVantagens, area: 'ficha' },
   { id: 'equipamentos', nome: 'Equipamentos', icon: '⚔️', render: renderEquipamentos, area: 'ficha' },
-  { id: 'magias', nome: 'Poderes', icon: '✨', render: renderMagias, area: 'ficha' },
+  { id: 'poderes', nome: 'Poderes', icon: '🌀', render: renderPoderes, area: 'ficha' },
+  { id: 'magias', nome: 'Magias', icon: '✨', render: renderMagias, area: 'ficha' },
+  { id: 'proezas', nome: 'Proezas', icon: '🏃', render: renderProezas, area: 'ficha' },
   { id: 'dados', nome: 'Dados', icon: '🎲', render: renderDados, area: 'ficha' },
   { id: 'historico', nome: 'Histórico', icon: '🗂️', render: renderHistorico, area: 'ficha' },
   { id: 'config', nome: 'Config.', icon: '⚙️', render: renderConfig, area: 'ficha' },

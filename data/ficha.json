@@ -1,0 +1,65 @@
+{
+  "_fonte": "Modelo de ficha oficial — canal #『📁』modelo-ficha (Impio, 04/09/2026 18:49 e 21:38).",
+  "titulo": "Planilha de Personagem",
+  "cabecalho": {
+    "campos": ["Nome", "Jogador", "Total de Pontos", "Altura", "Peso", "Idade", "Pontos p/ Gastar", "Aparência"]
+  },
+  "blocos": [
+    {
+      "id": "atributos",
+      "titulo": "Atributos",
+      "colunas": ["ST", "DX", "IQ", "HT"],
+      "descricao": "Atributos determinam suas capacidades."
+    },
+    {
+      "id": "secundarios",
+      "titulo": "Secundários",
+      "colunas": ["PV", "VON", "PER", "PF"],
+      "contas": [
+        { "id": "PV", "nome": "Pontos de Vida", "formula": "ST × HT", "operandos": ["ST", "HT"], "operacao": "multiplicacao" },
+        { "id": "VON", "nome": "Vontade", "formula": "IQ", "operandos": ["IQ"], "operacao": "igual" },
+        { "id": "PER", "nome": "Percepção", "formula": "IQ", "operandos": ["IQ"], "operacao": "igual" },
+        { "id": "PF", "nome": "Pontos de Fadiga", "formula": "HT", "operandos": ["HT"], "operacao": "igual" }
+      ]
+    },
+    {
+      "id": "parametros",
+      "titulo": "Parâmetros",
+      "colunas": ["ATQ", "ESQ", "DSL", "APAR", "BLOQ"],
+      "definicoes": [
+        { "id": "ATQ", "nome": "Ataque", "base": "nível de habilidade da arma/perícia usada, ou o atributo correspondente", "fonte": "DEFESAS ATIVAS / MANOBRA BÁSICA: ATACAR" },
+        { "id": "ESQ", "nome": "Esquiva", "base": "Destreza (DX)", "fonte": "DEFESAS ATIVAS — 'Esquiva: Baseada na DX'" },
+        { "id": "DSL", "nome": "Deslocamento", "base": "parâmetro Velocidade; corrida = Deslocamento total, caminhada = metade (arredondado para cima)", "fonte": "Movimento / Corrida — Proezas Físicas" },
+        { "id": "APAR", "nome": "Aparar", "base": "Destreza ou o atributo da arma; exige arma ou combate desarmado", "fonte": "DEFESAS ATIVAS — 'Aparar: Baseada em uma arma ou em combate desarmado'" },
+        { "id": "BLOQ", "nome": "Bloqueio", "base": "Força (ST) + bônus próprio do escudo", "fonte": "DEFESAS ATIVAS — 'Bloqueio: Baseado no uso de um escudo e na ST'" }
+      ],
+      "_aviso": "REGRA NÃO DEFINIDA — os valores numéricos exatos dos parâmetros (se são a referência pura do atributo, se recebem metade do NH, se o escudo soma um bônus fixo publicado) não foram detalhados no material. A ficha usa a referência publicada (atributo-base) e permite modificadores por equipamento."
+    },
+    {
+      "id": "pericias",
+      "titulo": "Perícias",
+      "colunas": ["Nome", "NH"],
+      "descricao": "Habilidades representam conhecimentos, técnicas e especializações. O NH é a referência usada na margem de sucesso do d20."
+    },
+    {
+      "id": "vantagens", "titulo": "Vantagens", "descricao": "Ref: data/advantages.json"
+    },
+    {
+      "id": "desvantagens", "titulo": "Desvantagens", "descricao": "Ref: data/disadvantages.json"
+    },
+    {
+      "id": "biografia", "titulo": "Biografia", "descricao": "Texto livre: conceito, objetivo, personalidade, medos, amores e complicações (veja data/poderes.json → criacao)." },
+    {
+      "id": "linguas", "titulo": "Línguas", "grupos": ["Escritas", "Faladas"] },
+    {
+      "id": "poderes", "titulo": "Poderes", "campos": ["Nome", "Caract."], "descricao": "Cada poder lista seu nome e suas características compradas (Efeito, Extensão, Potência, Condições, Bônus…). Ref: data/poderes.json." }
+  ],
+  "evolucao": {
+    "regra": "Em GAU, os personagens não possuem níveis tradicionais; essa evolução acontece por meio de três elementos principais.",
+    "elementos": [
+      { "id": "atributos", "nome": "Atributos", "papel": "determinam suas capacidades" },
+      { "id": "habilidades", "nome": "Habilidades", "papel": "representam conhecimentos, técnicas e especializações" },
+      { "id": "categorias", "nome": "Categorias de Poder", "papel": "determinam a escala de existência do personagem" }
+    ]
+  }
+}

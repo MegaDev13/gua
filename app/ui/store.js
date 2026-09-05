@@ -1,7 +1,8 @@
 /* GUA UI — Estado global: múltiplos personagens, persistência local, autosave.
  * Nada de dados de jogador no repositório: tudo fica no localStorage do dispositivo.
  */
-import { novoPersonagem } from '../engine/character.js';
+import DB from '../engine/db.js';
+import { novoPersonagem, migrarPersonagem, VERSAO_FICHA } from '../engine/character.js';
 import { registrarHistorico } from '../engine/economy.js';
 
 const KEY = 'gua.characters.v1';
@@ -10,7 +11,16 @@ const KEY_CUR = 'gua.current.v1';
 function loadAll() {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? JSON.parse(raw) : [];
+    const lista = raw ? JSON.parse(raw) : [];
+    // Fichas antigas (v1, 3d) são trazidas para o modelo G.A.U. (v2) sem perda de dados.
+    let migrou = false;
+    const atualizadas = lista.map(p => {
+      if (p?.versao === VERSAO_FICHA) return p;
+      migrou = true;
+      return migrarPersonagem(DB, p);
+    });
+    if (migrou) localStorage.setItem(KEY, JSON.stringify(atualizadas));
+    return atualizadas;
   } catch { return []; }
 }
 
@@ -35,7 +45,7 @@ export const store = {
   salvar() { persist(); },
 
   criar(nome = 'Novo Personagem', pontos = 100) {
-    const p = novoPersonagem(nome, pontos);
+    const p = novoPersonagem(nome, pontos, DB);
     state.personagens.push(p);
     state.atualId = p.id;
     persist(); this.emit('chars'); this.emit('char');
@@ -86,8 +96,9 @@ export const store = {
     const data = typeof json === 'string' ? JSON.parse(json) : json;
     if (!data || !data.atributos || !data.nome) throw new Error('Arquivo não parece uma ficha GUA válida.');
     data.id = `pc-${Date.now().toString(36)}`;
-    data.versao = data.versao || 1;
-    state.personagens.push(data);
+    const ficha = data.versao === VERSAO_FICHA ? data : migrarPersonagem(DB, data);
+    state.personagens.push(ficha);
+    data = ficha;
     state.atualId = data.id;
     persist(); this.emit('chars'); this.emit('char');
     return data;

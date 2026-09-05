@@ -65,6 +65,34 @@ export function renderConfig(main, { db }) {
     ),
   );
 
+  /* ------------------------------------------------ sistema de resolução G.A.U. */
+  const cfg = pc.config || {};
+  const escolher = (chave, opcoes, rotulo, meta) => el('div', { class: 'row' },
+    el('span', { class: 'grow' }, rotulo, el('div', { class: 'meta' }, meta)),
+    el('select', { onchange: e => store.update(p => { p.config[chave] = e.target.value === 'padrao' ? null : e.target.value; }) },
+      ...opcoes.map(([valor, texto]) => el('option', { value: valor, selected: String(cfg[chave] ?? 'padrao') === valor }, texto))));
+
+  const sistema = el('div', { class: 'panel' },
+    el('h3', {}, 'Sistema de resolução'),
+    el('div', { class: 'list' },
+      escolher('modoCombate', [['gau', 'G.A.U. (d20 + Grau de Dano)'], ['legado', 'Legado (3d6 + dano por dado)']],
+        'Modo de combate', 'G.A.U.: d20, margem de sucesso e GD1/GD2/GD3. Legado: 3d6 e dano por arma.'),
+      escolher('resolucaoMagia', [['padrao', 'Padrão do modo de combate'], ['d20', 'Sempre d20'], ['3d', 'Sempre 3d6']],
+        'Resolução de mágicas', 'O material de MAGIA cita 3 dados e o de TESTES cita d20 — os dois estão publicados em rules.conflitos.'),
+      escolher('modoEscala', [['melhor', 'Melhor dado'], ['cada-dado', 'Cada dado avaliado separadamente'], ['soma', 'Soma dos dados (hipótese)']],
+        'Testes de categoria com vários d20', 'A agregação de múltiplos dados não foi publicada — "soma" é marcada como HIPÓTESE no motor.'),
+      escolher('criterioDisputa', [['proximidade-do-critico', 'Mais próximo do crítico'], ['maior-margem', 'Maior margem de sucesso']],
+        'Critério de vitória em disputas', 'Disputa rápida: vence quem chegar mais perto do próprio valor crítico.'),
+      el('div', { class: 'row' },
+        el('span', { class: 'grow' }, 'Limite de pontos em desvantagens', el('div', { class: 'meta' }, 'vazio = sem limite; usado pela validação de criação')),
+        el('input', {
+          type: 'number', min: 0, step: 5, value: cfg.limiteDesvantagens ?? '', style: 'width:90px', placeholder: '—',
+          onchange: e => store.update(p => { p.config.limiteDesvantagens = e.target.value === '' ? null : Math.max(0, parseInt(e.target.value, 10) || 0); }),
+        })),
+    ),
+    el('p', { class: 'fonte' }, 'Cada escolha altera apenas como o motor resolve as jogadas — nenhum valor do material é reescrito.'),
+  );
+
   /* ------------------------------------------------ backup */
   const backup = el('div', { class: 'panel' },
     el('h3', {}, 'Backup de todos os personagens'),
@@ -121,8 +149,8 @@ export function renderConfig(main, { db }) {
   main.append(
     el('h1', { class: 'page-title' }, '⚙️ Configurações'),
     el('div', { class: 'grid cols-2' }, chars, cenario),
-    el('div', { class: 'grid cols-2', style: 'margin-top:.9rem' }, backup, sobre),
-    nd,
+    el('div', { class: 'grid cols-2', style: 'margin-top:.9rem' }, sistema, backup),
+    el('div', { class: 'grid cols-2', style: 'margin-top:.9rem' }, sobre, nd),
   );
   desenharChars();
 }

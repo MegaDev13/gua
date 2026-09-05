@@ -1,515 +1,1700 @@
 [
- {
-  "id": "senso-de-dire-o",
-  "nome": "Senso de Direção",
-  "custo": "5 pontos",
-  "descricao": "O personagem sempre sabe para onde fica o Norte e é sempre capaz de refazer um trajeto realizado durante os últimos 30 dias, não importa quão confuso ou tortuoso ele tenha sido. Esta aptidão não funciona em ambientes como o espaço interestelar, o limbo do plano astral, etc. Mas ela funciona em ambientes subterrâneos, debaixo d’água e em outros planetas.",
-  "fonte": "p. 17"
- },
- {
-  "id": "no-o-exata-do-tempo",
-  "nome": "Noção Exata do Tempo",
-  "custo": "5 pontos",
-  "descricao": "Você tem um relógio mental acurado. A menos que tenha sido nocauteado, hipnotizado ou sofrido algum outro tipo de interferência, você sempre sabe a hora exata. Você também é capaz de medir com precisão qualquer lapso de tempo. O sono não interfere com esta sua capacidade (e você pode, inclusive, acordar numa hora pré-determinada). Mudanças de fuso horário também não o afetam.",
-  "fonte": "p. 17"
- },
- {
-  "id": "ouvido-agu-ado",
-  "nome": "Ouvido Aguçado",
-  "custo": "2 pontos/nível",
-  "descricao": "O personagem recebe um bônus toda vez que tiver que fazer um teste de Audição, para verificar se é capaz de ouvir alguma coisa, ou quando o GM faz uma jogada contra seu atributo IQ para ver se ele notou algum ruído. Custo: 2 pontos por ponto de bônus em sua jogada.",
-  "fonte": "p. 18"
- },
- {
-  "id": "olfato-paladar-apurado",
-  "nome": "Olfato/Paladar Apurado",
-  "custo": "2 pontos/nível",
-  "descricao": "O personagem recebe um bônus em todas as seus testes de Olfato ou Paladar. O GM poderia jogar para ver se você percebeu o cheiro ou o sabor de um veneno em sua bebida. Custo: 2 pontos por ponto de bônus em sua jogada.",
-  "fonte": "p. 18"
- },
- {
-  "id": "vis-o-agu-ada",
-  "nome": "Visão Aguçada",
-  "custo": "2 pontos/nível",
-  "descricao": "O personagem recebe um bônus em todos os testes de Visão, quando ele está procurando alguma coisa, e sempre que o GM fizer um teste contra seu atributo IQ para verificar se ele percebeu alguma coisa. Custo: 2 pontos por ponto de bônus na jogada.",
-  "fonte": "p. 18"
- },
- {
-  "id": "prontid-o",
-  "nome": "Prontidão",
-  "custo": "5 pontos/nível",
-  "descricao": "Este é um bônus geral que o personagem recebe em testes de qualquer um dos Sentidos ou quando o GM faz um teste de IQ para verificar se ele percebeu alguma coisa. Esta vantagem pode ser combinada com qualquer uma (ou todas) as vantagens relacionadas com agudeza dos sentidos. Custo: 5 pontos por ponto de bônus em sua jogada.",
-  "fonte": "p. 18"
- },
- {
-  "id": "ambidestria",
-  "nome": "Ambidestria",
-  "custo": "10 pontos",
-  "descricao": "O personagem é capaz de usar as duas mãos com a mesma habilidade. Ele não está sujeito ao redutor de -4 sobre seu atributo Destreza por estar usando a mão ambiesquerda (veja Destreza Manual) e pode lutar (ou agir) com qualquer uma das mãos indistintamente, ou com ambas de uma vez (em um Ataque Total). Se acontecer algum acidente com um(a) de seus (suas) braços (mãos), assuma que foi com o(a) esquerdo(a).",
-  "fonte": "p. 18"
- },
- {
-  "id": "empatia-com-animais",
-  "nome": "Empatia com Animais",
-  "custo": "5 pontos",
-  "descricao": "O personagem entende e gosta de animais, e eles gostam do personagem. Ele recebe um bônus de +2 em qualquer teste de reação com um animal selvagem, e de +4 em testes que envolvam perícias com animais (Adestramento de Animais, Cavalgar, Veterinária, etc...). No entanto, você nunca poderá matar um animal sem uma razão muito boa, e deverá tentar evitar que outros o façam.",
-  "fonte": "p. 18"
- },
- {
-  "id": "carisma",
-  "nome": "Carisma",
-  "custo": "5 pontos/nível",
-  "descricao": "Esta é a aptidão natural para impressionar e liderar outras pessoas. Qualquer um pode conseguir um carisma ilusório através da boa aparência, boas maneiras e inteligência, mas o carisma real funciona independente da presença destes fatores. Ele afeta qualquer teste de reação feito por uma criatura inteligente. Custo: 5 pontos para cada ponto de bônus.",
-  "fonte": "p. 19"
- },
- {
-  "id": "clericato",
-  "nome": "Clericato",
-  "custo": "5 pontos ou mais, a critério do GM",
-  "descricao": "O personagem foi ordenado como ministro de alguma religião. Um clérigo tem alguns poderes e privilégios que um leigo não tem, incluindo um bônus de +1 em testes de reação com correligionários ou pessoas que respeitam sua fé. Os outros personagens dirigir-se-ão a ele (ou ela) usando um título: Padre, Irmã, Reverendo, Shaman, etc. Um clérigo poderá realizar cerimônias como Confirmação, Casamento e Exorcismo.",
-  "fonte": "p. 19"
- },
- {
-  "id": "reflexos-em-combate",
-  "nome": "Reflexos em Combate",
-  "custo": "15 pontos",
-  "descricao": "O personagem tem reações extremamente rápidas e raramente ficará surpreso por mais do que um breve instante. Ele receberá um bônus de + 1 em qualquer Defesa Ativa. Tem direito, também, a um bônus de +1 na perícia Sacar Rápido, um bônus igual a +2 em Verificações de Pânico e nunca ficará “paralisado” devido à surpresa.",
-  "fonte": "p. 19"
- },
- {
-  "id": "bom-senso",
-  "nome": "Bom Senso",
-  "custo": "10 pontos",
-  "descricao": "Toda vez, que o personagem começar a fazer alguma coisa que o GM acha ESTÚPIDA, ele fará um teste contra seu atributo IQ. Um sucesso nesta jogada significa que ele deverá avisar o personagem — “Você não acha que seria bom pensar melhor no assunto?” Esta Vantagem permite que um jogador impulsivo desempenhe o papel de um personagem ponderado.",
-  "fonte": "p. 20"
- },
- {
-  "id": "no-o-do-perigo",
-  "nome": "Noção do Perigo",
-  "custo": "15 pontos",
-  "descricao": "Você não pode contar com ela sempre, mas de vez em quando você tem aquela sensação esquisita na nuca que diz que alguma coisa está errada... Se você tem Noção do Perigo, o GM fará, em segredo, um teste contra seu atributo IQ sempre que a situação envolver uma emboscada, um desastre iminente ou algum outro perigo do gênero.",
-  "fonte": "p. 20"
- },
- {
-  "id": "ultra-flexibilidade-das-juntas",
-  "nome": "Ultra-flexibilidade das Juntas",
-  "custo": "5 pontos",
-  "descricao": "O corpo do personagem é extraordinariamente flexível. Ele receberá um bônus igual a +3 em qualquer teste de Escalada ou tentativas de se livrar de cordas, algemas ou outros meios similares de restrição de movimento e também em testes de Mecânica (para conseguir alcançar as partes de um motor).",
-  "fonte": "p. 20"
- },
- {
-  "id": "mem-ria-eid-tica",
-  "nome": "Memória Eidética",
-  "custo": "30/60 pontos",
-  "descricao": "O personagem é capaz de se lembrar de tudo o que ele já viu ou ouviu. Esta aptidão existe em dois níveis: No primeiro nível, ele é capaz de se lembrar, num sentido geral, de tudo em que concentrar sua atenção. Portanto, todos os pontos que forem colocados em perícias mentais contarão em dobro (não existe bônus para mágicas ou perícias psíquicas).",
-  "fonte": "p. 20"
- },
- {
-  "id": "empatia",
-  "nome": "Empatia",
-  "custo": "15 pontos",
-  "descricao": "O personagem tem uma “sensibilidade” para com as outras pessoas. Quando encontra alguém pela primeira vez ou depois de uma longa separação, ele poderá pedir ao GM que faça um teste contra seu atributo IQ. O mestre dirá então o que o personagem “sente” com relação àquela pessoa.",
-  "fonte": "p. 21"
- },
- {
-  "id": "imunidade",
-  "nome": "Imunidade",
-  "custo": "10 pontos",
-  "descricao": "Seu corpo resiste naturalmente aos microrganismos que provocam doenças. Você nunca pegará uma doença ou infecção “naturalmente”. Se você for inoculado à força, seu corpo expulsará o microrganismo imediatamente. Invasões de fungos e vírus são também consideradas “doenças”, mas infestações por parasitas maiores (como por exemplo solitária) não.",
-  "fonte": "p. 21"
- },
- {
-  "id": "intui-o",
-  "nome": "Intuição",
-  "custo": "15 pontos",
-  "descricao": "O personagem normalmente acerta em suas conjecturas. Quando ele estiver frente a várias alternativas e não tiver nenhuma maneira lógica de escolher entre elas, poderá usar a intuição da seguinte forma: O GM soma seu IQ ao número de escolhas “corretas” e subtrai o número de escolhas “incorretas” e faz uma jogada contra o resultado. Um sucesso significa que ele dirigirá o personagem a uma opção favorável.",
-  "fonte": "p. 22"
- },
- {
-  "id": "facilidade-para-l-nguas",
-  "nome": "Facilidade para Línguas",
-  "custo": "2 pontos/nível",
-  "descricao": "Você aprende línguas rapidamente. Esta aptidão pode ser exercida simultaneamente com outras. Se você tiver Memória Eidética e Facilidade para Línguas, estará falando 20 línguas em pouco tempo. Adicione o nível de Facilidade para Línguas ao seu atributo IQ toda vez que você estiver aprendendo uma língua. Exemplo: seu atributo IQ é igual a 10, sua Facilidades para Língua é 2.",
-  "fonte": "p. 22"
- },
- {
-  "id": "poderes-legais",
-  "nome": "Poderes Legais",
-  "custo": "5, 10 ou 15 pontos",
-  "descricao": "Você é um oficial da lei, com todos os direitos, poderes e restrições que acompanham o cargo. Em algumas épocas e lugares isto equivale a uma licença para matar, em outros, é pouco mais que o direito de carregar um distintivo e lavrar multas por estacionamento proibido. custo em pontos é determinado pelos direitos e privilégios inerentes à posição ocupada pelo personagem.",
-  "fonte": "p. 22"
- },
- {
-  "id": "c-lculos-instant-neos",
-  "nome": "Cálculos Instantâneos",
-  "custo": "5 pontos",
-  "descricao": "O personagem é capaz de realizar operaçães matemáticas de cabeça instantaneamente. Se seu personagem tiver esta aptidão, você (jogador) poderá usar uma calculadora a qualquer momento, para calcular o que desejar — mesmo que seu personagem esteja correndo para salvar sua vida na hora. Alternativamente, o GM pode simplesmente dizer que o personagem sabe a resposta de um problema simples de matemática.",
-  "fonte": "p. 23"
- },
- {
-  "id": "alfabetiza-o",
-  "nome": "Alfabetização",
-  "custo": "0 ou 10 pontos",
-  "descricao": "Apesar de isto ser uma perícia na vida real, ela será tratada como uma vantagem por razões já explicadas anteriormente. Em geral, presume-se que o personagem é alfabetizado se a maioria da população de seu mundo o for, e analfabeto se a maioria das pessoas também for (NT4 ou menor). Ser alfabetizado em um mundo onde a maioria das pessoas não sabe ler é uma vantagem que vale 10 pontos.",
-  "fonte": "p. 23"
- },
- {
-  "id": "longevidade",
-  "nome": "Longevidade",
-  "custo": "5 pontos",
-  "descricao": "Seu tempo de vida é naturalmente longo. Você falhará em testes de envelhecimento, somente se obtiver um resultado igual a 17 ou 18. Um personagem com esta vantagem não receberá nenhum ponto ao assumir a desvantagem da Idade.",
-  "fonte": "p. 23"
- },
- {
-  "id": "sorte",
-  "nome": "Sorte",
-  "custo": "15 ou 30 pontos",
-  "descricao": "Algumas pessoas simplesmente nasceram com sorte. Uma vez a cada hora de jogo, você pode fazer até três testes de alguma coisa e escolher o melhor resultado. Se o GM estiver fazendo a jogada (ex.: para ver se um certo NPC chega, ou para verificar se você nota alguma coisa), você lhe diz que está usando sua sorte e ele deverá jogar três vezes e lhe dar o melhor resultado. Custo: 15 pontos.",
-  "fonte": "p. 23"
- },
- {
-  "id": "aptid-o-m-gica",
-  "nome": "Aptidão Mágica",
-  "custo": "15 pontos para o primeiro nível 10 pontos/nível a partir daí",
-  "descricao": "Você tem um bônus no aprendizado de todas as operaçães mágicas. Naturalmente, se você pertencer a uma cultura sem magia, começará sem nenhum conhecimento sobre mágicas, mas poderá aprendê-las com mais facilidade se encontrar uma oportunidade. Quando entrar em um mundo mágico, todos aqueles que puderem detetar sua aura o reconhecerão como um usuário de magia potencialmente poderoso, apesar de inexperiente.",
-  "fonte": "p. 24"
- },
- {
-  "id": "talento-para-matem-tica",
-  "nome": "Talento para Matemática",
-  "custo": "10 pontos",
-  "descricao": "Esta vantagem garante um bônus de +3 em qualquer teste de habilidade com perícias matemáticas ou ligadas à computação (exceto Operação de Computadores) e um bônus de +2 nas relativas à Engenharia em NT6+. Hierarquia Militar 5 pontos/nível hierárquico Da mesma maneira que o Status reflete sua posição na sociedade, o Posto Militar (também chamado “graduação”) reflete sua posição numa organização militar ou paramilitar.",
-  "fonte": "p. 25"
- },
- {
-  "id": "talento-musical",
-  "nome": "Talento Musical",
-  "custo": "1 ponto/nível",
-  "descricao": "Você tem um talendo natural para música e instrumentos musicais. Seu nível de habilidade musical deve ser adicionado a seu atributo IQ quando você está estudando Canto ou algum instrumento musical, isto é, quando estiver estudando uma perícia musical, você a aprenderá como se sua IQ fosse igual a (IQ + Talento Musical). Custo: 1 ponto para cada ponto de bônus.",
-  "fonte": "p. 27"
- },
- {
-  "id": "vis-o-perif-rica",
-  "nome": "Visão Periférica",
-  "custo": "15 pontos",
-  "descricao": "O personagem tem um campo de visão extraordinariamente amplo. Sempre que alguma coisa perigosa ou interessante acontecer “às suas costas”, o GM fará um teste de IQ. Um sucesso significará que ele viu tudo o que aconteceu, ou o suficiente para alertá-lo do perigo no caso de um ataque.",
-  "fonte": "p. 27"
- },
- {
-  "id": "resist-ncia-pis-quica",
-  "nome": "Resistência Pisíquica",
-  "custo": "2 pontos/nível",
-  "descricao": "A Resistência Pisíquica interfere com todos os usos de poderes pisíquicos feitos contra você, ou seja, sejam eles amistosos ou hostis, contra ou a favor do objetivo. Ela nunca pode ser desligada. Se você tiver essa vantagem, o nível de sua resistência será subtraído do NH efetivo de qualquer tentativa pisíquica em que você é o objetivo (até mesmo Psiconese e Clarividência).",
-  "fonte": "p. 28"
- },
- {
-  "id": "recupera-o-al-gera",
-  "nome": "Recuperação Alígera",
-  "custo": "5 pontos",
-  "descricao": "Esta vantagem só está disponível para personagens cujo atributo HT é maior ou igual a 10. Quem a possui se recuperará rapidamente de todos os tipos de ferimentos. Toda vez que fizer um teste para verificar a recuperação da HT perdida, ou quando jogar para ver se pode curar um aleijão, deverá adicionar 5 à sua HT efetiva. Esta característica não ajuda o personagem a se recuperar de um atordoamento.",
-  "fonte": "p. 28"
- },
- {
-  "id": "reputa-o",
-  "nome": "Reputação",
-  "custo": "Variável",
-  "descricao": "Uma boa reputação conta como uma vantagem.",
-  "fonte": "p. 28"
- },
- {
-  "id": "status",
-  "nome": "Status",
-  "custo": "Variável",
-  "descricao": "Status Social elevado é uma vantagem.",
-  "fonte": "p. 28"
- },
- {
-  "id": "for-a-de-vontade",
-  "nome": "Força de Vontade",
-  "custo": "4 pontos/nível",
-  "descricao": "O personagem tem muito mais determinação que a média das pessoas. Seu nível de Vontade é adicionado a seu atributo IQ toda vez que ele fizer, por qualquer razão, um teste de Vontade, incluindo tentativas de influenciálo através da Diplomacia, Lábia, Sex Appeal, Interrogatório (com ou sem tortura), Hipnotismo ou tentativas de dominar sua mente através de magia ou psiquismo.",
-  "fonte": "p. 29"
- },
- {
-  "id": "rijeza",
-  "nome": "Rijeza",
-  "custo": "10/25 pontos",
-  "descricao": "Sua pele e carne são mais rijas do que a da média dos seres humanos. Seu próprio corpo tem sua Resistência a Dano. Esta RD é tratada da mesma forma que a de uma armadura: ela deve ser subtraída do dano causado por qualquer golpe, antes de você multiplicar o dano produzido por uma arma perfurante ou cortante.",
-  "fonte": "p. 29"
- },
- {
-  "id": "voz-melodiosa",
-  "nome": "Voz Melodiosa",
-  "custo": "10 pontos",
-  "descricao": "O personagem tem uma voz clara, atraente e ressonante. Ele receberá um bônus permanente igual a +2 nas seguintes perícias: Trovador, Diplomacia, Atuação, Política, Trato Social, Sex Appeal e Canto. Receberá também um bônus igual a +2 em qualquer teste de reação feito por alguém que possa ouvir sua voz. Riqueza Variável A Riqueza pode ser uma vantagem realmente maravilhosa.",
-  "fonte": "p. 30"
- },
- {
-  "id": "se-o-patrono-for-um-indiv-duo-extremamente-poderoso",
-  "nome": "Se o Patrono for um indivíduo extremamente poderoso",
-  "custo": "criado com no mínimo 200 pontos",
-  "descricao": "ou uma organização razoavelmente poderosa (bens disponíveis equivalentes a no mínimo 10.000 vezes a quantidade inicial de bens): 15 pontos. Exemplo: O departamento de Polícia de Los Angeles. Se o Patrono for uma organização muito poderosa (bens disponíveis equivalentes a no mínimo um milhão de vezes a quantidade inicial de recursos): 25 pontos. Exemplo: Uma grande corporação ou uma nação muito pequena.",
-  "fonte": "p. 33"
- },
- {
-  "id": "a-o-extra",
-  "nome": "Ação Extra",
-  "custo": "65 pontos",
-  "descricao": "Isso é um golpe muito sujo! Concede ao seu personagem ter uma ação extra depois de sua ação normal. Por exemplo, depois do meu ataque eu posso fazer uma outra ação ou um novo ataque (sem penalidade alguma).",
-  "fonte": "p. 37"
- },
- {
-  "id": "amigo-escudeiro",
-  "nome": "Amigo \"Escudeiro\"",
-  "custo": "10 pontos",
-  "descricao": "Você tem um amigo puxa-saco de suas façanhas, e que é uma espécie de seu \"escudeiro\": falando pros outros às suas façanhas (até mesmo seus \"podres\" se transformam em \"façanhas\") e lhe fazendo favores, como fazer o seu almoço, pegar aquela espada e coisas afins. Geralmente é um Personagem com metade dos pontos que o seu, como um Aliado, mas ele é um tremendo puxa-saco de uma figa.",
-  "fonte": "p. 37"
- },
- {
-  "id": "amuleto-da-sorte",
-  "nome": "Amuleto da Sorte",
-  "custo": "15 pontos",
-  "descricao": "Seu Personagem possui um amuleto especial, e se sente até mais confiante quando o empunha. Pode ser um cordão, sua própria arma, uma foto de namorada (o motivo deve ser explicado no seu background). Na presença do amuleto no corpo, o Personagem recebe +2 em todos os seus testes e +1 no dano. Quando estiver sem o utensílio, no entanto, receberá uma penalidade de -3 nos danos e em todos os testes até sentir confiança.",
-  "fonte": "p. 37"
- },
- {
-  "id": "arma-especial",
-  "nome": "Arma Especial",
-  "custo": "25 pontos",
-  "descricao": "O seu Personagem têm uma Arma muito especial em sua vida: pode ser uma katana dada de herança por seu avô que era samurai, ou uma faca de cozinha achada no final de uma escavação no quintal de casa, quando brincavam de piratas! Em termos de jogo, esta arma NÃO é mágica: é uma arma especial por algum grande motivo para o Personagem. Quando seu Personagem empunhar esta arma, ele receberá +1D de dano.",
-  "fonte": "p. 37"
- },
- {
-  "id": "armas-improvisadas",
-  "nome": "Armas Improvisadas",
-  "custo": "50 pontos",
-  "descricao": "Seu Personagem se adapta a qualquer arma que empunha. Utilize seu valor de Caratê (ou outra Perícia Marcial) para qualquer arma que o Personagem achar pra bater na hora... (isso não inclui Armas de Fogo, a não ser que ele use para lançar a arma contra o oponente ou bata com ela!) As armas podem ser usadas para Aparar com 2/3 do NH de Caratê ou Perícia marcial do Personagem.",
-  "fonte": "p. 37"
- },
- {
-  "id": "corpo-leve",
-  "nome": "Corpo Leve",
-  "custo": "5 pontos",
-  "descricao": "Não se sabe porque, mas seu Personagem não consegue se afogar (mesmo se estiver amarrado de qualquer jeito) e vai boiar como se fosse um pedaço de plástico leve. Personagens com Corpo Leve não precisam comprar a Perícia Natação, pois bóiam sem dificuldade. O Personagem só deixa de boiar se estiver usando uma armadura de 200kg ou mais pesada. Do contrário, vai boiar normalmente.",
-  "fonte": "p. 38"
- },
- {
-  "id": "descendente-importante",
-  "nome": "Descendente Importante",
-  "custo": "10 pontos",
-  "descricao": "Você é o filho de um NPC importante (e poderoso). O detalhe desta Vantagem é que seu pai/mãe pode não saber da sua existência e nem você a dele.",
-  "fonte": "p. 38"
- },
- {
-  "id": "disc-pulos",
-  "nome": "Discípulos",
-  "custo": "5 pontos para cada",
-  "descricao": "Você em Mestre em alguma arte e treina um ou mais discípulos, que seguem suas ordens e ensinamentos a fundo, não importando a profissão que você tenha ou o hobby que ensina. Entre os mais exemplos incluem-se de um Falso Profeta, um Monge Shaolin, um poderoso Mago, etc.",
-  "fonte": "p. 38"
- },
- {
-  "id": "evitar-queda",
-  "nome": "Evitar Queda",
-  "custo": "25 pontos",
-  "descricao": "Quando seu personagem está em queda, pode se retorcer todo para cair no chão de uma maneira que recebe menos dano. Para cada 1m de altura (na queda), o personagem faz um teste de DX ou HT (o menor valor), e para cada teste bem sucedido são descontados 1D pontos de dano.",
-  "fonte": "p. 38"
- },
- {
-  "id": "furto-em-combate",
-  "nome": "Furto em Combate",
-  "custo": "5 pontos por Nível",
-  "descricao": "(Recomendado para Ladrões) Seu Personagem têm a incrível habilidade de roubar itens pessoais dos outros no meio de um ataque. É assim: quando acertar um ataque, o Personagem deve fazer um teste Difícil de Furtar para conseguir roubar apenas um item do oponente - que nem ao menos percebe.",
-  "fonte": "p. 38"
- },
- {
-  "id": "golpe-fulminante",
-  "nome": "Golpe Fulminante",
-  "custo": "10 pontos",
-  "descricao": "Personagens com golpes fulminantes perdem 3 pontos de ST para acrescentar +4 no GDP/Bal no próximo ataque, desferindo um ataque devastador.",
-  "fonte": "p. 38"
- },
- {
-  "id": "guarda-roupas-astral",
-  "nome": "Guarda Roupas Astral",
-  "custo": "45 pontos",
-  "descricao": "Este poder esquisito faz o Personagem trocar suas roupas magicamente. Ele têm uma reserva de roupas iguais a sua 2/3 de sua HT. Ele deve anotar as suas roupas no Guarda Roupas Astral e quando quiser trocar de vestimenta, faz um teste simples de IQ para que o efeito aconteça (suas roupas vão mudar sem você ficar nu ou algo parecido).",
-  "fonte": "p. 38"
- },
- {
-  "id": "kawaii",
-  "nome": "Kawaii",
-  "custo": "45 pontos",
-  "descricao": "(Apenas para Personagens Femininas, com Aparência Bonita) \"Kawaii\" é denominado nos mangás/animes como aquelas menininhas bonitinhas, super- meigas. Recebem Carisma +7 por serem super simpáticas. Em combate, um Personagem que deseja atacar uma Kawaii deverá passar primeiro em um teste de IQ-4, a menos que ele seja atacado primeiro. Geralmente uma Personagem com Kawaii ganhará a confiança de todos.",
-  "fonte": "p. 39"
- },
- {
-  "id": "g-nio",
-  "nome": "Gênio",
-  "custo": "35 pontos",
-  "descricao": "O personagem pode construir aparatos e equipamentos que são indisponíveis para a tecnologia de sua época. Para um inventor da atualidade, ele poderia criar máquinas de teleportação, cintos de Campo de Força, etc.",
-  "fonte": "p. 39"
- },
- {
-  "id": "transe",
-  "nome": "Transe",
-  "custo": "10 pontos",
-  "descricao": "O Personagem conseguiu \"administrar\" o sono e hoje não fecha mais os olhos! Sendo assim ele será imune às Magias Sono e similares - e também apenas descansa 4 horas por dia (como os Elfos, entram apenas em transe) mas com os olhos abertos; o bom sinal disso é que ele nunca entra no sono quando estiver vigiando um local.",
-  "fonte": "p. 39"
- },
- {
-  "id": "ca-ador-de-vampiros",
-  "nome": "Caçador de Vampiros",
-  "custo": "50 pontos",
-  "descricao": "(Recomendado para Caçadores de Crituras da Noite) Seu Personagem SEMPRE recebe ACERTOS CRÍTICOS em QUALQUER teste na presença de qualquer vampiro (ou semelhante), não importando seu poder ou idade!",
-  "fonte": "p. 40"
- },
- {
-  "id": "sobrevivente-do-inferno",
-  "nome": "Sobrevivente do Inferno",
-  "custo": "70 pontos",
-  "descricao": "Seu personagem sobreviveu em um lugar tão terrível e mortal que é chamado de Inferno, que pode ser o inferno propriamente dito, ou algum local tão torturante e dificil que pode ser chamados de inferno. Personagens sobreviventes têm a experiência de andar em lugares assim e estão mais poderosos e rápidos.",
-  "fonte": "p. 40"
- },
- {
-  "id": "super-bolso",
-  "nome": "Super Bolso",
-  "custo": "10 pontos",
-  "descricao": "Seu personagem têm a habilidade de guardar as coisas consigo sem ao menos ter um bolso, sacola, mochila ou algo semelhante. E não importa o tamanho das coisas, o seu personagem guarda e retira na hora que quiser.",
-  "fonte": "p. 40"
- },
- {
-  "id": "spoiler",
-  "nome": "Spoiler",
-  "custo": "25 pontos",
-  "descricao": "Seu personagem têm um talento de ver rápidas visões do futuro. Essas rápidas visões não são controladas pelo personagem do jogador e surgem em momentos escolhidos pelo mestre de RPG.",
-  "fonte": "p. 40"
- },
- {
-  "id": "vis-o-de-raio-x",
-  "nome": "Visão de raio X",
-  "custo": "40 pontos",
-  "descricao": "Seu personagem nasceu com um habilidade estranha. Ele pode se concentrar por alguns minutos para que possa ver através das coisas, objetos e paredes. Geralmente requer um teste de IQ para utilizar este \"poder\". Desvantagens são problemas adquiridos pelo personagem antes de ele ser representado pela primeira vez. Como regra, um personagem só pode assumir desvantagens no momento de sua criação.",
-  "fonte": "p. 40"
- },
- {
-  "id": "aparencia",
-  "nome": "Aparência Física",
-  "niveis": [
-   {
-    "nome": "Hediondo",
-    "custo": -20,
-    "efeito": "-4 em Testes de Reação (exceto alienígenas/não veem)"
-   },
-   {
-    "nome": "Feio",
-    "custo": -10,
-    "efeito": "-2 em Testes de Reação"
-   },
-   {
-    "nome": "Desagradável",
-    "custo": -5,
-    "efeito": "-1 com a própria raça"
-   },
-   {
-    "nome": "Comum",
-    "custo": 0,
-    "efeito": "Sem modificador"
-   },
-   {
-    "nome": "Elegante (Bonito)",
-    "custo": 15,
-    "efeito": "+2 mesmo sexo / +4 sexo oposto"
-   },
-   {
-    "nome": "Muito Elegante (Bonito)",
-    "custo": 25,
-    "efeito": "+2 mesmo sexo / +6 sexo oposto"
-   }
-  ],
-  "fonte": "p. 6–7",
-  "descricao": "A aparência muito boa (ou ruim) é vantagem (desvantagem)."
- },
- {
-  "id": "riqueza",
-  "nome": "Riqueza",
-  "niveis": [
-   {
-    "nome": "Falido",
-    "custo": -25,
-    "multiplicadorRecursos": 0,
-    "trabalhoSemanal": null
-   },
-   {
-    "nome": "Pobre",
-    "custo": -15,
-    "multiplicadorRecursos": 0.2,
-    "trabalhoSemanal": 50
-   },
-   {
-    "nome": "Batalhador",
-    "custo": -10,
-    "multiplicadorRecursos": 0.5,
-    "trabalhoSemanal": 40
-   },
-   {
-    "nome": "Médio",
-    "custo": 0,
-    "multiplicadorRecursos": 1,
-    "trabalhoSemanal": 40
-   },
-   {
-    "nome": "Confortável",
-    "custo": 10,
-    "multiplicadorRecursos": 2,
-    "trabalhoSemanal": 40
-   },
-   {
-    "nome": "Rico",
-    "custo": 20,
-    "multiplicadorRecursos": 5,
-    "trabalhoSemanal": 20
-   },
-   {
-    "nome": "Muito Rico",
-    "custo": 30,
-    "multiplicadorRecursos": 20,
-    "trabalhoSemanal": 10
-   },
-   {
-    "nome": "Podre de Rico",
-    "custo": 50,
-    "multiplicadorRecursos": 100,
-    "trabalhoSemanal": 10
-   }
-  ],
-  "fonte": "p. 12–13",
-  "descricao": "Define recursos iniciais (× a média do cenário) e tempo de trabalho."
- },
- {
-  "id": "reputacao",
-  "nome": "Reputação",
-  "custoPorNivel": 5,
-  "custo": "5 pts por ponto de modificador (máx ±4); × classe (todos 1, grupo grande ½, pequeno ⅓) × frequência (sempre 1, às vezes ½, ocasional ⅓); arredondar para baixo",
-  "fonte": "p. 13–15"
- },
- {
-  "id": "status",
-  "nome": "Status",
-  "custoPorNivel": 5,
-  "custo": "5 pts por nível social (-4 a 8). Níveis negativos devolvem pontos. Riqueza ≥ Rico: -5 pts no custo total.",
-  "fonte": "p. 15–17",
-  "descricao": "Bônus/penalidade de reação pela diferença de Status relativa (mín. -4). Trato Social = IQ+2 na própria cultura."
- },
- {
-  "id": "aliado",
-  "nome": "Aliado",
-  "custo": "Base: <75 pts é Dependente; 76–100 = 5 pts; 101–150 = 10; 151–200 = 15 (+5 por faixa de 50). Frequência: quase sempre ×3; bastante ×2; freq. ×1; esporádica ½ (arred. p/ cima). Habilidades especiais +5 a +10.",
-  "fonte": "p. 30–32"
- },
- {
-  "id": "patrono",
-  "nome": "Patrono",
-  "custo": "Indivíduo/grupo p/ equip. 1000×: 10 pts; extremamente poderoso (200 pts) ou org. 10.000×: 15; org. muito poderosa 10⁶×: 25; governo nacional: 30. Equipamento para uso próprio: +5 (ou +10 se > recursos iniciais). Frequência como Aliado (mín. custo 5?).",
-  "fonte": "p. 32–35"
- }
+  {
+    "id": "senso-de-direcao",
+    "nome": "Senso de Direção",
+    "grupo": "classica",
+    "custo": "5 pontos",
+    "descricao": "O personagem sempre sabe para onde fica o Norte e é sempre capaz de refazer um trajeto realizado durante os últimos 30 dias, não importa quão confuso ou tortuoso ele tenha sido. Esta aptidão não funciona em ambientes como o espaço interestelar, o limbo do plano astral, etc. Mas ela funciona em ambientes subterrâneos, debaixo d’água e em outros planetas. Esta vantagem dá um bônus de +3 para a perícia Navegação do personagem.",
+    "efeitos": [
+      {
+        "tipo": "pericia",
+        "alvo": "navegacao",
+        "valor": 3,
+        "nota": "+3 na perícia Navegação"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 17"
+  },
+  {
+    "id": "nocao-exata-do-tempo",
+    "nome": "Noção Exata do Tempo",
+    "grupo": "classica",
+    "custo": "5 pontos",
+    "descricao": "Você tem um relógio mental acurado. A menos que tenha sido nocauteado, hipnotizado ou sofrido algum outro tipo de interferência, você sempre sabe a hora exata. Você também é capaz de medir com precisão qualquer lapso de tempo. O sono não interfere com esta sua capacidade (e você pode, inclusive, acordar numa hora pré-determinada). Mudanças de fuso horário também não o afetam. As viagens no tempo irão confundi-lo até que descubra qual é o “novo” horário.",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 17"
+  },
+  {
+    "id": "ouvido-agucado",
+    "nome": "Ouvido Aguçado",
+    "grupo": "classica",
+    "custo": "2 pontos/nível",
+    "descricao": "O personagem recebe um bônus toda vez que tiver que fazer um teste de Audição, para verificar se é capaz de ouvir alguma coisa, ou quando o GM faz uma jogada contra seu atributo IQ para ver se ele notou algum ruído. Custo: 2 pontos por ponto de bônus em sua jogada.",
+    "custoPorNivel": 2,
+    "efeitos": [
+      {
+        "tipo": "sentido",
+        "alvo": "audicao",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "+1 por nível nos testes de Audição"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 18"
+  },
+  {
+    "id": "olfato-paladar-apurado",
+    "nome": "Olfato/Paladar Apurado",
+    "grupo": "classica",
+    "custo": "2 pontos/nível",
+    "descricao": "O personagem recebe um bônus em todas as seus testes de Olfato ou Paladar. O GM poderia jogar para ver se você percebeu o cheiro ou o sabor de um veneno em sua bebida. Custo: 2 pontos por ponto de bônus em sua jogada.",
+    "custoPorNivel": 2,
+    "efeitos": [
+      {
+        "tipo": "sentido",
+        "alvo": "olfatoPaladar",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "+1 por nível nos testes de Olfato/Paladar"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 18"
+  },
+  {
+    "id": "visao-agucada",
+    "nome": "Visão Aguçada",
+    "grupo": "classica",
+    "custo": "2 pontos/nível",
+    "descricao": "O personagem recebe um bônus em todos os testes de Visão, quando ele está procurando alguma coisa, e sempre que o GM fizer um teste contra seu atributo IQ para verificar se ele percebeu alguma coisa. Custo: 2 pontos por ponto de bônus na jogada.",
+    "custoPorNivel": 2,
+    "efeitos": [
+      {
+        "tipo": "sentido",
+        "alvo": "visao",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "+1 por nível nos testes de Visão"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 18"
+  },
+  {
+    "id": "prontidao",
+    "nome": "Prontidão",
+    "grupo": "classica",
+    "custo": "5 pontos/nível",
+    "descricao": "Este é um bônus geral que o personagem recebe em testes de qualquer um dos Sentidos ou quando o GM faz um teste de IQ para verificar se ele percebeu alguma coisa. Esta vantagem pode ser combinada com qualquer uma (ou todas) as vantagens relacionadas com agudeza dos sentidos. Custo: 5 pontos por ponto de bônus em sua jogada.",
+    "custoPorNivel": 5,
+    "efeitos": [
+      {
+        "tipo": "sentido",
+        "alvo": "todos",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "+1 por nível em qualquer teste de Sentido; combina com Ouvido Aguçado, Visão Aguçada e Olfato/Paladar Apurado"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 18"
+  },
+  {
+    "id": "ambidestria",
+    "nome": "Ambidestria",
+    "grupo": "classica",
+    "custo": "10 pontos",
+    "descricao": "O personagem é capaz de usar as duas mãos com a mesma habilidade. Ele não está sujeito ao redutor de -4 sobre seu atributo Destreza por estar usando a mão ambiesquerda (veja Destreza Manual) e pode lutar (ou agir) com qualquer uma das mãos indistintamente, ou com ambas de uma vez (em um Ataque Total). Se acontecer algum acidente com um(a) de seus (suas) braços (mãos), assuma que foi com o(a) esquerdo(a).",
+    "efeitos": [
+      {
+        "tipo": "semPenalidade",
+        "alvo": "maoInabil",
+        "valor": 4,
+        "nota": "elimina o redutor de −4 da mão inábil"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 18"
+  },
+  {
+    "id": "empatia-com-animais",
+    "nome": "Empatia com Animais",
+    "grupo": "classica",
+    "custo": "5 pontos",
+    "descricao": "O personagem entende e gosta de animais, e eles gostam do personagem. Ele recebe um bônus de +2 em qualquer teste de reação com um animal selvagem, e de +4 em testes que envolvam perícias com animais (Adestramento de Animais, Cavalgar, Veterinária, etc...). No entanto, você nunca poderá matar um animal sem uma razão muito boa, e deverá tentar evitar que outros o façam. Note que matar para se alimentar é perfeitamente aceitável e, numa caçada o personagem receberia um bônus igual a +3 na sua tentativa de encontrar caça.",
+    "efeitos": [
+      {
+        "tipo": "reacao",
+        "alvo": "animalSelvagem",
+        "valor": 2,
+        "nota": "+2 em testes de reação com animal selvagem"
+      },
+      {
+        "tipo": "pericia",
+        "alvo": "animais",
+        "valor": 4,
+        "nota": "+4 em perícias com animais (Adestramento de Animais, Cavalgar, Veterinária…)"
+      },
+      {
+        "tipo": "especial",
+        "alvo": "encontrarCaca",
+        "valor": 3,
+        "nota": "+3 na tentativa de encontrar caça numa caçada"
+      }
+    ],
+    "regras": [
+      "Não pode matar um animal sem uma razão muito boa, e deve tentar evitar que outros o façam.",
+      "Matar para se alimentar é perfeitamente aceitável."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 18"
+  },
+  {
+    "id": "carisma",
+    "nome": "Carisma",
+    "grupo": "classica",
+    "custo": "5 pontos/nível",
+    "descricao": "Esta é a aptidão natural para impressionar e liderar outras pessoas. Qualquer um pode conseguir um carisma ilusório através da boa aparência, boas maneiras e inteligência, mas o carisma real funciona independente da presença destes fatores. Ele afeta qualquer teste de reação feito por uma criatura inteligente. Custo: 5 pontos para cada ponto de bônus.",
+    "custoPorNivel": 5,
+    "efeitos": [
+      {
+        "tipo": "reacao",
+        "alvo": "criaturaInteligente",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "+1 por nível em qualquer teste de reação feito por criatura inteligente"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 19"
+  },
+  {
+    "id": "clericato",
+    "nome": "Clericato",
+    "grupo": "classica",
+    "custo": "5 pontos ou mais, a critério do GM",
+    "descricao": "O personagem foi ordenado como ministro de alguma religião. Um clérigo tem alguns poderes e privilégios que um leigo não tem, incluindo um bônus de +1 em testes de reação com correligionários ou pessoas que respeitam sua fé. Os outros personagens dirigir-se-ão a ele (ou ela) usando um título: Padre, Irmã, Reverendo, Shaman, etc. Um clérigo poderá realizar cerimônias como Confirmação, Casamento e Exorcismo.\nLembre-se que nem todos os clérigos são rabinos ou monjas. Aka’Ar, alto sacerdote da seita profana de Set, é também um clérigo paramentado e as bençãos e casamentos que realizar serão tão significativos para seu rebanho, como o seriam para seu rebanho os realizados por um vigário. E, se Set assim o desejar, Aka’Ar será capaz de exorcismos tão poderosos quanto os realizados por um sacerdote cristão, se não mais. Afinal, Aka’Ar terá uma experiência mais ativa com demônios...\nO GM deve decidir se, em sua campanha, os clérigos serão capazes de invocar ajuda ativa do Além. Se assim for e, se os clérigos forem conhecidos por serem capazes de conseguir esta ajuda, o Clericato “valerá” 10 pontos ou mais. Se o Clericato for (até onde os jogadores sabem) apenas uma vantagem “social”, ele custará 5 pontos.",
+    "niveis": [
+      {
+        "nome": "Social",
+        "custo": 5,
+        "efeito": "Vantagem apenas social (até onde os jogadores sabem): título, cerimônias e +1 de reação."
+      },
+      {
+        "nome": "Com ajuda ativa do Além",
+        "custo": 10,
+        "efeito": "Os clérigos são conhecidos por invocar ajuda ativa do Além — 10 pontos ou mais, a critério do GM."
+      }
+    ],
+    "efeitos": [
+      {
+        "tipo": "reacao",
+        "alvo": "correligionarios",
+        "valor": 1,
+        "nota": "+1 em testes de reação com correligionários ou pessoas que respeitam sua fé"
+      }
+    ],
+    "regras": [
+      "Pode realizar cerimônias como Confirmação, Casamento e Exorcismo.",
+      "O custo acima de 10 pontos fica a critério do GM."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 19"
+  },
+  {
+    "id": "reflexos-em-combate",
+    "nome": "Reflexos em Combate",
+    "grupo": "classica",
+    "custo": "15 pontos",
+    "descricao": "O personagem tem reações extremamente rápidas e raramente ficará surpreso por mais do que um breve instante. Ele receberá um bônus de + 1 em qualquer Defesa Ativa. Tem direito, também, a um bônus de +1 na perícia Sacar Rápido, um bônus igual a +2 em Verificações de Pânico e nunca ficará “paralisado” devido à surpresa. Além disso, seu lado recebe um bônus igual a +1 em testes de iniciativa feitos para evitar um ataque de surpresa, ou +2, se ele for o líder. Nos testes de IQ feitos para despertar, ou se recuperar de uma surpresa ou de “atordoamento” mental, o personagem receberá um bônus de +6.",
+    "efeitos": [
+      {
+        "tipo": "defesaAtiva",
+        "alvo": "todas",
+        "valor": 1,
+        "nota": "+1 em qualquer Defesa Ativa"
+      },
+      {
+        "tipo": "pericia",
+        "alvo": "sacar-rapido",
+        "valor": 1,
+        "nota": "+1 em Sacar Rápido"
+      },
+      {
+        "tipo": "panico",
+        "alvo": "verificacao",
+        "valor": 2,
+        "nota": "+2 em Verificações de Pânico"
+      },
+      {
+        "tipo": "iniciativa",
+        "alvo": "surpresa",
+        "valor": 1,
+        "nota": "+1 do lado do personagem em testes de iniciativa para evitar ataque surpresa"
+      },
+      {
+        "tipo": "iniciativa",
+        "alvo": "surpresaLider",
+        "valor": 2,
+        "nota": "+2 se ele for o líder"
+      },
+      {
+        "tipo": "despertar",
+        "alvo": "IQ",
+        "valor": 6,
+        "nota": "+6 em testes de IQ para despertar ou se recuperar de surpresa/atordoamento mental"
+      },
+      {
+        "tipo": "imunidade",
+        "alvo": "paralisiaPorSurpresa",
+        "nota": "nunca ficará “paralisado” devido à surpresa"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 19"
+  },
+  {
+    "id": "bom-senso",
+    "nome": "Bom Senso",
+    "grupo": "classica",
+    "custo": "10 pontos",
+    "descricao": "Toda vez, que o personagem começar a fazer alguma coisa que o GM acha ESTÚPIDA, ele fará um teste contra seu atributo IQ. Um sucesso nesta jogada significa que ele deverá avisar o personagem — “Você não acha que seria bom pensar melhor no assunto?” Esta Vantagem permite que um jogador impulsivo desempenhe o papel de um personagem ponderado.",
+    "efeitos": [
+      {
+        "tipo": "testeSecreto",
+        "alvo": "IQ",
+        "nota": "teste de IQ secreto sempre que o personagem for fazer algo que o GM acha ESTÚPIDA"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 20"
+  },
+  {
+    "id": "nocao-do-perigo",
+    "nome": "Noção do Perigo",
+    "grupo": "classica",
+    "custo": "15 pontos",
+    "descricao": "Você não pode contar com ela sempre, mas de vez em quando você tem aquela sensação esquisita na nuca que diz que alguma coisa está errada... Se você tem Noção do Perigo, o GM fará, em segredo, um teste contra seu atributo IQ sempre que a situação envolver uma emboscada, um desastre iminente ou algum outro perigo do gênero. Um sucesso nesta jogada significa que você deve receber um aviso de que alguma coisa está errada. Um resultado igual a 3 ou 4 significa que o GM lhe dará alguns pequenos detalhes sobre a natureza do perigo.\nNota: Em uma campanha onde se faz uso de poderes psíquicos, a Noção do Perigo é uma habilidade extra-sensorial.",
+    "efeitos": [
+      {
+        "tipo": "testeSecreto",
+        "alvo": "IQ",
+        "nota": "teste secreto de IQ contra emboscada/desastre iminente; resultado 3 ou 4 revela detalhes do perigo"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 20"
+  },
+  {
+    "id": "ultra-flexibilidade-das-juntas",
+    "nome": "Ultra-flexibilidade das Juntas",
+    "grupo": "classica",
+    "custo": "5 pontos",
+    "descricao": "O corpo do personagem é extraordinariamente flexível. Ele receberá um bônus igual a +3 em qualquer teste de Escalada ou tentativas de se livrar de cordas, algemas ou outros meios similares de restrição de movimento e também em testes de Mecânica (para conseguir alcançar as partes de um motor).",
+    "efeitos": [
+      {
+        "tipo": "acao",
+        "alvo": "escalada",
+        "valor": 3,
+        "nota": "+3 em testes de Escalada"
+      },
+      {
+        "tipo": "acao",
+        "alvo": "escaparDeRestricoes",
+        "valor": 3,
+        "nota": "+3 para se livrar de cordas, algemas e restrição de movimento"
+      },
+      {
+        "tipo": "pericia",
+        "alvo": "mecanica",
+        "valor": 3,
+        "nota": "+3 em Mecânica para alcançar partes de um motor"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 20"
+  },
+  {
+    "id": "memoria-eidetica",
+    "nome": "Memória Eidética",
+    "grupo": "classica",
+    "custo": "30/60 pontos",
+    "descricao": "O personagem é capaz de se lembrar de tudo o que ele já viu ou ouviu. Esta aptidão existe em dois níveis:\nNo primeiro nível, ele é capaz de se lembrar, num sentido geral, de tudo em que concentrar sua atenção. Portanto, todos os pontos que forem colocados em perícias mentais contarão em dobro (não existe bônus para mágicas ou perícias psíquicas). Além disso, sempre que o personagem tiver necessidade de se lembrar de um detalhe específico de alguma coisa que lhe foi contada, o GM fará um teste contra seu atributo IQ. Um sucesso nesta jogada significa que ele deve dar a informação ao personagem. Custo: 30 pontos.\nNo segundo nível, ele tem realmente uma “memória fotográfica”. O personagem será capaz de se lembrar de tudo o que já aconteceu com ele. Todos os pontos colocados em perícias mentais valerão o quádruplo. Além disso, toda vez que você (como jogador) esquecer qualquer detalhe que seu personagem tenha visto ou ouvido, o GM ou os outros jogadores deverão lembrá-lo — honestamente! Custo: 60 pontos.",
+    "niveis": [
+      {
+        "nome": "1º nível",
+        "custo": 30,
+        "multiplicadorPericiasMentais": 2,
+        "efeito": "Lembra-se, em sentido geral, de tudo em que concentrar atenção; pontos em perícias mentais contam em dobro (sem bônus para mágicas ou perícias psíquicas); teste de IQ do GM para recordar um detalhe específico."
+      },
+      {
+        "nome": "2º nível",
+        "custo": 60,
+        "multiplicadorPericiasMentais": 4,
+        "efeito": "Memória fotográfica: lembra de tudo o que já aconteceu; pontos em perícias mentais valem o quádruplo; GM e jogadores devem lembrar o jogador honestamente."
+      }
+    ],
+    "efeitos": [
+      {
+        "tipo": "multiplicadorPontos",
+        "alvo": "periciasMentais",
+        "valor": 2,
+        "nota": "×2 no 1º nível, ×4 no 2º nível"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 20"
+  },
+  {
+    "id": "empatia",
+    "nome": "Empatia",
+    "grupo": "classica",
+    "custo": "15 pontos",
+    "descricao": "O personagem tem uma “sensibilidade” para com as outras pessoas. Quando encontra alguém pela primeira vez ou depois de uma longa separação, ele poderá pedir ao GM que faça um teste contra seu atributo IQ. O mestre dirá então o que o personagem “sente” com relação àquela pessoa. (Note que uma falha nesta jogada significa que o GM pode mentir para você.) Este talento, quando funciona, é excelente para identificar impostores, possessões por espíritos, etc., e determinar a quem os NPCs são efetivamente leais. Esta Vantagem pode também ser usada para descobrir se alguém está mentindo ou não. Note que ela não serve para obter a verdade, apenas para verificar se os NPCs estão sendo sinceros ou não.\nObs.: Numa campanha que inclua poderes psíquicos, esta será uma perícia psíquica.",
+    "efeitos": [
+      {
+        "tipo": "testeSecreto",
+        "alvo": "IQ",
+        "nota": "teste de IQ no primeiro encontro (ou após longa separação); falha permite ao GM mentir"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 21"
+  },
+  {
+    "id": "hipoalgia",
+    "nome": "Hipoalgia (Alto Limiar de Dor)",
+    "grupo": "classica",
+    "custo": "10 pontos",
+    "descricao": "O personagem é tão suscetível a danos, quanto qualquer outra pessoa, mas ele não sente a dor com a mesma intensidade. Ele não ficará atordoado, nem seu atributo DX será submetido ao redutor normalmente aplicado no turno seguinte, caso venha a ser ferido em combate (exceção: um golpe na cabeça ou um golpe fulminante continuarão provocando o atordoamento do personagem). No caso de ser submetido a tortura física, ele receberá um bônus igual a +3 no teste de sua resistência. O GM poderá permitir que ele receba um bônus de +3 em testes de Vontade, para ver se é capaz de ignorar a dor.",
+    "efeitos": [
+      {
+        "tipo": "imunidade",
+        "alvo": "atordoamentoPorFerimento",
+        "nota": "não fica atordoado nem sofre o redutor de DX do turno seguinte ao ser ferido"
+      },
+      {
+        "tipo": "excecao",
+        "alvo": "cabecaOuGolpeFulminante",
+        "nota": "golpe na cabeça ou golpe fulminante continuam atordoando"
+      },
+      {
+        "tipo": "resistencia",
+        "alvo": "torturaFisica",
+        "valor": 3,
+        "nota": "+3 no teste de resistência à tortura física"
+      },
+      {
+        "tipo": "vontade",
+        "alvo": "ignorarDor",
+        "valor": 3,
+        "opcional": true,
+        "nota": "+3 em testes de Vontade para ignorar a dor (o GM poderá permitir)"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 21"
+  },
+  {
+    "id": "imunidade",
+    "nome": "Imunidade",
+    "grupo": "classica",
+    "custo": "10 pontos",
+    "descricao": "Seu corpo resiste naturalmente aos microrganismos que provocam doenças. Você nunca pegará uma doença ou infecção “naturalmente”. Se você for inoculado à força, seu corpo expulsará o microrganismo imediatamente. Invasões de fungos e vírus são também consideradas “doenças”, mas infestações por parasitas maiores (como por exemplo solitária) não. Você não pode adquirir esta vantagem, a menos que sua HT inicial seja maior ou igual a 12.\nNo entanto, mesmo que mais tarde a HT venha a se reduzir a um valor menor do que 12, a imunidade permanecerá.",
+    "efeitos": [
+      {
+        "tipo": "imunidade",
+        "alvo": "doencas",
+        "nota": "nunca pega doença ou infecção naturalmente; expulsa microrganismo inoculado à força"
+      },
+      {
+        "tipo": "excecao",
+        "alvo": "parasitasMaiores",
+        "nota": "infestações por parasitas maiores (ex.: solitária) não são cobertas"
+      }
+    ],
+    "requisitos": [
+      "HT inicial ≥ 12 (a imunidade permanece mesmo que a HT caia depois)"
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 21"
+  },
+  {
+    "id": "intuicao",
+    "nome": "Intuição",
+    "grupo": "classica",
+    "custo": "15 pontos",
+    "descricao": "O personagem normalmente acerta em suas conjecturas. Quando ele estiver frente a várias alternativas e não tiver nenhuma maneira lógica de escolher entre elas, poderá usar a intuição da seguinte forma: O GM soma seu IQ ao número de escolhas “corretas” e subtrai o número de escolhas “incorretas” e faz uma jogada contra o resultado. Um sucesso significa que ele dirigirá o personagem a uma opção favorável. Um resultado igual a 3 ou 4 significa que ele deverá indicar a melhor opção. Um fracasso significa que o personagem não receberá informação nenhuma. Uma falha crítica significa que o GM indicará uma opção ruim para o personagem ... sua intuição falhou. O GM pode modificar este sistema sempre que achar que as regras se prestam a outras situaçães onde a intuição poderia ajudar. É permitida apenas uma jogada para cada problema. Observe também, que o GM não pode consentir que esta Vantagem seja usada para abreviar uma aventura, permitindo que o detetive intuitivo entre em uma sala, coloque as algemas nos culpados e encerre o caso. A intuição, no máximo, indicaria ao detetive uma boa pista. GMs que não se acham capazes de controlar esta vantagem convenientemente não deverão permitir que ela seja assumida.",
+    "efeitos": [
+      {
+        "tipo": "testeSecreto",
+        "alvo": "IQ+escolhas",
+        "nota": "referência = IQ + escolhas corretas − escolhas incorretas; 3 ou 4 indica a melhor opção; falha crítica indica opção ruim"
+      }
+    ],
+    "regras": [
+      "Apenas uma jogada por problema.",
+      "Não pode ser usada para abreviar a aventura — no máximo indica uma boa pista."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 22"
+  },
+  {
+    "id": "facilidade-para-linguas",
+    "nome": "Facilidade para Línguas",
+    "grupo": "classica",
+    "custo": "2 pontos/nível",
+    "descricao": "Você aprende línguas rapidamente. Esta aptidão pode ser exercida simultaneamente com outras. Se você tiver Memória Eidética e Facilidade para Línguas, estará falando 20 línguas em pouco tempo. Adicione o nível de Facilidade para Línguas ao seu atributo IQ toda vez que você estiver aprendendo uma língua. Exemplo: seu atributo IQ é igual a 10, sua Facilidades para Língua é 2. Você aprende línguas como se sua Inteligência fosse igual a 12. Você recebe o mesmo bônus com a perícia Lingüística. Custo: 2 pontos por ponto de bônus.",
+    "custoPorNivel": 2,
+    "efeitos": [
+      {
+        "tipo": "atributoEfetivo",
+        "alvo": "IQ",
+        "valor": 1,
+        "porNivel": true,
+        "contexto": "aprenderLinguas",
+        "nota": "+1 por nível no IQ efetivo ao aprender línguas"
+      },
+      {
+        "tipo": "pericia",
+        "alvo": "linguistica",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "mesmo bônus na perícia Lingüística"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 22"
+  },
+  {
+    "id": "poderes-legais",
+    "nome": "Poderes Legais",
+    "grupo": "classica",
+    "custo": "5, 10 ou 15 pontos",
+    "descricao": "Você é um oficial da lei, com todos os direitos, poderes e restrições que acompanham o cargo. Em algumas épocas e lugares isto equivale a uma licença para matar, em outros, é pouco mais que o direito de carregar um distintivo e lavrar multas por estacionamento proibido. custo em pontos é determinado pelos direitos e privilégios inerentes à posição ocupada pelo personagem. Geralmente, para um policial com jurisdição local, a habilidade de prender criminosos suspeitos, o direito de realizar buscas com o devido mandado e possivelmente o direito de carregar uma arma escondida, vale 5 pontos de Poderes Legais. Exemplos deste caso seriam um policial da Era Vitoriana ou um atual.\nAlguém com jurisdição nacional ou internacional, ou não obrigado a respeitar os direitos civis dos outros, ou com liberdade para envolver-se em uma investigação secreta, ou capaz de matar com relativa impunidade, deve pagar 10 pontos por seus poderes. Exemplos seriam um agente do FBI ou um membro da Guarda Real na Idade Média.\nUm oficial com 3 ou mais das habilidades descritas acima tem 15 pontos de Poderes Legais. Um exemplo poderia ser um agente graduado da CIA, KGB ou MI-5. Os Poderes Legais normalmente andam de mãos dadas com a desvantagem do Dever e com uma Reputação, o que pode ser uma vantagem, uma desvantagem, ou ambos.",
+    "niveis": [
+      {
+        "nome": "Jurisdição local",
+        "custo": 5,
+        "efeito": "Prender suspeitos, buscas com mandado e possivelmente arma escondida (policial vitoriano ou atual)."
+      },
+      {
+        "nome": "Jurisdição nacional/internacional",
+        "custo": 10,
+        "efeito": "Jurisdição nacional ou internacional, ou dispensa de direitos civis, ou investigação secreta, ou matar com relativa impunidade (FBI, Guarda Real)."
+      },
+      {
+        "nome": "3 ou mais habilidades",
+        "custo": 15,
+        "efeito": "Oficial com 3 ou mais das habilidades acima (CIA, KGB, MI-5)."
+      }
+    ],
+    "regras": [
+      "Anda de mãos dadas com a desvantagem Dever e com uma Reputação (que pode ser vantagem, desvantagem ou ambos)."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 22"
+  },
+  {
+    "id": "calculos-instantaneos",
+    "nome": "Cálculos Instantâneos",
+    "grupo": "classica",
+    "custo": "5 pontos",
+    "descricao": "O personagem é capaz de realizar operaçães matemáticas de cabeça instantaneamente. Se seu personagem tiver esta aptidão, você (jogador) poderá usar uma calculadora a qualquer momento, para calcular o que desejar — mesmo que seu personagem esteja correndo para salvar sua vida na hora. Alternativamente, o GM pode simplesmente dizer que o personagem sabe a resposta de um problema simples de matemática.",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 23"
+  },
+  {
+    "id": "alfabetizacao",
+    "nome": "Alfabetização",
+    "grupo": "classica",
+    "custo": "0 ou 10 pontos",
+    "descricao": "Apesar de isto ser uma perícia na vida real, ela será tratada como uma vantagem por razões já explicadas anteriormente. Em geral, presume-se que o personagem é alfabetizado se a maioria da população de seu mundo o for, e analfabeto se a maioria das pessoas também for (NT4 ou menor). Ser alfabetizado em um mundo onde a maioria das pessoas não sabe ler é uma vantagem que vale 10 pontos. Ser analfabeto num mundo onde a maioria das pessoas sabe ler é uma desvantagem que vale -10 pontos.",
+    "niveis": [
+      {
+        "nome": "Presumida (mundo alfabetizado)",
+        "custo": 0,
+        "efeito": "Sem custo quando a maioria da população do mundo é alfabetizada."
+      },
+      {
+        "nome": "Alfabetizado em mundo não alfabetizado",
+        "custo": 10,
+        "efeito": "Vantagem de 10 pontos onde a maioria não sabe ler."
+      }
+    ],
+    "regras": [
+      "Ser analfabeto num mundo onde a maioria sabe ler é desvantagem de −10 pontos.",
+      "Presunção ligada ao NT: NT4 ou menor = maioria analfabeta."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 23"
+  },
+  {
+    "id": "longevidade",
+    "nome": "Longevidade",
+    "grupo": "classica",
+    "custo": "5 pontos",
+    "descricao": "Seu tempo de vida é naturalmente longo. Você falhará em testes de envelhecimento, somente se obtiver um resultado igual a 17 ou 18. Um personagem com esta vantagem não receberá nenhum ponto ao assumir a desvantagem da Idade.",
+    "efeitos": [
+      {
+        "tipo": "envelhecimento",
+        "alvo": "falhaApenas",
+        "valor": 17,
+        "nota": "só falha em testes de envelhecimento com 17 ou 18"
+      },
+      {
+        "tipo": "restricaoDePontos",
+        "alvo": "idade",
+        "nota": "não recebe pontos ao assumir a desvantagem Idade"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 23"
+  },
+  {
+    "id": "sorte",
+    "nome": "Sorte",
+    "grupo": "classica",
+    "custo": "15 ou 30 pontos",
+    "descricao": "Algumas pessoas simplesmente nasceram com sorte. Uma vez a cada hora de jogo, você pode fazer até três testes de alguma coisa e escolher o melhor resultado. Se o GM estiver fazendo a jogada (ex.: para ver se um certo NPC chega, ou para verificar se você nota alguma coisa), você lhe diz que está usando sua sorte e ele deverá jogar três vezes e lhe dar o melhor resultado. Custo: 15 pontos.\nA Sorte Extraordinária funciona da mesma maneira, mas pode ser usada a cada 30 minutos ao invés de uma hora. Custo: 30 pontos.\nSua sorte se aplica somente a jogadas feitas pelo seu personagem como uma tentativa de fazer alguma coisa, OU em eventos externos que o afetam ou a todo o grupo, OU quando você está sendo atacado (neste caso você pode fazer o atacante jogar três vezes e assumir o pior resultado). A sorte não pode ser compartilhada. Se Sam, o Forte, está tentando abrir uma porta, Lou, o Sortudo, não poderá ficar atrás dele e lhe transferir sua sorte. Ele terá que abrir a porta por si próprio. Note também que a Sorte não pode ser economizada. Você não pode jogar durante horas sem usar a Sorte e, depois, usá-la várias vezes em seguida!",
+    "niveis": [
+      {
+        "nome": "Sorte",
+        "custo": 15,
+        "jogadas": 3,
+        "intervaloMinutos": 60,
+        "efeito": "Uma vez a cada hora de jogo, até três testes e escolher o melhor resultado."
+      },
+      {
+        "nome": "Sorte Extraordinária",
+        "custo": 30,
+        "jogadas": 3,
+        "intervaloMinutos": 30,
+        "efeito": "Da mesma maneira, mas a cada 30 minutos."
+      }
+    ],
+    "efeitos": [
+      {
+        "tipo": "sorte",
+        "alvo": "jogadas",
+        "valor": 3,
+        "nota": "3 jogadas, escolhendo o melhor; ao ser atacado, o atacante joga 3× e assume o pior"
+      }
+    ],
+    "regras": [
+      "Aplica-se a jogadas do próprio personagem, a eventos externos que o afetam (ou ao grupo), ou quando está sendo atacado.",
+      "Não pode ser compartilhada nem economizada."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 23"
+  },
+  {
+    "id": "aptidao-magica",
+    "nome": "Aptidão Mágica",
+    "grupo": "classica",
+    "custo": "15 pontos para o primeiro nível 10 pontos/nível a partir daí",
+    "descricao": "Você tem um bônus no aprendizado de todas as operaçães mágicas. Naturalmente, se você pertencer a uma cultura sem magia, começará sem nenhum conhecimento sobre mágicas, mas poderá aprendê-las com mais facilidade se encontrar uma oportunidade. Quando entrar em um mundo mágico, todos aqueles que puderem detetar sua aura o reconhecerão como um usuário de magia potencialmente poderoso, apesar de inexperiente. Eles podem querer ensiná-lo ou matá-lo.\nQuando aprender qualquer operação mágica, você o fará como se sua Inteligência fosse igual a (IQ + Aptidão). Exemplo: Você tem IQ igual a 14 e uma Aptidão Mágica igual a 3. Você aprende operaçães mágicas como se sua IQ fosse 17.\nAlém disso, o GM fará testes contra seu (IQ + Aptidão) quando você vir um objeto encantado pela primeira vez, e outro quando você o tocar pela primeira vez. No caso de sucesso, você saberá intuitivamente que ele é encantado. Um resultado igual a 3 ou 4 dirá também, se a magia é salutar ou perigosa e qual a sua intensidade. Exemplo: se tiver IQ igual a 13 e 3 níveis de Aptidão, você reconhecerá um objeto encantado com um resultado menor ou igual a 16. Se a jogada falhar, o GM simplesmente não lhe dirá nada. Note que o uso desta vantagem poderá ser complicado para um personagem de um cenário sem magia, como a Terra do século XX. Tal personagem ainda terá a habilidade para detetar magia, mas até ele ganhar experiência com magia o GM não deverá dizer “Aquele ídolo é mágico”, e sim “Aquele ídolo tem uma aparência muito estranha para você, muito sinistra. Você sente que há alguma coisa especial com relação a ele”. Personagens sem Aptidão Mágica não têm direito a nenhum teste para detetar objetos encantados.\nCusto: 15 pontos no primeiro nível de Aptidão; 10 pontos para cada nível subseqüente até um máximo de 3 níveis.",
+    "custoPorNivel": 10,
+    "maxNiveis": 3,
+    "niveis": [
+      {
+        "nome": "1º nível",
+        "custo": 15,
+        "efeito": "IQ + 1 para aprender mágicas e para detectar objetos encantados."
+      },
+      {
+        "nome": "2º nível",
+        "custo": 25,
+        "efeito": "15 + 10: IQ + 2."
+      },
+      {
+        "nome": "3º nível",
+        "custo": 35,
+        "efeito": "15 + 10 + 10: IQ + 3 (máximo publicado)."
+      }
+    ],
+    "efeitos": [
+      {
+        "tipo": "atributoEfetivo",
+        "alvo": "IQ",
+        "valor": 1,
+        "porNivel": true,
+        "contexto": "magia",
+        "nota": "aprende e opera mágicas como se IQ fosse (IQ + Aptidão)"
+      },
+      {
+        "tipo": "deteccao",
+        "alvo": "objetoEncantado",
+        "nota": "teste do GM contra (IQ + Aptidão) ao ver e ao tocar; 3 ou 4 revela se é salutar/perigosa e a intensidade"
+      }
+    ],
+    "incompativel": [
+      "abascanto"
+    ],
+    "regras": [
+      "Máximo de 3 níveis.",
+      "Personagens sem Aptidão Mágica não têm direito a nenhum teste para detectar objetos encantados."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 24"
+  },
+  {
+    "id": "abascanto",
+    "nome": "Abascanto (Resistência à Magia)",
+    "grupo": "classica",
+    "custo": "2 pontos/nível",
+    "descricao": "Você tem mais chance de não ser afetado pela maioria dos tipos de magia. Note que esta vantagem não pode ser combinada com Aptidão Mágica. Não é possível ter aptidão para magia e ao mesmo tempo, ser resistente a ela. Na verdade, se você tiver Resistência à Magia, você não será capaz de realizar nenhuma Mágica (apesar de ainda poder usar armas mágicas). Também não é possível “desligar” esta vantagem para permitir que uma mágica benéfica seja realizada sobre você. O Abascanto, e seu nível preciso, podem ser reconhecidos por qualquer mago que olhe para sua aura ou por qualquer um que realize uma mágica contra sua pessoa. O seu nível de Resistência à Magia é subtraído do nível de habilidade de quem realiza a operação. Se sua Resistência à Magia for igual a 3 e o nível de habilidade do operador for igual a 15, seu nível efetivo será 12. Se você optar por resistir, o seu Abascanto também aumenta sua capacidade de resistir a mágicas que podem ser bloqueadas.\nPortanto, esta vantagem o protege de uma mágica feita diretamente contra você. Ela não o defende contra (a) mágicas de projétil; (b) ataques com armas mágicas; (c) mágicas realizadas com o intuito de colher informaçães, que não são realizadas diretamente sobre você (como uma profecia ou uma bola de cristal). O Abascanto não tem efeito sobre ataques psíquicos.",
+    "custoPorNivel": 2,
+    "efeitos": [
+      {
+        "tipo": "resistenciaMagica",
+        "alvo": "nhDoOperador",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "o nível é subtraído do NH de quem realiza a operação (ex.: resistência 3 contra NH 15 → efetivo 12)"
+      },
+      {
+        "tipo": "restricao",
+        "alvo": "conjurarMagica",
+        "nota": "não é capaz de realizar nenhuma Mágica (pode usar armas mágicas)"
+      },
+      {
+        "tipo": "restricao",
+        "alvo": "desligar",
+        "nota": "não pode ser “desligada” para receber mágica benéfica"
+      }
+    ],
+    "incompativel": [
+      "aptidao-magica"
+    ],
+    "regras": [
+      "Não defende contra mágicas de projétil, ataques com armas mágicas, nem mágicas de informação não direcionadas (profecia, bola de cristal).",
+      "Não tem efeito sobre ataques psíquicos.",
+      "Reconhecível por qualquer mago que olhe a aura ou lance mágica contra o personagem."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 24–25"
+  },
+  {
+    "id": "talento-para-matematica",
+    "nome": "Talento para Matemática",
+    "grupo": "classica",
+    "custo": "10 pontos",
+    "descricao": "Esta vantagem garante um bônus de +3 em qualquer teste de habilidade com perícias matemáticas ou ligadas à computação (exceto Operação de Computadores) e um bônus de +2 nas relativas à Engenharia em NT6+.",
+    "efeitos": [
+      {
+        "tipo": "pericia",
+        "alvo": "matematica",
+        "valor": 3,
+        "nota": "+3 em perícias matemáticas ou de computação (exceto Operação de Computadores)"
+      },
+      {
+        "tipo": "pericia",
+        "alvo": "engenharia",
+        "valor": 2,
+        "condicao": "NT6+",
+        "nota": "+2 em Engenharia em NT6 ou superior"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 25"
+  },
+  {
+    "id": "hierarquia-militar",
+    "nome": "Hierarquia Militar",
+    "grupo": "classica",
+    "custo": "5 pontos/nível hierárquico",
+    "descricao": "Da mesma maneira que o Status reflete sua posição na sociedade, o Posto Militar (também chamado “graduação”) reflete sua posição numa organização militar ou paramilitar. Todos os postos têm autoridade sobre os inferiores, independente da capacidade pessoal. Custo: 5 pontos por nível, até o máximo de 8 níveis.\nO título dos postos varia de organização para organização.\nEm bons exércitos profissionais, os Oficiais Superiores (nível 5 ou 6) têm que ter um NH em Liderança maior ou igual a 12. Oficiais-Generais (nível maior ou igual a 7) devem ter Liderança no mínimo igual a 13. Este pré-requisito pode ser satisfeito pelo seu NH pré-definido, que é ST-5. A incompetência nos níveis mais altos não é tolerada de nenhuma forma. (Mas os oficiais incompetentes são comuns em forças menos profissionais ou dominadas politicamente.)\nRecomenda-se, com veemência, que o GM não permita que nenhum PC seja criado com um nível maior do que 5 na Hierarquia Militar, já que postos altos são concedidos normalmente apenas para líderes de capacidade comprovada.\nUm posto militar, ao contrário do Status Social, não é mantido com dinheiro. No entanto, a insubordinação, covardia muito grande ou estupidez podem provocar a perda temporária ou permanente de um posto militar, dependendo da reação do superior (representado pelo GM).\nAs Patentes são conferidas por oficiais superiores (normalmente de nível maior ou igual a 6) para aumentar temporariamente seu nível hierárquico por um período de tempo pré-determinado (até o fim de uma batalha, campanha ou algo semelhante). Para manter o posto, o personagem deve satisfazer as exigências daquele posto e pagar os pontos de personagem.\nEm alguns exércitos, os postos militares podem ser comprados com dinheiro. Num caso destes, o PC que for Rico, Muito Rico ou Podre de Rico receberá o nível 3 automaticamente, se desejar. Níveis ainda mais altos custam pontos de personagem além do dinheiro. Um nível de Riqueza menor ou igual a Médio exige o dobro de pontos para começar com um Posto Militar entre 1 e 6. Depois que o personagem foi criado, o posto militar poderá ser conseguido com o número normal de pontos, se a quantia de dinheiro necessária estiver disponível.\nEm muitos lugares, o Posto Militar traz associado consigo algum Status Social que não precisa ser pago separadamente e não tem nenhum custo em dinheiro para ser mantido. O “NH pré-definido” aqui é 1 nível de Status para cada 3 níveis na Hierarquia Militar, arredondando para o número mais próximo. Nos lugares onde esta relação for diferente, ela será mencionada nos livros de referência. Os Postos Militares são quase sempre acompanhados de uma carga significativa de Dever.",
+    "custoPorNivel": 5,
+    "maxNiveis": 8,
+    "efeitos": [
+      {
+        "tipo": "statusDerivado",
+        "alvo": "status",
+        "valor": 1,
+        "aCada": 3,
+        "nota": "1 nível de Status para cada 3 níveis de Hierarquia Militar, arredondando para o mais próximo (sem custo separado)"
+      },
+      {
+        "tipo": "autoridade",
+        "alvo": "inferiores",
+        "nota": "todos os postos têm autoridade sobre os inferiores, independente da capacidade pessoal"
+      }
+    ],
+    "requisitos": [
+      "Oficiais Superiores (nível 5 ou 6): NH em Liderança ≥ 12 (pode ser satisfeito pelo NH pré-definido ST−5)",
+      "Oficiais-Generais (nível ≥ 7): Liderança ≥ 13"
+    ],
+    "postos": [
+      {
+        "nivel": 8,
+        "comando": "Comando de Unidade ou mais",
+        "exemplos": "General de Exército, General de Divisão ou Almirante"
+      },
+      {
+        "nivel": 7,
+        "comando": "Comando de Divisão",
+        "exemplos": "Brigadeiro ou General de Brigada"
+      },
+      {
+        "nivel": 6,
+        "comando": "Comando de Brigada/Grupo/Regimento",
+        "exemplos": "Coronel ou Capitão de um encouraçado ou porta-aviães"
+      },
+      {
+        "nivel": 5,
+        "comando": "Comando de Batalhão",
+        "exemplos": "Tenente-Coronel"
+      },
+      {
+        "nivel": 4,
+        "comando": "Comando de Companhia",
+        "exemplos": "Capitão ou Major"
+      },
+      {
+        "nivel": 3,
+        "comando": "Comando de Pelotão",
+        "exemplos": "Tenente ou Subtenente"
+      },
+      {
+        "nivel": 2,
+        "comando": "Oficial subalterno associado ao comando de um pelotão, companhia ou batalhão",
+        "exemplos": "Primeiro Sargento ou Sargento-Ajudante"
+      },
+      {
+        "nivel": 1,
+        "comando": "Oficial subalterno associado ao comando de um pelotão",
+        "exemplos": "Sargento ou Segundo-Sargento"
+      },
+      {
+        "nivel": 0,
+        "comando": "Militar sem patente",
+        "exemplos": "Praça, Piloto-Aviador ou Marinheiro"
+      }
+    ],
+    "regras": [
+      "Recomenda-se, com veemência, que o GM não permita criar PC acima do nível 5.",
+      "O posto não é mantido com dinheiro; insubordinação, covardia ou estupidez podem causar perda temporária ou permanente.",
+      "Patentes temporárias são conferidas por oficiais de nível ≥ 6; para manter o posto é preciso satisfazer as exigências e pagar os pontos.",
+      "Posto comprado com dinheiro: Rico/Muito Rico/Podre de Rico recebe nível 3 automaticamente; Riqueza ≤ Médio exige o dobro de pontos para níveis 1–6.",
+      "Postos Militares são quase sempre acompanhados de uma carga significativa de Dever."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 25–27"
+  },
+  {
+    "id": "talento-musical",
+    "nome": "Talento Musical",
+    "grupo": "classica",
+    "custo": "1 ponto/nível",
+    "descricao": "Você tem um talendo natural para música e instrumentos musicais. Seu nível de habilidade musical deve ser adicionado a seu atributo IQ quando você está estudando Canto ou algum instrumento musical, isto é, quando estiver estudando uma perícia musical, você a aprenderá como se sua IQ fosse igual a (IQ + Talento Musical). Custo: 1 ponto para cada ponto de bônus.",
+    "custoPorNivel": 1,
+    "efeitos": [
+      {
+        "tipo": "atributoEfetivo",
+        "alvo": "IQ",
+        "valor": 1,
+        "porNivel": true,
+        "contexto": "periciasMusicais",
+        "nota": "aprende perícias musicais (Canto, instrumentos) como se IQ fosse (IQ + Talento Musical)"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 27"
+  },
+  {
+    "id": "visao-noturna",
+    "nome": "Visão Noturna (Ciópitica)",
+    "grupo": "classica",
+    "custo": "10 pontos",
+    "descricao": "Seus olhos se adaptam rapidamente à escuridão. Você não é capaz de enxergar numa escuridão total, mas se houver alguma luz, você será capaz de enxergar muito bem. Sempre que o GM exigir uma penalidade devido à escuridão, exceto no caso de escuridão total, esta penalidade não se aplicará a você.",
+    "efeitos": [
+      {
+        "tipo": "ignoraPenalidade",
+        "alvo": "escuridao",
+        "nota": "ignora penalidades por escuridão, exceto em Escuridão Total"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 27"
+  },
+  {
+    "id": "visao-periferica",
+    "nome": "Visão Periférica",
+    "grupo": "classica",
+    "custo": "15 pontos",
+    "descricao": "O personagem tem um campo de visão extraordinariamente amplo. Sempre que alguma coisa perigosa ou interessante acontecer “às suas costas”, o GM fará um teste de IQ. Um sucesso significará que ele viu tudo o que aconteceu, ou o suficiente para alertá-lo do perigo no caso de um ataque. Se o jogo estiver sendo realizado com um mapa, o personagem será capaz de atacar tanto os espaços à direita e à esquerda, como os que estão à sua frente. (Lembre-se de que um ataque à esquerda com uma arma empunhada com uma só mão é desajeitado e por isso considerado um “golpe molinete”). Se for atacado pela direita ou pela esquerda, ele será capaz de se defender sem sofrer nenhuma penalidade. Sua defesa ativa estará submetida a um redutor igual a -2 para ataques pelas costas. Ninguém é capaz de atacar um oponente que está exatamente atrás de si (sem aplicar um “golpe molinete”). Além disso, ele terá um ângulo de visão maior para ataques à distância.",
+    "efeitos": [
+      {
+        "tipo": "testeSecreto",
+        "alvo": "IQ",
+        "nota": "teste de IQ do GM quando algo perigoso/interessante acontece às suas costas"
+      },
+      {
+        "tipo": "defesaAtiva",
+        "alvo": "lados",
+        "valor": 0,
+        "nota": "defende-se de ataques pela direita/esquerda sem penalidade"
+      },
+      {
+        "tipo": "defesaAtiva",
+        "alvo": "costas",
+        "valor": -2,
+        "nota": "−2 na defesa ativa contra ataques pelas costas (em vez de não poder se defender)"
+      },
+      {
+        "tipo": "ataque",
+        "alvo": "lados",
+        "nota": "pode atacar os espaços à direita e à esquerda; ataque à esquerda com arma de uma mão é “golpe molinete”"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 27",
+    "_aviso": "A figura publicada mostra o ângulo de visão (branco = normal, cinza + branco = visão periférica); os valores angulares não foram publicados em texto."
+  },
+  {
+    "id": "resistencia-pisiquica",
+    "nome": "Resistência Pisíquica",
+    "grupo": "classica",
+    "custo": "2 pontos/nível",
+    "descricao": "A Resistência Pisíquica interfere com todos os usos de poderes pisíquicos feitos contra você, ou seja, sejam eles amistosos ou hostis, contra ou a favor do objetivo. Ela nunca pode ser desligada. Se você tiver essa vantagem, o nível de sua resistência será subtraído do NH efetivo de qualquer tentativa pisíquica em que você é o objetivo (até mesmo Psiconese e Clarividência). Ela também é subtraída do seu NH em qualquer poder psíquico. Por isso, se você tiver uma Resistência Pisíquica alta, ser-lhe-á difícil desenvolver quaisquer habilidades significativas suas.",
+    "custoPorNivel": 2,
+    "efeitos": [
+      {
+        "tipo": "resistenciaPsiquica",
+        "alvo": "nhDoAlvo",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "subtraída do NH efetivo de qualquer tentativa psíquica contra o personagem (inclusive Psiconese e Clarividência)"
+      },
+      {
+        "tipo": "penalidade",
+        "alvo": "poderesPsiquicosProprios",
+        "valor": -1,
+        "porNivel": true,
+        "nota": "também é subtraída do NH do personagem em qualquer poder psíquico próprio"
+      }
+    ],
+    "regras": [
+      "Nunca pode ser desligada — vale para poderes amistosos ou hostis."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 28"
+  },
+  {
+    "id": "recuperacao-aligera",
+    "nome": "Recuperação Alígera",
+    "grupo": "classica",
+    "custo": "5 pontos",
+    "descricao": "Esta vantagem só está disponível para personagens cujo atributo HT é maior ou igual a 10. Quem a possui se recuperará rapidamente de todos os tipos de ferimentos. Toda vez que fizer um teste para verificar a recuperação da HT perdida, ou quando jogar para ver se pode curar um aleijão, deverá adicionar 5 à sua HT efetiva. Esta característica não ajuda o personagem a se recuperar de um atordoamento.",
+    "efeitos": [
+      {
+        "tipo": "atributoEfetivo",
+        "alvo": "HT",
+        "valor": 5,
+        "contexto": "recuperacao",
+        "nota": "+5 na HT efetiva em testes de recuperação de HT perdida e de cura de aleijão"
+      },
+      {
+        "tipo": "excecao",
+        "alvo": "atordoamento",
+        "nota": "não ajuda a se recuperar de atordoamento"
+      }
+    ],
+    "requisitos": [
+      "HT ≥ 10"
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 28"
+  },
+  {
+    "id": "reputacao",
+    "nome": "Reputação",
+    "grupo": "social",
+    "custo": "Variável",
+    "descricao": "Uma boa reputação conta como uma vantagem.",
+    "custoPorNivel": 5,
+    "regras": [
+      "Custo publicado no material-base: 5 pts por ponto de modificador de reação (máx ±4), × classe afetada (todos = valor cheio; grupo grande = ½; grupo pequeno = ⅓) × frequência (sempre = 1; às vezes (≤10) = ½; ocasional (⅓)); arredondamentos para baixo."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 13–15 e p. 28"
+  },
+  {
+    "id": "status",
+    "nome": "Status",
+    "grupo": "social",
+    "custo": "Variável",
+    "descricao": "Status Social elevado é uma vantagem.",
+    "custoPorNivel": 5,
+    "regras": [
+      "Custo publicado no material-base: 5 pts por nível social (−4 a 8); níveis negativos devolvem pontos; Riqueza ≥ Rico reduz 5 pts do custo do Status elevado.",
+      "Bônus/penalidade de reação = diferença de Status relativa (mín. −4). Trato Social = IQ+2 na própria cultura."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 15–17 e p. 28"
+  },
+  {
+    "id": "forca-de-vontade",
+    "nome": "Força de Vontade",
+    "grupo": "classica",
+    "custo": "4 pontos/nível",
+    "descricao": "O personagem tem muito mais determinação que a média das pessoas. Seu nível de Vontade é adicionado a seu atributo IQ toda vez que ele fizer, por qualquer razão, um teste de Vontade, incluindo tentativas de influenciálo através da Diplomacia, Lábia, Sex Appeal, Interrogatório (com ou sem tortura), Hipnotismo ou tentativas de dominar sua mente através de magia ou psiquismo. A Força de Vontade é adicionada à resistência do personagem quando ele quer resistir a uma mágica. Esta vantagem, no entanto, não ajuda no caso de choque em combate, etc. Em casos questionáveis, a decisão do GM é lei.\nExemplo: Você tem 3 níveis de Força de Vontade. Uma espiã inimiga está tentando seduzi-lo. O GM faz uma Disputa entre o Sex Appeal da espiã vs. sua IQ. Mas você tem um bônus igual a +3 nesta disputa, devido à sua força de vontade. Custo: 4 pontos por ponto de bônus.",
+    "custoPorNivel": 4,
+    "efeitos": [
+      {
+        "tipo": "atributoEfetivo",
+        "alvo": "IQ",
+        "valor": 1,
+        "porNivel": true,
+        "contexto": "vontade",
+        "nota": "+1 por nível em qualquer teste de Vontade (Diplomacia, Lábia, Sex Appeal, Interrogatório, Hipnotismo, magia, psiquismo)"
+      },
+      {
+        "tipo": "resistenciaMagica",
+        "alvo": "resistir",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "somada à resistência ao resistir a uma mágica"
+      }
+    ],
+    "regras": [
+      "Não ajuda no caso de choque em combate.",
+      "Em casos questionáveis, a decisão do GM é lei."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 10:45)",
+    "fonteLegada": "p. 29"
+  },
+  {
+    "id": "rijeza",
+    "nome": "Rijeza",
+    "grupo": "classica",
+    "custo": "10/25 pontos",
+    "descricao": "Sua pele e carne são mais rijas do que a da média dos seres humanos. Seu próprio corpo tem sua Resistência a Dano. Esta RD é tratada da mesma forma que a de uma armadura: ela deve ser subtraída do dano causado por qualquer golpe, antes de você multiplicar o dano produzido por uma arma perfurante ou cortante. A Rijeza não o torna mais difícil de ser atingido, ela só faz com que você seja capaz de sobreviver a um dano maior.\nEla também não permite que sua pele “desvie” as armas. Elas ainda rompem a pele ou até mesmo provocam sangramento. Mas você não está ferido. No entanto, se uma arma envenenada romper sua pele, o veneno provocará seu dano normal. Lembre-se também que seus olhos não são rijos! Um golpe que os atinja provocará o dano normal.\nCusto: 10 pontos para RD igual a 1, ou 25 pontos para RD igual a 2. Rijezas maiores não são possíveis para um ser humano “natural”. No entanto, algumas criaturas têm uma Rijeza natural, ou até mesmo uma armadura natural que é capaz de interceptar armas.",
+    "maxNiveis": 2,
+    "niveis": [
+      {
+        "nome": "RD 1",
+        "custo": 10,
+        "rd": 1,
+        "efeito": "O corpo tem RD 1 (tratada como armadura)."
+      },
+      {
+        "nome": "RD 2",
+        "custo": 25,
+        "rd": 2,
+        "efeito": "O corpo tem RD 2 — máximo para um humano “natural”."
+      }
+    ],
+    "efeitos": [
+      {
+        "tipo": "rd",
+        "alvo": "corpo",
+        "valor": 1,
+        "nota": "RD natural subtraída do dano antes dos multiplicadores de perfuração/corte"
+      }
+    ],
+    "regras": [
+      "Não torna mais difícil de ser atingido (não dá DP).",
+      "Armas envenenadas que rompam a pele aplicam o veneno normalmente.",
+      "Os olhos não são rijos: golpe nos olhos causa dano normal."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 29"
+  },
+  {
+    "id": "antecedentes-incomuns",
+    "nome": "Antecedentes Incomuns",
+    "grupo": "classica",
+    "custo": "10 ou mais pontos",
+    "descricao": "Esta é uma vantagem do tipo “depósito”, que pode ser usada sempre que necessário. Exemplo: se seus pais eram mercadores e viajavam muito, você poderia reinvidicar o fato de ter duas ou três líguas “maternas”. Mas isto é claramente uma vantagem devida a Antecedentes Incomuns, que tem um custo em pontos.\nDa mesma maneira, poderia ter acesso a perícias que não estão disponíveis àqueles que vivem com você, e isto é Incomum.\nEm geral, toda vez que um jogador aparecer com uma “história do personagem” que forneça razões aceitáveis para lhe conferir algum benefício especial, o GM poderá permitilo, mas deverá exigir a vantagem Antecedentes Incomuns para cobri-la.\nO GM pode cobrar pontos extras se ele achar que o Antecedente é muito Incomum. “Criado por alienígenas” ou “treinado desde que nasceu por uma misteriosa seita ninja”, poderiam ser considerados “muito incomuns” na maioria dos cenários. Pessoas dotadas de poderes psíquicos, super-seres ou feiticeiros serão Muito Incomuns se aparecerem em um mundo onde seus talentos especiais forem únicos.",
+    "efeitos": [
+      {
+        "tipo": "deposito",
+        "alvo": "beneficiosDeHistoria",
+        "nota": "cobre benefícios especiais justificados pela história do personagem"
+      }
+    ],
+    "regras": [
+      "O GM pode cobrar pontos extras se o antecedente for muito incomum (10 ou mais pontos)."
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 29–30"
+  },
+  {
+    "id": "voz-melodiosa",
+    "nome": "Voz Melodiosa",
+    "grupo": "classica",
+    "custo": "10 pontos",
+    "descricao": "O personagem tem uma voz clara, atraente e ressonante. Ele receberá um bônus permanente igual a +2 nas seguintes perícias: Trovador, Diplomacia, Atuação, Política, Trato Social, Sex Appeal e Canto. Receberá também um bônus igual a +2 em qualquer teste de reação feito por alguém que possa ouvir sua voz.",
+    "efeitos": [
+      {
+        "tipo": "pericia",
+        "alvo": "voz",
+        "valor": 2,
+        "pericias": [
+          "trovador",
+          "diplomacia",
+          "atuacao",
+          "politica",
+          "trato-social",
+          "sex-appeal",
+          "canto"
+        ],
+        "nota": "+2 permanente em Trovador, Diplomacia, Atuação, Política, Trato Social, Sex Appeal e Canto"
+      },
+      {
+        "tipo": "reacao",
+        "alvo": "quemOuve",
+        "valor": 2,
+        "nota": "+2 em qualquer teste de reação feito por alguém que possa ouvir sua voz"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 30"
+  },
+  {
+    "id": "riqueza",
+    "nome": "Riqueza",
+    "grupo": "social",
+    "custo": "Variável",
+    "descricao": "A Riqueza pode ser uma vantagem realmente maravilhosa. O custo em pontos para a maioria dos níveis de riqueza. Lembre-se que a riqueza é relativa e determinada pelo cenário em que o personagem é criado. O significado preciso de cada nível será definido no livro de referência de cada cenário.",
+    "niveis": [
+      {
+        "nome": "Falido",
+        "custo": -25,
+        "multiplicadorRecursos": 0,
+        "trabalhoSemanal": null
+      },
+      {
+        "nome": "Pobre",
+        "custo": -15,
+        "multiplicadorRecursos": 0.2,
+        "trabalhoSemanal": 50
+      },
+      {
+        "nome": "Batalhador",
+        "custo": -10,
+        "multiplicadorRecursos": 0.5,
+        "trabalhoSemanal": 40
+      },
+      {
+        "nome": "Médio",
+        "custo": 0,
+        "multiplicadorRecursos": 1,
+        "trabalhoSemanal": 40
+      },
+      {
+        "nome": "Confortável",
+        "custo": 10,
+        "multiplicadorRecursos": 2,
+        "trabalhoSemanal": 40
+      },
+      {
+        "nome": "Rico",
+        "custo": 20,
+        "multiplicadorRecursos": 5,
+        "trabalhoSemanal": 20
+      },
+      {
+        "nome": "Muito Rico",
+        "custo": 30,
+        "multiplicadorRecursos": 20,
+        "trabalhoSemanal": 10
+      },
+      {
+        "nome": "Podre de Rico",
+        "custo": 50,
+        "multiplicadorRecursos": 100,
+        "trabalhoSemanal": 10
+      }
+    ],
+    "refRegras": "vantagens.riqueza",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 12–13"
+  },
+  {
+    "id": "aliado",
+    "nome": "Aliado",
+    "grupo": "social",
+    "custo": "Base: <75 pts é Dependente; 76–100 = 5 pts; 101–150 = 10; 151–200 = 15 (+5 por faixa de 50). Freqüência: quase sempre ×3; bastante ×2; freqüente ×1; esporádica ½ (arred. p/ cima). Habilidades especiais +5 a +10.",
+    "descricao": "Muitos heróis ficcionais têm parceiros — camaradas leais, companheiros fiéis ou amigos de infância — que os acompanham em suas aventuras. Estes parceiros são Aliados. Ter um Aliado é uma vantagem.\nUm Aliado NPC, por outro lado, é inteiramente confiável. Talvez vocês tenham lutado lado a lado em uma extensa campanha, treinado com o mesmo mestre, ou crescido na mesma vila. Os dois confiam tacitamente um no outro. Vocês viajam e lutam juntos, dividem as provisões em épocas difíceis, se revezam na vigia durante a noite. O custo em pontos para um Aliado é determinado por seu valor em pontos e freqüência de participação.\nUm Aliado construído com menos do que 75 pontos é, na verdade, um Dependente. Um Aliado construído com 76 a 100 pontos custa 5 pontos. Um Aliado construído com 101 a 150 pontos custa 10 pontos. Um Aliado construído com 151 a 200 pontos custa 15 pontos e assim por diante. Um Aliado construído com 50 pontos a mais do que seu PC é na realidade um Patrono. Um Aliado que tenha habilidades especiais, como poderes mágicos em um mundo sem magia ou equipamentos muito além do nível tecnológico de seu mundo, custa entre 5 a 10 pontos mais, conforme a decisão do Mestre.",
+    "niveis": [
+      {
+        "nome": "Quase todo o tempo (3d ≤ 15)",
+        "custo": 3,
+        "multiplicador": 3,
+        "efeito": "custo triplo"
+      },
+      {
+        "nome": "Com bastante freqüência (3d ≤ 12)",
+        "custo": 2,
+        "multiplicador": 2,
+        "efeito": "custo dobrado"
+      },
+      {
+        "nome": "Freqüentemente (3d ≤ 9)",
+        "custo": 1,
+        "multiplicador": 1,
+        "efeito": "custo normal"
+      },
+      {
+        "nome": "Esporadicamente (3d ≤ 6)",
+        "custo": 0.5,
+        "multiplicador": 0.5,
+        "efeito": "metade do custo (arredondado para cima)"
+      }
+    ],
+    "regras": [
+      "Um Aliado NPC pode ter até 40 pontos em desvantagens, ou uma única desvantagem de qualquer valor.",
+      "Aliados NPC devem pagar os pontos para ter o PC como Aliado (PC de 100 pontos → custo 5).",
+      "Nem o Aliado nem o PC recebem pontos por Senso de Dever ou Voto para com o companheiro — o custo do Aliado já leva isso em conta."
+    ],
+    "refRegras": "vantagens.aliado",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 30–32",
+    "_aviso": "Os 'custos' listados em niveis são os MULTIPLICADORES de freqüência publicados; o custo em pontos vem da faixa de pontos do Aliado (5/10/15 …). Ver data/vantagens.json → aliado."
+  },
+  {
+    "id": "patrono",
+    "nome": "Patrono",
+    "grupo": "social",
+    "custo": "Indivíduo poderoso (150 pts) ou grupo com 1000× recursos: 10 pts; extremamente poderoso (200 pts) ou organização 10.000×: 15; organização muito poderosa 10⁶×: 25; governo nacional/multinacional gigantesca: 30. Equipamento para uso próprio: +5 (ou +10 se valer mais que os recursos iniciais). Qualidades especiais: +5 ou +10. Freqüência como Aliado.",
+    "descricao": "Um patrono é um NPC, criado inicialmente pelo jogador mas controlado pelo GM. Um patrono pode ser de grande ajuda como amigo, conselheiro, protetor ou patrão. (Um personagem pode ter um emprego sem ter um patrono — veja Empregos. Um patrono é mais do que um chefe comum.)\nO GM pode limitar ou proibir os Patronos se eles ameaçarem romper o equilíbrio de uma campanha. O custo em pontos de um Patrono é determinado: (a) por seu poder e (b) pela freqüência com que ele aparece para ajudá-lo.\nSe o Patrono for um único indivíduo poderoso (criado com no mínimo 150 pontos) e/ou um grupo com bens disponíveis no mínimo 1000 vezes a quantidade inicial de recursos daquele mundo: 10 pontos. Se o Patrono for um indivíduo extremamente poderoso (criado com no mínimo 200 pontos) ou uma organização razoavelmente poderosa (bens disponíveis equivalentes a no mínimo 10.000 vezes a quantidade inicial de bens): 15 pontos. Exemplo: O departamento de Polícia de Los Angeles. Se o Patrono for uma organização muito poderosa (bens disponíveis equivalentes a no mínimo um milhão de vezes a quantidade inicial de recursos): 25 pontos. Exemplo: Uma grande corporação ou uma nação muito pequena. Se o Patrono for um governo nacional ou uma organização multinacional gigantesca (quantidade de bens incalculável): 30 pontos.",
+    "niveis": [
+      {
+        "nome": "Indivíduo poderoso (150 pts) / grupo 1000×",
+        "custo": 10,
+        "efeito": "10 pontos"
+      },
+      {
+        "nome": "Extremamente poderoso (200 pts) / organização 10.000×",
+        "custo": 15,
+        "efeito": "15 pontos — ex.: departamento de Polícia de Los Angeles"
+      },
+      {
+        "nome": "Organização muito poderosa (10⁶×)",
+        "custo": 25,
+        "efeito": "25 pontos — ex.: grande corporação ou nação muito pequena"
+      },
+      {
+        "nome": "Governo nacional / multinacional gigantesca",
+        "custo": 30,
+        "efeito": "30 pontos — bens incalculáveis"
+      }
+    ],
+    "regras": [
+      "Equipamento fornecido para uso próprio: +5 pontos (ou +10 se o equipamento valer mais que os recursos iniciais da campanha).",
+      "Qualidades muito especiais: +5 ou +10 pontos, a critério do GM.",
+      "Freqüência de participação usa os mesmos multiplicadores do Aliado.",
+      "O custo de um Patrono não é dividido entre os personagens que o compartilham — todos pagam o preço total.",
+      "Contato em busca de auxílio: em regra, uma vez por aventura.",
+      "Dever em relação ao patrono é desvantagem e pode reduzir bastante o custo; inimigos do Patrono podem virar a Desvantagem Inimigo."
+    ],
+    "refRegras": "vantagens.patrono",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 32–35"
+  },
+  {
+    "id": "aparencia",
+    "nome": "Aparência Física",
+    "grupo": "social",
+    "custo": "Variável (−20 a +25)",
+    "descricao": "A aparência muito boa (ou ruim) é vantagem (desvantagem). Níveis publicados no material-base, com modificadores de reação: Hediondo −4, Feio −2, Desagradável −1 (própria raça), Comum 0, Elegante/Bonito +2 (mesmo sexo)/+4 (sexo oposto), Muito Elegante +2/+6 (exceção: −2 para o mesmo sexo com antipatia prévia).",
+    "niveis": [
+      {
+        "nome": "Hediondo",
+        "custo": -20,
+        "efeito": "-4 em Testes de Reação (exceto alienígenas/não veem)"
+      },
+      {
+        "nome": "Feio",
+        "custo": -10,
+        "efeito": "-2 em Testes de Reação"
+      },
+      {
+        "nome": "Desagradável",
+        "custo": -5,
+        "efeito": "-1 com a própria raça"
+      },
+      {
+        "nome": "Comum",
+        "custo": 0,
+        "efeito": "Sem modificador"
+      },
+      {
+        "nome": "Elegante (Bonito)",
+        "custo": 15,
+        "efeito": "+2 mesmo sexo / +4 sexo oposto"
+      },
+      {
+        "nome": "Muito Elegante (Bonito)",
+        "custo": 25,
+        "efeito": "+2 mesmo sexo / +6 sexo oposto"
+      }
+    ],
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06)",
+    "fonteLegada": "p. 6–7"
+  },
+  {
+    "id": "acao-extra",
+    "nome": "Ação Extra",
+    "grupo": "nova",
+    "custo": "65 pontos",
+    "descricao": "Isso é um golpe muito sujo! Concede ao seu personagem ter uma ação extra depois de sua ação normal. Por exemplo, depois do meu ataque eu posso fazer uma outra ação ou um novo ataque (sem penalidade alguma).",
+    "efeitos": [
+      {
+        "tipo": "acoesExtras",
+        "alvo": "turno",
+        "valor": 1,
+        "nota": "uma ação extra após a ação normal, sem penalidade"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 37"
+  },
+  {
+    "id": "amigo-escudeiro",
+    "nome": "Amigo \"Escudeiro\"",
+    "grupo": "nova",
+    "custo": "10 pontos",
+    "descricao": "Você tem um amigo puxa-saco de suas façanhas, e que é uma espécie de seu \"escudeiro\": falando pros outros às suas façanhas (até mesmo seus \"podres\" se transformam em \"façanhas\") e lhe fazendo favores, como fazer o seu almoço, pegar aquela espada e coisas afins. Geralmente é um Personagem com metade dos pontos que o seu, como um Aliado, mas ele é um tremendo puxa-saco de uma figa.",
+    "efeitos": [
+      {
+        "tipo": "npc",
+        "alvo": "escudeiro",
+        "valor": 0.5,
+        "nota": "NPC com metade dos pontos do personagem, como um Aliado"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 37"
+  },
+  {
+    "id": "amuleto-da-sorte",
+    "nome": "Amuleto da Sorte",
+    "grupo": "nova",
+    "custo": "15 pontos",
+    "descricao": "Seu Personagem possui um amuleto especial, e se sente até mais confiante quando o empunha. Pode ser um cordão, sua própria arma, uma foto de namorada (o motivo deve ser explicado no seu background). Na presença do amuleto no corpo, o Personagem recebe +2 em todos os seus testes e +1 no dano. Quando estiver sem o utensílio, no entanto, receberá uma penalidade de -3 nos danos e em todos os testes até sentir confiança.",
+    "efeitos": [
+      {
+        "tipo": "testeGeral",
+        "alvo": "todos",
+        "valor": 2,
+        "condicao": "comAmuleto",
+        "nota": "+2 em todos os testes com o amuleto no corpo"
+      },
+      {
+        "tipo": "dano",
+        "alvo": "todos",
+        "valor": 1,
+        "condicao": "comAmuleto",
+        "nota": "+1 no dano com o amuleto"
+      },
+      {
+        "tipo": "testeGeral",
+        "alvo": "todos",
+        "valor": -3,
+        "condicao": "semAmuleto",
+        "nota": "−3 em todos os testes sem o amuleto, até sentir confiança"
+      },
+      {
+        "tipo": "dano",
+        "alvo": "todos",
+        "valor": -3,
+        "condicao": "semAmuleto",
+        "nota": "−3 nos danos sem o amuleto"
+      }
+    ],
+    "regras": [
+      "O motivo do amuleto deve ser explicado no background."
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 37"
+  },
+  {
+    "id": "arma-especial",
+    "nome": "Arma Especial",
+    "grupo": "nova",
+    "custo": "25 pontos",
+    "descricao": "O seu Personagem têm uma Arma muito especial em sua vida: pode ser uma katana dada de herança por seu avô que era samurai, ou uma faca de cozinha achada no final de uma escavação no quintal de casa, quando brincavam de piratas! Em termos de jogo, esta arma NÃO é mágica: é uma arma especial por algum grande motivo para o Personagem. Quando seu Personagem empunhar esta arma, ele receberá +1D de dano. O tipo da arma deve ser escolhido pelo personagem, de acordo com o background e ele deverá ter a perícia da arma normalmente. O Personagem só poderá adquirir uma Arma Especial.",
+    "efeitos": [
+      {
+        "tipo": "dano",
+        "alvo": "armaEspecial",
+        "valor": "1D",
+        "nota": "+1D de dano ao empunhar a arma especial"
+      }
+    ],
+    "unicidade": true,
+    "regras": [
+      "A arma NÃO é mágica.",
+      "O tipo da arma é escolhido pelo personagem, conforme o background.",
+      "Exige a perícia da arma normalmente.",
+      "Só é possível adquirir UMA Arma Especial."
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 37"
+  },
+  {
+    "id": "armas-improvisadas",
+    "nome": "Armas Improvisadas",
+    "grupo": "nova",
+    "custo": "50 pontos",
+    "descricao": "Seu Personagem se adapta a qualquer arma que empunha. Utilize seu valor de Caratê (ou outra Perícia Marcial) para qualquer arma que o Personagem achar pra bater na hora... (isso não inclui Armas de Fogo, a não ser que ele use para lançar a arma contra o oponente ou bata com ela!) As armas podem ser usadas para Aparar com 2/3 do NH de Caratê ou Perícia marcial do Personagem.",
+    "efeitos": [
+      {
+        "tipo": "nhAlternativo",
+        "alvo": "armasImprovisadas",
+        "base": "carate",
+        "nota": "usa Caratê (ou outra Perícia Marcial) para qualquer arma encontrada"
+      },
+      {
+        "tipo": "defesaAtiva",
+        "alvo": "aparar",
+        "valor": 0.6666666666666666,
+        "nota": "apara com 2/3 do NH de Caratê/Perícia marcial usando essas armas"
+      }
+    ],
+    "regras": [
+      "Não inclui Armas de Fogo, salvo para arremessá-las contra o oponente ou bater com elas."
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 37"
+  },
+  {
+    "id": "corpo-leve",
+    "nome": "Corpo Leve",
+    "grupo": "nova",
+    "custo": "5 pontos",
+    "descricao": "Não se sabe porque, mas seu Personagem não consegue se afogar (mesmo se estiver amarrado de qualquer jeito) e vai boiar como se fosse um pedaço de plástico leve. Personagens com Corpo Leve não precisam comprar a Perícia Natação, pois bóiam sem dificuldade. O Personagem só deixa de boiar se estiver usando uma armadura de 200kg ou mais pesada. Do contrário, vai boiar normalmente.",
+    "efeitos": [
+      {
+        "tipo": "imunidade",
+        "alvo": "afogamento",
+        "nota": "não consegue se afogar, mesmo amarrado"
+      },
+      {
+        "tipo": "dispensaPericia",
+        "alvo": "natacao",
+        "nota": "não precisa comprar a perícia Natação — bóia sem dificuldade"
+      }
+    ],
+    "regras": [
+      "Só deixa de boiar com armadura de 200 kg ou mais."
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 38"
+  },
+  {
+    "id": "descendente-importante",
+    "nome": "Descendente Importante",
+    "grupo": "nova",
+    "custo": "10 pontos",
+    "descricao": "Você é o filho de um NPC importante (e poderoso). O detalhe desta Vantagem é que seu pai/mãe pode não saber da sua existência e nem você a dele.",
+    "efeitos": [
+      {
+        "tipo": "npc",
+        "alvo": "progenitorImportante",
+        "nota": "filho de um NPC importante e poderoso (que pode desconhecer a sua existência)"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 38"
+  },
+  {
+    "id": "discipulos",
+    "nome": "Discípulos",
+    "grupo": "nova",
+    "custo": "5 pontos para cada",
+    "descricao": "Você em Mestre em alguma arte e treina um ou mais discípulos, que seguem suas ordens e ensinamentos a fundo, não importando a profissão que você tenha ou o hobby que ensina. Entre os mais exemplos incluem-se de um Falso Profeta, um Monge Shaolin, um poderoso Mago, etc.",
+    "custoPorNivel": 5,
+    "efeitos": [
+      {
+        "tipo": "npc",
+        "alvo": "discipulos",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "5 pontos por discípulo, que segue suas ordens e ensinamentos"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 38"
+  },
+  {
+    "id": "evitar-queda",
+    "nome": "Evitar Queda",
+    "grupo": "nova",
+    "custo": "25 pontos",
+    "descricao": "Quando seu personagem está em queda, pode se retorcer todo para cair no chão de uma maneira que recebe menos dano. Para cada 1m de altura (na queda), o personagem faz um teste de DX ou HT (o menor valor), e para cada teste bem sucedido são descontados 1D pontos de dano.",
+    "efeitos": [
+      {
+        "tipo": "reducaoDeDano",
+        "alvo": "queda",
+        "valor": "1D",
+        "porMetro": 1,
+        "nota": "teste de DX ou HT (o menor) por metro de queda; −1D de dano por teste bem sucedido"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 38"
+  },
+  {
+    "id": "furto-em-combate",
+    "nome": "Furto em Combate",
+    "grupo": "nova",
+    "custo": "5 pontos por Nível",
+    "descricao": "(Recomendado para Ladrões)\nSeu Personagem têm a incrível habilidade de roubar itens pessoais dos outros no meio de um ataque. É assim: quando acertar um ataque, o Personagem deve fazer um teste Difícil de Furtar para conseguir roubar apenas um item do oponente - que nem ao menos percebe. O número de itens que o Personagem pode roubar (número de vezes de fazer esta manobra) em um combate é igual ao seu Nível nesta Vantagem!",
+    "custoPorNivel": 5,
+    "efeitos": [
+      {
+        "tipo": "acoesExtras",
+        "alvo": "furtoEmCombate",
+        "valor": 1,
+        "porNivel": true,
+        "nota": "teste Difícil de Furtar ao acertar um ataque; nº de usos por combate = nível da vantagem"
+      }
+    ],
+    "regras": [
+      "Cada uso rouba apenas um item, sem que o oponente perceba."
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 38"
+  },
+  {
+    "id": "golpe-fulminante",
+    "nome": "Golpe Fulminante",
+    "grupo": "nova",
+    "custo": "10 pontos",
+    "descricao": "Personagens com golpes fulminantes perdem 3 pontos de ST para acrescentar +4 no GDP/Bal no próximo ataque, desferindo um ataque devastador.",
+    "efeitos": [
+      {
+        "tipo": "dano",
+        "alvo": "gdpBal",
+        "valor": 4,
+        "custo": "3 ST",
+        "nota": "perde 3 pontos de ST para +4 no GDP/Bal do próximo ataque"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 38"
+  },
+  {
+    "id": "guarda-roupas-astral",
+    "nome": "Guarda Roupas Astral",
+    "grupo": "nova",
+    "custo": "45 pontos",
+    "descricao": "Este poder esquisito faz o Personagem trocar suas roupas magicamente. Ele têm uma reserva de roupas iguais a sua 2/3 de sua HT. Ele deve anotar as suas roupas no Guarda Roupas Astral e quando quiser trocar de vestimenta, faz um teste simples de IQ para que o efeito aconteça (suas roupas vão mudar sem você ficar nu ou algo parecido). Também pode ser usado para colocar armaduras (neste caso o Personagem só pode ter até duas armaduras no Guarda Roupas Astral!).",
+    "efeitos": [
+      {
+        "tipo": "recurso",
+        "alvo": "roupasGuardadas",
+        "formula": "2/3 × HT",
+        "nota": "reserva de roupas igual a 2/3 da HT; teste simples de IQ para trocar; até 2 armaduras"
+      }
+    ],
+    "regras": [
+      "As roupas devem ser anotadas no Guarda Roupas Astral.",
+      "Máximo de duas armaduras guardadas."
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 38"
+  },
+  {
+    "id": "irmao-irma-gostosa",
+    "nome": "Irmão/irmã Gostosa(o)",
+    "grupo": "nova",
+    "custo": "variável (5, 10 ou 15 pontos)",
+    "descricao": "Você tem irmãs gostosas ou irmãos gostosos que todos seus amigos e conhecidos querem fazer de tudo para conhecê-las ou para te agradar e te chamar de \"cunhado\", lhe pagando muitas coisas para entrar na família.",
+    "niveis": [
+      {
+        "nome": "Uma irmã mais velha (até 20 anos) — Aparência [Atraente]",
+        "custo": 5
+      },
+      {
+        "nome": "Uma irmã mais velha (até 25 anos) — Aparência [Bonita]",
+        "custo": 10
+      },
+      {
+        "nome": "Uma irmã mais velha (até 27 anos) — Aparência [Muito Bonita]",
+        "custo": 15
+      }
+    ],
+    "efeitos": [
+      {
+        "tipo": "reacao",
+        "alvo": "amigosEConhecidos",
+        "nota": "amigos e conhecidos querem agradá-lo para entrar na família"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 39"
+  },
+  {
+    "id": "kawaii",
+    "nome": "Kawaii",
+    "grupo": "nova",
+    "custo": "45 pontos",
+    "descricao": "(Apenas para Personagens Femininas, com Aparência Bonita)\n\"Kawaii\" é denominado nos mangás/animes como aquelas menininhas bonitinhas, super-meigas. Recebem Carisma +5 por serem super simpáticas. Em combate, um Personagem que deseja atacar uma Kawaii deverá passar primeiro em um teste de IQ, a menos que ele seja atacado primeiro. Geralmente uma Personagem com Kawaii ganhará a confiança de todos.",
+    "efeitos": [
+      {
+        "tipo": "vantagemEquivalente",
+        "alvo": "carisma",
+        "valor": 5,
+        "nota": "Carisma +5"
+      },
+      {
+        "tipo": "protecao",
+        "alvo": "ataqueInicial",
+        "nota": "quem deseja atacá-la deve primeiro passar num teste de IQ, a menos que seja atacado antes"
+      }
+    ],
+    "requisitos": [
+      "Personagem feminina",
+      "Aparência Bonita"
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 39"
+  },
+  {
+    "id": "genio",
+    "nome": "Gênio",
+    "grupo": "nova",
+    "custo": "35 pontos",
+    "descricao": "O personagem pode construir aparatos e equipamentos que são indisponíveis para a tecnologia de sua época. Para um inventor da atualidade, ele poderia criar máquinas de teleportação, cintos de Campo de Força, etc. Para inventores de épocas passadas, a posse desta vantagem permitiria criar objetos indisponíveis para tais eras, como uma TV de plasma na Segunda Guerra, ou um forno microondas durante a Revolução Industrial.",
+    "efeitos": [
+      {
+        "tipo": "invencao",
+        "alvo": "acimaDoNT",
+        "nota": "pode construir aparatos indisponíveis para a tecnologia da época"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 39"
+  },
+  {
+    "id": "transe",
+    "nome": "Transe",
+    "grupo": "nova",
+    "custo": "10 pontos",
+    "descricao": "O Personagem conseguiu \"administrar\" o sono e hoje não fecha mais os olhos! Sendo assim ele será imune às Magias Sono e similares - e também apenas descansa 4 horas por dia (como os Elfos, entram apenas em transe) mas com os olhos abertos; o bom sinal disso é que ele nunca entra no sono quando estiver vigiando um local.",
+    "efeitos": [
+      {
+        "tipo": "imunidade",
+        "alvo": "magiasSono",
+        "nota": "imune às Magias Sono e similares"
+      },
+      {
+        "tipo": "necessidade",
+        "alvo": "descanso",
+        "valor": 4,
+        "nota": "descansa apenas 4 horas por dia, em transe e de olhos abertos"
+      },
+      {
+        "tipo": "vigilia",
+        "alvo": "guarda",
+        "nota": "nunca dorme enquanto vigia um local"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 39"
+  },
+  {
+    "id": "cacador-de-vampiros",
+    "nome": "Caçador de Vampiros",
+    "grupo": "nova",
+    "custo": "50 pontos",
+    "descricao": "(Recomendado para Caçadores de Crituras da Noite)\nSeu Personagem SEMPRE recebe ACERTOS CRÍTICOS em QUALQUER teste na presença de qualquer vampiro (ou semelhante), não importando seu poder ou idade!",
+    "efeitos": [
+      {
+        "tipo": "criticoAutomatico",
+        "alvo": "vampiros",
+        "condicao": "naPresencaDeVampiro",
+        "nota": "sempre recebe acertos críticos em qualquer teste na presença de vampiros ou semelhantes"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 40"
+  },
+  {
+    "id": "sobrevivente-do-inferno",
+    "nome": "Sobrevivente do Inferno",
+    "grupo": "nova",
+    "custo": "40 pontos",
+    "descricao": "Seu personagem sobreviveu em um lugar tão terrível e mortal que é chamado de Inferno, que pode ser o inferno propriamente dito, ou algum local tão torturante e dificil que pode ser chamados de inferno. Personagens sobreviventes têm a experiência de andar em lugares assim e estão mais poderosos e rápidos. Personagens com esse aprimoramento, recebe gratuitamente a perícia Sobrevivência +4, além de um aumento de +2 nos atributos ST e DX.",
+    "efeitos": [
+      {
+        "tipo": "pericia",
+        "alvo": "sobrevivencia",
+        "valor": 4,
+        "nota": "recebe gratuitamente a perícia Sobrevivência +4"
+      },
+      {
+        "tipo": "atributo",
+        "alvo": "ST",
+        "valor": 2,
+        "nota": "+2 em ST"
+      },
+      {
+        "tipo": "atributo",
+        "alvo": "DX",
+        "valor": 2,
+        "nota": "+2 em DX"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 40",
+    "_aviso": "A publicação de NOVAS VANTAGENS (16/08/2026) indica 40 pontos; a transcrição por página do material-base registrava 70. Vale o texto da publicação oficial — ver data/vantagens.json → conflitos."
+  },
+  {
+    "id": "super-bolso",
+    "nome": "Super Bolso",
+    "grupo": "nova",
+    "custo": "10 pontos",
+    "descricao": "Seu personagem têm a habilidade de guardar as coisas consigo sem ao menos ter um bolso, sacola, mochila ou algo semelhante. E não importa o tamanho das coisas, o seu personagem guarda e retira na hora que quiser.",
+    "efeitos": [
+      {
+        "tipo": "recurso",
+        "alvo": "armazenamento",
+        "nota": "guarda e retira itens de qualquer tamanho, sem bolso, sacola ou mochila"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 40"
+  },
+  {
+    "id": "spoiler",
+    "nome": "Spoiler",
+    "grupo": "nova",
+    "custo": "25 pontos",
+    "descricao": "Seu personagem têm um talento de ver rápidas visões do futuro. Essas rápidas visões não são controladas pelo personagem do jogador e surgem em momentos escolhidos pelo mestre de RPG.",
+    "efeitos": [
+      {
+        "tipo": "visao",
+        "alvo": "futuro",
+        "nota": "rápidas visões do futuro, nos momentos escolhidos pelo mestre (sem controle do jogador)"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 40"
+  },
+  {
+    "id": "visao-de-raio-x",
+    "nome": "Visão de raio X",
+    "grupo": "nova",
+    "custo": "40 pontos",
+    "descricao": "Seu personagem nasceu com um habilidade estranha. Ele pode se concentrar por alguns minutos para que possa ver através das coisas, objetos e paredes. Geralmente requer um teste de IQ para utilizar este \"poder",
+    "efeitos": [
+      {
+        "tipo": "sentido",
+        "alvo": "verAtraves",
+        "nota": "concentração de alguns minutos para ver através de coisas, objetos e paredes; geralmente requer teste de IQ"
+      }
+    ],
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+    "fonteLegada": "p. 40",
+    "_aviso": "O texto publicado termina sem fechar a aspa em \"poder\" — transcrito como está."
+  }
 ]

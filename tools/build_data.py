@@ -11,7 +11,6 @@ def slug(nome):
 OUT = '/home/user/gua/data'
 os.makedirs(OUT, exist_ok=True)
 raw = json.load(open('/home/user/analysis/outdata/skills.json', encoding='utf-8'))
-adv = json.load(open('/home/user/analysis/outdata/advantages.json', encoding='utf-8'))
 dis = json.load(open('/home/user/analysis/outdata/disadvantages.json', encoding='utf-8'))
 spells_raw = json.load(open('/home/user/analysis/outdata/spells_raw.json', encoding='utf-8'))
 
@@ -41,7 +40,12 @@ sk(nome='Língua (cada uma)', tipo='Mental', dificuldade='Variável', categoria=
    fonte='p. 135–136')
 json.dump(skills, open(f'{OUT}/skills.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
-# ------------------------------------------------------------------ vantagens compostas (sociais) + lista
+# ------------------------------------------------------------------ vantagens (G.A.U.) + desvantagens (legado)
+# data/advantages.json e data/vantagens.json NÃO são mais gerados aqui: o catálogo passou a vir da
+# publicação oficial de VANTAGENS do sistema G.A.U. (canal #『📕』vantagens — Impio, 26/07/2026 e
+# NOVAS VANTAGENS, 16/08/2026), transcrita à mão com efeitos estruturados consumidos por
+# app/engine/vantagens.js. Gerar de novo a partir do PDF legado sobrescreveria esse catálogo —
+# por isso este script preserva os dois arquivos e registra apenas as desvantagens (ainda legado).
 def limpa(lst, kind):
     out = []
     for e in lst:
@@ -51,34 +55,6 @@ def limpa(lst, kind):
         })
     return out
 
-advantages = limpa(adv, 'adv')
-SOCIAL_ADV = [
-    {'id': 'aparencia', 'nome': 'Aparência Física', 'niveis': [
-        {'nome': 'Hediondo', 'custo': -20, 'efeito': '-4 em Testes de Reação (exceto alienígenas/não veem)'},
-        {'nome': 'Feio', 'custo': -10, 'efeito': '-2 em Testes de Reação'},
-        {'nome': 'Desagradável', 'custo': -5, 'efeito': '-1 com a própria raça'},
-        {'nome': 'Comum', 'custo': 0, 'efeito': 'Sem modificador'},
-        {'nome': 'Elegante (Bonito)', 'custo': 15, 'efeito': '+2 mesmo sexo / +4 sexo oposto'},
-        {'nome': 'Muito Elegante (Bonito)', 'custo': 25, 'efeito': '+2 mesmo sexo / +6 sexo oposto'}],
-     'fonte': 'p. 6–7', 'descricao': 'A aparência muito boa (ou ruim) é vantagem (desvantagem).'},
-    {'id': 'riqueza', 'nome': 'Riqueza', 'niveis': [
-        {'nome': 'Falido', 'custo': -25, 'multiplicadorRecursos': 0, 'trabalhoSemanal': None},
-        {'nome': 'Pobre', 'custo': -15, 'multiplicadorRecursos': 0.2, 'trabalhoSemanal': 50},
-        {'nome': 'Batalhador', 'custo': -10, 'multiplicadorRecursos': 0.5, 'trabalhoSemanal': 40},
-        {'nome': 'Médio', 'custo': 0, 'multiplicadorRecursos': 1, 'trabalhoSemanal': 40},
-        {'nome': 'Confortável', 'custo': 10, 'multiplicadorRecursos': 2, 'trabalhoSemanal': 40},
-        {'nome': 'Rico', 'custo': 20, 'multiplicadorRecursos': 5, 'trabalhoSemanal': 20},
-        {'nome': 'Muito Rico', 'custo': 30, 'multiplicadorRecursos': 20, 'trabalhoSemanal': 10},
-        {'nome': 'Podre de Rico', 'custo': 50, 'multiplicadorRecursos': 100, 'trabalhoSemanal': 10}],
-     'fonte': 'p. 12–13', 'descricao': 'Define recursos iniciais (× a média do cenário) e tempo de trabalho.'},
-    {'id': 'reputacao', 'nome': 'Reputação', 'custoPorNivel': 5, 'custo': '5 pts por ponto de modificador (máx ±4); × classe (todos 1, grupo grande ½, pequeno ⅓) × frequência (sempre 1, às vezes ½, ocasional ⅓); arredondar para baixo', 'fonte': 'p. 13–15'},
-    {'id': 'status', 'nome': 'Status', 'custoPorNivel': 5, 'custo': '5 pts por nível social (-4 a 8). Níveis negativos devolvem pontos. Riqueza ≥ Rico: -5 pts no custo total.', 'fonte': 'p. 15–17',
-     'descricao': 'Bônus/penalidade de reação pela diferença de Status relativa (mín. -4). Trato Social = IQ+2 na própria cultura.'},
-    {'id': 'aliado', 'nome': 'Aliado', 'custo': 'Base: <75 pts é Dependente; 76–100 = 5 pts; 101–150 = 10; 151–200 = 15 (+5 por faixa de 50). Frequência: quase sempre ×3; bastante ×2; freq. ×1; esporádica ½ (arred. p/ cima). Habilidades especiais +5 a +10.', 'fonte': 'p. 30–32'},
-    {'id': 'patrono', 'nome': 'Patrono', 'custo': 'Indivíduo/grupo p/ equip. 1000×: 10 pts; extremamente poderoso (200 pts) ou org. 10.000×: 15; org. muito poderosa 10⁶×: 25; governo nacional: 30. Equipamento para uso próprio: +5 (ou +10 se > recursos iniciais). Frequência como Aliado (mín. custo 5?).', 'fonte': 'p. 32–35'},
-]
-advantages.extend(SOCIAL_ADV)
-json.dump(advantages, open(f'{OUT}/advantages.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 json.dump(limpa(dis, 'dis'), open(f'{OUT}/disadvantages.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 # ------------------------------------------------------------------ peculiaridades
@@ -195,5 +171,6 @@ equipment = {
 }
 json.dump(equipment, open(f'{OUT}/equipment.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print('data/*.json gerados')
-print('skills', len(skills), '| adv', len(advantages), '| dis', len(dis), '| spells', len(spells))
+print('skills', len(skills), '| dis', len(dis), '| spells', len(spells),
+      '| advantages.json preservado (catálogo G.A.U., não gerado aqui)')
 EOF = None

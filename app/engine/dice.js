@@ -6,6 +6,10 @@ export class Dice {
   constructor(rng = Math.random) { this.rng = rng; this.history = []; }
   d(n) { return 1 + Math.floor(this.rng() * n); }
   d6() { return this.d(6); }
+  /** Dado do núcleo G.A.U: 1d20 (data/resolucao.json). */
+  d20() { return this.d(20); }
+  /** Rola `quantidade` dados de `faces` faces. */
+  roll(quantidade, faces = 20) { return Array.from({ length: Math.max(1, quantidade | 0) }, () => this.d(faces)); }
   roll3d() { return [this.d6(), this.d6(), this.d6()]; }
   static sum(rolls) { return rolls.reduce((a, b) => a + b, 0); }
 
@@ -57,6 +61,32 @@ export class Dice {
   }
 }
 
+/** Rolagem de dano genérica com qualquer número de faces — tabelas G.A.U usam d4, d6, d8, d10 e d12.
+ *  Aceita "3d12", "1d10+2", "2D-3", "5D+" (mínimo 0). Fonte: data/armas.json, data/estruturas.json. */
+export function rolarDanoGenerico(expr, dice = DICE) {
+  const texto = String(expr ?? '').trim();
+  const m = texto.match(/^(\d+)\s*[dD]\s*(\d+)?\s*([+-]\s*\d+)?$/);
+  if (!m) return { erro: `Expressão de dano não reconhecida: ${expr}`, expr: texto, rolls: [], total: 0 };
+  const quantidade = parseInt(m[1], 10);
+  const faces = m[2] ? parseInt(m[2], 10) : 6;
+  const mod = m[3] ? parseInt(m[3].replace(/\s+/g, ''), 10) : 0;
+  const rolls = dice.roll(quantidade, faces);
+  const total = Math.max(0, Dice.sum(rolls) + mod);
+  const resultado = { expr: `${quantidade}d${faces}${mod ? (mod > 0 ? '+' + mod : mod) : ''}`, rolls, faces, mod, total };
+  dice.history.unshift({ quando: new Date().toISOString(), tipo: 'dano-generico', ...resultado });
+  return resultado;
+}
+
+/** Média estatística de uma expressão de dano (conferência das colunas "Média" de data/armas.json). */
+export function mediaDeDano(expr) {
+  const m = String(expr ?? '').trim().match(/^(\d+)\s*[dD]\s*(\d+)?\s*([+-]\s*\d+)?$/);
+  if (!m) return null;
+  const quantidade = parseInt(m[1], 10);
+  const faces = m[2] ? parseInt(m[2], 10) : 6;
+  const mod = m[3] ? parseInt(m[3].replace(/\s+/g, ''), 10) : 0;
+  return quantidade * (faces + 1) / 2 + mod;
+}
+
 /** Probabilidade de sucesso 3d (tabela p. 110). */
 export function chance3d(nh) {
   if (nh <= 3) return 0.005;
@@ -67,6 +97,13 @@ export function chance3d(nh) {
 
 /** Classifica um teste já feito (usado p/ exibição). */
 export function classify(nhEfetivo, total) {
-  const fake = new Dice(() => 0);
   return null; // classificação ocorre em Dice.check
 }
+
+/* -------------------------------------------------------------- singleton
+ * Um único gerador para toda a aplicação (e para os testes, que podem trocar o RNG).
+ * Reexportado por combat.js e usado por resolution.js, damage.js e maneuvers.js. */
+export const DICE = new Dice();
+export function setRNG(rng) { DICE.rng = rng; }
+export const dice = DICE;
+

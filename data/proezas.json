@@ -1,0 +1,291 @@
+{
+  "_fonte": "PROEZAS FÍSICAS · Testes dos Sentidos · Testes de Vontade — canal #『📕』testes-e-combate (Impio, 16/08/2026). Resolução em d20 (data/resolucao.json).",
+  "saltoDuranteCombate": {
+    "regra": "É possível saltar durante o combate, pulando de um hex para outro, evitando alguma área específica. A potência do salto depende de influências atléticas, mágicas e de poderes."
+  },
+  "corrida": {
+    "titulo": "Corrida",
+    "regras": [
+      "Em um combate, uma corrida é equivalente ao Deslocamento total do usuário.",
+      "Caminhando, você apenas pode se deslocar metade do seu deslocamento (arredondado para cima).",
+      "Sua velocidade de corrida é igual ao seu parâmetro Velocidade; geralmente os personagens deslocam-se em linha reta.",
+      "De vez em quando os personagens terão que correr uma distância maior — para apanhar um avião, evitar a explosão de uma bomba, escapar da perseguição de pigmeus selvagens ou qualquer outro motivo. O Mestre não precisa simular cada passo: ele só precisa saber qual a distância a ser percorrida.",
+      "É possível correr até o máximo de seu total de deslocamento em uma corrida, e realizar trajetos curvos nesse caso se deslocando mais, para obter dinamismo no deslocamento.",
+      "Você pode adicionar magia, poderes e outras características para incorporar maior deslocamento e versatilidade."
+    ]
+  },
+  "esforcoExtra": {
+    "titulo": "Esforço Extra",
+    "regra": "O esforço extra é uma regra que permite ao personagem ir além de seus limites físicos normais em troca de gastar Pontos de Fadiga (PF). Cada uso de esforço extra custa 1 Ponto de Fadiga (PF), independentemente de o teste dar certo ou errado.",
+    "usos": ["saltar mais longe", "levantar mais peso", "correr mais rápido", "desferir golpes mais fortes no combate"],
+    "autorizacaoDoMestre": "O mestre também pode autorizar a utilização do esforço extra para outras tarefas, como por exemplo Defesas Ativas.",
+    "custoPF": 1
+  },
+  "saltos": {
+    "titulo": "Saltos",
+    "regraGeral": "Na maioria dos casos em que você desejar pular por cima de alguma coisa, o GM deverá dizer 'OK, você conseguiu', e continuar o jogo. Pular por cima de um obstáculo 'comum' não necessita um teste. Somente se o obstáculo parecer realmente significativo, ou o GM o tiver colocado lá justamente para oferecer algum risco, é que se deverá recorrer à matemática para ver se o personagem foi efetivamente capaz de saltá-lo.",
+    "atributo": "ST",
+    "saltoSobrenatural": {
+      "regra": "Para executar um salto sobrenatural, o saltador deve realizar um teste de ST, desde que a distância do salto esteja dentro do máximo do seu deslocamento, fazendo com que seja direcionado para cima.",
+      "parabola": "O saltador sempre pula em parábola quando está tentando alcançar alguma distância."
+    },
+    "limiteMundano": { "metros": 1.5, "regra": "Para personagens sem características sobrenaturais o salto se limita a um número fixo de 1,5 m." },
+    "esforcoExtra": "Se as distâncias acima não forem suficientes, você sempre poderá forçar um pouco mais. Sempre que você fizer um esforço extra perderá 1 ponto de fadiga, quer tenha sido bem sucedido, ou não. Faça a jogada para obter uma nova tentativa.",
+    "periciaSalto": "Se você tiver esta Perícia, poderá usar seu nível de habilidade no lugar de seu atributo ST ou DX em qualquer um dos casos acima. Com um alto nível de habilidade você será capaz de realizar saltos olímpicos.",
+    "saltandoComCarga": {
+      "titulo": "Saltando com Carga",
+      "regra": "Uma regra opcional para aumentar o realismo: subtraia seu nível de Carga de sua ST quando saltar.",
+      "exemplo": "Se o nível de Carga for Pesado (3) e sua ST for 13, você deverá calcular o pulo como se sua ST fosse 10."
+    }
+  },
+  "escalada": {
+    "titulo": "Escalada",
+    "regras": [
+      "Quando for necessário escalar (subir ou descer) qualquer coisa mais difícil do que uma escada, é obrigatório fazer um teste de Escalada.",
+      "O valor pré-definido desta perícia é DX-5 ou ST-5.",
+      "É necessário fazer um teste no início da escalada, mais um teste a cada 5 minutos. Uma falha significará que você caiu.",
+      "Se você estiver preso por uma corda, ficará suspenso por ela, a menos que sua falha tenha sido crítica.",
+      "Os modificadores a serem usados dependem da dificuldade da escalada (tabela abaixo).",
+      "O nível de Carga a que você estiver submetido deverá ser subtraído de seu nível de habilidade em escaladas. Escalar transportando uma carga muito pesada pode ser muito perigoso.",
+      "Um ser humano normal, independente da Carga a que está submetido, é capaz de subir 3 ou descer 2 degraus por segundo.",
+      "Qualquer escalada que venha a acontecer durante um combate durará apenas um instante e será inspirada pelo ódio ou medo, por isso será breve. Para uma escalada longa use as velocidades indicadas na segunda coluna.",
+      "Uma escalada durante um combate exige a manobra Deslocamento."
+    ],
+    "default": ["DX-5", "ST-5"],
+    "tabela": [
+      { "tipo": "Subir escada", "modificador": null, "semJogada": true, "escaladaCurta": "3 degraus/s", "escaladaLonga": "1 degrau/s" },
+      { "tipo": "Descer escada", "modificador": null, "semJogada": true, "escaladaCurta": "2 degraus/s", "escaladaLonga": "1 degrau/s" },
+      { "tipo": "Árvore comum", "modificador": 5, "escaladaCurta": "30 cm/s", "escaladaLonga": "10 cm/s" },
+      { "tipo": "Montanha comum", "modificador": 0, "escaladaCurta": "15 cm/s", "escaladaLonga": "3 m/min" },
+      { "tipo": "Parede vertical de pedra", "modificador": 3, "escaladaCurta": "6 cm/s", "escaladaLonga": "1,2 m/min", "_aviso": "Transcrito como publicado (3). No material legado o modificador de parede vertical é negativo — confirmar com o autor." },
+      { "tipo": "Edifício moderno", "modificador": -3, "escaladaCurta": "3 cm/s", "escaladaLonga": "60 cm/min" },
+      { "tipo": "Corda acima", "modificador": -2, "escaladaCurta": "30 cm/s", "escaladaLonga": "6 m/min" },
+      { "tipo": "Corda abaixo — sem equipamento", "modificador": -1, "escaladaCurta": "60 cm/s", "escaladaLonga": "9 m/min" },
+      { "tipo": "Corda abaixo — com equipamento", "modificador": -1, "escaladaCurta": "3,6 m/s", "escaladaLonga": "3,6 m/s" }
+    ]
+  },
+  "levantamento": {
+    "titulo": "Levantamento e Movimentação de Objetos",
+    "regraGeral": "Em geral, o GM pode deixar os personagens erguerem o que eles precisarem, sem usar os dados. No entanto, quando grandes pesos estiverem envolvidos, poderá ser necessário fazer um teste de ST. O peso que você é capaz de erguer é definido pelo seu atributo ST. Os mestres podem permitir que os personagens combinem suas forças sempre que isto parecer razoável (p.ex., para empurrar uma carreta).",
+    "limites": [
+      { "id": "uma-mao", "nome": "Levantamento com Uma Mão", "formula": "3 × ST", "multiplicador": 3, "nota": "peso máximo em kg" },
+      { "id": "duas-maos", "nome": "Levantamento com Duas Mãos", "formula": "13 × ST", "multiplicador": 13, "nota": "peso máximo em kg" },
+      { "id": "costas", "nome": "Carregar nas Costas", "formula": "15 × ST", "multiplicador": 15, "nota": "Você consegue carregar um peso maior do que o que é capaz de erguer sozinho. Perderá 1 ponto de fadiga para cada turno em que permanecer submetido a uma Carga maior do que 10 vezes seu atributo ST (Carga 'muito pesada')." },
+      { "id": "empurrar", "nome": "Empurrar e Deslocar", "formula": "13 × ST (25 × ST com impulso)", "multiplicador": 13, "comImpulso": 25 },
+      { "id": "deslocar-ligeiramente", "nome": "Deslocar Ligeiramente", "formula": "50 × ST ou mais", "multiplicador": 50, "nota": "Dependendo do terreno e do modo como o personagem está escorado." },
+      { "id": "arrastar", "nome": "Arrastar", "formula": "igual ao que pode carregar; ÷2 em superfície plana e lisa (efetivamente o dobro)", "nota": "Numa superfície áspera, você será capaz de arrastar somente o peso que seria capaz de carregar." },
+      { "id": "puxar-sobre-rodas", "nome": "Puxar sobre Rodas", "formula": "como arrastar, ÷10 (carroça de 2 rodas) ou ÷20 (carroção de 4 rodas); ÷2 novamente se a estrada for boa" }
+    ],
+    "erguer": "Essas medidas servem para personagens sem condições especiais para tal feito. Quando falamos em erguer, é acima da cabeça!",
+    "esforcoExtra": {
+      "regra": "Se você não for forte o suficiente para erguer ou mover alguma coisa poderá fazer um esforço extra. Ele aumenta o peso que você é capaz de manusear. Faça um teste de ST, subtraindo 1 para um aumento de 10% no peso, 2 para um aumento de 20% e assim por diante. Faça um teste por minuto no caso de um esforço contínuo (p.ex., empurrar um carro atolado).",
+      "resultados": {
+        "sucesso": "O objeto foi deslocado.",
+        "falha": "O objeto não se moveu e você se cansou, perdendo 1 ponto de ST devido à Fadiga.",
+        "falhaCritica": "Custará também um ponto de HT que não poderá ser curado com Primeiros Socorros, somente com descanso."
+      },
+      "tabela": [{ "redutor": -1, "aumento": "10%" }, { "redutor": -2, "aumento": "20%" }, { "redutor": -3, "aumento": "30%" }, { "redutor": -4, "aumento": "40%" }]
+    }
+  },
+  "empurrarDerrubar": {
+    "titulo": "Empurrar e Derrubar Objetos",
+    "contexto": "Haverá momentos, especialmente em um combate, em que um personagem desejará derrubar um objeto: bloquear o caminho ou estorvar um oponente. Em termos de manobra, isto se caracteriza como um ataque.",
+    "limite": "O peso que um personagem é capaz de derrubar desta maneira é, no máximo, igual a 13 vezes sua Força (ST).",
+    "comImpulso": "Um personagem será capaz de derrubar um peso duas vezes maior se ele puder tomar impulso, i.e., desenvolver toda sua velocidade durante um turno, para depois ir de encontro ao objeto.",
+    "bomSenso": "O Mestre e os jogadores deveriam considerar qualquer tentativa razoável como automaticamente bem-sucedida, ao invés de calcular sempre. Se houver algum desentendimento com relação a algum objeto mais pesado, use a matemática. O GM poderá também fazer concessões no caso de objetos precariamente equilibrados.",
+    "marcador": "Use um marcador para indicar a nova posição de alguma coisa que tenha sido derrubada. A partir deste momento, os personagens terão que movê-lo, saltá-lo ou lidar com ele de alguma outra maneira.",
+    "esforcoExtra": "Se seu personagem não for forte o suficiente para empurrar alguma coisa, ele poderá fazer um esforço extra, como está explicado para o caso de levantamento de objetos.",
+    "limiteDeAplicacao": "Estas regras se aplicam a objetos inanimados. Veja os Encontrões para o caso de pessoas ou criaturas."
+  },
+  "apanharObjetos": {
+    "titulo": "Apanhar objetos em Combate",
+    "objetoLeve": "Um objeto leve é apanhado em combate com a manobra Preparar, que dura um segundo.",
+    "objetoPesado": "São necessários 2 segundos para apanhar um objeto pesado (peso em quilos maior do que a metade de sua ST).",
+    "limitePesoLeve": "ST / 2"
+  },
+  "arremesso": {
+    "titulo": "Arremessando Objetos",
+    "limitePeso": "Tudo que você for capaz de erguer — qualquer coisa com um peso menor ou igual a 13 × sua ST — pode ser arremessado.",
+    "testeParaAtingir": { "opcoes": ["DX com redutor de −3", "perícia Arremesso"] },
+    "testeParaArea": "Faça um teste de DX ou Arremesso para lançar alguma coisa para dentro de uma área.",
+    "bomSenso": "O GM deveria permitir qualquer tentativa razoável de arremessar alguma coisa e só deverá parar para fazer cálculos quando for necessária uma resposta precisa.",
+    "distancia": {
+      "regra": "A distância que você consegue arremessar um objeto depende de seu peso e de sua ST somados. Arredonde o peso para cima. O resultado será a distância em metros.",
+      "formula": "ST + peso (arredondado para cima) = distância em metros",
+      "comPericia": "Se você tiver a perícia Arremesso, calcule o ST+6 (arredonde para cima). Isto se aplica somente à Perícia Arremesso em geral e não para Perícias com 'Armas arremessadas'."
+    },
+    "emCombate": "Para arremessar um objeto durante um combate (seja para atacar, ou não) será necessário realizar a manobra Atacar ou Andar e Atacar, depois de tê-lo apanhado.",
+    "dano": "Veja data/armas.json → arremesso (tabela de dano por ST e peso do objeto)."
+  },
+  "cavar": {
+    "titulo": "Cavar",
+    "regra": "O ritmo de escavação é determinado pela ST do escavador, a qualidade do seu equipamento e o tipo do solo.",
+    "ritmos": [
+      { "situacao": "Homem comum com pá de ferro em solo normal", "formula": "0,053 × ST m³/h", "fator": 0.053 },
+      { "situacao": "Picareta de ferro transformando solo duro em terra fofa", "formula": "0,025 × ST m³/h", "fator": 0.025 },
+      { "situacao": "Remoção de terra fofa (areia etc.) com pá", "formula": "0,11 × ST m³/h", "fator": 0.11 },
+      { "situacao": "Um homem trabalhando só, ora com picareta, ora com pá", "formula": "0,038 × ST m³/h", "fator": 0.038, "nota": "ele perde tempo na troca de ferramentas" }
+    ],
+    "notas": [
+      "A maneira mais eficiente de cavar é um homem com uma picareta e dois outros com pás, tirando a terra.",
+      "Terra dura, argila etc. tem que ser escavada antes com uma picareta, trabalhando a meia velocidade, e depois retirada com uma pá a 0,11 × ST m³/h.",
+      "Pedras duras têm que ser quebradas com uma picareta a 1/4 da velocidade (ou menos, se a pedra for muito dura) e removidas com pás na metade da velocidade.",
+      "O trabalho com ferramentas de madeira (comuns em NT 5 ou inferior) se desenvolve na metade da velocidade.",
+      "Com pás improvisadas (mãos nuas, utensílios de cozinha etc.) a velocidade é no máximo 1/4."
+    ],
+    "fadiga": {
+      "regra": "Cavar é um trabalho duro.",
+      "custoPorHora": { "terra fofa": 1, "terreno normal": 2, "terra dura": 3, "pedra": 4 }
+    }
+  },
+  "natacao": {
+    "titulo": "Natação",
+    "default": ["ST-5", "DX-5"],
+    "regras": [
+      "Um teste de Natação é feito no momento em que se entra na água (num local onde não dá pé) e mais um a cada 5 minutos.",
+      "No caso de uma falha você engolirá água, perderá 1 ponto de fadiga e fará um novo teste dentro de 5 segundos, e assim por diante, até você: (a) se afogar, (b) ser salvo ou (c) obter um sucesso em um teste e conseguir tirar a cabeça para fora d'água.",
+      "Se você se recuperar, faça um novo teste depois de 1 minuto. Em caso de sucesso volte a fazer os testes de 5 em 5 minutos.",
+      "No caso de cair na água, você poderá tentar se livrar da armadura etc. depois do primeiro teste de Natação em que for bem sucedido. Faça um teste de DX para cada item de que você tenta se livrar. Os testes para o escudo, elmo e couraça têm um redutor de −4. Uma falha significa que você engoliu água.",
+      "Sim, você pode pedir socorro!",
+      "Se sua ST chegar a 0 devido ao afogamento, você perderá os sentidos e morrerá em 4 minutos (água muito fria prolongará significativamente este período), a menos que seja removido da água e um teste bem sucedido de Primeiros Socorros seja feito."
+    ],
+    "modificadores": {
+      "entradaIntencional": 3,
+      "porNivelDeCarga": "menos duas vezes seu nível de Carga (−2 × Carga)",
+      "exemplo": "Um guerreiro com uma armadura de placas, cujo nível de Carga é 'Pesado' (3), terá um redutor igual a −10 em seu teste de Natação (−6 pela carga e demais modificadores da situação).",
+      "obesidade": "+5 em todos os testes de Natação, e a Carga devido à gordura não agirá contra eles neste caso.",
+      "itensParaRemover": { "escudo": -4, "elmo": -4, "couraca": -4 }
+    },
+    "velocidadeDeNado": {
+      "curtaDistancia": "Se você conseguir nadar, seu Deslocamento para pequenas distâncias será metade de seu NH em Natação (arredondado para cima). Isto significa que somente os nadadores mais velozes, totalmente sem Carga, serão capazes de nadar a 2 m/s. A maioria das pessoas terá um Deslocamento igual a 1, nadando. (Se você for capaz de boiar, será capaz de nadar a 1 m/s.)",
+      "longaDistancia": "Para longas distâncias, use uma escala de tempo de 10. O número de metros que você é capaz de nadar em 10 segundos é igual a seu NH em Natação menos o dobro de sua Carga.",
+      "fadiga": "Nadar longas distâncias tem um custo em fadiga igual ao da Corrida. Faça um teste de HT a cada 100 metros de nado a toda velocidade. Cada falha custará um ponto de fadiga. Quando sua ST chegar a 3, sua velocidade cairá à metade. Faça um teste a cada 30 minutos se você estiver nadando devagar ou apenas boiando."
+    },
+    "combateNaAgua": {
+      "regra": "Isto é muito cansativo. Faça um teste de Natação a cada 5 segundos; cada falha custa 1 ponto de fadiga. Faça o teste a cada dois segundos se estiver lutando completamente submerso.",
+      "penalidadesDeArma": [
+        "O dano provocado pelas armas fica reduzido pela resistência da água.",
+        "Qualquer arma de perto (incluindo os punhos) tem um redutor de −2 aplicado a seu uso.",
+        "O redutor para armas de 1 hex é −2. Subtraia outros 2 para cada hex de alcance.",
+        "Além disso existe um redutor adicional igual a seu nível de Carga.",
+        "O dano (mesmo o dano máximo automático) é dividido ao meio."
+      ],
+      "dentroMasNaoDebaixo": "Divida ao meio os redutores descritos acima se você estiver lutando dentro, mas não debaixo d'água. Reduza os danos a 2/3 (arredondando o resultado para baixo)."
+    },
+    "salvandoVidas": {
+      "regra": "A perícia Natação pode ser usada para salvar alguém que está se afogando. Faça um teste de Natação, com um redutor de −5, mais ou menos a diferença entre sua ST e a da pessoa que você está salvando.",
+      "redutorBase": -5,
+      "ajusteST": "± (ST do salvador − ST da vítima)",
+      "falha": "Uma falha significa que você engoliu água: −1 ST.",
+      "falhaCritica": "Uma falha crítica significa que a vítima quase o afogou (−10 ST) e você desistiu da tentativa de salvamento.",
+      "dica": "Este teste será mais fácil se os jogadores pensarem em boas técnicas de salvamento."
+    }
+  },
+  "sentidos": {
+    "titulo": "Testes dos Sentidos",
+    "regra": "Os Testes dos Sentidos, que incluem os testes de Visão, Audição e Olfato/Paladar, são todos feitos contra o atributo IQ do personagem. A vantagem 'Prontidão' dá um bônus em todas estas jogadas, assim como ter os 'sentidos aguçados' ajuda nos testes do sentido correspondente.",
+    "atributoBase": "IQ",
+    "visao": {
+      "uso": "Faça um teste de Visão para ver um objeto pequeno ou escondido. O GM poderá torná-lo mais fácil ou mais difícil conforme o objeto esteja mais, ou menos, escondido.",
+      "limites": "Personagens cegos ou em lugares completamente escuros não são capazes de ver nada.",
+      "escuridao": "Ações que requeiram a visão, quando tentadas em escuridão total, estarão submetidas a um redutor igual a −10 (ex.: combate) ou serão completamente impossíveis (ex.: ler um mapa).",
+      "modificadoresPositivos": ["Prontidão (melhora todos os sentidos)", "Visão Aguçada"],
+      "modificadoresNegativos": [
+        "Escuridão parcial: −1 a −9 (tabela em data/maneuvers.json → luminosidade)",
+        "Disopia",
+        "Míope sem lentes corretivas: −5 sempre que o objeto estiver a mais de 3 metros",
+        "Hipermetropes: −5 quando o alvo estiver a menos de 3 metros"
+      ],
+      "especiais": [
+        "Visão Periférica: pode fazer testes de Visão para qualquer coisa na área, a menos que ela esteja exatamente atrás dele.",
+        "Ciópticos: não sofrerão qualquer penalidade devido à escuridão, a não ser que ela seja total.",
+        "Noção do Perigo: devem fazer um segundo teste de IQ como chance de detectar algum perigo que o objeto em questão eventualmente possa oferecer."
+      ]
+    },
+    "audicao": {
+      "uso": "Faça um Teste de Audição para ver se é capaz de ouvir um som fraco. O GM poderá torná-lo mais fácil ou mais difícil dependendo da intensidade do som, ruído ambiente etc.",
+      "compreensao": "O Mestre pode exigir depois um teste de IQ para ver se o personagem compreendeu o significado do som ouvido. Ex.: compreender que aquele 'pio de coruja' era na verdade um guerreiro indígena.",
+      "limites": "Personagens surdos não são capazes de ouvir nada.",
+      "modificadoresPositivos": ["Prontidão", "Ouvido Aguçado"],
+      "modificadoresNegativos": ["Dureza de Ouvido: −5", "qualquer outro que o GM deseje aplicar (ex.: ambiente barulhento)"],
+      "nocaoDoPerigo": "Personagens com a vantagem da Noção do Perigo deverão fazer um teste de IQ como chance de detectar um eventual perigo que aquele som possa representar."
+    },
+    "olfatoPaladar": {
+      "uso": "Estas são duas manifestações do mesmo sentido. Faça um teste para ver se percebe um sabor ou aroma.",
+      "compreensao": "O GM pode exigir, em alguns casos, um teste de IQ para verificar a compreensão do significado de um sabor ou cheiro que todos estejam sentindo. Ex.: perceber que aquela fragrância pertence à flor de uma planta antropófaga, ou reconhecer o sabor de uma droga.",
+      "periciasEspecificas": "Algumas vezes o Mestre pode exigir um teste de uma perícia específica (Química, Culinária ou Venefício, dependendo das circunstâncias).",
+      "modificadoresPositivos": ["Prontidão", "Olfato/Paladar Apurado", "um cheiro ou sabor forte seria mais fácil de sentir do que um fraco"],
+      "modificadoresNegativos": ["Não existe nenhum modificador negativo específico, com exceção daqueles que o GM aplicar em uma situação particular (ex.: um sabor ou odor fraco ou mascarado)"],
+      "limites": "Personagens com a desvantagem da Disosmia/Ageusia não são capazes de sentir o cheiro ou sabor de nada.",
+      "nocaoDoPerigo": "Personagens que tenham a Noção do Perigo deverão fazer um novo teste de IQ como chance de detectar um eventual perigo representado pelo sabor ou odor em questão."
+    }
+  },
+  "vontade": {
+    "titulo": "Testes de Vontade",
+    "regra": "O GM deverá exigir um teste de Vontade toda vez que um personagem se encontrar em uma situação alarmante ou tiver necessidade de superar uma desvantagem mental. Normalmente Vontade é igual a IQ, logo esta jogada não passa de um teste de IQ.",
+    "referencia": "VON = IQ (veja data/derivados em app/engine/derived.js)",
+    "desvantagens": "Algumas desvantagens mentais dão ao personagem uma chance de superá-las temporariamente através de um teste de Vontade. Mas o GM deverá penalizar o jogador que tentar, com frequência, evitar sua desvantagem mental, ao invés de representá-la."
+  },
+  "panico": {
+    "titulo": "Verificação de Pânico",
+    "regra": "Uma Verificação de Pânico é um Teste de Vontade feito quando acontece algo que deveria aterrorizar os personagens.",
+    "dados": "3 dados (3d) + margem da falha — tabela de consequências",
+    "modificadores": {
+      "reflexosEmCombate": "+2 em todas as Verificações de Pânico",
+      "fobia": "O GM deverá fazer uma Verificação de Pânico toda vez que um personagem encontrar o objeto de sua fobia. Se a fobia for grave, acrescente um redutor extra de −4 à Vontade.",
+      "calorDaBatalha": { "bonus": 5, "regra": "Normalmente você está excitado demais em um combate para sentir medo. Todas as Verificações de Pânico realizadas no calor de uma batalha terão um bônus de +5. Ele deve ser aplicado somente se o personagem já estiver em combate quando o evento aterrorizador acontecer, ou for notado, pela primeira vez.", "exemplo": "Se o oficial Jordan perceber de repente que o suspeito com o qual ele está atracado não tem cabeça, ele terá um bônus de +5. Seu companheiro, que lhe dá cobertura a alguns metros de distância, fará a jogada sem bônus." }
+    },
+    "frequencia": {
+      "horror": "Numa campanha de Horror, onde pessoas comuns se defrontam com Criaturas horripilantes, as Verificações de Pânico serão muito comuns. Em outras campanhas elas poderão ser raras.",
+      "comum": "Não é necessário fazer Verificações de Pânico para coisas assustadoras 'comuns', mas sim para eventos tão incomuns e aterrorizantes que eles poderiam atordoar mentalmente suas vítimas ou até mesmo deixar sequelas.",
+      "exemplos": [
+        "Numa campanha povoada com gente comum: encontros cara-a-cara com monstros, descoberta de cadáveres e coisas sobrenaturais.",
+        "Numa campanha de fantasia estas coisas serão relativamente normais… ameaçadoras, mas normais. Um personagem de fantasia poderia ter que fazer uma Verificação de Pânico se fosse transportado para o século XX e levado a passear por uma autoestrada.",
+        "Uma pessoa comum, ou mesmo um recruta da PM, que sofresse um atentado (ou estivesse próximo a alguém assassinado). Para um guarda ou soldado veterano, isto é uma rotina."
+      ]
+    },
+    "bonusERedutores": {
+      "redutores": { "faixa": "−1 a −5", "exemplos": ["−1: descobrir que as orelhas da vítima desapareceram", "−5: descobrir que uma das vítimas era um Dependente do personagem"] },
+      "bonus": { "exemplos": ["+1: ver um monstro a uma grande distância", "+3: ver um corpo depois de ser avisado"] }
+    },
+    "rolagem": {
+      "regra": "Jogue 3 dados toda vez que um personagem falhar numa Verificação de Pânico. Acrescente ao resultado a margem pela qual a Verificação falhou e consulte a tabela abaixo.",
+      "consequencias": "Muitos destes resultados darão ao personagem uma nova Peculiaridade, Fobia, Fantasia ou outra Desvantagem Mental. O GM determina a Desvantagem e ela deve estar relacionada com o evento que a causou. Deveria também, se possível, estar relacionada com alguma Peculiaridade, Fantasia ou Fobia já existente. As Desvantagens adquiridas desta maneira reduzem o valor em pontos do personagem.",
+      "tabela": [
+        { "resultado": "4,5", "efeito": "Atordoado por um turno; depois se recupera automaticamente." },
+        { "resultado": "6,7", "efeito": "Atordoado por um turno; faça um teste de IQ em cada turno depois deste, para ver se ele se recupera." },
+        { "resultado": "8,9", "efeito": "Atordoado por um turno; faça um teste de Vontade, com todos os modificadores que ele tinha no teste original, em cada turno depois deste, para ver se ele se recupera." },
+        { "resultado": "10", "efeito": "Atordoado por 1D turnos; faça um teste de Vontade como o acima em cada turno depois do 1D, para ver se ele se recupera." },
+        { "resultado": "11", "efeito": "Atordoado por 2D turnos. Faça um teste de Vontade como o acima em todos os turnos depois do 2D, para ver se ele se recupera." },
+        { "resultado": "12", "efeito": "Acesso de vômito. Trate isto como um atordoamento que dura 15 turnos. Depois disso, faça um teste de HT em cada turno, para ver se ele se recupera. Dependendo das circunstâncias, isto poderá ser meramente um inconveniente humilhante." },
+        { "resultado": "13", "efeito": "Adquire uma nova Peculiaridade. Este é o único meio de um personagem adquirir mais de 5 Peculiaridades." },
+        { "resultado": "14,15", "efeito": "Sofre 1D pontos de Fadiga e 1D turnos de atordoamento como no caso 10." },
+        { "resultado": "16", "efeito": "Atordoado durante 1D turnos, como no caso 10, e adquire uma nova Peculiaridade como no caso 13." },
+        { "resultado": "17", "efeito": "Desmaia por 1D minutos. Depois disso faça um teste de HT por minuto para ver se ele se recupera." },
+        { "resultado": "18", "efeito": "Desmaia, como acima, mas faz o teste de HT imediatamente. No caso de uma falha, terá perdido 1 ponto de vida ao desmaiar." },
+        { "resultado": "19", "efeito": "Desmaio grave que dura 2D minutos. Depois disso, faça um teste de HT por minuto para ver se ele se recupera. Perde 1 ponto de vida." },
+        { "resultado": "20", "efeito": "Desmaio beirando um estado de choque que durará 4D minutos. Sofre, também, 1 ponto de Fadiga." },
+        { "resultado": "21", "efeito": "Pânico. A vítima corre em círculos gritando, senta e chora ou faz alguma outra coisa igualmente sem sentido durante 1D minutos. No fim daquele período, faça um teste de IQ por minuto, para ver se ele se recupera." },
+        { "resultado": "22", "efeito": "Adquire uma Grande Fantasia." },
+        { "resultado": "23", "efeito": "Adquire uma Fobia Suave ou alguma outra desvantagem mental que valha 10 pontos." },
+        { "resultado": "24", "efeito": "Uma grande consequência física definida pelo GM: o cabelo encanece, envelhece cinco anos numa noite, fica parcialmente surdo. Em termos de jogo, adquire 15 pontos de desvantagens físicas (para este fim, cada ano de idade conta como 3 pontos)." },
+        { "resultado": "25", "efeito": "Se ele já tinha uma Fobia Suave que poderia estar ligada logicamente ao incidente ela se tornará Grave. Se não, adquire uma nova Fobia Suave ou uma Desvantagem Mental valendo 10 pontos." },
+        { "resultado": "26", "efeito": "Desmaia durante 1D minutos como no #18 e adquire uma nova Fantasia valendo 10 pontos como no #22." },
+        { "resultado": "27", "efeito": "Desmaia durante 1D minutos como no #18 e adquire uma nova Desvantagem Mental valendo 10 pontos como no #23." },
+        { "resultado": "28", "efeito": "Coma leve. O personagem fica inconsciente, fazendo testes de IQ a cada 30 minutos para ver se ele se recupera. Todos os testes de habilidade e atributos terão um redutor igual a −2 durante 6 horas depois de ele ter recuperado os sentidos." },
+        { "resultado": "29", "efeito": "Coma. A mesma coisa que o parágrafo anterior, mas o personagem fica inconsciente durante 1D horas. Depois ele faz um teste de HT. No caso de uma falha, permanece em coma por mais 1D horas e assim por diante." },
+        { "resultado": "30", "efeito": "Catatonia. Fica olhando para o vazio por 1D dias. Depois disso faz um teste de IQ. Em caso de falha permanece catatônico por mais 1D dias e assim por diante. Se não receber cuidados médicos, perderá 1 ponto de vida no primeiro dia, 2 no segundo e assim por diante. Se ele sobreviver e acordar, todos os testes de habilidade e atributos terão um redutor igual a −2 durante um número de dias igual à duração do estado catatônico." },
+        { "resultado": "31", "efeito": "Crise. O personagem perde o controle do corpo e cai no chão, sofrendo uma convulsão que dura 1D minutos e custa 2D pontos de fadiga. Faça também um teste de HT. No caso de uma falha, ele sofrerá também 1D pontos de dano. No caso de uma falha crítica, ele perderá 1 ponto de HT permanentemente." },
+        { "resultado": "32", "efeito": "Uma pontada de dor. O personagem cai e sofre 2D pontos de dano na forma de um colapso cardíaco ou derrame." },
+        { "resultado": "33", "efeito": "Pânico total. O personagem perde totalmente o controle e não pode fazer nada. (O GM joga 3 dados: quanto maior o resultado, mais inútil será sua reação). Ex.: ele poderia pular de um penhasco para fugir do monstro. Se ele sobreviver à sua primeira reação, deverá fazer um teste de IQ para ver se supera o pânico. Em caso de falha, o GM joga novamente para determinar uma nova reação de pânico e assim por diante." },
+        { "resultado": "34", "efeito": "Adquire uma Fantasia Grave." },
+        { "resultado": "35", "efeito": "Adquire uma Fobia Grave ou outra Desvantagem Mental que valha 15 pontos." },
+        { "resultado": "36", "efeito": "Consequências físicas graves como no #24, mas equivalente a 20 pontos de Desvantagens Físicas." },
+        { "resultado": "37", "efeito": "Consequências físicas graves como no #24, mas equivalente a 30 pontos de Desvantagens Físicas." },
+        { "resultado": "38", "efeito": "Coma, como no #29, e uma Fantasia Grave como no #34." },
+        { "resultado": "39", "efeito": "Coma, como no #29, e uma Fobia Grave ou uma Desvantagem Mental no valor de 30 pontos como no #35." },
+        { "resultado": "40+", "efeito": "Como em #39, mas a vítima perde também 1 ponto de IQ permanentemente. Isto reduzirá, automaticamente, 1 ponto no nível de habilidade de todas as perícias baseadas em IQ, incluindo as perícias mágicas e psíquicas." }
+      ]
+    }
+  }
+}

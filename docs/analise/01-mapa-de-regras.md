@@ -1,10 +1,16 @@
 # Mapa de Regras — Engenharia Reversa do Material
 
-**Fonte da verdade:** `docs/fonte-gua-material.pdf` (370 páginas, texto corrido, exportado de canal do Discord).
-**Identificação do sistema:** o material é uma tradução/adaptação PT-BR do **GURPS® 3ª Edição (Basic Set)** — atributos ST/DX/IQ/HT, 3 dados (3d), pontos de personagem, sistema de hexágonos, manobras de combate, magia com custo em fadiga/mana. O nome de trabalho do projeto é **GUA**.
+Este documento mapeia **duas camadas de material** que convivem no projeto:
+
+| Parte | Material | Resolução | Onde vive |
+|---|---|---|---|
+| **Parte I** (§1–§17) | `docs/fonte-gua-material.pdf` — 370 pp., tradução/adaptação PT-BR do **GURPS® 3ª Edição (Basic Set)** | 3d6 ≤ NH | `data/skills.json`, `advantages`, `disadvantages`, `spells`, `equipment`, `tables`, `quirks` |
+| **Parte II** (§18–§29) | **G.A.U. RPG** — publicações de 2026 nos canais `#『📕』testes-e-combate`, `#『📘』magia`, `#『📕』vantagens`, `#『📕』desvantagens`, `#『📁』modelo-ficha` | **1d20 dentro da margem de sucesso** | `data/resolucao.json`, `proezas`, `armas`, `estruturas`, `poderes`, `magia`, `ficha`, `maneuvers`, `vantagens`, `advantages` |
+
+**Identificação do sistema:** os atributos ST/DX/IQ/HT, pontos de personagem, hexágonos, manobras e magia com custo em fadiga/mana são comuns às duas camadas. O **G.A.U.** é o sistema principal do projeto (d20, Grau de Dano, árvore de manobras, construtor modular de poderes); o material 3d6 permanece como **subsistema legado** selecionável em `config.modoCombate`.
 **NOTA:** "GURPS" é marca da Steve Jackson Games; este projeto é uma ferramenta pessoal baseada no material fornecido pelo usuário. Nenhuma regra foi inventada além do material.
 
-Cada regra abaixo cita a página de origem no PDF. Referências de página usam o marcador `PÁGINA N` da extração.
+Na Parte I cada regra cita a página de origem no PDF (marcador `PÁGINA N` da extração). Na Parte II cada regra cita o **canal e a data** da publicação, como nos campos `_fonte` dos JSON.
 
 ---
 
@@ -193,9 +199,147 @@ Referida (p. 102: bônus por boa atuação, estudo; atributo sobe → perícias 
 
 ---
 
+---
+
+# PARTE II — MATERIAL G.A.U. (d20)
+
+> Transcrição do material publicado em 2026 (canais `#『📕』testes-e-combate`, `#『📘』magia`, `#『📕』vantagens`, `#『📕』desvantagens`, `#『📁』modelo-ficha`). Cada seção indica o arquivo de dados, o módulo do motor e o capítulo do livro digital que a expõe.
+
+## 18. Testes de Habilidade (d20)
+
+`data/resolucao.json` → `app/engine/resolution.js` → livro `#/livro/ler/testes`.
+
+- **Dado base:** 1d20. A **referência** é o próprio valor do atributo ou do nível de habilidade — **não existe dificuldade arbitrária (DC)** definida pelo mestre.
+- **Margem de sucesso:** o resultado do d20 precisa cair **dentro** da faixa publicada para a referência. Tabela completa (referências 1–20) em `resolucao.margens.tabela`: 1→(sem margem) · 2→3 · 3→2–4 · 4→3–5 · 5→4–6 · 6→5–7 · 7→6–8 · 8→7–9 · 9→8–10 · 10→8–12 · 11→9–13 · 12→9–14 · 13→10–16 · 14→11–17 · 15→11–18 · 16→12–20 · 17→13–21 · 18→13–22 · 19→14–24 · 20→15–25. Acima de 20 → **REGRA NÃO DEFINIDA**.
+- **Crítico:** o valor **exato da referência** (coluna `critico` da tabela). Não há crítico fora dela.
+- **"1 e 20 não importam mais":** 1 não é falha automática e 20 não é sucesso automático — vale apenas a margem (`resolucao.umEVinte`, `resolution.umEVinteImportam()`).
+- **Categorias de poder = ESCALA, não bônus** (`resolucao.categorias`): Mundano (1d20), Categoria Superior (2d20), Categoria Superior 3 (3d20), Cósmico (**quantidade de dados não publicada**). Teste de categoria superior é **bloqueado** para personagem de escala menor (`testePorCategoria`, `podeRealizarTeste`). A **agregação** dos dados extras (melhor dado / cada dado / soma) é **REGRA NÃO DEFINIDA** — `avaliarJogada` implementa os três modos (`config.modoEscala`) e marca "soma" como **HIPÓTESE** (margem ×N).
+- **Testes pré-definidos** (`resolucao.testesPreDefinidos`): atividades sem perícia são condicionadas a um atributo ou perícia com redutor (ex.: Arrombamento baseado em IQ). Implementado em `testePreDefinido`.
+- **Disputas** (`resolucao.disputas`): Rápida (uma jogada cada) e Normal (repete até desempatar). Critério publicado: **resultado mais próximo do próprio valor crítico**; o texto das disputas também menciona **maior margem** — os dois são calculados (`folga` e `distanciaCritico`) e o padrão é configurável (`config.criterioDisputa`). Conflito registrado em `rules.conflitos → disputa-criterio`.
+- **Testes do mestre** (`resolucao.testesDoMestre`): situações em que o mestre rola em segredo (percepção passiva, venenos, avaliação de mentiras etc.).
+- **Sucesso automático** (`resolucao.sucessoAutomatico`): tarefas triviais dispensam jogada, por decisão do mestre.
+
+## 19. Secundários, parâmetros e o modelo oficial de ficha
+
+`data/ficha.json` → `app/engine/derived.js` → livro `#/livro/ler/criacao` → aba **Atributos**.
+
+- **Secundários:** PV = **ST × HT** · VON = **IQ** · PER = **IQ** · PF = **HT**.
+- **Parâmetros:** ATQ (nível de habilidade da arma/perícia ou atributo correspondente) · ESQ (**DX**) · DSL (parâmetro Velocidade; corrida = deslocamento total, caminhada = metade arredondada para cima) · APAR (**DX** ou atributo da arma; exige arma ou combate desarmado) · BLOQ (**ST** + escudo). Os **valores numéricos exatos** além da referência de atributo são **REGRA NÃO DEFINIDA** — o motor devolve a referência publicada e o breakdown.
+- **Blocos da planilha oficial (9):** atributos, secundários, parâmetros, perícias, vantagens, desvantagens, biografia, línguas, poderes. Todos renderizados no capítulo *Criação* e usados como gabarito pela ficha (`novoPersonagem`).
+
+## 20. Proezas físicas, sentidos e vontade
+
+`data/proezas.json` → `app/engine/proezas.js` → livro `#/livro/ler/proezas` → aba **Proezas**.
+
+- **Corrida:** deslocamento total em combate; metade (arredondado para cima) caminhando; velocidade = parâmetro Velocidade.
+- **Esforço extra:** **1 PF por uso**, independente de sucesso ou falha (saltar mais, correr mais, levantar mais…).
+- **Saltos:** base **ST**; pulo "comum" não exige teste; salto sobrenatural exige teste de ST; sem sobrenatural o padrão publicado é **1,5 m**.
+- **Escalada:** 9 tipos de superfície com modificador, velocidade de escalada curta e longa (`proezas.escalada.tabela`).
+- **Levantar/mover objetos** (7 limites publicados): 1 mão = **3×ST** · 2 mãos = **13×ST** · carregar nas costas = **15×ST** · empurrar = **13×ST** (ou **25×ST** com impulso) · esforço extra = teste de ST com −1 por +10% de peso.
+- **Empurrar/derrubar objetos**, **apanhar objetos em combate**, **salto durante o combate**.
+- **Arremesso:** dano por ST × faixa de peso (`armas.arremesso.tabela`) e distância = **ST + peso** (arredondado para cima), em metros; com perícia Arremesso a distância aumenta.
+- **Cavar:** ritmos por situação (solo fofo, terra, rocha…) com fórmula própria.
+- **Natação:** regras, velocidade, combate subaquático e salvamento de terceiros.
+- **Sentidos:** Visão, Audição e Olfato/Paladar — todos baseados em **IQ**, com modificadores negativos (distância, tamanho, camuflagem) e positivos (sentido aguçado) publicados.
+- **Vontade e Pânico:** teste de Vontade (base IQ/VON); na falha, **Verificação de Pânico = 3d + margem da falha**, consultando a tabela de consequências **4 a 40+** (33 linhas publicadas).
+
+## 21. Combate G.A.U. — estrutura do turno
+
+`data/maneuvers.json` → `app/engine/maneuvers.js` + `damage.js` + `derived.js` → livro `#/livro/ler/combate` → aba **Combate** (modo `gau`).
+
+- **Tipos de combate:** **Impacto** (contusão, sem dano letal direto) e **Mortal**.
+- **Turno = 1 segundo.** Sequência por **deslocamento** (maior primeiro).
+- **Defesas ativas (3):** Esquiva (base DX) · Aparar (DX ou atributo da arma; exige arma/desarmado) · Bloqueio (ST + escudo).
+- **Grau de Dano (GD):** a margem do ataque define o efeito — **GD1 Raspão (1–20)** · **GD2 Em cheio (21–64)** · **GD3 Letal (65+)**.
+- **Localização de acerto (humanóide):** crânio/cérebro com RD 2, regras de olho e vísceras, tiros apontados. A tabela numérica foi publicada **como imagem** — apenas as notas textuais foram capturadas (**REGRA NÃO DEFINIDA**; nada foi inventado).
+- **Luminosidade (6 níveis):** Luz Total 0 · Penumbra Clara −2/−1 · Penumbra −4/−3 · Penumbra Escura −6/−5 · Escuridão Quase Total −9/−7 · Escuridão Total −10 (o primeiro valor aplica a ataques/defesas, o segundo a testes de Visão).
+- **Combate montado e veículos:** movimento, mudança de direção, manobras da montaria, armas de cavalaria, defesa do cavaleiro, consequências e combate com veículos.
+
+## 22. Árvore de manobras (55 nós, 6 manobras básicas)
+
+`data/maneuvers.json → manobras` → `maneuvers.js` (`listaManobras`, `filhosDe`, `efeitosDeManobra`, `executarAtaque`, `defender`) → livro `#/livro/ler/combate/{movimento,atacar,preparar,apontar,analisar,fazer-nada}`.
+
+- **Movimento:** Linear (Investida, Mover-se e Atacar → Ataque Duplo) · Difuso (Finta, Ataque em Círculos → Ataque Duplo) · Acrobático (Cambalhota por Cima, Movimento Acrobático → Ataque Acrobático) · Atlético (Combo com Cenário, Grande Salto).
+- **Atacar:** corpo a corpo — Ataque Simples → Ataque Duplo → Ataque Triplo, Golpe de Recuo; Ataque Acrobático → Ataque Preciso / Sequência Acrobática, Potência; Ataque Pesado → Ataque Duplo, Ataque Potente, Ataque Atordoante, Ataque Demolidor. À distância — Saraivada → Semiautomático/Automático, Tiro Preciso, Tiro de Supressão, Tiro Ricochete.
+- **Preparar:** Saque Rápido → Saque em Movimento · Ajustar Equipamento → **Ajuste de Empunhadura** (Uma Mão = versatilidade, Bastarda = adaptação, Duas Mãos = +1 força, Tsuka = +1 movimento, Zatoichi = +2 pós-saque, Anatômica = +1 acrobático) · Ações Simples.
+- **Apontar:** tabela **PREC** por categoria de arma, Pontaria Certeira (+1 por segundo) e Arma Firmada (+1).
+- **Analisar:** Indivíduo (movimento, poderes, ação), Cenário e Ambiente.
+- **Fazer Nada.**
+- Cada nó carrega `efeitos` numéricos (mods de ataque/defesa do alvo, nº de ataques, penalidades por ataque, dano extra, ignora RD, condição imposta, grau máximo, recuo, atravessar alvo) — consumidos por `executarAtaque`.
+
+## 23. Arsenal, estruturas e nível de tecnologia
+
+`data/armas.json` + `data/estruturas.json` → `app/engine/damage.js` → livro `#/livro/ler/arsenal`.
+
+- **64 armas em 3 eras:** Medievais (Soco 1d6 … Montante 3d12), Modernas (Pistola leve 2d8 … Canhão pesado 8d10), Futuristas (Pistola laser 3d10 … Canhão de fusão 10d12), cada uma com característica, tipo, dano e média transcrita.
+- **PREC** (Precisão Extraordinária) por categoria de ataque à distância; modificadores para corpo a corpo = **REGRA NÃO DEFINIDA**.
+- **Estruturas e objetos:** 7 materiais com **Limiar de Dano** e **PE** por tamanho (Pequeno/Médio/Grande), 3 tamanhos, 3 estados de degradação (Intacto/Danificado/Destruído) e interações.
+- **Nível de Tecnologia (NT):** 13 linhas, de NT 0 (Idade da Pedra) a NT 12+ (a critério do mestre), com era, início e assinatura tecnológica.
+
+## 24. Construtor modular de poderes
+
+`data/poderes.json` → `app/engine/powers.js` + `categories.js` → livro `#/livro/ler/poderes` → aba **Poderes**.
+
+- **Módulos:** 1 **Efeito** (9 grupos, 78 itens: Manipulação, Movimento, Espaço, Tempo, Mente, Corpo, Percepção, Invocação, Defesa) + **Extensão** (Alcance, Área, Quantidade de alvos, Duração — 40 itens) + **Potência** (Intensidade, Dano, Força, Velocidade — 21 itens) + **Condições** (31, custo negativo, **máximo de 3 por poder**) + Bônus (10) + Penalidades (10) + PV (5) + RD (5) + Outros (4).
+- **Custo:** pago em **pontos de poder** (orçamento separado dos pontos de personagem); exemplo publicado de orçamento: **150**. Itens escalonáveis ("5+", "15+", "40+"…) **não publicam o custo dos níveis adicionais** → REGRA NÃO DEFINIDA.
+- **Dimensionalidade:** superioridade geométrica/euclidiana — seres de dimensão superior não são afetados por regras de dimensões inferiores (`comparaDimensionalidade`, `escalaDoPersonagem`).
+- **Hax:** definição e **relatividade** (o que é hax para um mundano pode não ser para um ser de escala maior) — `notaDeHax`.
+
+## 25. Magia G.A.U.
+
+`data/magia.json` (+ `data/spells.json` para a lista) → `app/engine/magic.js` → livro `#/livro/ler/magia` → aba **Magias**.
+
+- **Aptidão Mágica:** máximo **3** níveis; soma ao IQ mágico.
+- **Aprendizado, pré-requisitos, professor e contratação.**
+- **Níveis de mana (5):** Muito Alta · Alta · Normal · Baixa · **Nula** (nada funciona — `conjurar` bloqueia com o motivo).
+- **Rituais por NH** (mãos/pés livres e palavras em voz firme até ritual mínimo), **tempo**, **custo em energia**, **duração e manutenção**, **múltiplas mágicas**, distração e ferimentos.
+- **Classes:** Comum, Área, Projétil, Informação, Resistível, Encantamento, Especial.
+- **Toque do Mago**, **cajado e vara**, magia no combate, área afetada, modificadores de longa distância, limites de proteção.
+- **Magia cerimonial**, **objetos encantados** (criação, poder, custo de fabricação, testes de habilidade, rápido e sujo, lento e seguro, uso, permanentemente ativos) e **entidades** (demônios e elementais).
+- **Conflito registrado:** o capítulo MAGIA diz "3 dados" e TESTES DE HABILIDADE diz d20 → padrão **d20**, modo 3d disponível em `config.resolucaoMagia` (`rules.conflitos → magia-3d-vs-d20`).
+
+## 26. Fadiga (PF)
+
+`app/engine/fatigue.js` — PF máximo = HT, ST efetiva reduzida pela fadiga, estados, custo por uso, gasto e recuperação. Integra-se ao esforço extra (1 PF por uso) e ao custo energético da magia.
+
+## 27. Mapa arquivo → motor → interface
+
+| Conteúdo | Dados | Motor | Livro | Ficha |
+|---|---|---|---|---|
+| Testes d20, margens, disputas, categorias | `resolucao.json` | `resolution.js`, `categories.js` | cap. *Testes* | aba **Dados** |
+| Secundários e parâmetros | `ficha.json` | `derived.js` | cap. *Criação* | aba **Atributos** |
+| Proezas, sentidos, pânico | `proezas.json` | `proezas.js` | cap. *Proezas* | aba **Proezas** |
+| Manobras, defesas, GD, luminosidade, empunhaduras | `maneuvers.json` | `maneuvers.js`, `damage.js` | cap. *Combate* | aba **Combate** (modo G.A.U.) |
+| Armas, PREC, estruturas, NT | `armas.json`, `estruturas.json` | `damage.js` | cap. *Arsenal* | aba **Combate** |
+| Poderes, dimensionalidade, hax | `poderes.json` | `powers.js`, `categories.js` | cap. *Poderes* | aba **Poderes** |
+| Magia | `magia.json`, `spells.json` | `magic.js` | cap. *Magia* | aba **Magias** |
+| Vantagens (catálogo e regras do capítulo) | `advantages.json`, `vantagens.json` | `vantagens.js`, `traits.js` | cap. *Vantagens* | aba **Vantagens** |
+| Personagem, migração, pontos | `ficha.json`, `rules.json` | `character.js`, `engine.js` | cap. *Criação* | todas |
+
+## 28. Conflitos entre as duas camadas
+
+Registrados em `data/rules.json → conflitos` (com a resolução adotada e a fonte de cada lado):
+
+1. **`magia-3d-vs-d20`** — rolagem de magia: 3 dados (MAGIA) × d20 (TESTES). Adotado: d20 + margem, com modo 3d configurável.
+2. **`disputa-criterio`** — vitória por proximidade do crítico × maior margem. Adotado: ambos calculados; padrão proximidade do crítico.
+3. **`ataque-corpo-a-corpo-distancia`** — o texto publicado exige "pelo menos 2 metros" para o ataque iniciado dessa maneira, o que conflita com a proximidade do corpo a corpo. Adotado: transcrito como está, com `_aviso` no dado e aviso na interface.
+
+## 29. Vantagens G.A.U. (publicação oficial)
+
+**Fonte:** `VANTAGENS` — canal #『📕』vantagens (Impio, 26/07/2026 09:06 e 10:45) e `NOVAS VANTAGENS` (Impio, 16/08/2026 12:36). Substitui a transcrição anterior feita a partir do PDF legado.
+
+- **`data/advantages.json` — 65 vantagens:** 38 clássicas, 6 de custo variável (Reputação, Status, Riqueza, Aliado, Patrono, Aparência Física) e **21 novas** (`grupo: "nova"`). Cada entrada traz `custo` publicado, `custoPorNivel` quando escalonável, `niveis` estruturados (Rijeza RD 1/RD 2, Memória Eidética 1º/2º nível, Sorte/Sorte Extraordinária, Aptidão Mágica 1º–3º, Abascanto, Poderes Legais, Alfabetização, Riqueza, Status, Aparência…), `efeitos[]` tipados, `requisitos[]`, `incompativel[]`, `unicidade` e `fonteLegada`.
+- **`data/vantagens.json`:** definição do capítulo ("habilidades inatas… só na criação, com poucas exceções"), custos, bloco **NOVAS VANTAGENS**, **Aliado** (tabela de pontos do aliado → custo, habilidade especial +5 a +10, freqüência em 3d com multiplicadores ×3/×2/×1/×½, criação e representação pelo GM), **Patrono** (escalas de poder 10/15/25/30, equipamento +5/+10, qualidades especiais, freqüência, inconvenientes, patrões × Patronos), **Riqueza**, **exemplo de seleção de Dai Blackthorn**, conflitos e **`migracaoDeIds`** (23 ids antigos → normalizados, 1 entrada removida).
+- **`app/engine/vantagens.js`** é a fonte única dos efeitos numéricos: sentidos, defesas ativas (e flanco/costas), RD natural, Vontade, pânico, resistência à magia e psíquica, atributos efetivos, IQ efetivo por contexto (magia, línguas, música), perícias, modificadores gerais, dano extra, ações extras, imunidades e dispensas, visão noturna, memória eidética, sorte, status derivado — além de `validarVantagens`, `custoDasVantagens`, `resumoDasVantagens` e `normalizarEntradaDeVantagem` (migração de ficha).
+- **Consumidores:** `derived.js` (secundários, esquiva/aparar/bloqueio, RD), `encumbrance.js` (defesa passiva), `proezas.js` (testes de sentido, vontade e pânico), `spells.js` (IQ mágico e teto de Aptidão Mágica), `character.js` (pontos, validação, `VERSAO_FICHA` 3), `engine.js` (`computeAll` expõe `vantagens`, `atributosEfetivos`, `ajustesDeAtributos`, `defesasAtivas`, `sentidos`).
+- **Efeitos tipados** (`efeitos[].tipo`): `sentido`, `defesaAtiva`, `pericia`, `panico`, `iniciativa`, `despertar`, `imunidade`, `atributoEfetivo`, `resistenciaMagica`, `resistenciaPsiquica`, `atributo`, `testeGeral`, `dano`, `acoesExtras`, `statusDerivado`, `deteccao`, `dispensaPericia`. Valores condicionais usam `valorEfetivo` (ex.: Amuleto da Sorte com/sem o amuleto).
+- **Conflito registrado:** `sobrevivente-do-inferno-custo` — 40 pontos na publicação oficial × outra grafia no bloco de novas vantagens. Adotado: **40 pontos**.
+
+---
+
 ## LACUNAS — "REGRA NÃO DEFINIDA / MATERIAL NÃO FORNECIDO"
 
-O material referencia cadernos externos que **não foram fornecidos**:
+**Parte I (material 3d6):** o material referencia cadernos externos que **não foram fornecidos**:
 
 1. **Quadros e Tabelas** — tabelas de armas corpo-a-corpo (dano/custo/peso/alcance/ST mín), tabela de pontos de reação 3d, tabela de posições, tabelas de Golpes Fulminantes e Erros Críticos, tabela de local de impacto aleatório 3d, tabela completa de tamanho/velocidade-distância.
 2. **Lista de Equipamentos** — preços de itens genéricos (rações, estojo médico, corda…).
@@ -205,9 +349,29 @@ O material referencia cadernos externos que **não foram fornecidos**:
 
 **Decisão de arquitetura:** todos esses dados são carregados dos arquivos JSON (`data/*.json`). Quando o usuário fornecer os capítulos ausentes, basta popular os arquivos — sem alteração do motor. Onde o próprio material traz exemplos numéricos autoconsistentes (modificadores de velocidade/distância), a tabela foi reconstruída **a partir dos exemplos** e marcada como `"_fonte": "reconstruído dos exemplos"`.
 
+**Parte II (material G.A.U.):** o registro vivo e completo está em `data/rules.json → naoDefinidas` (15 itens) e é exibido em *Configurações → Regras não definidas*. Principais lacunas:
+
+1. **Nomes oficiais das Categorias de Poder** acima de Mundano (o material cita apenas "categoria superior" e "cósmico").
+2. **Agregação dos d20 adicionais** de categorias superiores (soma, melhor dado ou avaliação por dado).
+3. **Margens de sucesso acima da referência 20** (a tabela publicada vai até 20).
+4. **Tabela de Localização de Acerto** (humanóide): publicada **como imagem** — só as notas textuais foram capturadas; nenhum modificador numérico foi inventado.
+5. **Custo dos níveis adicionais** dos itens escalonáveis do construtor de poderes ("5+", "15+", "25+", "40+", "45+").
+6. **Valores numéricos dos parâmetros** ATQ/ESQ/DSL/APAR/BLOQ além da referência de atributo publicada.
+7. **Orçamento de pontos de poder por nível de saga** (o material dá 150 como exemplo de comparação).
+8. **PREC para armas corpo a corpo** (a tabela lista apenas categorias de ataque à distância).
+9. **Custo de atributos acima de 20** (a tabela legada vai até 20).
+10. **Encontrões** (citados em "Empurrar e Derrubar Objetos" como regra separada, ainda não publicada).
+
+A mesma decisão de arquitetura vale: nada é inventado, tudo é carregado de `data/*.json`, e cada lacuna aparece na interface como bloqueio ou aviso com o motivo exato.
+
 ## Divergências/corrupções no texto-fonte (preservadas, não corrigidas)
 
 - Tabela altura/peso (p. 7): coluna ST corrompida na exportação (linhas "1-", "15 ou menos", "10" fora de ordem). Transcrita como está.
 - "Motonáutica (Fisico/Média)" (p. 178): grafia "Fisico" no original → normalizada com nota.
 - Tabela de exemplos de armas de longo alcance (p. 257): colunas com ruído → transcritas conforme legível.
 - Vontade/Vontade Fraca (p. 277): texto diz "teste de HT, mais ou menos o valor de Força de Vontade/Vontade Fraca" → implementado como modificador no teste de permanecer consciente.
+- Exemplo de seleção de vantagens (Dai Blackthorn): o texto declara **30 pontos** disponíveis, mas a compra listada soma **35** → transcrito como publicado, com `_aviso` em `data/vantagens.json → exemploSelecao`.
+- "Resistência **Pisíquica**": grafia do original preservada no nome e na descrição (os efeitos usam a forma normalizada `resistenciaPsiquica`).
+- A transcrição anterior trazia uma "vantagem" chamada *"Se o Patrono for um indivíduo extremamente poderoso…"* — era um fragmento da tabela de Poder do Patrono. Removida do catálogo e registrada em `vantagens.json → migracaoDeIds.removidos`.
+- Ids gerados pela extração anterior cortavam letras acentuadas (`aptid-o-m-gica`, `mem-ria-eid-tica`, `g-nio`…). Normalizados e mapeados em `migracaoDeIds.mapa`; fichas salvas são migradas automaticamente (`VERSAO_FICHA` 3).
+- Nomes coloquiais das novas vantagens ("Amigo 'Escudeiro'", "Irmão/irmã Gostosa(o)", "Kawaii", "Spoiler", "Super Bolso", "Guarda Roupas Astral") mantidos exatamente como publicados.

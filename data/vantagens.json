@@ -1,0 +1,294 @@
+{
+  "_fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06 e 10:45)",
+  "_fonteNovas": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)",
+  "_nota": "Transcrição fiel da publicação oficial de VANTAGENS do sistema G.A.U. Substitui a transcrição por página do material-base (p. 17–40), que continua citada em cada vantagem como fonteLegada.",
+  "definicao": {
+    "titulo": "VANTAGENS",
+    "regra": "Estas são habilidades inatas do personagem. Com poucas exceções, só podemos dar uma vantagem a um personagem no momento em que ele é criado. Depois disso não há nenhum meio de consegui-las. (Note, no entanto, que tanto a magia como a tecnologia avançada poderiam dar a um personagem o equivalente a uma destas aptidões como, por exemplo, um Ouvido Aguçado). Cada vantagem tem um custo em pontos e um personagem pode ter tantas vantagens quantas ele for capaz de “comprar”.",
+    "custos": "Para algumas vantagens o custo é fixo. Outras (por ex., Visão Aguçada) podem ser compradas em vários níveis, a um certo custo em cada nível. Por exemplo, Visão Aguçada custa 2 pontos por ponto adicional de bônus. Se você deseja um bônus igual a +6 isto lhe custará 12 pontos. Existe uma lista de todas as Vantagens no canal que acompanha este manual.",
+    "momentoDeCompra": "só na criação (com poucas exceções)",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06 e 10:45)"
+  },
+  "novasVantagens": {
+    "titulo": "Novas Vantagens",
+    "regra": "O GM (sem dúvida nenhuma com os conselhos entusiásticos dos jogadores) tem liberdade para acrescentar a esta lista quantas vantagens ele for capaz de imaginar. Será necessário balancear o custo destas novas vantagens para torná-las comparáveis às já existentes. Não inclua vantagens complicadas e minuciosas a menos que esteja disposto a aturar o aumento na “contabilidade”. Poderes “psíquicos” mentais são também considerados vantagens. Eles estão relacionados no capítulo dedicado ao assunto.",
+    "publicacao": "16/08/2026 — bloco NOVAS VANTAGENS, transcrito em data/advantages.json com grupo 'nova'.",
+    "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36)"
+  },
+  "aliado": {
+    "titulo": "Aliado",
+    "introducao": "Muitos heróis ficcionais têm parceiros — camaradas leais, companheiros fiéis ou amigos de infância — que os acompanham em suas aventuras. Estes parceiros são Aliados. Ter um Aliado é uma vantagem. Num certo sentido, os outros PCs que participam de uma aventura com você são seus aliados. Mas eles são aliados em quem não se pode confiar. Freqüentemente eles são relaçães casuais, encontrados pela primeira vez há apenas algumas horas em uma taverna de beira de estrada. Eles têm seus próprios objetivos, motivos e ética, que podem ou não coincidir com os seus.",
+    "confiabilidade": "Um Aliado NPC, por outro lado, é inteiramente confiável. Talvez vocês tenham lutado lado a lado em uma extensa campanha, treinado com o mesmo mestre, ou crescido na mesma vila. Os dois confiam tacitamente um no outro. Vocês viajam e lutam juntos, dividem as provisões em épocas difíceis, se revezam na vigia durante a noite. O custo em pontos para um Aliado é determinado por seu valor em pontos e freqüência de participação.",
+    "poder": {
+      "titulo": "Poder do Aliado",
+      "regras": [
+        "Um Aliado construído com menos do que 75 pontos é, na verdade, um Dependente.",
+        "Um Aliado construído com 76 a 100 pontos custa 5 pontos.",
+        "Um Aliado construído com 101 a 150 pontos custa 10 pontos.",
+        "Um Aliado construído com 151 a 200 pontos custa 15 pontos e assim por diante.",
+        "Um Aliado construído com 50 pontos a mais do que seu PC é na realidade um Patrono (veja a seguir).",
+        "Um Aliado que tenha habilidades especiais, como poderes mágicos em um mundo sem magia ou equipamentos muito além do nível tecnológico de seu mundo, custa entre 5 a 10 pontos mais, conforme a decisão do Mestre."
+      ],
+      "tabela": [
+        {
+          "pontosDoAliado": "< 75",
+          "custo": 0,
+          "resultado": "Dependente (não é Aliado)"
+        },
+        {
+          "pontosDoAliado": "76–100",
+          "custo": 5
+        },
+        {
+          "pontosDoAliado": "101–150",
+          "custo": 10
+        },
+        {
+          "pontosDoAliado": "151–200",
+          "custo": 15
+        },
+        {
+          "pontosDoAliado": "+50 pontos além do PC",
+          "custo": 0,
+          "resultado": "Passa a ser Patrono"
+        }
+      ],
+      "habilidadesEspeciais": {
+        "min": 5,
+        "max": 10,
+        "nota": "acréscimo a critério do Mestre"
+      }
+    },
+    "frequencia": {
+      "titulo": "Freqüência de Participação do Aliado",
+      "regra": "O GM jogará 3 dados para decidir se seu aliado aparecerá em uma determinada sessão de jogo. Se o resultado estiver dentro dos limites de seu aliado (veja tabela abaixo), então ele estará com você nesta aventura.",
+      "tabela": [
+        {
+          "id": "quase-sempre",
+          "rotulo": "O Aliado aparece quase todo o tempo",
+          "dado": 15,
+          "multiplicador": 3,
+          "nota": "resultado menor ou igual a 15 — custo triplo"
+        },
+        {
+          "id": "bastante",
+          "rotulo": "O Aliado aparece com bastante freqüência",
+          "dado": 12,
+          "multiplicador": 2,
+          "nota": "resultado menor ou igual a 12 — custo dobrado"
+        },
+        {
+          "id": "frequente",
+          "rotulo": "O Aliado aparece freqüentemente",
+          "dado": 9,
+          "multiplicador": 1,
+          "nota": "resultado menor ou igual a 9 — custo normal"
+        },
+        {
+          "id": "esporadica",
+          "rotulo": "O Aliado aparece esporadicamente",
+          "dado": 6,
+          "multiplicador": 0.5,
+          "nota": "resultado menor ou igual a 6 — metade do custo (arredondado para cima)"
+        }
+      ]
+    },
+    "criacao": {
+      "titulo": "A Criação de um Aliado",
+      "regras": [
+        "Um Aliado é criado do mesmo modo que um PC.",
+        "Um Aliado NPC pode ter até 40 pontos em desvantagens ou uma única desvantagem de qualquer valor. O GM pode abrir exceções ocasionais a esta regra, como o faria para um PC.",
+        "Aliados NPC devem pagar os pontos para ter o PC como um Aliado. Para um PC normal, com 100 pontos, o custo seria 5.",
+        "Lembre-se, enquanto estiver escolhendo as vantagens e desvantagens para seu Aliado, que a maioria dos aliados tem uma história em comum com seus PCs. Soldados normalmente terão lutadores como aliados, ladrões terão outros tipos do submundo, sacerdotes terão clérigos ou cavaleiros virtuosos, etc. Um jogador precisará apresentar excelentes motivos, se ele quiser que seu PC tenha um Aliado com um passado totalmente diferente do seu.",
+        "Nem o Aliado nem o PC podem receber pontos por desvantagens do tipo Senso de Dever ou Voto para com seu companheiro. O custo em pontos de um Aliado já leva esta ligação em conta."
+      ]
+    },
+    "representacao": {
+      "titulo": "A Representação do Aliado pelo GM",
+      "regras": [
+        "O Aliado é um NPC e deverá ser representado como tal. Apesar de os Aliados estarem normalmente de acordo com as propostas do PC, eles não são marionetes. Eles discordarão de seus amigos de quando em vez.",
+        "Um Aliado pode tentar dissuadir um PC de um plano que lhe pareça insensato. Se ele não conseguir convencer seu amigo a abandonar o plano, poderá se recusar a cooperar.",
+        "Um Aliado poderá eventualmente trazer problemas para seu PC, metendo-se em brigas, sendo preso, insultando um nobre... É claro que o Aliado tentará ajudar seu amigo quando ele se meter em encrencas similares.",
+        "Um PC não deveria receber nenhum ponto de personagem como prêmio em uma sessão na qual ele traiu, atacou ou colocou seu Aliado NPC em perigo desnecessariamente. Se a traição for gritante, prolongada ou grave, a confiança existente entre o PC e seu Aliado deixará de existir. O Aliado estará perdido, mas os pontos não serão recuperados.",
+        "Se, por outro lado, um Aliado morrer sem ser por culpa de seu amigo, o PC não deveria ser penalizado. Permita que ele crie um novo Aliado. Este relacionamento deverá se desenvolver gradualmente. Ninguém consegue um verdadeiro Aliado da noite para o dia.",
+        "Como os aliados são NPCs, eles não recebem pontos automaticamente. No entanto, o GM pode decidir dar a eles alguns pontos a mais, depois de um período de tempo, conforme eles forem ganhando experiência. O GM, e não o jogador, deve decidir como estes pontos serão gastos. (Se o aliado aumenta seu número de pontos, por exemplo, de 100 para 101, o PC deverá pagar pelos pontos devidos por ter agora um Aliado mais poderoso.)"
+      ]
+    },
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06 e 10:45)",
+    "fonteLegada": "p. 30–32"
+  },
+  "patrono": {
+    "titulo": "Patrono",
+    "introducao": "Um patrono é um NPC, criado inicialmente pelo jogador mas controlado pelo GM. Um patrono pode ser de grande ajuda como amigo, conselheiro, protetor ou patrão. (Um personagem pode ter um emprego sem ter um patrono — veja Empregos. Um patrono é mais do que um chefe comum.)",
+    "limite": "O GM pode limitar ou proibir os Patronos se eles ameaçarem romper o equilíbrio de uma campanha.",
+    "custo": "O custo em pontos de um Patrono é determinado (a) por seu poder e (b) pela freqüência com que ele aparece para ajudá-lo.",
+    "poder": {
+      "titulo": "Poder do Patrono",
+      "nota": "O poder é determinado pelo GM. As escalas abaixo são exemplos e alguns Patronos não se encaixarão facilmente nelas.",
+      "tabela": [
+        {
+          "id": "individuo-poderoso",
+          "custo": 10,
+          "descricao": "Se o Patrono for um único indivíduo poderoso (criado com no mínimo 150 pontos) e/ou um grupo com bens disponíveis no mínimo 1000 vezes a quantidade inicial de recursos daquele mundo."
+        },
+        {
+          "id": "extremamente-poderoso",
+          "custo": 15,
+          "descricao": "Se o Patrono for um indivíduo extremamente poderoso (criado com no mínimo 200 pontos) ou uma organização razoavelmente poderosa (bens disponíveis equivalentes a no mínimo 10.000 vezes a quantidade inicial de bens).",
+          "exemplo": "O departamento de Polícia de Los Angeles."
+        },
+        {
+          "id": "organizacao-muito-poderosa",
+          "custo": 25,
+          "descricao": "Se o Patrono for uma organização muito poderosa (bens disponíveis equivalentes a no mínimo um milhão de vezes a quantidade inicial de recursos).",
+          "exemplo": "Uma grande corporação ou uma nação muito pequena."
+        },
+        {
+          "id": "governo-nacional",
+          "custo": 30,
+          "descricao": "Se o Patrono for um governo nacional ou uma organização multinacional gigantesca (quantidade de bens incalculável)."
+        }
+      ]
+    },
+    "equipamento": {
+      "titulo": "Equipamento e Patronos",
+      "regra": "Se o Patrono fornecer equipamento útil, seu valor em pontos crescerá somente se o personagem puder usar o equipamento para seus próprios fins, enquanto outros personagens na mesma campanha têm de comprá-lo. Em uma campanha no Illuminati, a Rede é um Patrono tão caro justamente por fornecer o equipamento de computação. Mas um soldado em uma campanha militar não paga pontos de personagem por suas armas. Se ele sair de licença, não poderá levá-las consigo.",
+      "acrescimoPadrao": 5,
+      "acrescimoMaior": {
+        "valor": 10,
+        "condicao": "Se o equipamento tiver um valor maior do que a quantidade inicial de recursos da campanha"
+      }
+    },
+    "qualidades": {
+      "titulo": "Qualidades Especiais de um Patrono",
+      "regra": "Os Mestres podem adaptar os valores em pontos se necessário. Exemplo: se o patrono de um jogador for uma criatura extra-dimensional com poderes demoníacos, ou alguém com super poderes ou o governador de Nova York, ele deveria custar 20 a 25 pontos pois, apesar de o Patrono ser um indivíduo, ele detém muito poder. Habilidades muito especiais deveriam adicionar 5 ou 10 pontos, de acordo com a vontade do GM.",
+      "acrescimo": [
+        5,
+        10
+      ],
+      "exemplos": [
+        "O Patrono é capaz de usar magia em um mundo onde a magia não existe.",
+        "O Patrono domina uma tecnologia muito superior à norma do mundo.",
+        "O Patrono tem um alcance fora do comum no tempo ou no espaço."
+      ]
+    },
+    "frequencia": {
+      "titulo": "Freqüência de Participação do Patrono",
+      "regra": "O custo em pontos de um Patrono é modificado pela freqüência com que ele aparece. Use os modificadores de Freqüência de Participação descritos anteriormente para os Aliados.",
+      "ref": "aliado.frequencia",
+      "jogada": "O GM faz uma jogada no início de cada aventura. Se o resultado estiver dentro do âmbito do Patrono, o GM poderá replanejar a aventura para incluir uma atribuição, ou apenas uma ajuda, do Patrono. Ele pode também preferir deixá-lo de fora. No entanto, se o GM tiver determinado que o Patrono poderá aparecer e você tentar entrar em contato com ele durante a aventura (à procura de ajuda, conselho ou outra coisa qualquer), é provável que o contato seja bem sucedido e a ajuda poderá ser oferecida. (Seja razoável. Se você estiver trancado em uma masmorra sem um rádio ou outro meio qualquer de comunicação, não haverá muita chance de entrar em contato com ninguém).",
+      "limite": "Você não saberá se seu Patrono está “disponível” em uma determinada aventura até tentar entrar em contato com ele e, como regra, você só deveria ser capaz de entrar em contato com seu Patrono em busca de auxílio uma vez em cada aventura.",
+      "relacionamentos": [
+        "Um poderoso feiticeiro como Patrono de guerreiros (ou jovens feiticeiros) que ele envia à procura de objetos encantados ou para matar inimigos.",
+        "Um rei do crime como Patrono de ladrões e assassinos independentes.",
+        "Uma divindade menor como Patrono de um Paladino da Justiça.",
+        "Um departamento de polícia de uma cidade como Patrono de um detetive particular. Eles podem ficar melindrados com ele, mas o detetive os ajuda e vice-versa.",
+        "Um soberano (em um mundo qualquer) como Patrono de um aventureiro.",
+        "Uma grande companhia como Patrono de um diplomata ou espião.",
+        "Um Super-combatente do crime ou policial como Patrono de um repórter.",
+        "Qualquer organização de espionagem como Patrono eventual de um agente independente ou Patrono em tempo integral de seus próprios agentes. (A diferença entre este e um emprego normal é que deste você não pode se demitir...)"
+      ],
+      "autoridadeFinal": "O GM é a autoridade final quanto ao custo de um Patrono. Ele pode simplesmente rejeitar um Patrono proposto se sentir que ele será impraticável dentro dos contornos da campanha, ou apenas muito absurdo.",
+      "compartilhado": "Freqüentemente verificaremos que é útil o fato de vários personagens compartilharem o mesmo Patrono (são todos agentes do mesmo governo, seguidores de uma mesma seita, etc...). Isto é uma vantagem para os jogadores também. Se o Patrono aparecer para um deles para oferecer ajuda ou uma indicação, o GM normalmente achará razoável supor que o Patrono estará também disponível para os outros personagens, independentemente dos resultados conseguidos por eles no início da aventura. No entanto, o custo em pontos de um Patrono não é dividido. Todos os personagens pagam o preço total.",
+      "semIntervencao": "Jogadores e GM deveriam se lembrar que um Patrono poderoso pode ser útil mesmo sem intervir ativamente. Um gangster de Chicago que possa dizer “O Big Eddie me mandou”, ou um combatente do crime que possa exibir um salvo-conduto, poderá ter maior facilidade para ultrapassar uma barreira."
+    },
+    "inconvenientes": {
+      "titulo": "Inconvenientes dos Patronos",
+      "regras": [
+        "Se seu patrono for um patrão, senhor feudal, etc., você poderá ter algum dever em relação a ele. Isto é considerado uma desvantagem. Um dever relativamente grande pode diminuir bastante o custo de um Patrono e transformá-lo de um benefício em uma responsabilidade considerável.",
+        "Um Patrono pode ter inimigos poderosos que são agora seus inimigos também. Isto poderá lhe dar a Desvantagem Inimigo."
+      ]
+    },
+    "patroes": {
+      "titulo": "Patrões e Patronos",
+      "regra": "Nem todo patrão é um Patrono. Se seu patrão for alguém com quem se possa contar para livrá-lo de problemas (pelo menos de vez em quando), então ele realmente poderia ser um Patrono. Caso contrário, não passará de um emprego.",
+      "exemplo": "Um pequeno departamento policial é um patrono que vale 10 pontos. O exército dos EUA, apesar de mais poderoso, não é um Patrono possível, ao menos para um soldado raso. Você poderia dizer “O coronel cuida de seus homens”, mas poderia dizer com a mesma facilidade “Se me meter em encrenca, só poderei contar comigo mesmo”, e ser um soldado que não paga nenhum ponto por ter um Patrono."
+    },
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06 e 10:45)",
+    "fonteLegada": "p. 32–35"
+  },
+  "riqueza": {
+    "titulo": "Riqueza",
+    "regra": "A Riqueza pode ser uma vantagem realmente maravilhosa. O custo em pontos para a maioria dos níveis de riqueza. Lembre-se que a riqueza é relativa e determinada pelo cenário em que o personagem é criado. O significado preciso de cada nível será definido no livro de referência de cada cenário.",
+    "nota": "Os níveis e custos publicados no material-base estão em data/advantages.json → 'riqueza' (niveis).",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06 e 10:45)",
+    "fonteLegada": "p. 12–13"
+  },
+  "exemploSelecao": {
+    "titulo": "Exemplo de Seleção de Vantagens",
+    "personagem": "Dai Blackthorn",
+    "pontosDisponiveis": 30,
+    "texto": "Dai Blackthorn tem, no momento, 30 pontos de personagem para gastar. Vejamos que vantagens inatas queremos dar a ele. Neste ponto, precisamos pensar sobre que tipo de carreira Dai vai abraçar. Ele tem muito mais inteligência e coordenação do que força. Como queremos que ele comece em um mundo de fantasia com um nível de tecnologia baixo (medieval), temos algumas escolhas lógicas. Ele poderia ser um aprendiz de feiticeiro... ou um ladrão. O que você acha disso Dai? Tem alguma preferência?",
+    "dialogo": [
+      "Magia é um trabalho duro. Mas “ladrão” é um termo de categoria tão inferior. Que tal “trapaceiro” ou “aventureiro cavalheiresco”?",
+      "Ok, Dai, você será um trapaceiro. Voltando à lista de vantagens, encontraremos imediatamente Senso de Direção, que poderia ser muito útil para alguém que esteja explorando um lugar com o qual ele não está familiarizado. E ela custa somente 5 pontos.",
+      "Ouvido Aguçado também é interessante. Nós não gostaríamos que Dai fosse pego de surpresa. Ela custa 2 pontos para cada ponto de bônus. A Audição normal de Dai está baseada em sua IQ que é 12. Isto já é bastante bom. Se nós a aumentarmos em 5 pontos ele terá 17, o que significa que quase sempre ele ouvirá os sons normais e há grande probabilidade de que ele consiga captar até mesmo os mais fracos. Esta vantagem custará mais 10 pontos.",
+      "Ter Ultra-flexibilidade das Juntas poderia ser útil, já que esta vantagem garante um bônus igual a +3 em Escaladas e tentativas de fuga de prisões. Ela custa apenas 5 pontos. Nós a compraremos.",
+      "“Status Elevado” não nos parece apropriado e por isso nós a ignoraremos. Da mesma maneira, um “Patrono” não parece adequado para um espírito independente como Dai. “Rico” nem pensar! Eliminamos, de maneira similar, a maioria das outras vantagens por serem inadequadas ou inúteis.",
+      "No entanto, parece-nos que Noção do Perigo seria útil para um ladrão. O único problema é que ela custa 15 pontos. Isto é muito, mas a vantagem é também muito útil. Nós a compraremos e chega! Já temos vantagens suficientes."
+    ],
+    "compra": [
+      {
+        "vantagem": "Senso de Direção",
+        "pontos": 5
+      },
+      {
+        "vantagem": "Ouvido Aguçado",
+        "nivel": 5,
+        "pontos": 10,
+        "nota": "Audição 12 → 17 (2 pontos por ponto de bônus)"
+      },
+      {
+        "vantagem": "Ultra-flexibilidade das Juntas",
+        "pontos": 5
+      },
+      {
+        "vantagem": "Noção do Perigo",
+        "pontos": 15
+      }
+    ],
+    "totalGasto": 35,
+    "_aviso": "O exemplo publicado soma 35 pontos para um orçamento declarado de 30 — transcrito como está, sem correção. O total de cada compra está em 'compra'.",
+    "fonte": "VANTAGENS — canal #『📕』vantagens (Impio, 26/07/2026 09:06 e 10:45)"
+  },
+  "conflitos": [
+    {
+      "id": "sobrevivente-do-inferno-custo",
+      "assunto": "Custo de Sobrevivente do Inferno",
+      "descricao": "A publicação de NOVAS VANTAGENS (16/08/2026) lista “Sobrevivente do Inferno (40 pontos)”, enquanto a transcrição por página do material-base registrava 70 pontos.",
+      "resolucaoAdotada": "vale o texto da publicação oficial de VANTAGENS: 40 pontos.",
+      "fonte": "NOVAS VANTAGENS — canal #『📕』vantagens (Impio, 16/08/2026 12:36) × material-base p. 40"
+    }
+  ],
+  "migracaoDeIds": {
+    "nota": "A transcrição anterior gerava ids com os acentos removidos ('aptid-o-m-gica'), o que impedia o motor de reconhecer a vantagem. Os ids foram normalizados ('aptidao-magica') e este mapa permite migrar fichas salvas. Aplicado por migrarPersonagem() em app/engine/character.js.",
+    "mapa": {
+      "senso-de-dire-o": "senso-de-direcao",
+      "no-o-exata-do-tempo": "nocao-exata-do-tempo",
+      "ouvido-agu-ado": "ouvido-agucado",
+      "vis-o-agu-ada": "visao-agucada",
+      "prontid-o": "prontidao",
+      "no-o-do-perigo": "nocao-do-perigo",
+      "mem-ria-eid-tica": "memoria-eidetica",
+      "intui-o": "intuicao",
+      "facilidade-para-l-nguas": "facilidade-para-linguas",
+      "c-lculos-instant-neos": "calculos-instantaneos",
+      "alfabetiza-o": "alfabetizacao",
+      "aptid-o-m-gica": "aptidao-magica",
+      "talento-para-matem-tica": "talento-para-matematica",
+      "vis-o-perif-rica": "visao-periferica",
+      "resist-ncia-pis-quica": "resistencia-pisiquica",
+      "recupera-o-al-gera": "recuperacao-aligera",
+      "reputa-o": "reputacao",
+      "for-a-de-vontade": "forca-de-vontade",
+      "a-o-extra": "acao-extra",
+      "disc-pulos": "discipulos",
+      "g-nio": "genio",
+      "ca-ador-de-vampiros": "cacador-de-vampiros",
+      "vis-o-de-raio-x": "visao-de-raio-x"
+    },
+    "removidos": {
+      "se-o-patrono-for-um-indiv-duo-extremamente-poderoso": "Entrada corrompida da extração do PDF: era um trecho da tabela de Poder do Patrono, não uma vantagem. O conteúdo está em data/vantagens.json → patrono.poder.tabela."
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "_fonte": "TESTES DE HABILIDADE — canal #『📕』testes-e-combate (Impio, 16/08/2026 08:56). Núcleo de resolução do sistema G.A.U.",
+  "dadoBase": "d20",
+  "principios": [
+    "Quando um personagem tenta usar uma perícia, atacar um adversário ou realizar uma tarefa, um dado d20 é lançado: isto é um Teste de Habilidade.",
+    "Algumas vezes é você quem joga, em outras é o Mestre quem joga por você.",
+    "Para haver sucesso, o resultado da jogada deve estar DENTRO da margem de sucesso ligada ao nível de habilidade testado.",
+    "Em GAU os personagens não possuem níveis tradicionais: a evolução acontece por Atributos (capacidade), Habilidades (conhecimentos e técnicas) e Categorias de Poder (escala de existência).",
+    "Atributo determina a capacidade, categoria determina a escala e a margem determina o resultado necessário. Os dados determinam a capacidade de alcançar essa margem.",
+    "O número de dados NÃO é um bônus: representa a escala na qual o personagem existe. Um indivíduo mundano está limitado a um único d20."
+  ],
+  "referencia": {
+    "regra": "Quando um personagem utiliza um atributo para realizar uma ação, o próprio valor daquele atributo determina a referência da jogada. Não existe necessariamente uma 'Classe de Dificuldade' arbitrária criada pelo Mestre.",
+    "exemplo": "Um personagem com ST 10 tenta uma ação de força: a referência da ação é 10 e a margem de sucesso correspondente é 8–12. O mesmo vale para habilidades: uma habilidade com valor 13 resolve na margem correspondente a 13 (10–16).",
+    "habilidades": "Se uma habilidade possui valor 13, sua resolução utilizará a margem correspondente ao valor 13."
+  },
+  "margens": {
+    "fonte": "Tabela Básica de Margens de Sucesso e Crítico — #『📕』testes-e-combate",
+    "nota": "Os valores demonstram a progressão da margem dentro da primeira escala de poder, a escala humana.",
+    "tabela": {
+      "1": { "min": null, "max": null, "critico": null, "texto": "Nenhuma", "largura": 0 },
+      "2": { "min": 3, "max": 3, "critico": 2, "texto": "3", "largura": 1 },
+      "3": { "min": 2, "max": 4, "critico": 3, "texto": "2–4", "largura": 3 },
+      "4": { "min": 3, "max": 5, "critico": 4, "texto": "3–5", "largura": 3 },
+      "5": { "min": 4, "max": 6, "critico": 5, "texto": "4–6", "largura": 3 },
+      "6": { "min": 5, "max": 7, "critico": 6, "texto": "5–7", "largura": 3 },
+      "7": { "min": 6, "max": 8, "critico": 7, "texto": "6–8", "largura": 3 },
+      "8": { "min": 7, "max": 9, "critico": 8, "texto": "7–9", "largura": 3 },
+      "9": { "min": 8, "max": 10, "critico": 9, "texto": "8–10", "largura": 3 },
+      "10": { "min": 8, "max": 12, "critico": 10, "texto": "8–12", "largura": 5 },
+      "11": { "min": 9, "max": 13, "critico": 11, "texto": "9–13", "largura": 5 },
+      "12": { "min": 9, "max": 14, "critico": 12, "texto": "9–14", "largura": 6 },
+      "13": { "min": 10, "max": 16, "critico": 13, "texto": "10–16", "largura": 7 },
+      "14": { "min": 11, "max": 17, "critico": 14, "texto": "11–17", "largura": 7 },
+      "15": { "min": 11, "max": 18, "critico": 15, "texto": "11–18", "largura": 8 },
+      "16": { "min": 12, "max": 20, "critico": 16, "texto": "12–20", "largura": 9 },
+      "17": { "min": 13, "max": 21, "critico": 17, "texto": "13–21", "largura": 9 },
+      "18": { "min": 13, "max": 22, "critico": 18, "texto": "13–22", "largura": 10 },
+      "19": { "min": 14, "max": 24, "critico": 19, "texto": "14–24", "largura": 11 },
+      "20": { "min": 15, "max": 25, "critico": 20, "texto": "15–25", "largura": 11 }
+    },
+    "acimaDe20": "REGRA NÃO DEFINIDA — a tabela publicada vai até o valor 20. Valores maiores exigem categoria superior (mais dados); a margem correspondente ainda não foi publicada.",
+    "referenciaHumana": {
+      "valor": 10,
+      "texto": "O valor 10 representa aproximadamente o centro da capacidade mundana.",
+      "margem": "8–12",
+      "critico": 10,
+      "explicacao": "Uma rolagem de 8, 9, 10, 11 ou 12 representa sucesso. O resultado 10 possui propriedade especial por ser exatamente o valor do atributo."
+    }
+  },
+  "categorias": {
+    "fonte": "TESTES DE HABILIDADE / Categorias de Poder — #『📕』testes-e-combate",
+    "regra": "A quantidade de dados representa a escala na qual o personagem existe. Um indivíduo mundano está limitado à escala de um único d20; quando ultrapassa esse limite, precisa ascender para uma categoria superior, passando a utilizar dados adicionais.",
+    "lista": [
+      { "id": "mundano", "nome": "Mundano", "dados": 1, "escala": "humana", "nota": "Limitado à escala de um único d20. É o nível em que normalmente se começa uma saga." },
+      { "id": "superior-2", "nome": "Categoria superior (2 dados)", "dados": 2, "escala": "acima da humana", "nota": "Nomes oficiais das categorias acima de Mundano: REGRA NÃO DEFINIDA no material publicado.", "_aviso": "REGRA NÃO DEFINIDA" },
+      { "id": "superior-3", "nome": "Categoria superior (3 dados)", "dados": 3, "escala": "acima da humana", "nota": "Nomes oficiais: REGRA NÃO DEFINIDA.", "_aviso": "REGRA NÃO DEFINIDA" },
+      { "id": "cosmico", "nome": "Cósmico", "dados": null, "escala": "dimensional superior", "nota": "Citado no material ('um personagem cósmico não poderia usar ações sem sofrer efeitos em uma dimensão superior'); quantidade de dados não publicada.", "_aviso": "REGRA NÃO DEFINIDA" }
+    ],
+    "agregacaoDeDados": {
+      "_aviso": "REGRA NÃO DEFINIDA",
+      "problema": "O material diz que categorias superiores usam 'dados adicionais' e publica margens que vão além de 20 (13–21, 13–22, 14–24, 15–25), o que só é alcançável com mais de um dado. O modo como vários d20 são combinados (soma, melhor dado, cada dado avaliado separadamente) não foi publicado.",
+      "modosSuportados": {
+        "melhor": "Rola N d20 e considera o melhor resultado dentro da margem (padrão da ficha).",
+        "cada-dado": "Cada dado é avaliado contra a margem; o teste é bem sucedido se qualquer dado cair dentro dela.",
+        "soma": "Soma os N d20 e compara com a margem multiplicada pelo número de dados (hipótese marcada — não publicada)."
+      },
+      "configuravel": "config.modoEscala"
+    }
+  },
+  "sucessoAutomatico": {
+    "regra": "Algumas situações são completamente triviais. Nenhuma jogada é exigida quando o bom senso nos diz que tanto uma falha crítica como um sucesso decisivo são impossíveis. No entanto, se houver alguma chance de falha, um teste deve ser feito.",
+    "exemplos": {
+      "semTeste": "Achar a loja da esquina não exige um teste.",
+      "comTeste": "Acertar um alvo à queima-roupa, mesmo para um guerreiro experiente, exige teste: sua arma poderia se quebrar ou ele poderia escorregar numa casca de banana."
+    }
+  },
+  "umEVinte": {
+    "titulo": "1 e 20 Não Importam Mais",
+    "regra": "Como existe uma margem de sucesso e um crítico específico, não importa o valor obtido no dado de origem: se não estiver dentro da margem de sucesso, ou se não for o valor crítico, o resultado não importa."
+  },
+  "critico": {
+    "regra": "O valor crítico de uma referência é igual ao próprio valor da referência (ex.: referência 10 → crítico 10; referência 16 → crítico 16).",
+    "disputa": "Em uma Disputa de Habilidades vence quem obtiver o resultado mais próximo de seu próprio valor crítico."
+  },
+  "testesPreDefinidos": {
+    "titulo": "Testes com Níveis Pré-definidos",
+    "regra": "Algumas atividades não podem ser tentadas por quem não tem a habilidade necessária (ventriloquismo, física nuclear, magia). Outras podem ser tentadas mesmo sem treino (natação, interrogatório, mímica).",
+    "condicionadas": "Estas opções que qualquer personagem pode tentar — mesmo sem a Perícia Específica — são condicionadas a alguma outra Perícia que ele possua, ou a qualquer um de seus Atributos Básicos. Por definição, o nível de habilidade será igual ao da Característica que serviu como base, alterado por um redutor.",
+    "exemplos": [
+      "Arrombamento está baseado em IQ: quanto mais esperto você for, maior a chance de abrir o cadeado, mesmo sem treinamento.",
+      "Cavalgar está baseada em DX: mesmo sem treino em equitação, seus instintos o ajudam a se manter montado."
+    ]
+  },
+  "testesPorCategoria": {
+    "titulo": "Testes Determinados por Categoria",
+    "regra": "Existem coisas que um personagem Mundano não poderia fazer — como segurar o mundo na palma da mão —, ou que um personagem cósmico não poderia usar sem sofrer efeitos em uma dimensão superior.",
+    "valorChave": "O mestre indica um valor chave que indica a categoria necessária para a realização daquele teste. Qualquer personagem que não for daquela categoria não poderia executá-lo.",
+    "excecao": "A menos, é claro, que os jogadores tenham algum recurso específico que possibilite a jogada para aquela situação."
+  },
+  "disputas": {
+    "titulo": "Disputa de Habilidades",
+    "regraGeral": "Quando uma ação ofensiva encontra uma ação defensiva, ambos realizam suas respectivas jogadas. O resultado de cada personagem é avaliado dentro da própria margem de sucesso. Vence quem obtiver o resultado mais próximo de seu próprio valor crítico.",
+    "consequencia": "Personagens com atributos diferentes podem competir sem que o personagem de categoria superior simplesmente vença por ter números maiores.",
+    "modificadores": "Sempre que uma Disputa de Habilidades for necessária, cada um dos personagens fará um teste das habilidades em questão, com todos os modificadores pertinentes aplicados.",
+    "tipos": {
+      "rapida": {
+        "nome": "Disputa Rápida",
+        "duracao": "normalmente se decide em um turno",
+        "exemplos": "duas pessoas lutando para se apossar de uma arma; dois atiradores de faca disputando para ver quem consegue atingir a mosca",
+        "resolucao": "Cada personagem faz seu teste de habilidade. Se um for bem sucedido e o outro falhar, o vencedor será óbvio. Se os dois forem bem sucedidos (ou falharem), o vencedor será aquele que foi bem sucedido pela maior margem, ou falhou pela menor.",
+        "empate": "Um empate significa que ninguém venceu (os dois agarraram a arma simultaneamente, ou as facas atingiram o alvo à mesma distância da mosca)."
+      },
+      "normal": {
+        "nome": "Disputa Normal",
+        "duracao": "pode durar vários turnos",
+        "exemplos": "braço de ferro, corrida a pé",
+        "resolucao": "Cada um faz seu teste de habilidade. Se um for bem sucedido e o outro falhar, o vencedor será óbvio. Se ambos forem bem sucedidos ou falharem, a posição relativa dos dois personagens não terá mudado e eles poderão tentar novamente.",
+        "tempo": "O tempo de jogo gasto em cada tentativa depende do tipo de atividade e será determinado pelo GM. Em um combate, cada tentativa toma um segundo. Numa disputa de pesquisa em biblioteca, cada tentativa poderia representar dias de pesquisa.",
+        "impasse": "Se os dois personagens tiverem um nível de habilidade muito alto, a disputa poderia continuar indefinidamente."
+      }
+    },
+    "criterios": {
+      "proximidade-do-critico": "Critério G.A.U.: vence o resultado mais próximo do próprio valor crítico.",
+      "maior-margem": "Critério descrito nas Disputas Rápida/Normal: vence quem foi bem sucedido pela maior margem (ou falhou pela menor)."
+    }
+  },
+  "testesDoMestre": {
+    "titulo": "Situações em que o Mestre joga os dados",
+    "regra": "A maioria dos testes de habilidade deve ser feita pelos próprios jogadores. Existem dois tipos importantes de situação nos quais o GM deve fazer a jogada e não deixar que o jogador veja o resultado.",
+    "tipos": [
+      {
+        "id": "informacao",
+        "titulo": "O personagem não deveria saber se foi bem sucedido",
+        "descricao": "Especialmente quando está tentando conseguir alguma informação: Detecção de Mentiras, Meteorologia e outras perícias científicas, e a vantagem da Empatia.",
+        "procedimento": "O GM faz a jogada em segredo. Se o resultado for um sucesso, dá a informação correta. Se for uma falha, o GM deverá escolher o que parecer mais apropriado entre mentir ou não dar nenhuma informação."
+      },
+      {
+        "id": "oculto",
+        "titulo": "O jogador simplesmente não deve saber o que está acontecendo",
+        "descricao": "A maior parte dos testes que envolvam os Sentidos, Noção do Perigo e coisas similares.",
+        "procedimento": "O GM consulta as anotações dos personagens, faz a jogada e, se alguém for bem sucedido, diz: 'Harry! Você viu um jaguar em cima de uma árvore 20 metros adiante!'. Se ninguém for bem-sucedido, o grupo será pego de surpresa.",
+        "antiExemplos": [
+          "'Há um jaguar um pouco adiante. Faça um teste para decidir se vocês o verão ou não'.",
+          "'Façam todos um teste de Visão. Algum de vocês tem Noção do Perigo?'"
+        ]
+      }
+    ]
+  }
+}

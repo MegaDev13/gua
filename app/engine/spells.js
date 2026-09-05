@@ -4,17 +4,24 @@
  * Custos: "2 para fazer; 1 para manter", "1 a 3", "1/10 por hex (mín 1)" etc.
  */
 import { nivelParaPontos, tabelaCustos } from './skills.js';
+import { nivelDaVantagem, maximoDeAptidaoMagica } from './vantagens.js';
 
 const DIF_MEN = ['Fácil', 'Média', 'Difícil', 'Muito Difícil'];
 
-/** IQ efetivo para magia = IQ + Aptidão Mágica + bônus Memória Eidética (p. 301). */
-export function iqMagico(personagem) {
+/** IQ efetivo para magia = IQ + Aptidão Mágica (máx. 3) + bônus Memória Eidética (p. 301 e canal #『📕』vantagens).
+ *  `db` é opcional: sem ele, o nível é lido diretamente da entrada da ficha. */
+export function iqMagico(personagem, db = null) {
   let iq = personagem.atributos.IQ;
   const breakdown = [{ fonte: 'IQ', valor: iq }];
-  const am = (personagem.vantagens || []).find(v => v.id === 'aptidao-magica');
-  if (am) { const n = Math.min(am.niveis || 1, 3); iq += n; breakdown.push({ fonte: `Aptidão Mágica ${n}`, valor: n }); }
-  const me = (personagem.vantagens || []).find(v => v.id === 'memoria-eidetica');
-  if (me) { const b = (me.niveis || 1) >= 2 ? 2 : 1; iq += b; breakdown.push({ fonte: `Memória Eidética (aprendizado)`, valor: b }); }
+  const limiteAptidao = db ? maximoDeAptidaoMagica(db) : 3;
+  const aptidao = Math.max(
+    Number(personagem.aptidaoMagica) || 0,
+    nivelDaVantagem(db, personagem, 'aptidao-magica'),
+  );
+  const n = Math.min(aptidao, limiteAptidao);
+  if (n) { iq += n; breakdown.push({ fonte: `Aptidão Mágica ${n}`, valor: n }); }
+  const me = nivelDaVantagem(db, personagem, 'memoria-eidetica');
+  if (me) { const b = me >= 2 ? 2 : 1; iq += b; breakdown.push({ fonte: `Memória Eidética (aprendizado)`, valor: b }); }
   return { valor: iq, breakdown };
 }
 
@@ -22,7 +29,7 @@ export function iqMagico(personagem) {
 export function nivelMagia(db, personagem, magiaEntry) {
   const spell = db.spell(magiaEntry.id) || magiaEntry;
   const dificuldade = /muito/i.test(spell.dificuldade || '') ? 'Muito Difícil' : 'Difícil';
-  const iq = iqMagico(personagem).valor;
+  const iq = iqMagico(personagem, db).valor;
   const off = nivelParaPontos(db, magiaEntry.pontos, 'Mental', dificuldade);
   if (off === null) return { nivel: null, offset: null, iq, dificuldade };
   return { nivel: iq + off, offset: off, iq, dificuldade };

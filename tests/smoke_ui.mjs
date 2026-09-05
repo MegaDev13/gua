@@ -1,5 +1,7 @@
-/* Smoke test da UI: renderiza todas as 11 páginas com um DOM falso mínimo.
- * Valida que nenhum módulo quebra ao montar e que os helpers casam com o engine.
+/* Smoke test da UI: renderiza todas as páginas da ficha e TODOS os capítulos do livro
+ * com um DOM falso mínimo. Valida que nenhum módulo quebra ao montar e que os helpers
+ * casam com o engine (incluindo os capítulos G.A.U. d20: testes, proezas, combate,
+ * arsenal, poderes, magia, criação).
  * Uso: node tests/smoke_ui.mjs
  */
 /* ---------- DOM falso ---------- */
@@ -58,9 +60,11 @@ const paginas = [
   ['atributos', '../app/ui/pages/atributos.js'],
   ['pericias', '../app/ui/pages/pericias.js'],
   ['vantagens', '../app/ui/pages/vantagens.js'],
+  ['poderes', '../app/ui/pages/poderes.js'],
+  ['magias', '../app/ui/pages/magias.js'],
+  ['proezas', '../app/ui/pages/proezas.js'],
   ['equipamentos', '../app/ui/pages/equipamentos.js'],
   ['combate', '../app/ui/pages/combate.js'],
-  ['magias', '../app/ui/pages/magias.js'],
   ['livro', '../app/ui/pages/livro.js'],
   ['dados', '../app/ui/pages/dados.js'],
   ['historico', '../app/ui/pages/historico.js'],
@@ -81,5 +85,95 @@ for (const [nome, caminho] of paginas) {
     console.error(`✗ ${nome}: ${e.message}\n  ${e.stack.split('\n').slice(1, 4).join('\n  ')}`);
   }
 }
-console.log(falhas ? `\nFALHAS: ${falhas}` : '\nUI OK — todas as páginas renderizam.');
+
+/* Combate nos dois modos (G.A.U. d20 e legado 3d) */
+const combate = (await import('../app/ui/pages/combate.js'));
+for (const modo of ['gau', 'legado']) {
+  store.update(p => { p.config.modoCombate = modo; });
+  const main = new FakeNode('main');
+  try {
+    combate.renderCombate(main, { db: DB, params: [], ir() {} });
+    console.log(`✓ combate/${modo.padEnd(9)} renderizou (${main.count()} nós)`);
+  } catch (e) {
+    falhas++;
+    console.error(`✗ combate/${modo}: ${e.message}\n  ${e.stack.split('\n').slice(1, 4).join('\n  ')}`);
+  }
+}
+
+/* Todos os capítulos do livro, no modo leitura e no modo resumo/pesquisa */
+const livro = await import('../app/ui/pages/livro.js');
+for (const capitulo of DB.book?.capitulos || []) {
+  for (const rota of [['ler', capitulo.id], [], ['resumo'], ['buscar', 'd20']]) {
+    const main = new FakeNode('main');
+    try {
+      livro.renderLivro(main, { db: DB, params: rota, ir() {} });
+      if (main.count() < 5) throw new Error(`capítulo "${capitulo.id}" renderizou vazio (rota /${rota.join('/')})`);
+    } catch (e) {
+      falhas++;
+      console.error(`✗ livro/${rota.join('/') || 'capa'}: ${e.message}`);
+    }
+  }
+}
+console.log(`✓ livro             ${(DB.book?.capitulos || []).length} capítulos × 4 rotas`);
+
+/* Interações da aba DADOS: dispara os handlers de clique/change/input dos painéis
+ * G.A.U. (d20, disputa, pânico) e do legado (3d) para garantir que rolar não quebra. */
+const coletarHandlers = (no, lista) => {
+  if (!no || typeof no !== 'object') return lista;
+  for (const [tipo, fns] of Object.entries(no.listeners || {})) for (const fn of fns) lista.push([tipo, fn, no]);
+  for (const filho of no.children || []) coletarHandlers(filho, lista);
+  return lista;
+};
+{
+  const dados = await import('../app/ui/pages/dados.js');
+  const main = new FakeNode('main');
+  dados.renderDados(main, { db: DB, params: [], ir() {} });
+  const handlers = coletarHandlers(main, []);
+  let disparados = 0;
+  for (const [tipo, fn, no] of handlers) {
+    try {
+      fn({ type: tipo, target: no, preventDefault() {}, stopPropagation() {} });
+      disparados++;
+    } catch (e) {
+      falhas++;
+      console.error(`✗ dados/${tipo}: ${e.message}`);
+    }
+  }
+  if (!disparados) { falhas++; console.error('✗ dados: nenhum handler encontrado (página sem interações?)'); }
+  else console.log(`✓ dados            ${disparados} interações disparadas (d20, disputa, pânico, 3d, rolagem livre)`);
+}
+
+/* Integridade do índice de busca: cada resultado precisa apontar para uma seção real
+ * do capítulo ou para uma âncora (.book-anchor) que o capítulo de fato renderiza. */
+const { buildBookIndex } = await import('../app/engine/book-index.js');
+const coletarIds = (no, set) => {
+  if (!no || typeof no !== 'object') return set;
+  if (no.attrs?.id) set.add(no.attrs.id);
+  for (const filho of no.children || []) coletarIds(filho, set);
+  return set;
+};
+const ancorasPorCapitulo = {};
+for (const capitulo of DB.book?.capitulos || []) {
+  const main = new FakeNode('main');
+  livro.renderLivro(main, { db: DB, params: ['ler', capitulo.id], ir() {} });
+  ancorasPorCapitulo[capitulo.id] = coletarIds(main, new Set());
+}
+const secoesPorCapitulo = Object.fromEntries((DB.book?.capitulos || []).map(c => [c.id, new Set((c.secoes || []).map(s => s.id))]));
+const docs = buildBookIndex(DB);
+const rotasQuebradas = docs.filter(doc => {
+  const secoes = secoesPorCapitulo[doc.chapterId];
+  if (!secoes) return true;
+  if (!doc.sectionId) return false;
+  return !secoes.has(doc.sectionId) && !ancorasPorCapitulo[doc.chapterId]?.has(doc.sectionId);
+});
+if (rotasQuebradas.length) {
+  falhas += rotasQuebradas.length;
+  console.error(`✗ índice: ${rotasQuebradas.length} rotas quebradas —`, [...new Set(rotasQuebradas.map(d => d.route))].slice(0, 8).join(', '));
+} else {
+  console.log(`✓ índice            ${docs.length} documentos pesquisáveis, todas as rotas válidas`);
+}
+const semTexto = docs.filter(doc => !doc.title || !doc.excerpt);
+if (semTexto.length) { falhas += semTexto.length; console.error(`✗ índice: ${semTexto.length} documentos sem título/resumo`); }
+
+console.log(falhas ? `\nFALHAS: ${falhas}` : '\nUI OK — todas as páginas e capítulos renderizam.');
 process.exit(falhas ? 1 : 0);

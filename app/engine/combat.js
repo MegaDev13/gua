@@ -2,14 +2,14 @@
  * Fonte: Sistema Básico (p. 220-233), Avançado (p. 233-275), Ferimentos (p. 276-300).
  * Ataque: 3d ≤ NH. Defesa: 3d ≤ PD + defesa ativa. Dano: dados + bônus de arma − RD × multiplicador.
  */
-import { Dice } from './dice.js';
 import { danoBasico } from './attributes.js';
 import { nivelEfetivo } from './skills.js';
 import { deslocamento as calcMov, defesaPassiva, penalidadesEscudo } from './encumbrance.js';
 
-const dice = new Dice();
-export function setRNG(rng) { dice.rng = rng; }
-export { dice };
+/* O gerador de dados é um singleton compartilhado (dice.js) — usado também pelo núcleo d20.
+ * Reexportado aqui por compatibilidade com os módulos e testes já existentes. */
+import { DICE as dice, setRNG } from './dice.js';
+export { dice, setRNG };
 
 /* ------------------------------------------------------------------ Aparar/Bloqueio/Esquiva */
 export function aparar(personagem, skillEntry, ctx = {}) {

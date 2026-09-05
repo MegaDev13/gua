@@ -1,0 +1,60 @@
+{
+  "_fonte": "SISTEMA DE DANO PARA ESTRUTURAS E OBJETOS + Nível de tecnologia (NT) — canal #『📕』testes-e-combate (Impio, 30/08/2026).",
+  "estruturas": {
+    "conceito": {
+      "dureza": "A Dureza (Limiar) causa dano contra um personagem que entra com contato de forma brusca ou de impacto com aquele material.",
+      "pe": "PE (Ponto de Impacto) representa a quantidade de dano que um material relacionado precisa receber para quebrar."
+    },
+    "materiais": [
+      { "id": "tecido-papel", "material": "Tecido / Papel", "limiarDeDano": "1d4-1", "pePequeno": 1, "peMedio": 5, "peGrande": 10, "exemplos": ["fechadura (pequeno)", "porta (médio)", "parede (grande)"] },
+      { "id": "vidro-cristal", "material": "Vidro / Cristal", "limiarDeDano": "1d6+1", "pePequeno": 1, "peMedio": 2, "peGrande": 5 },
+      { "id": "madeira-macia", "material": "Madeira Macia", "limiarDeDano": "2d6", "pePequeno": 5, "peMedio": 15, "peGrande": 30 },
+      { "id": "madeira-dura", "material": "Madeira Dura / Pedra Porosa", "limiarDeDano": "3d6-1", "pePequeno": 10, "peMedio": 25, "peGrande": 50 },
+      { "id": "pedra-rocha", "material": "Pedra / Rocha", "limiarDeDano": "3d6", "pePequeno": 15, "peMedio": 40, "peGrande": 80 },
+      { "id": "ferro-aco", "material": "Ferro / Aço", "limiarDeDano": "3d6+1", "pePequeno": 20, "peMedio": 60, "peGrande": 120 },
+      { "id": "metais-nobres", "material": "Metais Nobres", "limiarDeDano": "4d6 a 6d6", "pePequeno": 40, "peMedio": 100, "peGrande": 250 }
+    ],
+    "tamanhos": [
+      { "id": "pequeno", "nome": "Pequeno", "exemplo": "Fechadura", "campo": "pePequeno" },
+      { "id": "medio", "nome": "Médio", "exemplo": "Porta", "campo": "peMedio" },
+      { "id": "grande", "nome": "Grande", "exemplo": "Parede", "campo": "peGrande" }
+    ],
+    "estados": {
+      "titulo": "ESTADOS DE DEGRADAÇÃO",
+      "regra": "Em vez de o objeto funcionar perfeitamente até chegar a 0 PE, há estados de dano para dar consequências mecânicas.",
+      "lista": [
+        { "id": "intacto", "nome": "Intacto", "pe": "100% PE", "efeito": "Funciona perfeitamente." },
+        { "id": "danificado", "nome": "Danificado", "pe": "50% ou menos PE", "efeito": "O objeto perde metade da sua utilidade. Uma porta danificada concede bônus para testes de arrombamento. Uma espada danificada causa metade do dano ou tem chance de quebrar." },
+        { "id": "destruido", "nome": "Destruído", "pe": "0 PE", "efeito": "O objeto deixa de funcionar, vira detritos e não pode ser reparado sem magia forte ou ferramentas de artífice e muito tempo." }
+      ]
+    },
+    "interacoes": {
+      "ataqueDemolidor": "+10 de dano contra estruturas (manobra Ataque Demolidor — data/maneuvers.json).",
+      "empurrarDerrubar": "Veja data/proezas.json → empurrarDerrubar para derrubar objetos (máx. 13×ST; 26×ST com impulso)."
+    }
+  },
+  "nivelTecnologico": {
+    "titulo": "Nível de tecnologia (NT)",
+    "regra": "Os níveis tecnológicos são uma parte crucial do sistema G.A.U e do cenário dos Mundos Infinitos. Podem ser listados em uma escala do Nível Tecnológico 0 (Idade da Pedra), passando pelo Nível Tecnológico 8 (Idade Digital) até o Nível Tecnológico tão alto quanto o Mestre do Jogo desejar (ficção científica) — o que representa uma classificação geral da maior conquista tecnológica de uma sociedade.",
+    "complicacao": "Isso é um pouco complicado por uma nomenclatura especial para tecnologias divididas (se o mundo for mais avançado em alguns campos) e tecnologias diferentes (psi, magia, ciência).",
+    "tabela": [
+      { "nt": 0, "era": "Idade da Pedra", "inicio": "Pré-história e posterior", "assinatura": "tradição oral" },
+      { "nt": 1, "era": "Idade do Bronze", "inicio": "Aritmética", "assinatura": "escrita" },
+      { "nt": 2, "era": "Idade do Ferro", "inicio": "Geometria", "assinatura": "pergaminhos" },
+      { "nt": 3, "era": "Medieval", "inicio": "Álgebra", "assinatura": "livros" },
+      { "nt": 4, "era": "Idade da Vela", "inicio": "Cálculo", "assinatura": "tipo móvel" },
+      { "nt": 5, "era": "Revolução Industrial", "inicio": "Calculadoras mecânicas", "assinatura": "telégrafo" },
+      { "nt": 6, "era": "Idade Mecanizada", "inicio": "Calculadoras elétricas", "assinatura": "telefone e rádio" },
+      { "nt": 7, "era": "Idade Nuclear", "inicio": "Computadores mainframe", "assinatura": "televisão" },
+      { "nt": 8, "era": "Era Digital", "inicio": "Computadores pessoais", "assinatura": "redes globais" },
+      { "nt": 9, "era": "Idade da Microtecnologia", "inicio": "Inteligência artificial", "assinatura": "virtualidade em tempo real" },
+      { "nt": 10, "era": "Idade Robótica", "inicio": "A nanotecnologia ou outros avanços começam a confundir as distinções entre tecnologias…", "assinatura": null },
+      { "nt": 11, "era": "Era da Matéria Exótica", "inicio": null, "assinatura": null },
+      { "nt": 12, "era": "O que o GM quiser!", "inicio": null, "assinatura": null }
+    ],
+    "usos": [
+      "Sistemas de mira de veículos exigem NT ≥ 7 (radar, computadores etc.) — data/maneuvers.json → veiculos.",
+      "Ferramentas de madeira são comuns em NT ≤ 5 e trabalham na metade da velocidade em escavação — data/proezas.json → cavar."
+    ]
+  }
+}

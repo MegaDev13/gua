@@ -13,6 +13,13 @@ import { iqMagico, nivelMagia, reducaoCusto, custoBase, custoManutencao, parsePr
 import { podeComprar, comprar, vender } from '../app/engine/economy.js';
 import { checkRequirement } from '../app/engine/requirements.js';
 import { novoPersonagem, contagemDePontos } from '../app/engine/character.js';
+import {
+  nivelDaVantagem, rdNatural, bonusDeSentido, bonusDePericia, bonusDeDefesaAtiva, defesaPorFlanco,
+  bonusDePanico, bonusDeVontade, resistenciaAMagia, resistenciaPsiquica, atributosEfetivos, iqEfetivo,
+  modificadoresGerais, danoExtra, acoesExtras, imunidades, ignoraPenalidadeDeLuz,
+  multiplicadorDePericiasMentais, sorte, statusDerivado, validarVantagens, custoDasVantagens,
+} from '../app/engine/vantagens.js';
+const validarVantagemOk = (db, pc) => validarVantagens(db, pc).ok === true;
 import { computeAll } from '../app/engine/engine.js';
 
 let pass = 0, fail = 0; const failures = [];
@@ -215,14 +222,393 @@ t('computeAll ST8: dano GDP 1D-3 / Bal 1D-2 (p. 190)', snap.danoBasico.gdp === '
 
 
 /* ---------------------------------------------------------- avaliarDano modo bruto (dano já rolado) */
-t('avaliarDano bruto: corte 8 vs RD 3 = 7', () => {
-  const av = avaliarDano(DB, { bruto: 8, tipoDano: 'corte', rd: 3, local: 'Tronco' });
-  ok(av.final === 7, `esperado 7, veio ${av.final}`);
+{
+  const av1 = avaliarDano(DB, { bruto: 8, tipoDano: 'corte', rd: 3, local: 'Tronco' });
+  t('avaliarDano bruto: corte 8 vs RD 3 = 7', av1.final === 7, `veio ${av1.final}`);
+  const av2 = avaliarDano(DB, { bruto: 6, tipoDano: 'perfuração', rd: 2, local: 'Órgãos vitais' });
+  t('avaliarDano bruto: perfurante vísceras 6 vs RD 2 = 12 (×3)', av2.final === 12, `veio ${av2.final}`);
+}
+
+/* ========================================================== G.A.U. (d20, 2026) */
+const { margemDeSucesso, testeD20, avaliacaoDisputaStub, disputa, avaliarDisputa, resultadoPanico, penalidadeDeLuz, testesPreDefinidos } = await import('../app/engine/resolution.js');
+const { secundarios, parametros, deslocamentoGAU, referenciaDeAtaque, esquivaGAU, apararGAU, bloqueioGAU } = await import('../app/engine/derived.js');
+const { grauDeDano, avaliarDanoGAU, arsenal, armaPorId, danoArremessado, distanciaArremesso, peDe, danoEmEstrutura, estadoDeDegradacao, mediaDaArma } = await import('../app/engine/damage.js');
+const { listaManobras, acharManobra, efeitosDeManobra, executarAtaque, defender, bonusDeApontar, bonusDeEmpunhadura } = await import('../app/engine/maneuvers.js');
+const { novoPoder, custoDoPoder, validarPoder, orcamentoDePoder, bonusDosPoderes } = await import('../app/engine/powers.js');
+const { categorias, nivelDaCategoria, comparaDimensionalidade, podeRealizarTeste } = await import('../app/engine/categories.js');
+const { limitesDeLevantamento, esforcoExtra, cavar, arremessarObjeto, nadar, salvarAfogado, testeDeSentido, testeDeVontade, saltar } = await import('../app/engine/proezas.js');
+const { maximoDeAptidao, iqParaMagia, ritualPorNH, reducaoDeCusto, custoDeConjuracao, conjurar, poderDoObjeto, encantamentoLentoESeguro, criarDemonio } = await import('../app/engine/magic.js');
+const { pfMax, pfDisponiveis, stEfetiva } = await import('../app/engine/fatigue.js');
+const { migrarPersonagem, aptidaoMagicaDe } = await import('../app/engine/character.js');
+
+/** Dado falso e determinístico: devolve sempre o mesmo valor no d20. */
+const dadoFixo = (valor, tres = [3, 3, 3]) => ({
+  roll: (q) => Array.from({ length: q }, () => valor),
+  roll3d: () => tres,
+  d20: () => valor,
+  d: () => valor,
+  history: [],
 });
-t('avaliarDano bruto: perfurante vísceras 6 vs RD 2 = 12 (×3)', () => {
-  const av = avaliarDano(DB, { bruto: 6, tipoDano: 'perfuração', rd: 2, local: 'Órgãos vitais' });
-  ok(av.final === 12, `esperado 12, veio ${av.final}`);
-});
+
+const gauPc = novoPersonagem('Impio', 150, DB);
+gauPc.atributos = { ST: 12, DX: 13, IQ: 11, HT: 12 };
+gauPc.pericias = [{ id: 'espada', nome: 'Espada', pontos: 4, nh: 14 }];
+gauPc.inventario = [{ id: 'escudo-medio', nome: 'Escudo médio', categoria: 'escudo', equipado: true, dp: 1, rd: 1, bonusDefesa: 1 }];
+gauPc.combate = { ferimentos: 0, fadiga: 2, condicoes: [], manobra: null, rodada: 0 };
+
+/* ---------------------------------------------------------- dados carregados */
+t('resolucao.json: dadoBase d20', DB.resolucao?.dadoBase === 'd20');
+t('resolucao.json: 20 referências de margem', Object.keys(DB.resolucao?.margens?.tabela || {}).length === 20);
+t('armas.json: 3 eras', (DB.armas?.eras || []).length === 3);
+t('armas.json: ≥ 60 armas', arsenal(DB).length >= 60, `got ${arsenal(DB).length}`);
+t('estruturas.json: 7 materiais', (DB.estruturas?.estruturas?.materiais || []).length === 7);
+t('proezas.json: tabela de pânico 4…40+', (DB.proezas?.panico?.rolagem?.tabela || []).length === 33);
+t('poderes.json: 9 grupos de efeito', (DB.poderes?.modulos?.efeitos?.grupos || []).length === 9);
+t('poderes.json: 31 condições', (DB.poderes?.modulos?.condicoes?.itens || []).length >= 30);
+t('maneuvers.json: 6 manobras básicas', (DB.maneuvers?.manobras || []).length === 6);
+t('maneuvers.json: árvore com ≥ 50 nós', listaManobras(DB).length >= 50, `got ${listaManobras(DB).length}`);
+t('book.json: 13 capítulos', (DB.book?.capitulos || []).length === 13);
+t('ficha.json: secundários PV/VON/PER/PF', (DB.ficha?.blocos?.find(b => b.id === 'secundarios')?.contas || []).map(c => c.id).join(',') === 'PV,VON,PER,PF');
+
+/* ---------------------------------------------------------- margens de sucesso */
+t('margem ref 10 → 8–12, crítico 10', (() => { const m = margemDeSucesso(DB, 10); return m.min === 8 && m.max === 12 && m.critico === 10; })());
+t('margem ref 13 → 10–16', margemDeSucesso(DB, 13).texto === '10–16');
+t('margem ref 16 → 12–20', margemDeSucesso(DB, 16).texto === '12–20');
+t('margem ref 2 → 3 (largura 1)', margemDeSucesso(DB, 2).texto === '3' && margemDeSucesso(DB, 2).largura === 1);
+t('margem ref 1 → nenhuma (indefinida)', margemDeSucesso(DB, 1).definida === false);
+t('margem ref 20 → 15–25 (acima do d20: escala superior)', margemDeSucesso(DB, 20).texto === '15–25');
+
+/* ---------------------------------------------------------- teste d20 */
+t('d20: 10 com referência 10 = CRÍTICO', testeD20(DB, { referencia: 10, dice: dadoFixo(10) }).tipo === 'critico');
+t('d20: 8 com referência 10 = sucesso (borda inferior)', testeD20(DB, { referencia: 10, dice: dadoFixo(8) }).sucesso === true);
+t('d20: 12 com referência 10 = sucesso (borda superior)', testeD20(DB, { referencia: 10, dice: dadoFixo(12) }).sucesso === true);
+t('d20: 7 com referência 10 = falha', testeD20(DB, { referencia: 10, dice: dadoFixo(7) }).sucesso === false);
+t('d20: 13 com referência 10 = falha', testeD20(DB, { referencia: 10, dice: dadoFixo(13) }).sucesso === false);
+t('d20: "1" não é falha automática (ref 2 → margem 3, mas ref 3 → 2–4 inclui 1? não)', testeD20(DB, { referencia: 3, dice: dadoFixo(1) }).sucesso === false);
+t('d20: 1 dentro da margem é sucesso (ref 2 → margem 3? não; ref 4 → 3–5)', testeD20(DB, { referencia: 4, dice: dadoFixo(3) }).sucesso === true);
+t('d20: 20 não é sucesso automático (ref 10 → margem 8–12)', testeD20(DB, { referencia: 10, dice: dadoFixo(20) }).sucesso === false);
+t('d20: 20 é sucesso quando a margem alcança 20 (ref 16 → 12–20)', testeD20(DB, { referencia: 16, dice: dadoFixo(20) }).sucesso === true);
+t('d20: modificador aplicado na jogada, não na referência', (() => {
+  const r = testeD20(DB, { referencia: 10, modificadores: [{ fonte: 'luz', valor: -3 }], dice: dadoFixo(10) });
+  return r.valor === 7 && r.referencia === 10 && r.margem.texto === '8–12' && r.sucesso === false;
+})());
+t('d20: bloqueado por categoria exigida superior', testeD20(DB, { referencia: 10, categoriaExigida: 'superior-3', personagem: gauPc, dice: dadoFixo(10) }).bloqueado === true);
+t('d20: categoria superior rola mais dados', testeD20(DB, { referencia: 20, categoria: 'superior-2', dice: dadoFixo(19) }).rolls.length === 2);
+
+/* ---------------------------------------------------------- disputas */
+t('disputa: vence o mais próximo do próprio crítico', (() => {
+  const a = testeD20(DB, { referencia: 12, dice: dadoFixo(12) });   // crítico exato
+  const b = testeD20(DB, { referencia: 18, dice: dadoFixo(15) });   // dentro, mas distante
+  const r = avaliarDisputa(DB, a, b, { criterio: 'proximidade-do-critico' });
+  return r.vencedor === 'A';
+})());
+t('disputa: empate quando ambos têm a mesma distância do crítico', (() => {
+  const a = testeD20(DB, { referencia: 10, dice: dadoFixo(9) });
+  const b = testeD20(DB, { referencia: 10, dice: dadoFixo(11) });
+  return avaliarDisputa(DB, a, b, { criterio: 'proximidade-do-critico' }).empate === true;
+})());
+
+/* ---------------------------------------------------------- secundários e parâmetros */
+t('PV = ST × HT (12×12 = 144)', secundarios(DB, gauPc).PV.valor === 144);
+t('VON = IQ', secundarios(DB, gauPc).VON.valor === 11);
+t('PER = IQ', secundarios(DB, gauPc).PER.valor === 11);
+t('PF = HT', secundarios(DB, gauPc).PF.valor === 12);
+t('PF: reserva máxima = HT; fadiga 2 → 10 disponíveis', pfMax(gauPc) === 12 && pfDisponiveis(gauPc) === 10);
+t('ST efetiva = ST − fadiga (12 − 2 = 10)', stEfetiva(gauPc) === 10);
+t('ESQ = DX', esquivaGAU(DB, gauPc).valor === 13);
+t('BLOQ = ST + bônus do escudo (12 + 1)', bloqueioGAU(DB, gauPc).valor === 13);
+t('APAR sem arma treinada = DX', apararGAU(DB, gauPc).valor === 13);
+t('parâmetros: ATQ/ESQ/DSL/APAR/BLOQ presentes', ['ATQ', 'ESQ', 'DSL', 'APAR', 'BLOQ'].every(k => parametros(DB, gauPc)[k] != null));
+t('DSL: caminhada = metade da corrida, arredondada para cima', (() => {
+  const d = deslocamentoGAU(DB, gauPc, {});
+  return d.caminhada === Math.ceil(d.corrida / 2);
+})());
+t('ATQ usa o NH da arma quando treinada', referenciaDeAtaque(DB, gauPc, { arma: { id: 'espada-longa', nome: 'Espada longa', nh: 14 } }).valor === 14);
+t('ATQ montado = menor entre arma e Cavalgar', referenciaDeAtaque(DB, gauPc, { arma: { nh: 14 }, montado: { nhCavalgar: 9 } }).valor === 9);
+
+/* ---------------------------------------------------------- Grau de Dano */
+t('GD1: 1–20 (raspão)', grauDeDano(DB, 1).id === 'GD1' && grauDeDano(DB, 20).id === 'GD1');
+t('GD2: 21–64 (em cheio)', grauDeDano(DB, 21).id === 'GD2' && grauDeDano(DB, 64).id === 'GD2');
+t('GD3: 65+ (letal)', grauDeDano(DB, 65).id === 'GD3' && grauDeDano(DB, 999).id === 'GD3');
+t('dano 0 → sem grau', grauDeDano(DB, 0).grau === 0);
+t('avaliarDanoGAU: 30 − RD 10 = 20 → GD1', (() => {
+  const r = avaliarDanoGAU(DB, { bruto: 30, rd: 10 });
+  return r.dano === 20 && r.grau.id === 'GD1';
+})());
+t('avaliarDanoGAU: localização não altera o GD (tiro de 30 na mão continua GD2)', (() => {
+  const r = avaliarDanoGAU(DB, { bruto: 30, rd: 0, local: 'Mão' });
+  return r.grau.id === 'GD2';
+})());
+
+/* ---------------------------------------------------------- arsenal */
+t('espada longa (medieval) existe e tem dano', !!armaPorId(DB, 'espada-longa')?.dano);
+t('todas as armas: média publicada confere com a média estatística', (() => {
+  const erradas = arsenal(DB).filter(a => a.media != null && Math.abs(mediaDaArma(a).calculada - a.media) > 0.01);
+  return erradas.length === 0;
+})(), arsenal(DB).filter(a => a.media != null && Math.abs(mediaDaArma(a).calculada - a.media) > 0.01).map(a => `${a.nome}:${a.media}≠${mediaDaArma(a).calculada}`).join(','));
+t('PREC: rifle de precisão = 3, sniper = 4', (() => {
+  const t1 = (DB.armas?.precisao?.tabela || []).find(l => l.id === 'rifle-de-precisao');
+  const t2 = (DB.armas?.precisao?.tabela || []).find(l => l.id === 'sniper');
+  return t1?.prec === 3 && t2?.prec === 4;
+})());
+t('apontar: PREC + 1/segundo adicional + arma firmada', bonusDeApontar(DB, { categoriaPrecisao: 'rifle-de-precisao', segundos: 3, firmada: true }).total === 6);
+t('arremesso: dano por ST e peso (ST 12, 30 kg → 1D-1)', danoArremessado(DB, 12, 30).expr === '1D-1');
+t('arremesso: distância = ST + peso (12 + 30 = 42 m)', distanciaArremesso({ st: 12, pesoKg: 30 }).metros === 42);
+t('arremesso: com a perícia, ST + 6 = 18 m', distanciaArremesso({ st: 12, periciaArremesso: true }).metros === 18);
+
+/* ---------------------------------------------------------- estruturas */
+t('PE madeira (médio) = 15', peDe(DB, 'madeira', 'medio').pe === 15);
+t('estados: 100% intacto, ≤50% danificado, 0 destruído', estadoDeDegradacao(DB, 15, 15).id === 'intacto' && estadoDeDegradacao(DB, 7, 15).id === 'danificado' && estadoDeDegradacao(DB, 0, 15).id === 'destruido');
+t('dano em estrutura: 15 PE − 5 = 10 (intacto)', (() => {
+  const r = danoEmEstrutura(DB, { materialId: 'madeira', tamanho: 'medio', dano: 5 });
+  return r.peRestante === 10 && r.estado.id === 'intacto';
+})());
+t('Ataque Demolidor: +10 contra estruturas', danoEmEstrutura(DB, { materialId: 'madeira', dano: 0, bonusEstrutura: 10 }).danoAplicado === 10);
+t('NT 8 = Idade Digital', (DB.estruturas?.nivelTecnologico?.tabela || []).find(l => l.nt === 8)?.era?.toLowerCase().includes('digital'));
+
+/* ---------------------------------------------------------- árvore de manobras */
+t('manobra: Finta está em Movimento Difuso', acharManobra(DB, 'finta')?.trilha?.join(' › ') === 'Movimento › Movimento Difuso › Finta');
+t('manobra: Ataque Pesado tem 4 derivações', ['ataque-pesado-duplo', 'ataque-potente', 'ataque-atordoante', 'ataque-demolidor'].every(id => acharManobra(DB, id)));
+t('manobra: Ataque Duplo = 2 ataques', efeitosDeManobra(DB, 'ataque-duplo').ataques === 2);
+t('manobra: Ataque Triplo = 3 ataques', efeitosDeManobra(DB, 'ataque-triplo').ataques === 3);
+t('manobra: Ataque Atordoante impõe a condição atordoado', efeitosDeManobra(DB, 'ataque-atordoante').condicao === 'atordoado');
+t('manobra: Saraivada → Semiautomático tem penalidades por disparo', (efeitosDeManobra(DB, 'semiautomatico').penalidadesPorAtaque || []).length >= 2);
+t('empunhadura Duas Mãos: +1 em ataques de Força', bonusDeEmpunhadura(DB, 'duas-maos', { atributoDoAtaque: 'ST' }).total === 1);
+t('empunhadura Zatoichi: +2 no primeiro ataque após Saque Rápido', bonusDeEmpunhadura(DB, 'zatoichi', { aposSaqueRapido: true }).total === 2);
+t('executarAtaque: Ataque Duplo rola 2 vezes', executarAtaque(DB, gauPc, { manobra: 'ataque-duplo', dice: dadoFixo(12) }).ataques.length === 2);
+t('executarAtaque: acerto crítico com dano e Grau', (() => {
+  const r = executarAtaque(DB, gauPc, { manobra: 'ataque-simples', arma: { id: 'espada-longa', nome: 'Espada longa', dano: '2d8', nh: 14 }, dice: dadoFixo(14), rdAlvo: 0 });
+  return r.acertos === 1 && r.ataques[0].jogada.tipo === 'critico' && r.danoTotal >= 2 && r.grau.grau >= 1;
+})());
+t('executarAtaque: falha não causa dano', executarAtaque(DB, gauPc, { manobra: 'ataque-simples', dice: dadoFixo(20) }).danoTotal === 0);
+t('defender: Esquiva usa DX como referência', defender(DB, gauPc, { tipo: 'esquiva', dice: dadoFixo(13) }).defesa.valor === 13);
+t('defender: Bloqueio exige escudo', defender(DB, { ...gauPc, inventario: [] }, { tipo: 'bloqueio' }).erro?.includes('escudo') === true);
+t('luminosidade: Escuridão Total = −10', penalidadeDeLuz(DB, 'escuridao-total').valor === -10);
+t('luminosidade: Luz Total = 0', penalidadeDeLuz(DB, 'luz-total').valor === 0);
+t('luminosidade: faixa publicada devolvida para o GM (Penumbra −4 a −3)', (() => {
+  const l = penalidadeDeLuz(DB, 'penumbra');
+  return l.valor === -3 && l.faixa[0] === -3 && l.faixa[1] === -4;
+})());
+
+/* ---------------------------------------------------------- poderes modulares */
+const poder = novoPoder('Lança de Fogo');
+poder.efeito = { grupo: 'manipulacao', id: 'criar' };
+poder.extensao = { alcance: '10m', area: null, alvos: '1-alvo', duracao: '1-segundo' };
+poder.potencia = { intensidade: 'forte', dano: 'dano-alto', forca: [], velocidade: [] };
+poder.condicoes = ['requer-contato'];
+poder.pv = 'pv-10';
+poder.rd = 'rd-2';
+t('poder: custo = 10+15+5+5+25+20−10+10+10 = 90', custoDoPoder(DB, poder).total === 90, `veio ${custoDoPoder(DB, poder).total}`);
+t('poder: válido dentro do orçamento de 150', validarPoder(DB, poder, { orcamento: 150 }).ok === true);
+t('poder: efeito exige Extensão e Potência', (() => {
+  const incompleto = novoPoder('Sem extensão');
+  incompleto.efeito = { grupo: 'manipulacao', id: 'criar' };
+  const v = validarPoder(DB, incompleto);
+  return v.ok === false && v.erros.length === 2;
+})());
+t('poder: máximo de 3 Condições', (() => {
+  const exagerado = novoPoder('Muitas condições');
+  exagerado.condicoes = ['requer-contato', 'requer-linha-de-visao', 'requer-alvo-visivel', 'uso-livre'];
+  return validarPoder(DB, exagerado).ok === false;
+})());
+t('poder: orçamento excedido é erro', validarPoder(DB, poder, { orcamento: 50 }).ok === false);
+t('poder: PV e RD somam aos secundários', (() => {
+  const b = bonusDosPoderes(DB, { poderes: [poder] });
+  return b.pv === 10 && b.rd === 2;
+})());
+t('poder: PV de poderes entram no PV da ficha', secundarios(DB, { ...gauPc, poderes: [poder] }).PV.valor === 154);
+t('poder: orçamento da saga (padrão 150)', orcamentoDePoder(DB, { poderes: [poder] }).total === 150);
+
+/* ---------------------------------------------------------- categorias e dimensão */
+t('categorias: Mundano é o nível 0', nivelDaCategoria(DB, 'mundano') === 0);
+t('categorias: escala de Mundano = 1 d20', categorias(DB).find(c => c.id === 'mundano').dados === 1);
+t('categorias: Mundano não realiza teste de categoria superior', podeRealizarTeste(DB, gauPc, 'superior-3').ok === false);
+t('dimensionalidade: 4D > 3D', comparaDimensionalidade(DB, { dimensoesA: 4, dimensoesB: 3 }).superior === 'A');
+t('dimensionalidade: mesma dimensão → sem superioridade', comparaDimensionalidade(DB, { dimensoesA: 3, dimensoesB: 3 }).superior === null);
+
+/* ---------------------------------------------------------- proezas físicas */
+t('levantamento ST 12: 1 mão 36 kg, 2 mãos 156 kg, costas 180 kg', (() => {
+  const l = limitesDeLevantamento(DB, 12);
+  return l.find(x => x.id === 'uma-mao').kg === 36 && l.find(x => x.id === 'duas-maos').kg === 156 && l.find(x => x.id === 'costas').kg === 180;
+})());
+t('empurrar: 13×ST = 156 kg; com impulso 25×ST = 300 kg', limitesDeLevantamento(DB, 12).find(x => x.id === 'empurrar').kg === 156 && limitesDeLevantamento(DB, 12).find(x => x.id === 'empurrar').kgComImpulso === 300);
+t('esforço extra: 1 PF por uso', esforcoExtra(DB, gauPc, { usos: 1 }).custoPF === 1);
+t('salto: acima de 1,5 m sem poder sobrenatural é bloqueado', saltar(DB, gauPc, { metros: 3 }).permitido === false);
+t('salto: 1,5 m é permitido (limite mundano)', saltar(DB, gauPc, { metros: 1.5, dice: dadoFixo(12) }).permitido === true);
+t('cavar: 0,053 × ST m³/h (ST 12 → 0,636)', cavar(DB, { st: 12 }).metrosCubicosPorHora === 0.636);
+t('arremesso: ST 12 e 30 kg → 1D-1 a 42 m', (() => {
+  const r = arremessarObjeto(DB, { st: 12, pesoKg: 30 });
+  return r.dano.expr === '1D-1' && r.distancia.metros === 42;
+})());
+t('natação: referência pré-definida max(ST−5, DX−5) = 8', nadar(DB, gauPc, { dice: dadoFixo(8) }).referencia === 8);
+t('salvar afogado: −5 base + diferença de ST', salvarAfogado(DB, gauPc, { stVitima: 10, nhNatacao: 12, dice: dadoFixo(9) }).modificadores.some(m => m.valor === -5));
+t('sentidos: referência = IQ', testeDeSentido(DB, gauPc, { sentido: 'visao', dice: dadoFixo(11) }).nh === 11);
+t('vontade: referência = IQ (VON = IQ)', testeDeVontade(DB, gauPc, { dice: dadoFixo(11) }).referencia === 11);
+t('pânico: 4 e 5 → mesma linha', resultadoPanico(DB, 4).resultado === '4,5' && resultadoPanico(DB, 5).resultado === '4,5');
+t('pânico: 41 cai na linha 40+', resultadoPanico(DB, 41).resultado === '40+');
+t('testes pré-definidos publicados', testesPreDefinidos(DB).exemplos.length >= 2);
+
+/* ---------------------------------------------------------- magia */
+t('aptidão mágica máxima = 3', maximoDeAptidao(DB) === 3);
+t('IQ para magia = IQ + Aptidão (11 + 2 = 13)', iqParaMagia(DB, { ...gauPc, aptidaoMagica: 2 }).efetivo === 13);
+t('ritual por NH 16 → faixa 15-17', ritualPorNH(DB, 16).nh === '15-17');
+t('redução de custo: NH 15 → −1, 20 → −2, 25 → −3', reducaoDeCusto(DB, 15).valor === -1 && reducaoDeCusto(DB, 20).valor === -2 && reducaoDeCusto(DB, 25).valor === -3);
+t('custo de conjuração: Luz (1) com NH 16 → 0 de energia', custoDeConjuracao(DB, 'luz', { nh: 16 }).energia === 0);
+t('conjurar exige conhecer a mágica', conjurar(DB, gauPc, { magica: 'luz' }).erro?.includes('não conhece') === true);
+t('conjurar com NH: usa d20 por padrão', conjurar(DB, { ...gauPc, magicas: [{ id: 'luz', nh: 16 }] }, { magica: 'luz', dice: dadoFixo(16) }).sucesso === true);
+t('conjurar em modo 3d (conflito registrado)', conjurar(DB, { ...gauPc, magicas: [{ id: 'luz', nh: 16 }] }, { magica: 'luz', resolucao: '3d', dice: dadoFixo(16, [5, 5, 5]) }).jogada.resolucao === '3d6');
+t('mana Nula bloqueia a conjuração', conjurar(DB, { ...gauPc, magicas: [{ id: 'luz', nh: 16 }] }, { magica: 'luz', mana: 'Nula' }).erro?.length > 0);
+t('objeto encantado: Poder = menor NH (mínimo 15)', poderDoObjeto(DB, { nhEncantar: 17, nhDaMagicaIncorporada: 14 }).funciona === false);
+t('encantamento lento: 400 energia / 4 magos = 100 dias', encantamentoLentoESeguro(DB, { energiaTotal: 400, magos: 4 }).dias === 100);
+t('demônio: fórmula 3D/3D/2D/4D/2D', criarDemonio(DB, { dice: dadoFixo(6) }).atributos.HT.rolls.length === 4);
+
+/* ---------------------------------------------------------- ficha: migração */
+const antigo = { versao: 1, nome: 'Veterano', atributos: { ST: 11, DX: 12, IQ: 10, HT: 11 }, pontos: { total: 100 }, magias: [{ id: 'luz', nome: 'Luz', pontos: 1 }], vantagens: [{ id: 'aptidao-magica', niveis: 2 }] };
+const migrado = migrarPersonagem(DB, antigo);
+t('migração v1 → v3', migrado.versao === 3);
+t('migração: adiciona categoria, poderes, línguas e biografia', migrado.categoria === 'mundano' && Array.isArray(migrado.poderes) && migrado.linguas.escritas.length === 0 && migrado.biografia === '');
+t('migração: converte magias 3d em mágicas G.A.U.', migrado.magicas.length === 1 && migrado.magicas[0].legado === true);
+t('migração: Aptidão Mágica vem da vantagem', aptidaoMagicaDe(DB, migrado) === 2);
+t('migração: registra entrada no histórico', migrado.historico.some(h => h.tipo === 'migracao'));
+
+/* --------------------------------------------- vantagens: ids antigos e níveis estruturados */
+const fichaVelha = {
+  versao: 2, nome: 'Veterana', atributos: { ST: 10, DX: 10, IQ: 10, HT: 10 }, pontos: { total: 100 },
+  vantagens: [
+    { id: 'aptid-o-m-gica', nome: 'Aptidão Mágica', niveis: 3 },
+    { id: 'mem-ria-eid-tica', nome: 'Memória Eidética', niveis: 2 },
+    { id: 'rijeza', nome: 'Rijeza', niveis: 2 },
+    { id: 'for-a-de-vontade', nome: 'Força de Vontade', niveis: 2 },
+    { id: 'poderes-legais', nome: 'Poderes Legais', custoEscolhido: 10 },
+    { id: 'se-o-patrono-for-um-indiv-duo-extremamente-poderoso', nome: 'Se o Patrono for um indivíduo extremamente poderoso' },
+  ],
+};
+const fichaNova = migrarPersonagem(DB, fichaVelha);
+const porId = id => (fichaNova.vantagens || []).find(v => v.id === id);
+t('vantagens: id antigo "aptid-o-m-gica" → "aptidao-magica"', !!porId('aptidao-magica') && nivelDaVantagem(DB, fichaNova, 'aptidao-magica') === 3);
+t('vantagens: Memória Eidética numérica → nível nomeado "2º nível"', porId('memoria-eidetica')?.nivel === '2º nível');
+t('vantagens: Rijeza numérica → "RD 2" (RD 2 no corpo)', porId('rijeza')?.nivel === 'RD 2' && rdNatural(DB, fichaNova).rd === 2);
+t('vantagens: Força de Vontade continua por nível numérico', nivelDaVantagem(DB, fichaNova, 'forca-de-vontade') === 2);
+t('vantagens: custo escolhido → nível estruturado (Poderes Legais 10)', porId('poderes-legais')?.nivel === 'Jurisdição nacional/internacional');
+t('vantagens: entrada corrompida da extração é removida', !fichaNova.vantagens.some(v => /patrono-for-um/.test(v.id)));
+t('vantagens: migração registrada no histórico', fichaNova.historico.some(h => h.tipo === 'migracao' && /vantagens/i.test(h.texto)));
+
+/* ------------------------------------------------------------------ vantagens (G.A.U.) */
+t('catálogo: 65 vantagens publicadas (38 clássicas + 6 variáveis/sociais + 21 novas)',
+  DB.advantages.length === 65 && DB.advantages.filter(a => a.grupo === 'classica').length === 38
+  && DB.advantages.filter(a => a.grupo === 'nova').length === 21 && DB.advantages.filter(a => a.grupo === 'social').length === 6);
+t('vantagens: todas têm fonte citada (canal + data)', DB.advantages.every(a => /canal #/.test(a.fonte || '')));
+t('vantagens: nenhuma entrada corrompida (todas com custo)', DB.advantages.every(a => typeof a.custo === 'string' && a.custo.length > 0));
+t('vantagens: regras do capítulo carregadas (Aliado, Patrono, exemplo, migração)',
+  !!DB.vantagens?.aliado?.poder?.tabela && !!DB.vantagens?.patrono?.poder?.tabela
+  && DB.vantagens?.exemploSelecao?.personagem === 'Dai Blackthorn'
+  && Object.keys(DB.vantagens?.migracaoDeIds?.mapa || {}).length === 23);
+
+const daiVantagens = novoPersonagem('Dai Blackthorn', 100, DB);
+daiVantagens.atributos = { ST: 8, DX: 15, IQ: 12, HT: 12 };
+daiVantagens.vantagens = [
+  { id: 'senso-de-direcao', nome: 'Senso de Direção' },
+  { id: 'ouvido-agucado', nome: 'Ouvido Aguçado', niveis: 5 },
+  { id: 'ultra-flexibilidade-das-juntas', nome: 'Ultra-flexibilidade das Juntas' },
+  { id: 'nocao-do-perigo', nome: 'Noção do Perigo' },
+];
+const custoDai = custoDasVantagens(DB, daiVantagens);
+t('exemplo do material (Dai): 5 + 10 + 5 + 15 = 35 pontos', custoDai.total === 35, `got ${custoDai.total}`);
+t('exemplo do material: a publicação soma 35 para 30 pontos disponíveis (transcrito em exemploSelecao)',
+  DB.vantagens.exemploSelecao.totalGasto === 35 && DB.vantagens.exemploSelecao.pontosDisponiveis === 30);
+t('Ouvido Aguçado 5 níveis: custo 10 e +5 em Audição', bonusDeSentido(DB, daiVantagens, 'audicao').total === 5);
+t('Sentido não relacionado não recebe bônus (Visão = 0)', bonusDeSentido(DB, daiVantagens, 'visao').total === 0);
+t('Senso de Direção: +3 em Navegação', bonusDePericia(DB, daiVantagens, 'navegacao').total === 3);
+
+const guerreiro = novoPersonagem('Guerreiro', 150, DB);
+guerreiro.atributos = { ST: 14, DX: 13, IQ: 10, HT: 13 };
+guerreiro.vantagens = [
+  { id: 'reflexos-em-combate', nome: 'Reflexos em Combate' },
+  { id: 'rijeza', nome: 'Rijeza', nivel: 'RD 1' },
+  { id: 'prontidao', nome: 'Prontidão', niveis: 2 },
+];
+t('Reflexos em Combate: +1 em qualquer Defesa Ativa', bonusDeDefesaAtiva(DB, guerreiro).total === 1);
+t('Reflexos em Combate: +2 em Verificações de Pânico', bonusDePanico(DB, guerreiro).total === 2);
+t('Reflexos em Combate entra na Esquiva (DX 13 + 1 = 14)', esquivaGAU(DB, guerreiro).valor === 14);
+t('Rijeza "RD 1" → RD natural 1 (nível nomeado)', rdNatural(DB, guerreiro).rd === 1);
+t('Rijeza "RD 2" → RD natural 2', rdNatural(DB, { ...guerreiro, vantagens: [{ id: 'rijeza', nivel: 'RD 2' }] }).rd === 2);
+t('Prontidão 2 → +2 em todos os sentidos', ['visao', 'audicao', 'olfatoPaladar'].every(s => bonusDeSentido(DB, guerreiro, s).total === 2));
+t('secundários: RD do corpo soma poderes + Rijeza', secundarios(DB, guerreiro).RD.valor === 1 && secundarios(DB, guerreiro).RD.rdNatural === 1);
+t('defesaPassiva com db: RD inclui Rijeza', defesaPassiva(guerreiro, DB).rd === 1);
+
+const magoAptidao = novoPersonagem('Mago', 150, DB);
+magoAptidao.atributos = { ST: 9, DX: 11, IQ: 15, HT: 11 };
+magoAptidao.vantagens = [{ id: 'aptidao-magica', nome: 'Aptidão Mágica', nivel: '3º nível' }];
+t('Aptidão Mágica 3º nível → IQ efetivo p/ magia 18', iqEfetivo(DB, magoAptidao, 'magia').efetivo === 18);
+t('Aptidão Mágica limitada a 3 níveis (maxNiveis)', DB.advantage('aptidao-magica').maxNiveis === 3);
+t('Aptidão Mágica é incompatível com Abascanto', (DB.advantage('aptidao-magica').incompativel || []).includes('abascanto'));
+
+const abascanto = { ...magoAptidao, vantagens: [{ id: 'abascanto', niveis: 3 }, { id: 'aptidao-magica', nivel: '1º nível' }] };
+t('Abascanto × Aptidão Mágica → erro de validação', validarVantagens(DB, abascanto).ok === false);
+t('Abascanto 3 → resistência à magia 3 e impede conjurar',
+  resistenciaAMagia(DB, { ...magoAptidao, vantagens: [{ id: 'abascanto', niveis: 3 }] }).total === 3
+  && resistenciaAMagia(DB, { ...magoAptidao, vantagens: [{ id: 'abascanto', niveis: 3 }] }).impedeConjurar === true);
+
+const imune = { atributos: { ST: 10, DX: 10, IQ: 10, HT: 11 }, vantagens: [{ id: 'imunidade', nome: 'Imunidade' }] };
+t('Imunidade exige HT ≥ 12 → erro com HT 11', validarVantagens(DB, imune).erros.some(e => /HT/i.test(e)));
+t('Imunidade com HT 12 → válida', validarVantagemOk(DB, { ...imune, atributos: { ...imune.atributos, HT: 12 } }));
+t('Recuperação Alígera exige HT ≥ 10', validarVantagens(DB, { atributos: { ST: 10, DX: 10, IQ: 10, HT: 9 }, vantagens: [{ id: 'recuperacao-aligera' }] }).ok === false);
+
+const novas = novoPersonagem('Novato', 200, DB);
+novas.atributos = { ST: 11, DX: 12, IQ: 11, HT: 12 };
+novas.vantagens = [
+  { id: 'sobrevivente-do-inferno', nome: 'Sobrevivente do Inferno' },
+  { id: 'amuleto-da-sorte', nome: 'Amuleto da Sorte' },
+  { id: 'arma-especial', nome: 'Arma Especial' },
+  { id: 'visao-noturna', nome: 'Visão Noturna' },
+  { id: 'hierarquia-militar', nome: 'Hierarquia Militar', niveis: 4 },
+  { id: 'acao-extra', nome: 'Ação Extra' },
+  { id: 'golpe-fulminante', nome: 'Golpe Fulminante' },
+  { id: 'furto-em-combate', nome: 'Furto em Combate', niveis: 3 },
+];
+t('Sobrevivente do Inferno: custo 40 (publicação oficial, não 70)', custoDasVantagens(DB, { ...novas, vantagens: [novas.vantagens[0]] }).total === 40);
+t('Sobrevivente do Inferno: +2 ST e +2 DX efetivos', atributosEfetivos(DB, novas).ST === 13 && atributosEfetivos(DB, novas).DX === 14);
+t('Sobrevivente do Inferno: PV = ST efetiva × HT (13 × 12 = 156)', secundarios(DB, novas).PV.valor === 156);
+t('Sobrevivente do Inferno: Sobrevivência +4', bonusDePericia(DB, novas, 'sobrevivencia').total === 4);
+t('Amuleto da Sorte: +2 nos testes com o amuleto, −3 sem ele',
+  modificadoresGerais(DB, novas).total === 2 && modificadoresGerais(DB, novas, { comAmuleto: false }).total === -3);
+t('Amuleto da Sorte: +1 de dano com o amuleto', danoExtra(DB, novas).fixo === 1);
+t('Arma Especial: +1D só quando empunhada', danoExtra(DB, novas).dados.length === 0
+  && danoExtra(DB, novas, { armaEspecial: true }).dadosExtras === 1);
+t('Golpe Fulminante: +4 no GDP/Bal custando 3 de ST', danoExtra(DB, novas, { golpeFulminante: true }).custoST === 3);
+t('Visão Noturna ignora penalidade de luz, menos Escuridão Total',
+  ignoraPenalidadeDeLuz(DB, novas, 'penumbra').ignora === true
+  && ignoraPenalidadeDeLuz(DB, novas, 'escuridao-total').ignora === false);
+t('Hierarquia Militar 4 → 1 nível de Status derivado (4 ÷ 3, arredondado)', statusDerivado(DB, novas).status === 1);
+t('Hierarquia Militar: máximo de 8 níveis publicados', DB.advantage('hierarquia-militar').maxNiveis === 8 && DB.advantage('hierarquia-militar').postos.length === 9);
+t('Ação Extra: 1 ação extra por turno', acoesExtras(DB, novas).total === 1);
+t('Furto em Combate 3: 3 usos por combate', acoesExtras(DB, novas).furtosNoCombate === 3);
+t('Arma Especial é única (unicidade validada)', validarVantagens(DB, { ...novas, vantagens: [...novas.vantagens, { id: 'arma-especial' }] }).ok === false);
+t('Kawaii exige personagem feminina e Aparência Bonita', (DB.advantage('kawaii').requisitos || []).length === 2);
+t('Corpo Leve dispensa a perícia Natação', imunidades(DB, { vantagens: [{ id: 'corpo-leve' }] }).some(i => i.alvo === 'natacao'));
+
+const sortudo = { vantagens: [{ id: 'sorte', nivel: 'Sorte Extraordinária' }] };
+t('Sorte Extraordinária: 3 jogadas a cada 30 minutos', sorte(DB, sortudo).jogadas === 3 && sorte(DB, sortudo).intervaloMinutos === 30);
+t('Sorte comum: 1× por hora (60 min)', sorte(DB, { vantagens: [{ id: 'sorte', nivel: 'Sorte' }] }).intervaloMinutos === 60);
+t('Memória Eidética 2º nível: pontos mentais ×4', multiplicadorDePericiasMentais(DB, { vantagens: [{ id: 'memoria-eidetica', nivel: '2º nível' }] }).multiplicador === 4);
+t('Memória Eidética 1º nível: pontos mentais ×2', multiplicadorDePericiasMentais(DB, { vantagens: [{ id: 'memoria-eidetica', nivel: '1º nível' }] }).multiplicador === 2);
+t('Visão Periférica: −2 na defesa ativa pelas costas', defesaPorFlanco(DB, { vantagens: [{ id: 'visao-periferica' }] }, 'costas').total === -2);
+t('Força de Vontade 3: +3 em Vontade e +3 ao resistir a magia',
+  bonusDeVontade(DB, { vantagens: [{ id: 'forca-de-vontade', niveis: 3 }] }).total === 3
+  && resistenciaAMagia(DB, { vantagens: [{ id: 'forca-de-vontade', niveis: 3 }] }, { aoResistir: true }).total === 3);
+t('Resistência Pisíquica 4: subtrai 4 do NH psíquico próprio',
+  resistenciaPsiquica(DB, { vantagens: [{ id: 'resistencia-pisiquica', niveis: 4 }] }).penalidadePropria === -4);
+t('Voz Melodiosa: +2 em Trovador e +2 de reação', bonusDePericia(DB, { vantagens: [{ id: 'voz-melodiosa' }] }, 'trovador').total === 2);
+t('Aliado: multiplicadores de freqüência publicados (3/2/1/½)',
+  (DB.advantage('aliado').niveis || []).map(n => n.multiplicador).join(',') === '3,2,1,0.5');
+t('Patrono: custos por poder (10/15/25/30)', (DB.advantage('patrono').niveis || []).map(n => n.custo).join(',') === '10,15,25,30');
+t('conflito registrado: custo de Sobrevivente do Inferno', (DB.vantagens.conflitos || []).some(c => c.id === 'sobrevivente-do-inferno-custo'));
+
+/* ---------------------------------------------------------- computeAll (G.A.U.) */
+const snapGAU = computeAll(DB, gauPc);
+t('computeAll: secundários e parâmetros expostos', snapGAU.secundarios.PV.valor === 144 && snapGAU.parametros.ESQ.valor === 13);
+t('computeAll: bloco gau com categoria, margens e orçamento', snapGAU.gau.categoria.id === 'mundano' && snapGAU.gau.margens.ST.texto === '9–14' && snapGAU.gau.pontosDePoder.total === 150);
+t('computeAll: PF = HT com fadiga aplicada', snapGAU.gau.pf.max === 12 && snapGAU.gau.pf.disponiveis === 10);
 
 console.log(`\n===== RESULTADO: ${pass} passou, ${fail} falhou =====`);
 if (failures.length) { console.log(failures.join('\n')); process.exit(1); }
