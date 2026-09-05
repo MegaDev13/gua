@@ -20,13 +20,13 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 
 | | |
 |---|---|
-| 📖 **Livro digital** | Produto de leitura próprio em `#/livro`: capa, **13 capítulos**, sumário, pesquisa full-text (**1014 documentos indexados**), progresso de leitura, consulta rápida e exportação |
+| 📖 **Livro digital** | Produto de leitura próprio em `#/livro`: capa, **13 capítulos**, sumário, pesquisa full-text (**1124 documentos indexados**), progresso de leitura, consulta rápida e exportação |
 | 🧑 **Ficha de personagem** | Navegação própria com personagem, atributos, perícias, vantagens/desvantagens, **poderes**, magias, **proezas**, equipamentos, dados, histórico e configurações |
 | ⚔️ **Combate** | Espaço global próprio, com os **dois modos** (G.A.U. d20 / legado 3d6) e a árvore de manobras navegável |
-| ⚙️ **Rule Engine** | **23 módulos** ES puros (`app/engine/`) — **100% dos cálculos** vivem aqui; a interface não contém fórmulas |
+| ⚙️ **Rule Engine** | **25 módulos** ES puros (`app/engine/`) — **100% dos cálculos** vivem aqui; a interface não contém fórmulas |
 | ☷ **FilterEngine** | Filtros reutilizáveis com `(A OU B) E C`, NOT, intervalos, relações com o personagem, favoritos e combinações salvas |
-| 🗄️ **Banco único** | **17 arquivos** `data/*.json` servem ao livro **e** à ficha (fonte única da verdade) |
-| ✅ **Testes** | **311** testes do engine + **17** do FilterEngine + smoke test de **13 páginas**, **13 capítulos × 4 rotas**, **2 modos de combate**, interações da aba Dados, painel G.A.U. de perícias, capítulo *Perícias*, **bootstrap completo (`app/main.js`)** e integridade de todas as rotas do índice |
+| 🗄️ **Banco único** | **21 arquivos** `data/*.json` servem ao livro **e** à ficha (fonte única da verdade) |
+| ✅ **Testes** | **356** testes do engine + **17** do FilterEngine + smoke test de **13 páginas**, **13 capítulos × 4 rotas**, **2 modos de combate**, interações da aba Dados, painel G.A.U. de perícias, capítulos *Perícias* e *Criação*, **widget/painel de pontos**, **bootstrap completo (`app/main.js`)** e integridade de todas as rotas do índice |
 | 💾 **Dados do jogador** | localStorage do navegador — nada sai do dispositivo; import/export JSON, backup completo, PDF e PNG |
 
 ### Conteúdo do banco (extraído do material)
@@ -52,12 +52,14 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 |---|---|
 | `data/skills.json` | **176 perícias da publicação oficial G.A.U.** em **16 grupos**: custo em pontos, `preDefinido[]` estruturado (256 fontes tipificadas), modificadores publicados (12 com vínculo a vantagem), especializações, pré-requisitos, NT mínimo, familiaridade — e os campos legados `defaults`/`dificuldade` preservados |
 | `data/pericias.json` | Regras do capítulo: definição, desenvolvimento e aperfeiçoamento, escolha inicial (**limite 2 × idade**), **comprando perícias** (nível 1 + 1 ponto por nível), **familiaridade** (−2 e 8 h), os 16 grupos, **línguas** (dificuldades, testes de comunicação, alfabetização), 7 divergências, 4 lacunas e `migracaoDeModelo` |
-| `data/disadvantages.json` | 82 desvantagens |
+| `data/disadvantages.json` | **106 desvantagens** (82 do material-base + 24 integradas: aparência, saúde, vícios, fobias, deveres, inimigo, segredo, reputação…), com custo legível pelo motor (`-N pontos` / `-N pontos/nível`) |
+| `data/peculiaridades.json` | **Catálogo escolhível de 52 peculiaridades** (32 do material-base p. 88–89 + 20 de campanha), todas −1 ponto, com a regra do máximo |
+| `data/pontos.json` | **Pontos de personagem**: 9 presets (25 *Fraco* → 1.000 *Divino*), 8 faixas de campanha, o que é grátis (manobras, empunhadura), limites (mínimo 25, passos 10/50, sem teto), travamento de gasto e os dois modos de orçamento |
 | `data/quirks.json` | Peculiaridades: máx. 5, −1 pt cada, 32 exemplos do material |
 | `data/spells.json` | 85 magias em 11 escolas, com custo, duração, pré-reqs (também usadas como **Lista de Mágicas** do G.A.U.) |
 | `data/equipment.json` | 17 armaduras, 6 escudos, 3 ataques naturais, qualidade, encantamento completo |
 | `data/tables.json` | 19 tabelas (custos, dano, carga, ferimentos, fadiga, mana, modificadores…) |
-| `data/rules.json` | Manifesto: princípios, **conflitos registrados**, registry de REGRA NÃO DEFINIDA, configuráveis |
+| `data/rules.json` | Manifesto: princípios, **7 conflitos registrados**, registry de REGRA NÃO DEFINIDA, configuráveis (incl. `orcamentoPontos` e `permitirEstourarPontos`) |
 | `data/book.json` | Metadados do livro digital: 13 capítulos com manifestos de seção apontando para os dados |
 
 ## O sistema G.A.U. em 60 segundos
@@ -68,7 +70,21 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 4. **Categoria de poder é escala, não bônus**: seres acima de Mundano rolam mais d20 (2 ou 3) e podem tentar testes que um mundano **não pode** (bloqueio com o motivo).
 5. No combate, a **margem do ataque** define o **Grau de Dano**: GD1 raspão (1–20), GD2 em cheio (21–64), GD3 letal (65+).
 6. **PV = ST × HT**, VON = IQ, PER = IQ, **PF = HT**; ESQ vem de DX, BLOQ de ST + escudo, DSL do parâmetro Velocidade.
-7. Poderes são montados como **módulos comprados com pontos de poder** (orçamento separado dos pontos de personagem), com no máximo **3 Condições** por poder.
+7. Poderes são montados como **módulos** (Efeito + Extensão + Potência, no máximo **3 Condições**) e, por padrão, **saem do mesmo total de pontos do personagem**.
+8. **Pontos são um orçamento único**: o total do personagem (25 a 1.000+) paga atributos, perícias, vantagens, poderes e mágicas — gastou num, sobra menos no outro. Desvantagens e peculiaridades **devolvem** pontos; manobras e empunhadura **não custam** nada.
+
+## Pontos de personagem — orçamento único
+
+| | |
+|---|---|
+| 🎚️ **Total configurável** | 9 presets publicados (25 *Fraco*, 50 *Comum*, 75 *Competente*, 100 *Profissional*, 150 *Herói Padrão*, 250 *Cinematográfico*, 400 *Lendário*, 600 *Super-humano*, 1.000 *Divino*), **campo livre** (mínimo 25, sem teto) e ajustes rápidos de **±10 / ±50** |
+| 🧮 **Um orçamento só** | Atributos, aparência, status, vantagens, perícias, **poderes** e mágicas saem do **mesmo total**: gastou em atributo, sobra menos em poder. Desvantagens e peculiaridades **devolvem** pontos; manobras e empunhadura são **grátis** |
+| 🪜 **Faixas de campanha** | O total situa o personagem numa das 8 faixas ("Abaixo de 25 · Fraco/Crianças/Zumbis" … "500 a 1.000+ · Super-humano/Divino") |
+| 🔒 **Travamento de gasto** | Compra que estoura o orçamento é **bloqueada com o motivo** (quanto falta e onde aumentar) e não grava nada; `config.permitirEstourarPontos` troca o bloqueio por aviso |
+| 🎭 **Peculiaridades** | Catálogo de **52** (32 do material-base p. 88–89 + 20 de campanha), máx. 5, −1 ponto cada |
+| 📍 **Onde aparece** | **Widget no topo da ficha** (total · gastos · livres + barra + faixa + presets + ±10/±50), painel **Pontos** em *Configurações* (breakdown por categoria, extras ganhos, modo do orçamento), teto correto na aba **Poderes** e duas seções no capítulo *Criação* do livro |
+
+> O modo **separado** (orçamento próprio de pontos de poder por nível de saga, como publicado em `data/poderes.json`) continua disponível em *Configurações → Orçamento* — o conflito está registrado em `data/rules.json → conflitos` (`pontos-orcamento-poderes`).
 
 ## Como rodar
 
@@ -97,6 +113,7 @@ data/*.json          ← FONTE ÚNICA DA VERDADE (livro e ficha leem daqui)
 app/engine/*.js      ← TODO cálculo (resolução d20, derivados, dano/GD, manobras,
       │                poderes, categorias, proezas, magia, fadiga, vantagens,
       │                perícias G.A.U. (custo em pontos, pré-definidos, familiaridade),
+      │                pontos (orçamento único, presets, faixas, travamento de gasto),
       │                personagem, além do legado: atributos, perícias 3d, carga,
       │                combate 3d, economia, requisitos) — cada valor sai com "breakdown"
       │
@@ -123,15 +140,16 @@ app/main.js          ← SPA hash-routing (Livro · Ficha · Combate), sem frame
 ### Testes
 
 ```bash
-node tests/run.mjs        # 311 testes do engine vs. exemplos do próprio material
+node tests/run.mjs        # 356 testes do engine vs. exemplos do próprio material
 node tests/filters.mjs    # 17 testes de AND/OR/NOT, texto, intervalos e presets
 node tests/smoke_ui.mjs   # 13 páginas, 13 capítulos × 4 rotas, 2 modos de combate, interações da aba Dados,
-                          # painel G.A.U. de perícias, bootstrap (app/main.js) e as 1098 rotas do índice
+                          # painel G.A.U. de perícias, pontos na UI (widget, painel, catálogo de
+                          # peculiaridades), capítulos Perícias/Criação, bootstrap (app/main.js) e as 1124 rotas do índice
 node tests/smoke_dados_faltando.mjs   # boot com data/*.json fora do ar: aviso nomeando os arquivos,
                           # páginas em "—", ficha antiga preservada e DB.recarregar() rebuscando só o que falhou
 ```
 
-Exemplos validados: personagem-modelo Dai (ST8/DX15/IQ12/HT12 = 85 pts), margens de sucesso 1–20, crítico = referência, bloqueio por categoria, disputas pelos dois critérios, GD1/GD2/GD3, PV = ST × HT, 55 nós da árvore de manobras, empunhaduras, PREC, dano das 64 armas, Limiar de Dano/PE dos 7 materiais, NT, custos e validação de poderes (máx. 3 condições), mana/rituais/toque do mago, proezas físicas (salto, escalada, levantamento, arremesso, cavar, natação), sentidos, pânico 4–40+, **65 vantagens oficiais** (custos por nível, efeitos em sentidos/defesas/RD/vontade/pânico/resistências/atributos efetivos/IQ mágico, requisitos, incompatibilidades, unicidade), **176 perícias oficiais** (custo publicado + 1 ponto por nível, limite de criação 2 × idade, pré-definidos sem encadeamento nos três modos de leitura, modificadores de vantagem/carga/especialista/familiaridade, compra bloqueada por pré-requisito e NT) e migração de personagens antigos (ids normalizados, pontos de perícia convertidos em nível, `VERSAO_FICHA` 4).
+Exemplos validados: personagem-modelo Dai (ST8/DX15/IQ12/HT12 = 85 pts), margens de sucesso 1–20, crítico = referência, bloqueio por categoria, disputas pelos dois critérios, GD1/GD2/GD3, PV = ST × HT, 55 nós da árvore de manobras, empunhaduras, PREC, dano das 64 armas, Limiar de Dano/PE dos 7 materiais, NT, custos e validação de poderes (máx. 3 condições), mana/rituais/toque do mago, proezas físicas (salto, escalada, levantamento, arremesso, cavar, natação), sentidos, pânico 4–40+, **65 vantagens oficiais** (custos por nível, efeitos em sentidos/defesas/RD/vontade/pânico/resistências/atributos efetivos/IQ mágico, requisitos, incompatibilidades, unicidade), **176 perícias oficiais** (custo publicado + 1 ponto por nível, limite de criação 2 × idade, pré-definidos sem encadeamento nos três modos de leitura, modificadores de vantagem/carga/especialista/familiaridade, compra bloqueada por pré-requisito e NT), migração de personagens antigos (ids normalizados, pontos de perícia convertidos em nível, `VERSAO_FICHA` 4) e **38 casos do sistema de pontos** (presets 25→1.000, faixas de campanha, mínimo/passos/sem teto, orçamento único com poder de 90 pts saindo do total de 150, modo separado, travamento de gasto sem efeito colateral, desvantagens que devolvem pontos, estouro permitido por config e resumo do widget) + 5 checagens dos dados novos.
 
 ## O que o material não define (e o que fizemos)
 

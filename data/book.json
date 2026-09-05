@@ -32,7 +32,11 @@
   "Perícias no modelo G.A.U.: 176 perícias em 16 grupos com custo em pontos (compra no nível 1, +1 nível por ponto adicional), níveis pré-definidos estruturados, modificadores publicados, especializações, pré-requisitos e NT mínimo",
   "Familiaridade: redutor −2 com equipamento não familiar e 8 horas de prática para tornar o modelo familiar",
   "Limite de criação publicado: 2 × idade em pontos de perícia (não se aplica após a criação)",
-  "Conflito registrado na notação dos pré-definidos (\"IQ 10\" absoluto × \"IQ-5\" relativo) com leitura configurável em config.modoPreDefinido"
+  "Conflito registrado na notação dos pré-definidos (\"IQ 10\" absoluto × \"IQ-5\" relativo) com leitura configurável em config.modoPreDefinido",
+  "Pontos de personagem: total configurável com 9 presets (25 Fraco → 1.000 Divino), campo livre, ajustes de 10 e 50 pontos e faixas de campanha",
+  "Orçamento único: atributos, perícias, vantagens, poderes e mágicas saem do MESMO total — desvantagens e peculiaridades devolvem pontos; manobras e empunhadura são grátis",
+  "Travamento de gasto: compra que estoura o orçamento é bloqueada com o motivo (config.permitirEstourarPontos libera com aviso); modo 'separado' mantém o orçamento próprio de pontos de poder",
+  "Catálogo de peculiaridades escolhível (52: 32 do material-base p. 88–89 + 20 de campanha) e desvantagens ampliadas para 106 entradas"
  ],
  "capitulos": [
   {
@@ -199,13 +203,14 @@
    "ordem": 3,
    "titulo": "Criação de Personagem",
    "subtitulo": "Do conceito à planilha",
-   "resumo": "Atributos, secundários oficiais, parâmetros de ficha e o fluxo de criação recomendado: conceito, limites do cenário, complicações, orçamento e compras.",
+   "resumo": "Total de pontos configurável (presets de 25 a 1.000+), orçamento único — atributos, perícias, vantagens, poderes e mágicas saem do mesmo total — atributos, secundários oficiais, parâmetros de ficha e o fluxo de criação recomendado.",
    "categorias": [
     "Criação",
     "Atributos",
     "Ficha",
     "Regras",
-    "Tabelas"
+    "Tabelas",
+    "Pontos"
    ],
    "fonte": "#『📁』modelo-ficha · Como fazer o meu Personagem no sistema de G.A.U RPG?",
    "secoes": [
@@ -248,6 +253,28 @@
      "categorias": [
       "Criação",
       "Perícias"
+     ]
+    },
+    {
+     "id": "pontos-personagem",
+     "titulo": "Pontos de personagem",
+     "tipo": "tabela",
+     "ref": "pontos.presets",
+     "categorias": [
+      "Criação",
+      "Pontos",
+      "Tabelas"
+     ]
+    },
+    {
+     "id": "orcamento-unico",
+     "titulo": "Orçamento único de pontos",
+     "tipo": "regra",
+     "ref": "pontos.orcamento",
+     "categorias": [
+      "Criação",
+      "Pontos",
+      "Regras"
      ]
     },
     {

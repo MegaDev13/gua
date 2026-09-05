@@ -1,9 +1,10 @@
 /* Aba ATRIBUTOS — valores, custos, derivados com breakdown completo. */
-import { el, valorCalculado, fmtKg } from '../ui.js';
+import { el, valorCalculado, fmtKg, toast } from '../ui.js';
 import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { ATRIBUTOS, custoAtributo, danoBasico, velocidadeBasica, limitesDeForca } from '../../engine/attributes.js';
 import { margemDeSucesso } from '../../engine/resolution.js';
+import { simularGasto } from '../../engine/points.js';
 
 const NOMES = { ST: 'Força', DX: 'Destreza', IQ: 'Inteligência', HT: 'Vitalidade' };
 const DESCR = {
@@ -31,6 +32,11 @@ export function renderAtributos(main, { db }) {
               type: 'number', min: 1, max: 20, value: v, 'aria-label': `Valor de ${NOMES[a.key]}`,
               onchange: e => {
                 const nv = Math.max(1, Math.min(20, parseInt(e.target.value, 10) || 10));
+                const anterior = pc.atributos[a.key];
+                if (nv === anterior) return;
+                /* travamento do orçamento único: o mesmo total paga atributos e poderes */
+                const teste = simularGasto(db, pc, p => { p.atributos[a.key] = nv; }, `${a.key} ${nv}`);
+                if (!teste.ok) { toast(teste.motivo, 'bad'); e.target.value = anterior; return; }
                 store.update(p => p.atributos[a.key] = nv);
               },
             })),

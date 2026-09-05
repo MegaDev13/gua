@@ -37,7 +37,32 @@ await DB.load();
 /* ---------------------------------------------------------- Dados carregados */
 t('skills.json ≥ 170 perícias', DB.skills.length >= 170, `got ${DB.skills.length}`);
 t('advantages.json ≥ 60', DB.advantages.length >= 60, `got ${DB.advantages.length}`);
-t('disadvantages.json ≥ 80', DB.disadvantages.length >= 80, `got ${DB.disadvantages.length}`);
+t('disadvantages.json ≥ 100 (82 oficiais + 24 integradas)', DB.disadvantages.length >= 100, `got ${DB.disadvantages.length}`);
+t('peculiaridades.json ≥ 50 no catálogo escolhível', (DB.peculiaridades?.peculiaridades || []).length >= 50, `got ${(DB.peculiaridades?.peculiaridades || []).length}`);
+t('pontos.json carregado (presets + escalas + limites)', (DB.pontos?.presets || []).length === 9 && (DB.pontos?.escalas || []).length === 8);
+const { parseCusto } = await import('../app/engine/traits.js');
+t('desvantagens: grupo marca a origem (82 do material-base + 24 integradas)',
+  DB.disadvantages.filter(d => d.grupo === 'oficial').length === 82
+  && DB.disadvantages.filter(d => d.grupo === 'campanha').length === 24);
+t('desvantagens: as 106 têm custo legível pelo motor (parseCusto)',
+  DB.disadvantages.every(d => ['fixo', 'por-nivel', 'tiers', 'escolha', 'variavel'].includes(parseCusto(d.custo || '').modo)));
+t('catálogos: nenhum id duplicado (a compra de uma entrada não pode marcar duas)', (() => {
+  const duplicados = lista => {
+    const vistos = new Set(); const repetidos = new Set();
+    for (const item of lista || []) { if (vistos.has(item.id)) repetidos.add(item.id); vistos.add(item.id); }
+    return [...repetidos];
+  };
+  return [DB.disadvantages, DB.advantages, DB.skills, DB.peculiaridades?.peculiaridades]
+    .every(lista => duplicados(lista).length === 0);
+})());
+t('Idade: as duas publicações (p. 44 e p. 85) convivem com ids próprios', (() => {
+  const p85 = DB.disadvantages.find(d => d.id === 'idade');
+  const p44 = DB.disadvantages.find(d => d.id === 'idade-acima-de-50');
+  return p85?.fonte === 'p. 85' && Math.abs(parseCusto(p85.custo).valor) === 10
+    && p44?.fonte === 'p. 44' && /cada ano acima de 50/.test(p44.custo) && !!p44._notaId;
+})());
+t('peculiaridades: as 52 do catálogo devolvem 1 ponto (parseCusto)',
+  DB.peculiaridades.peculiaridades.every(item => parseCusto(String(item.custo)).modo === 'fixo'));
 t('spells.json ≥ 80', DB.spells.length >= 80, `got ${DB.spells.length}`);
 t('armaduras = 17', (DB.equipment.armaduras || []).length === 17);
 t('escudos = 6', (DB.equipment.escudos || []).length === 6);
@@ -753,6 +778,159 @@ t('banco com falha: getters devolvem estruturas vazias, não undefined',
 t('banco com falha: fórmulas dependentes da tabela devolvem null', custoAtributo(dbFalho, 12) === null);
 const recarregado = await dbFalho.load(fetchFalho, { tentativas: 1 });
 t('banco com falha: load() é repetível e só tenta o que faltou', recarregado.carregado === true);
+
+/* ---------------------------------------------------------- PONTOS: orçamento único
+ * Pedido: (1) total de pontos configurável (presets 25 → 1.000+, campo livre, ±10/±50);
+ * (2) personagens e pontos "gerais" no MESMO orçamento — gastar em atributo deixa menos
+ * para poderes; (3) travamento de gasto; (4) desvantagens/peculiaridades devolvem pontos. */
+const {
+  presetsDePontos, escalasDePontos, escalaDoPersonagem, orcamentoDePontos, podeGastar, simularGasto,
+  ajustarTotalDePontos, ajustarExtrasGanhos, limitesDePontos, resumoDePontos, itensGratuitos,
+  modoDoOrcamento, totalDePontos, presetMaisProximo, ROTULOS_DE_CATEGORIA,
+} = await import('../app/engine/points.js');
+
+t('pontos: 9 presets publicados, de Fraco (25) a Divino (1.000)',
+  presetsDePontos(DB).length === 9 && presetsDePontos(DB)[0].pontos === 25 && presetsDePontos(DB).at(-1).pontos === 1000);
+t('pontos: 8 faixas de campanha ("Abaixo de 25" … "500 a 1.000+")',
+  escalasDePontos(DB).length === 8 && escalasDePontos(DB)[0].pontos === 'Abaixo de 25'
+  && escalasDePontos(DB).at(-1).pontos === '500 a 1.000+');
+t('pontos: limites — mínimo 25, incrementos 10 e 50, sem teto', (() => {
+  const limites = limitesDePontos(DB);
+  return limites.minimo === 25 && limites.incrementos.join() === '10,50' && limites.maximo === null;
+})());
+t('pontos: manobras e empunhadura não custam pontos (grátis)',
+  itensGratuitos(DB).length === 2 && itensGratuitos(DB).every(item => item.custo === 0));
+t('pontos: peculiaridades — máx 5, −1 ponto cada (p. 88–89)',
+  DB.peculiaridades.regra.maximo === 5 && DB.peculiaridades.regra.custoCada === -1
+  && DB.peculiaridades.peculiaridades.every(item => Number(item.custo) === -1));
+t('pontos: regras configuráveis registradas (orcamentoPontos + permitirEstourarPontos)',
+  DB.rules.configuraveis.orcamentoPontos?.default === 'unificado'
+  && DB.rules.configuraveis.permitirEstourarPontos?.default === false
+  && (DB.rules.conflitos || []).some(c => c.id === 'pontos-orcamento-poderes'));
+
+/* faixas de campanha */
+t('escala: 40 pts → "25 a 50"', escalaDoPersonagem(DB, novoPersonagem('Comum', 40, DB)).pontos === '25 a 50');
+t('escala: 150 pts → "100 a 150"', escalaDoPersonagem(DB, novoPersonagem('Herói', 150, DB)).pontos === '100 a 150');
+t('escala: 1.000 pts → última faixa', /1\.000/.test(escalaDoPersonagem(DB, novoPersonagem('Divino', 1000, DB)).pontos));
+t('escala: 10 pts → "Abaixo de 25"', escalaDoPersonagem(DB, novoPersonagem('Criança', 10, DB)).pontos === 'Abaixo de 25');
+t('escala: 10.000 pts continua na última faixa (sem teto)',
+  escalaDoPersonagem(DB, novoPersonagem('Cósmico', 10000, DB)).pontos === '500 a 1.000+');
+
+/* total configurável */
+t('ajustarTotal: +50 e −10 (incrementos publicados)', (() => {
+  const pc = novoPersonagem('Ajustável', 100, DB);
+  ajustarTotalDePontos(DB, pc, 50);
+  const subiu = pc.pontos.total === 150;
+  ajustarTotalDePontos(DB, pc, -10);
+  return subiu && pc.pontos.total === 140;
+})());
+t('ajustarTotal: nunca abaixo do mínimo de 25', ajustarTotalDePontos(DB, novoPersonagem('Mínimo', 100, DB), -5000).total === 25);
+t('ajustarTotal: preset define o total exato (Divino = 1.000)',
+  ajustarTotalDePontos(DB, novoPersonagem('Preset', 100, DB), 0, { preset: presetsDePontos(DB).at(-1) }).total === 1000);
+t('ajustarTotal: campo livre aceita qualquer valor ≥ 25 (sem teto)',
+  ajustarTotalDePontos(DB, novoPersonagem('Livre', 100, DB), 4123).total === 4223);
+t('ajustarTotal: registra no histórico do personagem', (() => {
+  const pc = novoPersonagem('Histórico', 100, DB);
+  ajustarTotalDePontos(DB, pc, 50);
+  return pc.historico.some(h => h.tipo === 'pontos' && /100 para 150/.test(h.texto));
+})());
+t('extras ganhos em campanha somam ao total disponível', (() => {
+  const pc = novoPersonagem('Veterano', 100, DB);
+  ajustarExtrasGanhos(DB, pc, 15);
+  return totalDePontos(pc) === 115 && orcamentoDePontos(DB, pc).total === 115;
+})());
+t('presetMaisProximo: 120 pts → Profissional (100)', presetMaisProximo(DB, 120).pontos === 100);
+
+/* orçamento único: atributos e poderes disputam os MESMOS pontos */
+const heroi = novoPersonagem('Herói Padrão', 150, DB);
+const custoST12 = custoAtributo(DB, 12);
+heroi.atributos.ST = 12;
+const comAtributo = orcamentoDePontos(DB, heroi);
+t('orçamento único: ST 12 sai do total do personagem', comAtributo.gastos === custoST12 && comAtributo.disponiveis === 150 - custoST12);
+t('orçamento único: livres = total − gastos', comAtributo.disponiveis === comAtributo.total - comAtributo.gastos);
+heroi.poderes = [JSON.parse(JSON.stringify(poder))];
+const comPoder = orcamentoDePontos(DB, heroi);
+t('orçamento único: poder de 90 pts sai do MESMO total (gastou em atributo → sobra menos no poder)',
+  comPoder.gastos === custoST12 + 90 && comPoder.disponiveis === 150 - custoST12 - 90,
+  `gastos ${comPoder.gastos}, livres ${comPoder.disponiveis}`);
+t('orçamento único: pontosDePoder aponta para o que resta do personagem',
+  comPoder.poderes.unificado === true && comPoder.poderes.disponiveisDoPersonagem === comPoder.disponiveis);
+t('orçamento único: categorias gratuitas aparecem sem custo',
+  comPoder.porCategoria.some(c => c.tipo === 'gratis' && c.custo === 0 && c.itens.length === 2));
+t('orçamento único: modo "separado" devolve o orçamento próprio ao poder', (() => {
+  heroi.config.orcamentoPontos = 'separado';
+  const separado = orcamentoDePontos(DB, heroi);
+  const ok = separado.modo === 'separado' && separado.gastos === custoST12
+    && separado.poderes.unificado === false && separado.poderes.disponiveis === separado.poderes.total - 90;
+  heroi.config.orcamentoPontos = 'unificado';
+  return ok;
+})());
+t('modoDoOrcamento: padrão é "unificado"', modoDoOrcamento(DB, novoPersonagem('X', 100, DB)) === 'unificado');
+t('rótulos de categoria cobrem tudo o que o orçamento lista',
+  ['atributo', 'vantagem', 'desvantagem', 'peculiaridade', 'pericias', 'poderes', 'gratis']
+    .every(tipo => typeof ROTULOS_DE_CATEGORIA[tipo] === 'string'));
+
+/* travamento de gasto */
+const livres = orcamentoDePontos(DB, heroi).disponiveis;
+t('podeGastar: bloqueia o que não cabe e diz quanto falta', (() => {
+  const bloqueado = podeGastar(DB, heroi, livres + 1);
+  return bloqueado.ok === false && bloqueado.faltam === 1;
+})());
+t('podeGastar: libera exatamente o que resta', podeGastar(DB, heroi, livres).ok === true);
+t('podeGastar: devolver pontos nunca bloqueia', podeGastar(DB, heroi, -5).ok === true);
+t('simularGasto: barra a compra que estoura e NÃO altera a ficha', (() => {
+  const bloqueio = simularGasto(DB, heroi, p => { p.atributos.ST = 20; }, 'ST 20');
+  return bloqueio.ok === false && heroi.atributos.ST === 12 && /Pontos insuficientes/.test(bloqueio.motivo)
+    && /Aumente o total em Configurações/.test(bloqueio.motivo);
+})());
+t('simularGasto: permite o que cabe (peculiaridade devolve 1 ponto)', (() => {
+  const teste = simularGasto(DB, heroi, p => { p.peculiaridades.push('Supersticioso'); }, 'Supersticioso');
+  return teste.ok === true && heroi.peculiaridades.length === 0;
+})());
+t('simularGasto: desvantagem devolve pontos e sempre passa', simularGasto(DB, heroi, p => {
+  p.desvantagens.push({ id: 'curiosidade', nome: 'Curiosidade', niveis: 1 });
+}, 'Curiosidade').ok === true);
+t('simularGasto: config.permitirEstourarPontos troca o bloqueio por aviso', (() => {
+  heroi.config.permitirEstourarPontos = true;
+  const compra = simularGasto(DB, heroi, p => { p.atributos.ST = 20; }, 'ST 20');
+  const gasto = podeGastar(DB, heroi, 999);
+  heroi.config.permitirEstourarPontos = false;
+  return compra.ok === true && gasto.ok === true && /estourar o orçamento/.test(gasto.aviso || '');
+})());
+t('validar: estourar o total vira aviso na ficha', contagemDePontos(DB, (() => {
+  const pc = novoPersonagem('Estourado', 25, DB);
+  pc.atributos.ST = 15;
+  return pc;
+})()).validacoes.some(aviso => /Pontos estourados/.test(aviso)));
+t('validar: permitirEstourarPontos silencia o aviso de estouro', contagemDePontos(DB, (() => {
+  const pc = novoPersonagem('Estourado liberado', 25, DB);
+  pc.atributos.ST = 15;
+  pc.config.permitirEstourarPontos = true;
+  return pc;
+})()).validacoes.every(aviso => !/Pontos estourados/.test(aviso)));
+t('validar: no modo separado o teto do poder volta a ser o orçamento de poder', contagemDePontos(DB, (() => {
+  const pc = novoPersonagem('Separado', 25, DB);
+  pc.config.orcamentoPontos = 'separado';
+  pc.poderes = [JSON.parse(JSON.stringify(poder))];
+  pc.pontosDePoder = { total: 50 };
+  return pc;
+})()).validacoes.some(aviso => /Pontos de poder excedidos/.test(aviso)));
+
+/* resumo do widget do topo */
+t('resumoDePontos: alimenta o widget (total, gastos, livres, %, faixa)', (() => {
+  const resumo = resumoDePontos(DB, heroi);
+  return resumo.total === 150 && resumo.gastos === custoST12 + 90
+    && resumo.livres === 150 - custoST12 - 90 && resumo.estourado === false
+    && resumo.porcentagemUsada === Math.round(((custoST12 + 90) / 150) * 100)
+    && resumo.incrementos.join() === '10,50' && resumo.presets.length === 9
+    && resumo.escala.pontos === '100 a 150';
+})());
+t('resumoDePontos: marca estouro e quanto falta', (() => {
+  const pc = novoPersonagem('Apertado', 25, DB);
+  pc.atributos.ST = 15;
+  const resumo = resumoDePontos(DB, pc);
+  return resumo.estourado === true && resumo.livres < 0 && resumo.faltam === -resumo.livres;
+})());
 
 console.log(`\n===== RESULTADO: ${pass} passou, ${fail} falhou =====`);
 if (failures.length) { console.log(failures.join('\n')); process.exit(1); }

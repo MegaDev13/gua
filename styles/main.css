@@ -798,3 +798,22 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; text
   .grid.cols-5 { grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); }
   .resumo { font-size: .84rem; }
 }
+
+
+/* ---------------------------------------------------- widget de pontos (topbar) */
+.pontos-widget { display: flex; align-items: center; gap: .5rem; padding: .25rem .6rem; border: 1px solid var(--border); border-radius: 10px; background: rgba(0,0,0,.25); }
+.pontos-widget .pw-numeros { display: flex; gap: .45rem; align-items: baseline; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pontos-widget .pw-total { font-weight: 700; color: var(--gold2, #e7c87a); }
+.pontos-widget .pw-livres { font-weight: 700; }
+.pontos-widget .pw-livres.negativo { color: var(--bad); }
+.pontos-widget .pw-barra { width: 92px; height: 8px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: #0f0c08; }
+.pontos-widget .pw-barra > i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent2), var(--accent)); transition: width .25s; }
+.pontos-widget .pw-barra > i.over { background: linear-gradient(90deg, #7a2019, #d4574b); }
+.pontos-widget .pw-escala { font-size: .72rem; color: var(--ink-dim); max-width: 12rem; overflow: hidden; text-overflow: ellipsis; }
+.pontos-widget .pw-acoes { display: flex; gap: .2rem; }
+.pontos-widget .pw-acoes .btn { padding: .1rem .38rem; font-size: .74rem; line-height: 1.3; }
+.pontos-widget select { max-width: 9.5rem; font-size: .76rem; padding: .12rem .3rem; }
+@media (max-width: 900px) { .pontos-widget { order: 3; width: 100%; justify-content: space-between; } .pontos-widget .pw-escala { display: none; } }
+
+/* rótulos dentro de linhas de botões (painéis de pontos: "Total", "Extras ganhos", "Orçamento") */
+.btn-row > .label { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-dim); white-space: nowrap; }

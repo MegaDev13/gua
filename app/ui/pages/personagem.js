@@ -4,6 +4,10 @@ import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { exportarPDF, exportarPNG } from '../exportar.js';
 import { APARENCIA } from '../../engine/attributes.js';
+import {
+  presetsDePontos, limitesDePontos, escalaDoPersonagem, ajustarTotalDePontos,
+  ajustarExtrasGanhos, ROTULOS_DE_CATEGORIA,
+} from '../../engine/points.js';
 
 export function renderPersonagem(main, { db }) {
   const pc = store.atual;
@@ -26,6 +30,24 @@ export function renderPersonagem(main, { db }) {
     el('select', { onchange: e => store.update(p => p.aparenciaNivel = e.target.value) },
       Object.entries(APARENCIA).map(([k, v]) => el('option', { value: k, selected: pc.aparenciaNivel === k }, `${v.nome} (${v.custo > 0 ? '+' : ''}${v.custo} pts)`))));
 
+  /* total configurável: presets publicados, campo livre e passos rápidos (orçamento único) */
+  const escala = escalaDoPersonagem(db, pc);
+  const limites = limitesDePontos(db);
+  const totalInput = el('input', {
+    type: 'number', min: limites.minimo, step: 1, value: pc.pontos.total, style: 'width:100px',
+    'aria-label': 'Total de pontos do personagem', title: `Mínimo ${limites.minimo} pontos; sem teto`,
+  });
+  const extrasInput = el('input', {
+    type: 'number', min: 0, step: 1, value: pc.pontos.extrasGanhos || 0, style: 'width:90px',
+    'aria-label': 'Pontos extras ganhos em campanha', title: 'Pontos recebidos durante o jogo',
+  });
+  const aplicarTotais = () => store.update(p => {
+    const novoTotal = Math.max(limites.minimo, Math.round(Number(totalInput.value) || p.pontos.total));
+    const novoExtras = Math.max(0, Math.round(Number(extrasInput.value) || 0));
+    ajustarTotalDePontos(db, p, novoTotal - (Number(p.pontos.total) || 0));
+    ajustarExtrasGanhos(db, p, novoExtras - (Number(p.pontos.extrasGanhos) || 0));
+  });
+
   const pts = el('div', { class: 'panel' },
     el('h3', {}, 'Pontos de Personagem'),
     el('div', { class: 'grid cols-4' },
@@ -34,11 +56,31 @@ export function renderPersonagem(main, { db }) {
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Disponíveis'), valorCalculado(cont.disponiveis, [{ fonte: 'Total' }, { fonte: '− Gastos', valor: -cont.gastos }], 'Pontos disponíveis')),
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Experiência'), el('div', { class: 'value' }, String(pc.pontos.extrasGanhos || 0))),
     ),
+    el('p', { class: 'fonte', style: 'margin:.55rem 0 0' },
+      'Faixa de campanha: ', el('b', {}, `${escala.pontos} — ${escala.nivel}`),
+      escala.descricao ? ` · ${escala.descricao}` : '',
+      ` · orçamento ${cont.orcamento === 'separado' ? 'separado (poderes têm orçamento próprio)' : 'único (poderes saem do mesmo total)'}`),
+    presetsDePontos(db).length ? el('div', { class: 'chips', style: 'margin-top:.5rem' },
+      ...presetsDePontos(db).map(preset => el('button', {
+        class: preset.pontos === pc.pontos.total ? 'chip on' : 'chip',
+        title: `${preset.descricao || ''} — define o total em ${preset.pontos} pontos`,
+        onclick: () => store.update(p => { ajustarTotalDePontos(db, p, 0, { preset }); }),
+      }, `${preset.nome} · ${preset.pontos}`))) : '',
+    el('div', { class: 'btn-row', style: 'margin-top:.5rem' },
+      el('span', { class: 'label' }, 'Total'), totalInput,
+      ...limites.incrementos.flatMap(inc => [
+        el('button', { class: 'btn small', title: `Reduzir o total em ${inc} pontos`, onclick: () => store.update(p => { ajustarTotalDePontos(db, p, -inc); }) }, `−${inc}`),
+        el('button', { class: 'btn small', title: `Aumentar o total em ${inc} pontos`, onclick: () => store.update(p => { ajustarTotalDePontos(db, p, inc); }) }, `+${inc}`),
+      ]),
+      el('span', { class: 'label' }, 'Extras ganhos'), extrasInput,
+      el('button', { class: 'btn small primary', title: 'Aplicar os valores digitados', onclick: aplicarTotais }, 'Aplicar'),
+      el('a', { class: 'btn small ghost', href: '#/config', title: 'Breakdown por categoria e modo do orçamento' }, 'Orçamento…'),
+    ),
     cont.validacoes.length ? el('div', { style: 'margin-top:.6rem' }, cont.validacoes.map(v => el('div', { class: 'pill bad' }, '⚠ ' + v))) : '',
     el('details', { style: 'margin-top:.6rem' }, el('summary', { class: 'fonte' }, 'Ver contabilidade completa'),
       el('table', { class: 'tbl' },
         el('tr', {}, el('th', {}, 'Onde'), el('th', {}, 'Detalhe'), el('th', { class: 'num' }, 'Pontos')),
-        cont.partes.map(p => el('tr', {}, el('td', {}, p.tipo), el('td', {}, `${p.nome}${p.detalhe ? ' — ' + p.detalhe : ''}`), el('td', { class: 'num' }, String(p.custo)))))),
+        cont.partes.map(p => el('tr', {}, el('td', {}, ROTULOS_DE_CATEGORIA[p.tipo] || p.tipo), el('td', {}, `${p.nome}${p.detalhe ? ' — ' + p.detalhe : ''}`), el('td', { class: 'num' }, String(p.custo)))))),
   );
 
   const fisico = el('div', { class: 'panel' },

@@ -1,0 +1,511 @@
+{
+ "_fonte": "Peculiaridades: material-base p. 88–89 (data/quirks.json → exemplos) + catálogo da branch arena/01a0543b-gua",
+ "_nota": "Peculiaridades DEVOLVEM 1 ponto cada (custo −1), até o máximo publicado. A regra continua em data/quirks.json; este arquivo é o catálogo escolhível.",
+ "titulo": "Peculiaridades",
+ "regra": {
+  "maximo": 5,
+  "custoCada": -1,
+  "texto": "Máximo de 5 peculiaridades, cada uma vale -1 ponto; não contam no limite de desvantagens da campanha. Devem ser interpretadas ou o GM penaliza.",
+  "fonte": "p. 88–89"
+ },
+ "grupos": [
+  {
+   "id": "oficial",
+   "nome": "Listadas no material-base (p. 88–89)"
+  },
+  {
+   "id": "campanha",
+   "nome": "Catálogo de campanha (manias e hábitos prontos)"
+  }
+ ],
+ "peculiaridades": [
+  {
+   "id": "alergico-a-a-mofo-sujeira",
+   "nome": "Alérgico(a) a mofo, sujeira",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "ateu-a",
+   "nome": "Ateu(á)",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "gosta-de-argumentar-em-qualquer-situacao",
+   "nome": "Gosta de argumentar em qualquer situação",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "senta-se-em-posicoes-desconfortaveis",
+   "nome": "Senta-se em posições desconfortáveis",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "ma-postura-ao-andar",
+   "nome": "Má postura ao andar",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "entediado-a-o-tempo-inteiro",
+   "nome": "Entediado(a) o tempo inteiro",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "mente-aberta-para-tudo",
+   "nome": "Mente aberta para tudo",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "cinico-a",
+   "nome": "Cínico(a)",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "gosta-de-olhar-vitrines-mercadorias-em-tendas-feiras",
+   "nome": "Gosta de olhar vitrines, mercadorias em tendas, feiras…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "desorganizado-a",
+   "nome": "Desorganizado(a)!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "acha-se-mais-inteligente-que-os-outros",
+   "nome": "Acha-se mais inteligente que os outros…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "comeca-todas-as-frases-com-tipo",
+   "nome": "Começa todas as frases com \"tipo…\"",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "acha-que-tem-excelente-pontaria",
+   "nome": "Acha que tem excelente pontaria…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "gosta-de-pichar-muros-veiculos-placas",
+   "nome": "Gosta de pichar muros, veículos, placas…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "dentes-sensiveis",
+   "nome": "Dentes sensíveis!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "visao-politica-anarquista",
+   "nome": "Visão política: anarquista!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "nao-acredita-em-fadas-em-mundos-magicos-com-nt-baixo",
+   "nome": "Não acredita em fadas (em mundos mágicos com NT baixo)!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "acha-que-sabe-cantar-bem",
+   "nome": "Acha que sabe cantar bem…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "acha-que-sabe-dancar-bem",
+   "nome": "Acha que sabe dançar bem…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "acha-que-sabe-pintar-desenhar-bem",
+   "nome": "Acha que sabe pintar/desenhar bem…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "nao-confia-em-computadores",
+   "nome": "Não confia em computadores!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "frequenta-boates-cabares-bordeis",
+   "nome": "Frequenta boates, cabarés, bordéis…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "tem-chule",
+   "nome": "Tem chulé!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "diz-tchau-quando-dispara-seu-arco-rifle-revolver",
+   "nome": "Diz \"tchau!\" quando dispara seu arco/rifle/revólver…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "sempre-esquece-os-nomes-das-pessoas",
+   "nome": "Sempre esquece os nomes das pessoas!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "acredita-ser-um-a-grande-estrategista",
+   "nome": "Acredita ser um(a) grande estrategista…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "detesta-dizer-nao",
+   "nome": "Detesta dizer \"não\"!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "nunca-da-as-costas-para-janelas-portas-corredores",
+   "nome": "Nunca dá as costas para janelas, portas, corredores…",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "sempre-atrasado-a",
+   "nome": "Sempre atrasado(a)!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "detesta-ler-estudar",
+   "nome": "Detesta ler/estudar!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "detesta-escolhas",
+   "nome": "Detesta escolhas!",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "imprecacoes-maldicao-com-mil-demonios",
+   "nome": "Imprecações: \"Maldição!\", \"Com mil demônios!\"",
+   "custo": -1,
+   "grupo": "oficial",
+   "categoria": "Peculiaridade",
+   "descricao": "Peculiaridade listada no material-base (p. 88–89): vale −1 ponto e deve ser interpretada; se o jogador a ignorar, o GM pode penalizar.",
+   "fonte": "p. 88–89"
+  },
+  {
+   "id": "pec-mania-limpeza",
+   "nome": "Mania por Limpeza",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Hábito",
+   "descricao": "Sempre limpa armas, armadura etc.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-fala-sozinho",
+   "nome": "Fala Sozinho",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Social",
+   "categoria": "Social",
+   "descricao": "Murmura consigo mesmo.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-sonhador",
+   "nome": "Sonhador",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Mental",
+   "descricao": "Distraído, sonha acordado.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-odeia-altura",
+   "nome": "Não Gosta de Altura",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Mental",
+   "descricao": "Desconfortável em altura, mas não fobia.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-colecionador",
+   "nome": "Colecionador",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Hábito",
+   "descricao": "Coleciona algo (moedas, facas etc).",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-pontual",
+   "nome": "Pontual",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Hábito",
+   "descricao": "Sempre pontual, irrita-se com atraso.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-desorganizado",
+   "nome": "Desorganizado",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Hábito",
+   "descricao": "Mochila bagunçada.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-mentiroso-branco",
+   "nome": "Mentiras Brancas",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Social",
+   "categoria": "Social",
+   "descricao": "Mente por educação.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-supersticioso",
+   "nome": "Supersticioso",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Mental",
+   "descricao": "Acredita em superstições leves.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-odeia-gatos",
+   "nome": "Não Gosta de Gatos",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Mental",
+   "descricao": "Evita gatos.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-ama-cao",
+   "nome": "Ama Cães",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Mental",
+   "descricao": "Sempre acaricia cães.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-fala-alto",
+   "nome": "Fala Alto",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Social",
+   "categoria": "Social",
+   "descricao": "Voz alta, -1 Furtividade quando fala.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-fala-baixo",
+   "nome": "Fala Baixo",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Social",
+   "categoria": "Social",
+   "descricao": "Precisa repetir.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-gosta-doces",
+   "nome": "Gosta de Doces",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Física",
+   "categoria": "Hábito",
+   "descricao": "Sempre come doces.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-odeia-chefe",
+   "nome": "Reclama do Chefe",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Social",
+   "categoria": "Social",
+   "descricao": "Sempre reclama da autoridade.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-canta-mal",
+   "nome": "Canta Mal",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Social",
+   "categoria": "Social",
+   "descricao": "Canta quando nervoso, mal.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-usa-preto",
+   "nome": "Só Usa Preto",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Social",
+   "categoria": "Aparência",
+   "descricao": "Guarda-roupa só preto.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-odeia-desperdicio",
+   "nome": "Odeia Desperdício",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Hábito",
+   "descricao": "Guarda tudo.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-nerd",
+   "nome": "Nerd",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mental",
+   "categoria": "Mental",
+   "descricao": "Fala de regras o tempo todo.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  },
+  {
+   "id": "pec-custom",
+   "nome": "Peculiaridade Custom",
+   "custo": -1,
+   "grupo": "campanha",
+   "tipo": "Mundana",
+   "categoria": "Custom",
+   "descricao": "Crie sua peculiaridade.",
+   "fonte": "Catálogo de peculiaridades da branch arena/01a0543b-gua (data/peculiaridades.json)"
+  }
+ ]
+}

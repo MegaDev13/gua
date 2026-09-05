@@ -6,7 +6,11 @@ import { computeAll } from '../../engine/engine.js';
 import { parseCusto, MAX_PECULIARIDADES, custoTrait } from '../../engine/traits.js';
 import { resumoDasVantagens, validarVantagens, nivelDaVantagem } from '../../engine/vantagens.js';
 
-const GRUPOS = { classica: 'Clássica', social: 'Variável', nova: 'Nova (2026)' };
+const GRUPOS = {
+  classica: 'Clássica', social: 'Variável', nova: 'Nova (2026)',
+  /* desvantagens: origem da transcrição (material-base × integradas de campanha) */
+  oficial: 'Material-base', campanha: 'Integrada',
+};
 const rotuloDeEfeito = efeito => {
   const nome = efeito.nome || efeito.id || '';
   if (efeito.tipo === 'sentido') return `${nome} ${Number(efeito.valor) >= 0 ? '+' : ''}${efeito.valor}`;
@@ -54,7 +58,7 @@ export function renderVantagens(main, { db }) {
   const draw = (root, kind, owned) => items => {
     root.innerHTML = '';
     const ordered = [...items].sort((a, b) => Number(owned.has(b.id)) - Number(owned.has(a.id)) || a.nome.localeCompare(b.nome, 'pt-BR'));
-    root.append(...(ordered.length ? ordered.map(item => traitRow(item._definition, kind)) : [el('div', { class: 'row' }, 'Nenhum traço corresponde aos filtros.')]))
+    root.append(...(ordered.length ? ordered.map(item => traitRow(db, item._definition, kind)) : [el('div', { class: 'row' }, 'Nenhum traço corresponde aos filtros.')]))
   };
   const commonSchema = [
     { key: 'status', label: 'Status', type: 'multi' },
@@ -81,6 +85,7 @@ export function renderVantagens(main, { db }) {
     searchFields: ['nome', 'descricao', 'custo', 'tags'], searchPlaceholder: 'Pesquisar desvantagem ou efeito…',
     quickFilters: [
       { label: 'Minhas', apply: state => { state.groups.status.include = ['Possuída']; } },
+      { label: 'Integradas', apply: state => { state.groups.grupo.include = ['Integrada']; } },
       { label: 'Por nível', apply: state => { state.groups.tags.include = ['Por nível']; } },
       { label: 'Custo variável', apply: state => { state.groups.tags.include = ['Custo variável']; } },
     ], onChange: draw(listDisadvantages, 'desvantagem', ownedDisadvantages),
@@ -104,6 +109,24 @@ export function renderVantagens(main, { db }) {
     quirkInput.value = '';
   };
   quirkInput.onkeydown = event => { if (event.key === 'Enter') addQuirk(); };
+
+  /* Catálogo de peculiaridades (data/peculiaridades.json): oficiais p. 88–89 + campanha. */
+  const semAcento = texto => String(texto || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+  const catalogoPeculiaridades = db.peculiaridades?.peculiaridades || [];
+  const regraPeculiaridades = db.peculiaridades?.regra || {};
+  const gruposPeculiaridades = db.peculiaridades?.grupos || [];
+  const possuidas = new Set((store.atual.peculiaridades || []).map(semAcento));
+  const adicionarPeculiaridade = nome => {
+    const texto = String(nome || '').trim();
+    if (!texto) return undefined;
+    if ((store.atual.peculiaridades || []).length >= MAX_PECULIARIDADES) {
+      toast(`Máximo de ${MAX_PECULIARIDADES} peculiaridades (${regraPeculiaridades.fonte || 'p. 88'}).`, 'bad');
+      return undefined;
+    }
+    if (possuidas.has(semAcento(texto))) { toast('Essa peculiaridade já está na ficha.', 'bad'); return undefined; }
+    store.update(character => { (character.peculiaridades ||= []).push(texto); });
+    return undefined;
+  };
 
   const resumo = resumoDasVantagens(db, pc);
   const validacao = validarVantagens(db, pc);
@@ -162,19 +185,30 @@ export function renderVantagens(main, { db }) {
       el('section', {}, el('h2', {}, 'Desvantagens (p. 40–88)'), disadvantageFilters.node, listDisadvantages)),
     el('div', { class: 'panel', style: 'margin-top:.9rem' },
       el('h3', {}, `Peculiaridades (${(pc.peculiaridades || []).length}/${MAX_PECULIARIDADES} · −1 ponto cada)`),
+      regraPeculiaridades.texto ? el('p', { class: 'fonte' }, `${regraPeculiaridades.texto} (${regraPeculiaridades.fonte || ''})`) : '',
       el('div', { class: 'btn-row', style: 'margin:0 0 .6rem' }, quirkInput, el('button', { class: 'btn', onclick: addQuirk }, '＋ Adicionar')),
       quirkList,
-      el('details', { style: 'margin-top:.5rem' }, el('summary', { class: 'fonte' }, 'Exemplos do material'),
-        el('div', { style: 'display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem' }, (db.quirks.exemplos || []).map(example => el('button', {
-          class: 'btn small ghost', title: 'Usar este exemplo', onclick: () => {
-            if ((store.atual.peculiaridades || []).length >= MAX_PECULIARIDADES) return toast('Máximo alcançado.', 'bad');
-            store.update(character => { character.peculiaridades.push(example); });
-          },
+      catalogoPeculiaridades.length ? el('details', { style: 'margin-top:.5rem' },
+        el('summary', { class: 'fonte' }, `Catálogo de peculiaridades (${catalogoPeculiaridades.length} prontas para escolher)`),
+        ...gruposPeculiaridades.map(grupo => {
+          const itens = catalogoPeculiaridades.filter(item => item.grupo === grupo.id);
+          if (!itens.length) return '';
+          return el('div', {},
+            el('div', { class: 'fonte', style: 'margin:.55rem 0 .3rem' }, grupo.nome),
+            el('div', { style: 'display:flex;flex-wrap:wrap;gap:.3rem' }, ...itens.map(item => el('button', {
+              class: 'btn small ghost',
+              title: item.descricao || `${item.nome} — vale ${item.custo ?? -1} ponto`,
+              disabled: possuidas.has(semAcento(item.nome)),
+              onclick: () => adicionarPeculiaridade(item.nome),
+            }, item.nome))));
+        })) : el('details', { style: 'margin-top:.5rem' }, el('summary', { class: 'fonte' }, 'Exemplos do material'),
+        el('div', { style: 'display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem' }, (db.quirks?.exemplos || []).map(example => el('button', {
+          class: 'btn small ghost', title: 'Usar este exemplo', onclick: () => adicionarPeculiaridade(example),
         }, example))))));
   drawQuirks();
 }
 
-function traitRow(definition, kind) {
+function traitRow(db, definition, kind) {
   const pc = store.atual;
   const list = kind === 'vantagem' ? pc.vantagens : pc.desvantagens;
   const entry = list.find(item => item.id === definition.id);
@@ -182,27 +216,41 @@ function traitRow(definition, kind) {
   const parsed = parseCusto(definition.custo || '');
   const leveled = definition.niveis || parsed.modo === 'por-nivel' || definition.custoPorNivel;
 
+  const travar = aplicar => simularGasto(db, pc, aplicar, definition.nome);
   const toggle = () => {
     if (entry) store.update(character => {
       const target = kind === 'vantagem' ? character.vantagens : character.desvantagens;
       const index = target.findIndex(item => item.id === definition.id);
       if (index >= 0) target.splice(index, 1);
     });
-    else store.update(character => {
-      const created = { id: definition.id, nome: definition.nome };
-      if (definition.niveis) created.nivel = definition.niveis.find(level => level.custo === 0)?.nome || definition.niveis[0].nome;
-      if (leveled) created.niveis = 1;
-      if (parsed.modo === 'escolha' || parsed.modo === 'variavel') created.custoEscolhido = parsed.valores?.[0] || 0;
-      (kind === 'vantagem' ? character.vantagens : character.desvantagens).push(created);
-    });
+    else {
+      const aplicar = character => {
+        const created = { id: definition.id, nome: definition.nome };
+        if (definition.niveis) created.nivel = definition.niveis.find(level => level.custo === 0)?.nome || definition.niveis[0].nome;
+        if (leveled) created.niveis = 1;
+        if (parsed.modo === 'escolha' || parsed.modo === 'variavel') created.custoEscolhido = parsed.valores?.[0] || 0;
+        (kind === 'vantagem' ? character.vantagens : character.desvantagens).push(created);
+      };
+      const teste = travar(aplicar);
+      if (!teste.ok) return toast(teste.motivo, 'bad');
+      store.update(aplicar);
+    }
   };
-  const changeLevel = delta => store.update(character => {
-    const current = (kind === 'vantagem' ? character.vantagens : character.desvantagens).find(item => item.id === definition.id);
-    if (definition.niveis) {
-      const index = definition.niveis.findIndex(level => level.nome === current.nivel);
-      current.nivel = definition.niveis[Math.max(0, Math.min(definition.niveis.length - 1, index + delta))].nome;
-    } else current.niveis = Math.max(1, (current.niveis || 1) + delta);
-  });
+  const changeLevel = delta => {
+    const aplicar = character => {
+      const current = (kind === 'vantagem' ? character.vantagens : character.desvantagens).find(item => item.id === definition.id);
+      if (!current) return;
+      if (definition.niveis) {
+        const index = definition.niveis.findIndex(level => level.nome === current.nivel);
+        const alvo = Math.max(0, Math.min(definition.niveis.length - 1, index + delta));
+        if (alvo === index) return;
+        current.nivel = definition.niveis[alvo].nome;
+      } else current.niveis = Math.max(1, (current.niveis || 1) + delta);
+    };
+    const teste = travar(aplicar);
+    if (!teste.ok) return toast(teste.motivo, 'bad');
+    store.update(aplicar);
+  };
 
   const nivelAtual = entry ? nivelDaVantagem(null, { vantagens: [entry] }, definition.id) : 0;
   return el('div', { class: 'row' },

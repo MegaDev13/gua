@@ -56,6 +56,8 @@ export function novoPersonagem(nome = 'Novo Personagem', pontos = 100, db = null
       modoEscala: 'melhor', criterioDisputa: 'proximidade-do-critico',
       modeloPericias: db?.rules?.configuraveis?.modeloPericias?.default ?? 'gau',
       modoPreDefinido: db?.rules?.configuraveis?.modoPreDefinido?.default ?? 'publicado',
+      orcamentoPontos: db?.pontos?.orcamento?.padrao ?? 'unificado',
+      permitirEstourarPontos: false,
     },
     historico: [{ quando: new Date().toISOString(), tipo: 'criacao', texto: 'Personagem criado.' }],
   };
@@ -206,15 +208,32 @@ export function contagemDePontos(db, personagem) {
   if (ptsMagicas) partes.push({ tipo: 'magicas', nome: 'Mágicas (G.A.U.)', custo: ptsMagicas, detalhe: 'Cada mágica é uma perícia; mínimo de 1 ponto por mágica aprendida.' });
   const total = personagem.pontos.total + (personagem.pontos.extrasGanhos || 0);
 
-  /* Poderes modulares têm ORÇAMENTO PRÓPRIO (pontos de poder da saga) — não entram
-   * na contagem de pontos do personagem. Fonte: data/poderes.json → orcamento. */
+  /* Poderes modulares: o custo continua saindo do construtor oficial (data/poderes.json → módulos),
+   * mas de ONDE vêm os pontos é configurável:
+   *   'unificado' (padrão) — saem do MESMO total do personagem (gastou em atributo, sobra menos pro poder);
+   *   'separado'           — orçamento próprio de pontos de poder por nível de saga (regra oficial publicada). */
+  const modoOrcamento = personagem?.config?.orcamentoPontos || db?.pontos?.orcamento?.padrao || 'unificado';
   const orcamento = personagem.pontosDePoder?.total ?? db?.poderes?.orcamento?.exemploPadrao ?? 150;
   const poderes = (personagem.poderes || []).map(poder => ({ poder, custo: custoDoPoder(db, poder) }));
   const gastoEmPoderes = poderes.reduce((soma, p) => soma + p.custo.total, 0);
+  if (modoOrcamento === 'unificado' && gastoEmPoderes) {
+    gastos += gastoEmPoderes;
+    partes.push({
+      tipo: 'poderes', nome: 'Poderes', custo: gastoEmPoderes,
+      detalhe: `${poderes.length} poder(es) · custo do construtor oficial, pago com os pontos do personagem`,
+      modo: 'unificado',
+    });
+  }
+
+  /* Itens que NÃO custam pontos (manobras de combate, empunhadura) — aparecem como GRÁTIS no resumo. */
+  for (const gratis of db?.pontos?.gratis || []) {
+    partes.push({ tipo: 'gratis', nome: gratis.nome, custo: 0, detalhe: gratis.regra || 'GRÁTIS — não custa pontos' });
+  }
 
   return {
     total, gastos, disponiveis: total - gastos,
     partes,
+    orcamento: modoOrcamento,
     pontosDePoder: {
       total: orcamento,
       gasto: gastoEmPoderes,
@@ -222,14 +241,24 @@ export function contagemDePontos(db, personagem) {
       nivelSaga: personagem.pontosDePoder?.nivelSaga ?? personagem.categoria ?? 'mundano',
       poderes: poderes.map(p => ({ id: p.poder.id, nome: p.poder.nome, custo: p.custo.total, itens: p.custo.partes.length })),
       regra: db?.poderes?.orcamento?.regra || '',
+      modo: modoOrcamento,
+      unificado: modoOrcamento === 'unificado',
+      disponiveisDoPersonagem: total - gastos,
     },
-    validacoes: validar(db, personagem, { gastosSkills: ptsSkills, gastoEmPoderes, orcamento, modeloPericias: modelo }),
+    validacoes: validar(db, personagem, {
+      gastosSkills: ptsSkills, gastoEmPoderes, orcamento, modeloPericias: modelo,
+      modoOrcamento, total, gastos,
+    }),
   };
 }
 
-function validar(db, personagem, { gastosSkills, gastoEmPoderes = 0, orcamento = null, modeloPericias = 'gau' }) {
+function validar(db, personagem, { gastosSkills, gastoEmPoderes = 0, orcamento = null, modeloPericias = 'gau', modoOrcamento = 'unificado', total = null, gastos = null }) {
   const avisos = [];
-  if (orcamento != null && gastoEmPoderes > orcamento) {
+  /* Orçamento único: o total do personagem é o teto de TUDO (atributos, perícias, poderes, mágicas). */
+  if (total != null && gastos != null && gastos > total && personagem.config?.permitirEstourarPontos !== true) {
+    avisos.push(`Pontos estourados: ${gastos} gastos de um total de ${total} — faltam ${gastos - total}. Aumente o total em Configurações (presets até 1.000+) ou remova compras.`);
+  }
+  if (modoOrcamento === 'separado' && orcamento != null && gastoEmPoderes > orcamento) {
     avisos.push(`Pontos de poder excedidos: ${gastoEmPoderes} gastos de um orçamento de ${orcamento} (o valor é baseado no nível de poder da saga).`);
   }
   for (const poder of personagem.poderes || []) {

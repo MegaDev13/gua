@@ -11,6 +11,7 @@ import {
   novoPoder, catalogo, opcoesDe, custoDoPoder, validarPoder, resumoDoPoder, acharItem,
 } from '../../engine/powers.js';
 import { categorias, comparaDimensionalidade, notaDeHax } from '../../engine/categories.js';
+import { simularGasto, modoDoOrcamento, orcamentoDePontos, totalDePontos } from '../../engine/points.js';
 
 let editando = null;   // poder em edição (rascunho local)
 let aba = 'efeito';    // aba do editor
@@ -33,27 +34,60 @@ export function renderPoderes(main, { db }) {
 
 /* ------------------------------------------------------------------ orçamento */
 
+/**
+ * Teto que vale para UM poder.
+ *  · unificado → o que resta do orçamento único do personagem (+ o que o próprio poder já ocupa);
+ *  · separado  → o orçamento de pontos de poder da saga, menos os outros poderes já comprados.
+ */
+function tetoParaPoder(db, pc, orc, poder) {
+  const poderes = pc.poderes || [];
+  if (orc?.unificado) {
+    const salva = poderes.find(item => item.id === poder?.id);
+    const proprio = salva ? custoDoPoder(db, salva).total : 0;
+    return (orc.disponiveisDoPersonagem ?? 0) + proprio;
+  }
+  const outros = poderes
+    .filter(item => item.id !== poder?.id)
+    .reduce((soma, item) => soma + custoDoPoder(db, item).total, 0);
+  return (orc?.total ?? 150) - outros;
+}
+
 function painelOrcamento(db, pc, orc) {
-  const usado = orc.total ? Math.min(100, Math.round((orc.gasto / orc.total) * 100)) : 0;
+  const unificado = orc.unificado === true;
+  /* orçamento único: o teto do poder é o que resta do personagem (tudo compete junto) */
+  const teto = unificado ? totalDePontos(pc) : orc.total;
+  const gasto = unificado ? teto - (orc.disponiveisDoPersonagem ?? 0) : orc.gasto;
+  const disponiveis = unificado ? (orc.disponiveisDoPersonagem ?? 0) : orc.disponiveis;
+  const usado = teto ? Math.min(100, Math.round((gasto / teto) * 100)) : 0;
   return el('div', { class: 'panel' },
-    el('h3', {}, 'Pontos de poder da saga'),
+    el('h3', {}, unificado ? 'Orçamento único do personagem' : 'Pontos de poder da saga'),
     el('div', { class: 'row', style: 'gap:1.2rem;flex-wrap:wrap' },
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Orçamento'), el('div', { class: 'value' }, String(orc.total))),
-      el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Gasto'), el('div', { class: 'value' }, String(orc.gasto))),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, unificado ? 'Total do personagem' : 'Orçamento'), el('div', { class: 'value' }, String(teto))),
+      el('div', { class: 'stat' }, el('div', { class: 'label' }, unificado ? 'Gasto (tudo)' : 'Gasto'), el('div', { class: 'value' }, String(gasto))),
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Disponível'),
-        el('div', { class: `value ${orc.disponiveis < 0 ? 'neg' : ''}` }, String(orc.disponiveis))),
+        el('div', { class: `value ${disponiveis < 0 ? 'neg' : ''}` }, String(disponiveis))),
+      unificado ? el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Em poderes'), el('div', { class: 'value' }, String(orc.gasto))) : '',
       el('div', { class: 'stat' }, el('div', { class: 'label' }, 'Nível da saga'),
         el('select', {
           'aria-label': 'Categoria de poder do personagem',
           onchange: e => store.update(p => { p.categoria = e.target.value; }),
         }, ...categorias(db).map(c => el('option', { value: c.id, selected: (pc.categoria || 'mundano') === c.id }, `${c.nome}${c.dados ? ` — ${c.dados}d20` : ''}`)))),
     ),
-    el('div', { class: 'bar' }, el('div', { class: `bar-fill${orc.disponiveis < 0 ? ' over' : ''}`, style: `width:${usado}%` })),
-    orc.disponiveis < 0 ? el('p', { class: 'aviso' }, `Orçamento estourado em ${-orc.disponiveis} ponto(s) de poder.`) : '',
-    el('p', { class: 'fonte' }, orc.regra || 'O orçamento é definido pelo nível de poder da saga.'),
+    el('div', { class: 'bar' }, el('div', { class: `bar-fill${disponiveis < 0 ? ' over' : ''}`, style: `width:${usado}%` })),
+    disponiveis < 0 ? el('p', { class: 'aviso' }, unificado
+      ? `Orçamento do personagem estourado em ${-disponiveis} ponto(s) — aumente o total ou remova compras.`
+      : `Orçamento estourado em ${-disponiveis} ponto(s) de poder.`) : '',
+    el('p', { class: 'fonte' }, unificado
+      ? `Orçamento único: poderes saem do MESMO total do personagem (${teto} pts). O gasto soma atributos, aparência, status, vantagens, perícias, poderes e mágicas — o que sobra é o que resta para novos poderes. Desligue em Configurações → Orçamento para usar o orçamento separado da saga.`
+      : (orc.regra || 'O orçamento é definido pelo nível de poder da saga.')),
     el('div', { class: 'btn-row' },
       el('button', { class: 'btn', onclick: () => { editando = novoPoder(); aba = 'efeito'; rerender(); } }, '＋ Novo poder'),
-      el('button', {
+      unificado ? el('button', {
+        class: 'btn ghost', onclick: () => {
+          const total = parseInt(prompt('Total de pontos do personagem (orçamento único):', String(teto)), 10);
+          if (!Number.isNaN(total)) store.update(p => { p.pontos.total = Math.max(25, total); });
+        },
+      }, 'Definir total de pontos') : el('button', {
         class: 'btn ghost', onclick: () => {
           const total = parseInt(prompt('Orçamento de pontos de poder da saga:', String(orc.total)), 10);
           if (!Number.isNaN(total)) store.update(p => { p.pontosDePoder = { ...p.pontosDePoder, total }; });
@@ -92,7 +126,7 @@ function listaDePoderes(db, pc, orc) {
     el('h3', {}, `Poderes do personagem (${poderes.length})`),
     ...poderes.map(poder => {
       const custo = custoDoPoder(db, poder);
-      const validacao = validarPoder(db, poder, { orcamento: orc.total });
+      const validacao = validarPoder(db, poder, { orcamento: tetoParaPoder(db, pc, orc, poder) });
       return el('div', { class: 'card' },
         el('div', { class: 'row', style: 'justify-content:space-between;align-items:center' },
           el('strong', {}, poder.nome || 'Sem nome'),
@@ -131,7 +165,7 @@ const ABAS = [
 
 function editor(db, pc, orc) {
   const custo = custoDoPoder(db, editando);
-  const validacao = validarPoder(db, editando, { orcamento: orc.total });
+  const validacao = validarPoder(db, editando, { orcamento: tetoParaPoder(db, pc, orc, editando) });
   const maxCond = catalogo(db).maxCondicoes;
 
   return el('div', { class: 'panel editor' },
@@ -330,19 +364,22 @@ function painelCustosInformados(db) {
 }
 
 function salvar(db, pc) {
-  const orcamento = pc.pontosDePoder?.total ?? 150;
-  const outros = (pc.poderes || []).filter(p => p.id !== editando.id);
-  const gastoOutros = outros.reduce((soma, p) => soma + custoDoPoder(db, p).total, 0);
-  const validacao = validarPoder(db, editando, { orcamento: orcamento - gastoOutros });
+  const orc = orcamentoDePontos(db, pc).poderes;
+  const validacao = validarPoder(db, editando, { orcamento: tetoParaPoder(db, pc, orc, editando) });
   if (!validacao.ok) {
     toast('Corrija os erros antes de salvar.', 'erro');
     return;
   }
   const poder = JSON.parse(JSON.stringify(editando));
+  /* orçamento único: em modo 'unificado' o custo do poder sai do total do personagem */
+  const teste = simularGasto(db, pc, p => {
+    p.poderes = [...(p.poderes || []).filter(x => x.id !== poder.id), poder];
+  }, `${poder.nome || 'poder'} (${validacao.custo.total} pts)`);
+  if (!teste.ok) { toast(teste.motivo, 'bad'); return; }
   store.update(p => {
     p.poderes = [...(p.poderes || []).filter(x => x.id !== poder.id), poder];
   });
-  store.historico('poder', `Poder "${poder.nome}" salvo (${validacao.custo.total} pontos de poder).`);
+  store.historico('poder', `Poder "${poder.nome}" salvo (${validacao.custo.total} pontos${modoDoOrcamento(db, pc) === 'unificado' ? ' do orçamento único do personagem' : ' de poder'}).`);
   toast(`Poder "${poder.nome}" salvo — ${validacao.custo.total} pts.`);
   editando = null;
   rerender();

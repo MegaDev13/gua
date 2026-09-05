@@ -91,6 +91,23 @@
    ],
    "resolucao": "ambas as leituras são calculadas; o padrão é a notação publicada em cada entrada (modo \"publicado\"), configurável em config.modoPreDefinido.",
    "fonte": "PERÍCIAS — canal #『📕』perícias (Impio, 02/08/2026 09:19)"
+  },
+  {
+   "id": "pontos-orcamento-poderes",
+   "assunto": "Orçamento de pontos: único × separado para poderes",
+   "descricao": "O construtor de poderes publica um orçamento próprio de pontos de poder por nível de saga (exemplo: 150), independente dos pontos de personagem. O pedido de mesa é que tudo saia do mesmo total: gastou em atributo, sobra menos para poder.",
+   "lados": [
+    {
+     "lado": "orçamento único (pontos do personagem)",
+     "fonte": "pedido de mesa · implementação da branch arena/01a0543b-gua (js/points-system.js → calcularCustoTotal)"
+    },
+    {
+     "lado": "orçamento separado de pontos de poder",
+     "fonte": "CRIANDO SEUS PODERES — data/poderes.json → orcamento"
+    }
+   ],
+   "resolucao": "os dois modos estão implementados; o padrão é o orçamento único (config.orcamentoPontos). O custo de cada poder continua sendo o publicado pelo construtor oficial — muda apenas de onde vêm os pontos.",
+   "fonte": "data/pontos.json → orcamento"
   }
  ],
  "naoDefinidas": [
@@ -172,6 +189,22 @@
     "relativo"
    ],
    "nota": "conflito registrado em rules.conflitos → pericias-pre-definidos"
+  },
+  "orcamentoPontos": {
+   "default": "unificado",
+   "opcoes": [
+    "unificado",
+    "separado"
+   ],
+   "nota": "unificado: poderes e mágicas saem do MESMO total de pontos do personagem (gastou em atributo, sobra menos no poder). separado: orçamento próprio de pontos de poder por nível de saga, como publicado em data/poderes.json → orcamento."
+  },
+  "permitirEstourarPontos": {
+   "default": false,
+   "opcoes": [
+    false,
+    true
+   ],
+   "nota": "quando verdadeiro, compras acima do total disponível são permitidas (campanha avançada) com aviso em vez de bloqueio."
   }
  }
 }

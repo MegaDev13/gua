@@ -2,6 +2,7 @@
 import DB from './engine/db.js';
 import { store } from './ui/store.js';
 import { VERSAO_FICHA } from './engine/character.js';
+import { resumoDePontos, ajustarTotalDePontos, presetsDePontos, limitesDePontos } from './engine/points.js';
 import { el, toast } from './ui/ui.js';
 import { renderPersonagem } from './ui/pages/personagem.js';
 import { renderAtributos } from './ui/pages/atributos.js';
@@ -54,6 +55,8 @@ function route() {
     document.body.classList.remove('book-experience', 'book-reading-mode');
   }
   document.getElementById('nav').hidden = page.area !== 'ficha';
+  const widgetPontos = document.getElementById('pontosWidget');
+  if (widgetPontos) widgetPontos.hidden = page.area === 'livro';
   document.getElementById('topbarActions').classList.toggle('book-actions', page.area === 'livro');
   document.title = page.area === 'livro'
     ? `${DB.book?.titulo || 'GUA'} — Livro Digital`
@@ -84,6 +87,46 @@ function montarNav() {
     nav.append(el('button', { class: 'tab', dataset: { page: page.id }, onclick: () => { location.hash = page.id; } },
       `${page.icon} ${page.nome}`));
   }
+}
+
+/* ---------------------------------------------------------- widget de pontos (topbar)
+ * Orçamento único: o mesmo total alimenta atributos, perícias, vantagens, poderes e mágicas.
+ * Presets de campanha (25 → 1.000+), incrementos rápidos e barra do que já foi gasto. */
+function montarWidgetPontos() {
+  const host = document.getElementById('pontosWidget');
+  if (!host) return;
+  const pc = store.atual;
+  host.innerHTML = '';
+  if (!pc) { host.hidden = true; return; }
+  const resumo = resumoDePontos(DB, pc);
+  const { incrementos } = limitesDePontos(DB);
+  const mudar = delta => store.update(p => { ajustarTotalDePontos(DB, p, delta); });
+  const aplicarPreset = preset => store.update(p => { ajustarTotalDePontos(DB, p, 0, { preset }); });
+  host.append(
+    el('div', { class: 'pw-numeros', title: `Total ${resumo.total} · gastos ${resumo.gastos} · livres ${resumo.livres}` },
+      el('span', { class: 'pw-total' }, String(resumo.total)),
+      el('span', { class: 'fonte' }, `gastos ${resumo.gastos}`),
+      el('span', { class: `pw-livres${resumo.livres < 0 ? ' negativo' : ''}` }, `livres ${resumo.livres}`)),
+    el('div', { class: 'pw-barra', title: `${resumo.porcentagemUsada}% do orçamento usado${resumo.estourado ? ` — estourado em ${resumo.faltam}` : ''}` },
+      el('i', { class: resumo.estourado ? 'over' : '', style: `width:${Math.max(2, Math.min(100, resumo.porcentagemUsada))}%` })),
+    el('span', { class: 'pw-escala', title: resumo.escala?.descricao || '' }, `${resumo.escala?.nivel || '—'} · ${resumo.escala?.pontos || ''}`),
+    el('select', {
+      'aria-label': 'Total de pontos (presets de campanha)',
+      onchange: evento => {
+        const preset = presetsDePontos(DB).find(item => String(item.pontos) === evento.target.value);
+        if (preset) aplicarPreset(preset);
+      },
+    },
+      el('option', { value: '' }, 'Presets…'),
+      ...presetsDePontos(DB).map(preset => el('option', {
+        value: String(preset.pontos), selected: resumo.total === preset.pontos,
+      }, `${preset.nome} — ${preset.pontos}`))),
+    el('div', { class: 'pw-acoes' },
+      ...incrementos.flatMap(inc => [
+        el('button', { class: 'btn ghost', title: `Reduzir o total em ${inc} pontos`, onclick: () => mudar(-inc) }, `−${inc}`),
+        el('button', { class: 'btn ghost', title: `Aumentar o total em ${inc} pontos`, onclick: () => mudar(inc) }, `+${inc}`),
+      ])),
+  );
 }
 
 function montarSeletor() {
@@ -139,8 +182,10 @@ function avisarFalhaDeDados(falhas) {
   if (migradas && !falhas.length) toast(`${migradas} ficha(s) migrada(s) para o modelo atual (v${VERSAO_FICHA}).`, 'ok');
   montarNav();
   montarSeletor();
+  montarWidgetPontos();
   store.subscribe(event => {
     if (event === 'chars') montarSeletor();
+    montarWidgetPontos();
     route();
   });
   window.addEventListener('hashchange', route);

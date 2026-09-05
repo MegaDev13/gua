@@ -1,0 +1,164 @@
+{
+ "_fonte": "Sistema de pontos de personagem — integrado da branch arena/01a0543b-gua (js/points-system.js e data/powers.json → escalas_poder)",
+ "_nota": "Este arquivo traz APENAS as faixas de total de pontos, o que não custa pontos e as regras do orçamento. Os custos por categoria continuam saindo das fontes oficiais já transcritas: atributos (data/tables.json → custoAtributos), vantagens/desvantagens (data/advantages.json, data/disadvantages.json), perícias (data/skills.json → custo publicado), poderes (data/poderes.json → construtor modular) e mágicas (data/magia.json).",
+ "titulo": "Pontos de Personagem",
+ "regra": "Um personagem tem um total de pontos configurável (25 a 1.000+). Tudo o que é comprado sai do MESMO orçamento: atributos, aparência, status, vantagens, perícias, poderes e mágicas. Desvantagens e peculiaridades DEVOLVEM pontos (custo negativo), aumentando o que sobra para o resto.",
+ "presets": [
+  {
+   "id": "fraco",
+   "nome": "Fraco",
+   "pontos": 25,
+   "descricao": "Crianças, zumbis, reféns"
+  },
+  {
+   "id": "comum",
+   "nome": "Comum",
+   "pontos": 50,
+   "descricao": "Camponês, civil, trabalhador"
+  },
+  {
+   "id": "competente",
+   "nome": "Competente",
+   "pontos": 75,
+   "descricao": "Policial local, atleta amador"
+  },
+  {
+   "id": "profissional",
+   "nome": "Profissional",
+   "pontos": 100,
+   "descricao": "Soldado raso, investigador"
+  },
+  {
+   "id": "heroi",
+   "nome": "Herói Padrão",
+   "pontos": 150,
+   "descricao": "Protagonista pulp, clássico"
+  },
+  {
+   "id": "cinematico",
+   "nome": "Cinematográfico",
+   "pontos": 250,
+   "descricao": "Herói Hollywood, cavaleiro lendário"
+  },
+  {
+   "id": "lendario",
+   "nome": "Lendário",
+   "pontos": 400,
+   "descricao": "Mitologia, caçador elite"
+  },
+  {
+   "id": "super",
+   "nome": "Super-humano",
+   "pontos": 600,
+   "descricao": "Super-herói, semideus"
+  },
+  {
+   "id": "divino",
+   "nome": "Divino",
+   "pontos": 1000,
+   "descricao": "Altera destino de nações"
+  }
+ ],
+ "escalas": [
+  {
+   "pontos": "Abaixo de 25",
+   "nivel": "Fraco / Crianças / Zumbis",
+   "descricao": "Pessoas debilitadas, reféns ou criaturas sem inteligência própria."
+  },
+  {
+   "pontos": "25 a 50",
+   "nivel": "Pessoas Comuns",
+   "descricao": "Camponeses, civis pacíficos ou trabalhadores sem treinamento de combate."
+  },
+  {
+   "pontos": "50 a 75",
+   "nivel": "Competente Básico",
+   "descricao": "Policiais locais, atletas amadores ou guardas comuns."
+  },
+  {
+   "pontos": "75 a 100",
+   "nivel": "Profissional / Veterano",
+   "descricao": "Soldados rasos, investigadores experientes ou atletas de alto desempenho."
+  },
+  {
+   "pontos": "100 a 150",
+   "nivel": "Herói Padrão",
+   "descricao": "O ponto de partida clássico de muitas aventuras. Representa protagonistas competentes de ficção e pulp."
+  },
+  {
+   "pontos": "200 a 300",
+   "nivel": "Cinematográfico / Acima da Média",
+   "descricao": "Heróis de ação estilo Hollywood, cavaleiros lendários ou magos poderosos (ex: suplementos de Dungeon Fantasy usam 250 pontos)."
+  },
+  {
+   "pontos": "300 a 500",
+   "nivel": "Lendário / Épico",
+   "descricao": "Protagonistas de mitologias, monstros caçadores de elite (Monster Hunters) ou figuras com poderes notáveis."
+  },
+  {
+   "pontos": "500 a 1.000+",
+   "nivel": "Super-humano / Divino",
+   "descricao": "Super-heróis cósmicos ou semideuses capazes de alterar o destino de nações."
+  }
+ ],
+ "gratis": [
+  {
+   "id": "manobra",
+   "nome": "Manobras de combate",
+   "custo": 0,
+   "regra": "Manobras não custam pontos: são opções táticas de turno (data/maneuvers.json)."
+  },
+  {
+   "id": "empunhadura",
+   "nome": "Empunhadura",
+   "custo": 0,
+   "regra": "A empunhadura escolhida não custa pontos: determina o estilo de uso da arma (data/armas.json → empunhaduras)."
+  }
+ ],
+ "orcamento": {
+  "modos": [
+   "unificado",
+   "separado"
+  ],
+  "padrao": "unificado",
+  "unificado": {
+   "nome": "Orçamento único (pontos do personagem)",
+   "regra": "Poderes e mágicas saem do mesmo total de pontos do personagem: o que se gasta em atributo/perícia deixa de estar disponível para poder.",
+   "_origem": "Pedido do usuário e implementação da branch arena/01a0543b-gua (js/points-system.js → calcularCustoTotal)."
+  },
+  "separado": {
+   "nome": "Orçamento separado de pontos de poder (oficial)",
+   "regra": "O construtor de poderes publica um orçamento próprio de pontos de poder por nível de saga (exemplo: 150), fora dos pontos de personagem.",
+   "_origem": "data/poderes.json → orcamento (CRIANDO SEUS PODERES)."
+  },
+  "_conflito": "pontos-orcamento-poderes"
+ },
+ "limites": {
+  "minimo": 25,
+  "maximo": null,
+  "_notaMaximo": "Sem teto publicado: as escalas vão até \"500 a 1.000+\".",
+  "incrementos": [
+   10,
+   50
+  ],
+  "peculiaridades": {
+   "maximo": 5,
+   "custoCada": -1,
+   "regra": "Máximo de 5 peculiaridades, cada uma devolve 1 ponto; não contam no limite de desvantagens da campanha."
+  },
+  "desvantagens": {
+   "devolvemPontos": true,
+   "limiteDeCampanha": "config.limiteDesvantagens (vazio = sem limite)",
+   "regra": "Desvantagens têm custo negativo: somam pontos ao orçamento disponível."
+  },
+  "atributos": {
+   "faixa": "1–20",
+   "custo": "data/tables.json → custoAtributos",
+   "_lacuna": "custo acima de 20 não publicado"
+  }
+ },
+ "travamentoDeGasto": {
+  "regra": "Uma compra que estoure o orçamento disponível é bloqueada com o motivo exato (quanto falta) em vez de deixar a ficha negativa sem aviso.",
+  "excecao": "O MJ pode permitir gasto acima do total (personagem em campanha avançada): config.permitirEstourarPontos."
+ }
+}

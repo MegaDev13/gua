@@ -81,6 +81,7 @@ const paginas = [
 ];
 
 let falhas = 0;
+const textoDasPaginas = new Map();
 for (const [nome, caminho] of paginas) {
   const mod = await import(caminho);
   const render = Object.values(mod)[0];
@@ -88,6 +89,7 @@ for (const [nome, caminho] of paginas) {
   try {
     render(main, { db: DB, params: nome === 'livro' ? ['magia'] : [], ir() {} });
     const n = main.count();
+    textoDasPaginas.set(nome, main.text());
     console.log(`✓ ${nome.padEnd(14)} renderizou (${n} nós)`);
   } catch (e) {
     falhas++;
@@ -208,6 +210,29 @@ const semSecao = secoesEsperadas.filter(trecho => !textoLivroPericias.includes(t
 if (semSecao.length) { falhas++; console.error(`✗ livro/pericias: seções ausentes — ${semSecao.join(', ')}`); }
 else console.log(`✓ livro/pericias    ${secoesEsperadas.length} seções G.A.U. renderizadas`);
 
+/* ---------- Capítulo Criação do livro: pontos de personagem + orçamento único */
+const mainLivroCriacao = new FakeNode('main');
+livro.renderLivro(mainLivroCriacao, { db: DB, params: ['ler', 'criacao'], ir() {} });
+const textoLivroCriacao = mainLivroCriacao.text();
+const secoesPontos = ['Pontos de personagem', 'FAIXAS DE CAMPANHA', 'Herói Padrão', '500 a 1.000+',
+  'Orçamento único: os mesmos pontos para tudo', 'TRAVAMENTO DE GASTO', 'MODO SEPARADO', 'GRÁTIS'];
+const semPontos = secoesPontos.filter(trecho => !textoLivroCriacao.includes(trecho));
+if (semPontos.length) { falhas++; console.error(`✗ livro/criacao: pontos ausentes — ${semPontos.join(', ')}`); }
+else console.log(`✓ livro/criacao     ${secoesPontos.length} trechos do sistema de pontos renderizados`);
+
+/* ---------- orçamento único na UI (widget, painel de pontos, catálogo de peculiaridades) */
+const esperadoNaUI = [
+  ['personagem', ['Pontos de Personagem', 'Faixa de campanha', 'Divino · 1000', 'Extras ganhos', 'orçamento único', 'Aplicar']],
+  ['config', ['orçamento único', 'Pontos livres', 'Divino', 'Permitir estourar o total', 'Unificado (poderes saem do mesmo total)', 'Extras ganhos']],
+  ['vantagens', ['Catálogo de peculiaridades', 'Máximo de 5 peculiaridades', 'Listadas no material-base']],
+];
+for (const [pagina, trechos] of esperadoNaUI) {
+  const texto = textoDasPaginas.get(pagina) || '';
+  const ausentes = trechos.filter(trecho => !texto.includes(trecho));
+  if (ausentes.length) { falhas++; console.error(`✗ ${pagina}: orçamento único ausente — ${ausentes.join(', ')}`); }
+  else console.log(`✓ ${pagina.padEnd(14)} painel de pontos/peculiaridades com ${trechos.length} trechos esperados`);
+}
+
 /* ---------- bootstrap (app/main.js): DB.load → store.inicializar → nav → primeira rota */
 globalThis.window = { addEventListener() {}, scrollTo() {}, scrollY: 0 };
 globalThis.location = { hash: '#/pericias', reload() {} };
@@ -220,6 +245,14 @@ try {
   if (/Erro ao renderizar/.test(textoMain)) throw new Error(textoMain.slice(0, 160));
   if (noMain.count() < 10) throw new Error(`a rota inicial renderizou apenas ${noMain.count()} nós`);
   if (Object.keys(DB.erros).length) throw new Error(`bancos com erro: ${JSON.stringify(DB.erros)}`);
+  const widget = document.getElementById('pontosWidget');
+  const textoWidget = widget.text();
+  if (widget.hidden) throw new Error('widget de pontos ficou oculto numa rota de ficha');
+  if (widget.count() < 8) throw new Error(`widget de pontos renderizou só ${widget.count()} nós`);
+  for (const trecho of ['livres', 'gastos', 'Presets', 'Fraco', 'Divino', '+10', '+50']) {
+    if (!textoWidget.includes(trecho)) throw new Error(`widget de pontos sem "${trecho}"`);
+  }
+  console.log(`✓ widget de pontos  ${widget.count()} nós · "${textoWidget.replace(/\s+/g, ' ').slice(0, 90)}…"`);
   console.log(`✓ bootstrap        main.js: DB.load + store.inicializar + rota #/pericias (${noMain.count()} nós)`);
 } catch (e) {
   falhas++;

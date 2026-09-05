@@ -6,6 +6,7 @@ import { computeAll } from '../../engine/engine.js';
 import { iqMagico, nivelMagia, custoBase, custoManutencao, conjurar, parsePrereqs, reducaoCusto } from '../../engine/spells.js';
 import { dice } from '../../engine/combat.js';
 import { gastarFadiga } from '../../engine/fatigue.js';
+import { simularGasto } from '../../engine/points.js';
 
 const normalize = value => String(value || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
@@ -75,11 +76,15 @@ export function renderMagias(main, { db }) {
         toast(prefix + item._requirementStatus.details.join('; '), 'bad');
         return;
       }
-      store.update(character => {
+      const aplicar = character => {
         const entry = (character.magias || []).find(current => current.id === spell.id);
         if (entry) entry.pontos += 1;
-        else character.magias.push({ id: spell.id, pontos: 1 });
-      });
+        else (character.magias ||= []).push({ id: spell.id, pontos: 1 });
+      };
+      /* orçamento único: investir ponto em magia sai do mesmo total do personagem */
+      const teste = simularGasto(db, pc, aplicar, `${spell.nome} (+1 ponto)`);
+      if (!teste.ok) { toast(teste.motivo, 'bad'); return; }
+      store.update(aplicar);
     };
     return el('div', { class: 'row' },
       el('button', {

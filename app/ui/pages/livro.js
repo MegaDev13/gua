@@ -273,6 +273,44 @@ const CHAPTER_RENDERERS = {
       el('p', {}, 'A dificuldade e a natureza física ou mental determinam quantos pontos são necessários para cada nível relativo ao atributo-base.'),
       skillCostTable('Perícias físicas', db.tables.custoPericias?.fisicas),
       skillCostTable('Perícias mentais', db.tables.custoPericias?.mentais));
+    /* ---- pontos de personagem: total configurável + orçamento único (data/pontos.json) ---- */
+    const pontos = db.pontos || {};
+    const limites = pontos.limites || {};
+    section(article, 'pontos-personagem', 'Pontos de personagem',
+      el('p', {}, pontos.regra || 'O total de pontos é o tamanho do personagem na campanha.'),
+      el('p', {}, 'O total é configurável: comece por um dos presets, ajuste em passos rápidos ou digite um valor livre a partir do mínimo. Não existe teto — as faixas de campanha seguem até o nível divino.'),
+      scrollTable(['Preset', 'Pontos', 'Perfil'], (pontos.presets || []).map(item => [item.nome, String(item.pontos), item.descricao || '—'])),
+      editorialBox('rule', 'FAIXAS DE CAMPANHA',
+        el('p', {}, 'O total de pontos situa o personagem (e a campanha) numa faixa de poder.'),
+        scrollTable(['Pontos', 'Nível', 'Quem vive aqui'], (pontos.escalas || []).map(item => [item.pontos, item.nivel || '—', item.descricao || '—']))),
+      editorialBox('note', 'MÍNIMO, PASSOS E PONTOS GANHOS',
+        el('p', {}, `Mínimo: ${limites.minimo ?? 25} pontos. Ajustes rápidos de ${(limites.incrementos || [10, 50]).join(' e ')} pontos no widget do topo da ficha. ${limites.maximo == null ? 'Sem máximo: o total sobe o quanto a campanha pedir.' : `Máximo: ${limites.maximo}.`}`),
+        el('p', {}, 'Pontos recebidos durante o jogo entram em "Extras ganhos" (Configurações) e somam-se ao total — sempre no mesmo orçamento.'),
+        limites._notaMaximo ? el('p', { class: 'book-source' }, limites._notaMaximo) : ''),
+      actionLink('Ajustar meus pontos', '#/config', 'inline', '⚙️'),
+      source(pontos._fonte));
+    section(article, 'orcamento-unico', 'Orçamento único: os mesmos pontos para tudo',
+      el('p', {}, 'Pontos de personagem e pontos "gerais" são o MESMO orçamento. Atributos, aparência, status, vantagens, perícias, poderes e mágicas disputam o total do personagem: o que se gasta em atributo deixa de estar disponível para poder.'),
+      scrollTable(['Categoria', 'De onde vem o custo'], [
+        ['Atributos', 'data/tables.json → custoAtributos (valores 1–20)'],
+        ['Aparência e Status', 'data/advantages.json (Status: 5 pts por nível)'],
+        ['Vantagens', 'data/advantages.json — custo publicado, níveis e custo variável'],
+        ['Desvantagens', 'data/disadvantages.json — DEVOLVEM pontos ao orçamento'],
+        ['Peculiaridades', 'máximo 5, −1 ponto cada (p. 88–89) — DEVOLVEM pontos'],
+        ['Perícias', 'data/skills.json — nível 1 pelo custo publicado, +1 nível por ponto'],
+        ['Poderes', 'data/poderes.json — construtor modular (Efeito + Extensão + Potência)'],
+        ['Mágicas', 'data/magia.json e data/spells.json — cada mágica é uma perícia'],
+        [(pontos.gratis || []).map(item => item.nome).join(' e ') || 'Manobras e empunhadura', 'GRÁTIS — não custam pontos'],
+      ]),
+      editorialBox('warning', 'TRAVAMENTO DE GASTO',
+        el('p', {}, pontos.travamentoDeGasto?.regra || ''),
+        el('p', {}, pontos.travamentoDeGasto?.excecao || '')),
+      editorialBox('note', 'MODO SEPARADO (ORÇAMENTO PRÓPRIO DE PODER)',
+        el('p', {}, pontos.orcamento?.separado?.regra || ''),
+        el('p', {}, 'Alterne em Configurações → Orçamento. No modo separado o construtor de poderes volta a usar o orçamento de pontos de poder da saga (exemplo publicado: 150) e não consome os pontos do personagem.'),
+        el('p', { class: 'book-source' }, `Conflito registrado: ${pontos.orcamento?._conflito || 'pontos-orcamento-poderes'} (data/rules.json → conflitos).`)),
+      actionLink('Ver meu orçamento', '#/config', 'inline', '🧮'),
+      source(pontos._nota));
     section(article, 'fluxo-criacao', 'Fluxo de criação',
       el('ol', { class: 'book-steps' }, (db.poderes?.criacao?.passos || []).map((passo, i) =>
         step(String(i + 1).padStart(2, '0'), passo.titulo, passo.texto))),

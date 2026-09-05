@@ -13,6 +13,7 @@ import {
   attrPadrao, podeComprarMelhoria, modeloDePericias, custoPublicado, nivelEfetivoGAU,
   custoDaPericiaGAU, podeComprarNivelGAU, regraDeFamiliaridade,
 } from '../../engine/skills.js';
+import { simularGasto } from '../../engine/points.js';
 
 const SEM_CUSTO = 'Sem custo publicado';
 
@@ -166,6 +167,19 @@ function linhaPericia(db, pc, skill, entry, effective, { gau, snap, disponiveis,
       limiteCriacao: pc.config?.emCriacao ? limite?.limite ?? null : null,
     });
     if (!check.ok) { toast(check.erros[0], 'bad'); return; }
+    const nivelAlvo = check.nivel ?? 1;
+    /* orçamento único: a perícia também disputa os pontos do personagem */
+    const teste = simularGasto(db, pc, character => {
+      const atual = (character.pericias || []).find(item => item.id === skill.id);
+      if (atual) {
+        if (nivelAlvo <= 0) character.pericias = character.pericias.filter(item => item !== atual);
+        else {
+          if (!Number.isFinite(atual.nivel) && Number.isFinite(atual.pontos)) { atual.pontosLegados = atual.pontos; delete atual.pontos; }
+          atual.nivel = nivelAlvo;
+        }
+      } else if (nivelAlvo > 0) (character.pericias ||= []).push({ id: skill.id, nivel: nivelAlvo });
+    }, `${skill.nome} (nível ${nivelAlvo})`);
+    if (!teste.ok) { toast(teste.motivo, 'bad'); return; }
     store.update(character => {
       const atual = (character.pericias || []).find(item => item.id === skill.id);
       if (atual) {

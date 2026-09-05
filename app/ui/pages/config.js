@@ -1,6 +1,7 @@
 /* Aba CONFIGURAÇÕES — personagens, cenário, backup e regras não definidas. */
 import { el, toast, modal, confirmar, baixar } from '../ui.js';
 import { store } from '../store.js';
+import { resumoDePontos, orcamentoDePontos, presetsDePontos, limitesDePontos, ajustarTotalDePontos, ajustarExtrasGanhos, ROTULOS_DE_CATEGORIA } from '../../engine/points.js';
 
 export function renderConfig(main, { db }) {
   const pc = store.atual;
@@ -102,6 +103,66 @@ export function renderConfig(main, { db }) {
     el('p', { class: 'fonte' }, 'Cada escolha altera apenas como o motor resolve as jogadas — nenhum valor do material é reescrito.'),
   );
 
+  /* ------------------------------------------------ pontos do personagem (orçamento único) */
+  const { minimo, incrementos } = limitesDePontos(db);
+  const orcamento = orcamentoDePontos(db, pc);
+  const resumo = resumoDePontos(db, pc);
+  const totalLivre = el('input', { type: 'number', min: minimo, step: 1, value: pc.pontos.total, style: 'width:110px', title: `Total de pontos (mínimo ${minimo}, sem teto)` });
+  const extrasLivre = el('input', { type: 'number', min: 0, step: 1, value: pc.pontos.extrasGanhos ?? 0, style: 'width:90px', title: 'Pontos extras ganhos em campanha' });
+  const pontos = el('div', { class: 'panel' },
+    el('h3', {}, `Pontos — orçamento único · faixa ${resumo.escala?.nivel || '—'}`),
+    el('p', {}, 'Todo o gasto sai do ', el('b', {}, 'mesmo total'), ': atributos, perícias, vantagens, desvantagens, peculiaridades, poderes e mágicas disputam os mesmos pontos. Gastar em atributos deixa menos para poderes.'),
+    el('div', { class: 'chips' },
+      ...presetsDePontos(db).map(preset => el('button', {
+        class: preset.pontos === pc.pontos.total ? 'chip on' : 'chip',
+        title: `${preset.descricao}${preset.exemplo ? ` · ex.: ${preset.exemplo}` : ''}`,
+        onclick: () => store.update(p => { ajustarTotalDePontos(db, p, 0, { preset }); }),
+      }, `${preset.nome} — ${preset.pontos}`))),
+    el('div', { class: 'btn-row' },
+      el('span', { class: 'label' }, 'Total livre'), totalLivre,
+      ...incrementos.flatMap(inc => [
+        el('button', { class: 'btn small', title: `−${inc} pontos`, onclick: () => store.update(p => { ajustarTotalDePontos(db, p, -inc); }) }, `−${inc}`),
+        el('button', { class: 'btn small', title: `+${inc} pontos`, onclick: () => store.update(p => { ajustarTotalDePontos(db, p, inc); }) }, `+${inc}`),
+      ]),
+      el('span', { class: 'label' }, 'Extras ganhos'), extrasLivre,
+      el('button', { class: 'btn small primary', title: 'Aplicar total e extras digitados', onclick: () => store.update(p => {
+        const novoTotal = Math.max(minimo, Math.round(Number(totalLivre.value) || p.pontos.total));
+        const novoExtras = Math.max(0, Math.round(Number(extrasLivre.value) || 0));
+        ajustarTotalDePontos(db, p, novoTotal - (Number(p.pontos.total) || 0));
+        ajustarExtrasGanhos(db, p, novoExtras - (Number(p.pontos.extrasGanhos) || 0));
+      }) }, 'Aplicar'),
+    ),
+    el('table', { class: 'tbl' },
+      el('thead', {}, el('tr', {}, el('th', {}, 'Categoria'), el('th', { class: 'num' }, 'Itens'), el('th', { class: 'num' }, 'Custo'))),
+      el('tbody', {},
+        ...orcamento.porCategoria.map(categoria => el('tr', {},
+          el('td', {}, el('b', {}, ROTULOS_DE_CATEGORIA[categoria.tipo] || categoria.tipo),
+            el('div', { class: 'meta' }, `${categoria.itens.length} item(ns) · ${categoria.itens.slice(0, 3).map(item => item.nome).join(', ')}${categoria.itens.length > 3 ? '…' : ''}`)),
+          el('td', { class: 'num' }, String(categoria.itens.length)),
+          el('td', { class: 'num' }, categoria.custo < 0 ? `+${-categoria.custo}` : String(categoria.custo)))),
+        el('tr', {}, el('td', {}, el('b', {}, 'Gasto total')), el('td', {}, ''), el('td', { class: 'num' }, el('b', {}, String(orcamento.gastos)))),
+        el('tr', {}, el('td', {}, el('b', {}, 'Pontos livres')), el('td', {}, ''),
+          el('td', { class: 'num', style: orcamento.disponiveis < 0 ? 'color:var(--bad)' : '' }, el('b', {}, String(orcamento.disponiveis)))))),
+    orcamento.poderes?.modo === 'separado' ? el('p', { class: 'fonte' }, `Orçamento separado ativo: poderes têm ${orcamento.poderes.orcamento} pts próprios (${orcamento.poderes.disponiveis} livres) e não consomem o total do personagem.`) : '',
+    el('div', { class: 'btn-row' },
+      el('span', { class: 'label' }, 'Orçamento'),
+      el('select', {
+        title: 'Como os pontos são distribuídos',
+        onchange: evento => store.update(p => { p.config.orcamentoPontos = evento.target.value; }),
+      }, ['unificado', 'separado'].map(modo => el('option', {
+        value: modo, selected: orcamento.modo === modo,
+      }, modo === 'unificado' ? 'Unificado (poderes saem do mesmo total)' : 'Separado (poderes com orçamento próprio)'))),
+      el('label', { class: 'row', style: 'cursor:pointer' },
+        el('span', { class: 'grow' }, 'Permitir estourar o total', el('div', { class: 'meta' }, 'compras apenas alertam em vez de travar')),
+        el('input', {
+          type: 'checkbox', checked: !!pc.config?.permitirEstourarPontos,
+          onchange: evento => store.update(p => { p.config.permitirEstourarPontos = evento.target.checked; }),
+        })),
+    ),
+    el('p', { class: 'fonte' }, `Total ${orcamento.total} pts · gastos ${orcamento.gastos} · livres ${orcamento.disponiveis}`
+      + ` · modo ${orcamento.modo}. Desvantagens e peculiaridades devolvem pontos ao mesmo orçamento.`),
+  );
+
   /* ------------------------------------------------ backup */
   const backup = el('div', { class: 'panel' },
     el('h3', {}, 'Backup de todos os personagens'),
@@ -158,6 +219,7 @@ export function renderConfig(main, { db }) {
   main.append(
     el('h1', { class: 'page-title' }, '⚙️ Configurações'),
     el('div', { class: 'grid cols-2' }, chars, cenario),
+    pontos,
     el('div', { class: 'grid cols-2', style: 'margin-top:.9rem' }, sistema, backup),
     el('div', { class: 'grid cols-2', style: 'margin-top:.9rem' }, sobre, nd),
   );

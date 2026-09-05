@@ -8,11 +8,14 @@
  * ficha (modelo da planilha oficial) e vantagens (regras do capítulo de Vantagens:
  * introdução, custos, Aliado, Patrono, novas vantagens, exemplo de seleção e migração de ids) e
  * pericias (regras do capítulo de Perícias: definição, desenvolvimento, escolha inicial, familiaridade,
- * compra de perícias em G.A.U., grupos, línguas/comunicação e divergências transcritas). */
+ * compra de perícias em G.A.U., grupos, línguas/comunicação e divergências transcritas),
+ * pontos (total de pontos do personagem: presets 25→1.000+, faixas de campanha, itens grátis,
+ * orçamento único e travamento de gasto) e peculiaridades (catálogo de peculiaridades de −1 ponto). */
 const FILES = [
   'rules', 'tables', 'skills', 'advantages', 'disadvantages', 'quirks', 'equipment', 'spells',
   'maneuvers', 'book',
   'resolucao', 'proezas', 'armas', 'estruturas', 'poderes', 'magia', 'ficha', 'vantagens', 'pericias',
+  'pontos', 'peculiaridades',
 ];
 
 class Database {
@@ -94,6 +97,8 @@ class Database {
   get ficha() { return this._objeto('ficha'); }
   get vantagens() { return this._objeto('vantagens'); }
   get pericias() { return this._objeto('pericias'); }
+  get pontos() { return this._objeto('pontos'); }
+  get peculiaridades() { return this._objeto('peculiaridades'); }
 
   skill(id) { return this.skills.find(s => s.id === id); }
   spell(id) { return this.spells.find(s => s.id === id); }
