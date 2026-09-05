@@ -17,7 +17,11 @@ const FILES = [
   'vantagens',
   'desvantagens',
   'peculiaridades',
-  'pericias_catalog'
+  'pericias_catalog',
+  'poderes_catalog',
+  'estruturas',
+  'magia_completa',
+  'modelo-ficha'
 ];
 
 class Database {
@@ -369,6 +373,105 @@ class Database {
         });
       }
     }
+    // Poderes catalog modular
+    const poderesCat = this._data.poderes_catalog;
+    if (poderesCat?.efeitos) {
+      for (const [catId, lista] of Object.entries(poderesCat.efeitos)) {
+        for (const ef of lista) {
+          idx.push({
+            id: `poder-efeito/${catId}/${ef.caracteristica}`,
+            titulo: ef.caracteristica,
+            capitulo: 'Criando Poderes',
+            caminho: `Poderes > Efeitos > ${catId} > ${ef.caracteristica}`,
+            conteudo: `${ef.caracteristica} — ${ef.pontos} pts`,
+            tipo: 'poder-efeito',
+            ref: `#/livro/poderes/efeitos`
+          });
+        }
+      }
+    }
+    if (poderesCat?.extensao?.alcance) {
+      for (const alc of poderesCat.extensao.alcance) {
+        idx.push({
+          id: `poder-alcance/${alc.extensao}`,
+          titulo: `Alcance ${alc.extensao}`,
+          capitulo: 'Criando Poderes',
+          caminho: `Poderes > Extensão > Alcance > ${alc.extensao}`,
+          conteudo: `${alc.exemplo} — ${alc.pontos} pts`,
+          tipo: 'extensao',
+          ref: `#/livro/poderes/extensao`
+        });
+      }
+    }
+    if (poderesCat?.condicoes) {
+      for (const cond of poderesCat.condicoes) {
+        idx.push({
+          id: `poder-cond/${cond.condicao}`,
+          titulo: cond.condicao,
+          capitulo: 'Criando Poderes',
+          caminho: `Poderes > Condições > ${cond.condicao}`,
+          conteudo: `${cond.condicao} — ${cond.pontos} pts`,
+          tipo: 'condicao',
+          ref: `#/livro/poderes/condicoes`
+        });
+      }
+    }
+    // Estruturas
+    const est = this._data.estruturas;
+    if (est?.dano_estruturas?.tabela) {
+      for (const m of est.dano_estruturas.tabela) {
+        idx.push({
+          id: `material/${m.material}`,
+          titulo: m.material,
+          capitulo: 'Estruturas',
+          caminho: `Estruturas > ${m.material}`,
+          conteudo: `Limiar ${m.limiar} — PE pequeno ${m.pe_pequeno} médio ${m.pe_medio} grande ${m.pe_grande}`,
+          tipo: 'material',
+          ref: `#/livro/estruturas-objetos/dano-estruturas`
+        });
+      }
+    }
+    if (est?.nivel_tecnologia?.tabela) {
+      for (const tl of est.nivel_tecnologia.tabela) {
+        idx.push({
+          id: `nt/${tl.tl}`,
+          titulo: `NT ${tl.tl} ${tl.era}`,
+          capitulo: 'Tecnologia',
+          caminho: `Tecnologia > NT ${tl.tl}`,
+          conteudo: `${tl.era} — ${tl.inicio} — ${tl.tecnologias || ''}`,
+          tipo: 'nt',
+          ref: `#/livro/tecnologia/nt-tabela`
+        });
+      }
+    }
+    // Magia completa
+    const magiaComp = this._data.magia_completa;
+    if (magiaComp?.vocabulario) {
+      for (const v of magiaComp.vocabulario) {
+        idx.push({
+          id: `magia-vocab/${v.termo}`,
+          titulo: v.termo,
+          capitulo: 'Magia',
+          caminho: `Magia > Vocabulário > ${v.termo}`,
+          conteudo: v.definicao,
+          tipo: 'magia',
+          ref: `#/livro/magias/vocabulario`
+        });
+      }
+    }
+    if (magiaComp?.mana?.niveis) {
+      for (const n of magiaComp.mana.niveis) {
+        idx.push({
+          id: `mana/${n.nivel}`,
+          titulo: `Mana ${n.nivel}`,
+          capitulo: 'Magia',
+          caminho: `Magia > Mana > ${n.nivel}`,
+          conteudo: n.efeito,
+          tipo: 'magia',
+          ref: `#/livro/magias/mana`
+        });
+      }
+    }
 
     this._index = idx;
   }
@@ -388,6 +491,10 @@ class Database {
   get desvantagens() { return this._data.desvantagens || { desvantagens: [] }; }
   get peculiaridades() { return this._data.peculiaridades || { peculiaridades: [] }; }
   get periciasCatalog() { return this._data.pericias_catalog || { pericias: [] }; }
+  get poderesCatalog() { return this._data.poderes_catalog || { efeitos: {}, extensao: {}, potencia: {} }; }
+  get estruturas() { return this._data.estruturas || { dano_estruturas: { tabela: [] }, estados_degradacao: [], nivel_tecnologia: { tabela: [] } }; }
+  get magiaCompleta() { return this._data.magia_completa || { titulo: 'Magia' }; }
+  get modeloFicha() { return this._data['modelo-ficha'] || { contas: {}, modelo_texto: '' }; }
   get searchIndex() { return this._index; }
 
   getMarginForValue(val) {

@@ -53,9 +53,9 @@ export function computeCharacter(db, char) {
   // Levantamento
   const levantamento = calcularLevantamento(ST);
 
-  // PF e PV
-  const pfMax = ST;
-  const pvMax = HT;
+  // PF e PV — ATUALIZADO conforme modelo-ficha: PV = ST x HT, PF = HT, VON = IQ, PER = IQ
+  const pfMax = HT;
+  const pvMax = ST * HT;
   const pfAtual = pfMax - (char.fadiga || 0);
   const pvAtual = pvMax - (char.ferimentos || 0);
 

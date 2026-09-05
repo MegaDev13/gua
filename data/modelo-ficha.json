@@ -1,0 +1,12 @@
+{
+  "_fonte": "Modelo de Ficha GAU — canal modelo-ficha",
+  "contas": {
+    "PV": "ST x HT",
+    "VON": "IQ",
+    "PER": "IQ",
+    "PF": "HT",
+    "nota": "PV = ST x HT (ou ST*HT? Conforme mensagem: PV = ST x HT, VON = IQ, PER = IQ, PF = HT). Versão anterior usava ST+HT etc, agora atualizado para multiplicação conforme última mensagem."
+  },
+  "modelo_texto": "Nome: | Jogador: | Total de Pontos: \nAltura: | Peso: | Idade: | Pontos p/ Gastar: \nAparência:                                   \nPlanilha de Personagem\nᵃᵗʳⁱᵇᵘᵗᵒˢ    ˢᵉᶜᵘⁿᵈᵃʳⁱᵒˢ      ᵖᵃʳᵃᵐᵉᵗʳᵒˢ\nST |  PV  | /                   Perícias  BLOQ:  APAR: \nDX |  VON |       ATQ |  Nome | NH\nIQ |  PER |       ESQ |       |         |         |         |   \nHT |  PF  | /  DSL |       |         |         |         |    \n𝘝𝘢𝘯𝘵𝘢𝘨𝘦𝘯𝘴\n𝘋𝘦𝘴𝘷𝘢𝘯𝘵𝘢𝘨𝘦𝘯𝘴\n𝘉𝘪𝘰𝘨𝘳𝘢𝘧𝘪𝘢: \n𝑳𝒊́𝒏𝒈𝒖𝒂𝒔\n𝐄𝐬𝐜𝐫𝐢𝐭𝐚𝐬:\n𝐅𝐚𝐥𝐚𝐝𝐚𝐬:\n── ✧ ── ✦ ── ✧ ──── ✧ ── ✦ ── ✧ ──── ✧ ── ✦ ── ✧ ──── ✧ ── ✦ ── ✧ ──── ✧ ── ✦ ── ✧ ──── ✧ ── ✦ ── ✧ ──── ✧ ── ✦ ── ✧ ──── ✧ ── ✦ ── ✧ ──\n𝐏𝐎𝐃𝐄𝐑𝐄𝐒\n𝐍𝐨𝐦𝐞\n𝑪𝒂𝒓𝒂𝒄𝒕:\n𝑪𝒂𝒓𝒂𝒄𝒕:\n𝑪𝒂𝒓𝒂𝒄𝒕:\n𝑪𝒂𝒓𝒂𝒄𝒕:\n𝑪𝒂𝒓𝒂𝒄𝒕:\n𝑪𝒂𝒓𝒂𝒄𝒕:",
+  "como_fazer_personagem": "A primeira coisa a pensar é: Qual o conceito do seu personagem? Quais os seus poderes, e como ele os utiliza? Qual o seu objetivo? Como é a sua personalidade? Existe algo que ele tem medo? Ele ama alguém? Quem ele mais ama? Junto a isso, você deve saber quais as limitações do cenário para com a história. Como ele vai dizer o que pode ou não pode na campanha, se limite a isso. Além disso, pense nas complicações do seu personagem, que são motivações, fobias, fraquezas, um inimigo, uma obsessão… Em vantagens e desvantagens do sistema base existem algumas de inspiração. Elas te darão pontos por desvantagem, e cobram algum por vantagens. Definido isso, você receberá os pontos de poder pra gastar, como se você tivesse 150 reais, e fosse fazer as compras. Esse valor será baseado no nível de poder da saga (que é como se chama um 'arco' da história). Normalmente se começa no nível Mundano. Contudo, o preço de algumas características limita você a comprar certas coisas. Então vamos às compras! Qual a primeira coisa a se comprar? Sempre recomendamos a começar pelo poderes, entender o que seu personagem vai fazer durante uma luta o ajudará a pensar nas demais coisas e nos custos para cada qual."
+}

@@ -1,0 +1,261 @@
+{
+  "_fonte": "CRIANDO SEUS PODERES — Sistema Modular GAU",
+  "descricao": "Sistema modulado como catálogo de construção de poderes, em que o jogador recebe orçamento e compra separadamente efeitos, extensão, potência, condições e bônus. Listas são modulares: não precisa usar todas categorias em todo poder. Para poderes que possuam efeito, deve possuir obrigatoriamente: Efeito, Extensão e Potência. Demais podem ser acrescentados.",
+  "efeitos": {
+    "manipulacao": [
+      {"caracteristica": "Criar", "pontos": 10},
+      {"caracteristica": "Destruir", "pontos": 10},
+      {"caracteristica": "Manipular", "pontos": 20},
+      {"caracteristica": "Transformar", "pontos": 15},
+      {"caracteristica": "Absorver", "pontos": 15},
+      {"caracteristica": "Redirecionar", "pontos": 15},
+      {"caracteristica": "Copiar", "pontos": 20},
+      {"caracteristica": "Anular", "pontos": 20},
+      {"caracteristica": "Selar", "pontos": 25},
+      {"caracteristica": "Reproduzir", "pontos": 10}
+    ],
+    "movimento": [
+      {"caracteristica": "Acelerar", "pontos": 5},
+      {"caracteristica": "Desacelerar", "pontos": 5},
+      {"caracteristica": "Voar", "pontos": 5},
+      {"caracteristica": "Levitar", "pontos": 3},
+      {"caracteristica": "Teleportar", "pontos": 20},
+      {"caracteristica": "Criar portais", "pontos": 20},
+      {"caracteristica": "Parar movimento", "pontos": 10},
+      {"caracteristica": "Alterar trajetória", "pontos": 5},
+      {"caracteristica": "Caminhar sobre superfícies", "pontos": 3}
+    ],
+    "espaco": [
+      {"caracteristica": "Distorcer espaço", "pontos": 25},
+      {"caracteristica": "Expandir espaço", "pontos": 25},
+      {"caracteristica": "Comprimir espaço", "pontos": 25},
+      {"caracteristica": "Teleportar", "pontos": 20},
+      {"caracteristica": "Criar dimensões", "pontos": 100},
+      {"caracteristica": "Criar barreiras espaciais", "pontos": 25},
+      {"caracteristica": "Alterar distância", "pontos": 20}
+    ],
+    "tempo": [
+      {"caracteristica": "Acelerar tempo", "pontos": 20},
+      {"caracteristica": "Retardar tempo", "pontos": 20},
+      {"caracteristica": "Parar tempo", "pontos": 30},
+      {"caracteristica": "Retroceder", "pontos": 15},
+      {"caracteristica": "Avançar", "pontos": 15},
+      {"caracteristica": "Precognição", "pontos": 10},
+      {"caracteristica": "Criar repetição temporal", "pontos": 15},
+      {"caracteristica": "Alterar idade", "pontos": 15},
+      {"caracteristica": "Criar efeitos temporais", "pontos": 25}
+    ],
+    "mente": [
+      {"caracteristica": "Ler pensamentos", "pontos": 15},
+      {"caracteristica": "Comunicar mentalmente", "pontos": 5},
+      {"caracteristica": "Influenciar", "pontos": 20},
+      {"caracteristica": "Confundir", "pontos": 15},
+      {"caracteristica": "Apagar memória", "pontos": 20},
+      {"caracteristica": "Criar memória", "pontos": 20},
+      {"caracteristica": "Detectar emoções", "pontos": 10},
+      {"caracteristica": "Criar ilusões", "pontos": 10},
+      {"caracteristica": "Controlar comportamento", "pontos": 10}
+    ],
+    "corpo": [
+      {"caracteristica": "Aumentar Força", "pontos": 5, "nota": "5+"},
+      {"caracteristica": "Aumentar Destreza", "pontos": 5, "nota": "5+"},
+      {"caracteristica": "Aumentar resistência", "pontos": 5, "nota": "5+"},
+      {"caracteristica": "Regenerar", "pontos": 20},
+      {"caracteristica": "Curar", "pontos": 5, "nota": "5+"},
+      {"caracteristica": "Alterar tamanho", "pontos": 15},
+      {"caracteristica": "Alterar forma", "pontos": 15},
+      {"caracteristica": "Criar membros", "pontos": 5},
+      {"caracteristica": "Modificar sentidos", "pontos": 20},
+      {"caracteristica": "Modificar propriedades físicas", "pontos": 20}
+    ],
+    "percepcao": [
+      {"caracteristica": "Visão ampliada", "pontos": 5},
+      {"caracteristica": "Visão através de objetos", "pontos": 5},
+      {"caracteristica": "Detectar energia", "pontos": 10},
+      {"caracteristica": "Detectar seres", "pontos": 15},
+      {"caracteristica": "Detectar movimento", "pontos": 15},
+      {"caracteristica": "Sentidos sobrenaturais", "pontos": 10},
+      {"caracteristica": "Percepção temporal", "pontos": 50},
+      {"caracteristica": "Percepção espacial", "pontos": 50}
+    ],
+    "invocacao": [
+      {"caracteristica": "Criar criatura", "pontos": 20},
+      {"caracteristica": "Invocar criatura", "pontos": 25},
+      {"caracteristica": "Invocar objeto", "pontos": 10},
+      {"caracteristica": "Criar armas", "pontos": 10},
+      {"caracteristica": "Criar estruturas", "pontos": 10},
+      {"caracteristica": "Criar cópias", "pontos": 10},
+      {"caracteristica": "Manifestar entidades", "pontos": 50}
+    ],
+    "defesa": [
+      {"caracteristica": "Criar barreira", "pontos": 10},
+      {"caracteristica": "Criar escudo", "pontos": 5},
+      {"caracteristica": "Aumentar RD", "pontos": 5, "nota": "5+"},
+      {"caracteristica": "Reduzir dano", "pontos": 5},
+      {"caracteristica": "Anular dano", "pontos": 25},
+      {"caracteristica": "Refletir ataque", "pontos": 25},
+      {"caracteristica": "Absorver ataque", "pontos": 20},
+      {"caracteristica": "Resistir a determinado efeito", "pontos": 20},
+      {"caracteristica": "Adaptar", "pontos": 25}
+    ]
+  },
+  "extensao": {
+    "alcance": [
+      {"extensao": "Toque", "exemplo": "Precisa tocar o alvo", "pontos": 0},
+      {"extensao": "2 m", "exemplo": "Distância imediata", "pontos": 5},
+      {"extensao": "5 m", "exemplo": "Curto alcance", "pontos": 10},
+      {"extensao": "10 m", "exemplo": "Alcance próximo", "pontos": 15},
+      {"extensao": "50 m", "exemplo": "Médio", "pontos": 20},
+      {"extensao": "100 m", "exemplo": "Longo", "pontos": 40},
+      {"extensao": "1 km", "exemplo": "Grande distância", "pontos": 60},
+      {"extensao": "10 km", "exemplo": "Extenso", "pontos": 80},
+      {"extensao": "100 km", "exemplo": "Regional", "pontos": 100},
+      {"extensao": "1.000 km", "exemplo": "Continental", "pontos": 150},
+      {"extensao": "Global", "exemplo": "Todo o planeta", "pontos": 200},
+      {"extensao": "Astronômico", "exemplo": "Escala planetária/espacial", "pontos": 350},
+      {"extensao": "Dimensional", "exemplo": "Entre dimensões", "pontos": 800}
+    ],
+    "area": [
+      {"categoria": "Um indivíduo", "pontos": 5},
+      {"categoria": "Pequena área", "pontos": 10},
+      {"categoria": "Área média", "pontos": 20},
+      {"categoria": "Grande área", "pontos": 40},
+      {"categoria": "Região", "pontos": 60},
+      {"categoria": "Cidade", "pontos": 80},
+      {"categoria": "País", "pontos": 100},
+      {"categoria": "Continente", "pontos": 150},
+      {"categoria": "Planeta", "pontos": 200},
+      {"categoria": "Sistema", "pontos": 400},
+      {"categoria": "Dimensão", "pontos": 800}
+    ],
+    "quantidade_alvos": [
+      {"alvos": "1 alvo", "pontos": 5},
+      {"alvos": "2 alvos", "pontos": 10},
+      {"alvos": "5 alvos", "pontos": 25},
+      {"alvos": "10 alvos", "pontos": 50},
+      {"alvos": "50 alvos", "pontos": 100},
+      {"alvos": "100 alvos", "pontos": 150},
+      {"alvos": "Todos dentro da área", "pontos": 200}
+    ],
+    "duracao": [
+      {"duracao": "Instantâneo", "pontos": -15},
+      {"duracao": "1 segundo", "pontos": 5},
+      {"duracao": "5 segundos (1 turno)", "pontos": 10},
+      {"duracao": "10 segundos", "pontos": 20},
+      {"duracao": "1 minuto", "pontos": 40},
+      {"duracao": "5 minutos", "pontos": 90},
+      {"duracao": "1 hora", "pontos": 120},
+      {"duracao": "1 dia", "pontos": 150},
+      {"duracao": "Permanente", "pontos": 200}
+    ]
+  },
+  "potencia": {
+    "intensidade": [
+      {"intensidade": "Fraca", "pontos": 5},
+      {"intensidade": "Moderada", "pontos": 10},
+      {"intensidade": "Forte", "pontos": 25},
+      {"intensidade": "Extrema", "pontos": 50},
+      {"intensidade": "Máxima da categoria", "pontos": 95},
+      {"intensidade": "Além da categoria", "pontos": 120}
+    ],
+    "dano": [
+      {"dano": "Dano baixo", "pontos": 5},
+      {"dano": "Dano moderado", "pontos": 10},
+      {"dano": "Dano alto", "pontos": 20},
+      {"dano": "Dano extremo", "pontos": 45},
+      {"dano": "Dano letal", "pontos": 90},
+      {"dano": "Dano equivalente à categoria superior", "pontos": 120}
+    ],
+    "forca": [
+      {"forca": "empurrar", "pontos": 15, "nota": "15+"},
+      {"forca": "levantar", "pontos": 15, "nota": "15+"},
+      {"forca": "esmagar", "pontos": 20},
+      {"forca": "romper", "pontos": 20},
+      {"forca": "arremessar", "pontos": 15, "nota": "15+"}
+    ],
+    "velocidade": [
+      {"velocidade": "velocidade de deslocamento", "pontos": 25, "nota": "25+"},
+      {"velocidade": "velocidade reativa", "pontos": 30, "nota": "30+"},
+      {"velocidade": "velocidade de ataque", "pontos": 30, "nota": "30+"},
+      {"velocidade": "velocidade de execução do poder", "pontos": 40, "nota": "40+"}
+    ]
+  },
+  "condicoes": [
+    {"condicao": "Uso Livre", "pontos": 0},
+    {"condicao": "Requer contato", "pontos": -10},
+    {"condicao": "Requer linha de visão", "pontos": -10},
+    {"condicao": "Requer alvo visível", "pontos": -10},
+    {"condicao": "Requer concentração", "pontos": -15},
+    {"condicao": "Requer preparação", "pontos": -20},
+    {"condicao": "Requer movimento", "pontos": -5},
+    {"condicao": "Requer estar parado", "pontos": -5},
+    {"condicao": "Requer determinado objeto", "pontos": -10},
+    {"condicao": "Requer determinada arma", "pontos": -10},
+    {"condicao": "Requer determinado ambiente", "pontos": -10},
+    {"condicao": "Requer determinada energia/afinidade", "pontos": -15},
+    {"condicao": "Requer estar ferido", "pontos": -20},
+    {"condicao": "Requer sofrer dano", "pontos": -15},
+    {"condicao": "Requer perder PV", "pontos": -15},
+    {"condicao": "Requer utilizar uma ação", "pontos": -5},
+    {"condicao": "Requer utilizar uma reação", "pontos": -5},
+    {"condicao": "Só pode ser utilizado uma vez", "pontos": -30},
+    {"condicao": "Número limitado de usos", "pontos": -25},
+    {"condicao": "Recarga", "pontos": -10},
+    {"condicao": "Só pode ser utilizado em determinado intervalo", "pontos": -20},
+    {"condicao": "Só funciona contra determinado tipo de alvo", "pontos": -25},
+    {"condicao": "Só funciona em determinada distância", "pontos": -20},
+    {"condicao": "Só funciona em determinado estado emocional", "pontos": -30},
+    {"condicao": "Só funciona após determinada ação", "pontos": -25},
+    {"condicao": "Só funciona após determinado evento", "pontos": -30},
+    {"condicao": "Exige sacrifício", "pontos": -35},
+    {"condicao": "Exige custo de PV", "pontos": -25},
+    {"condicao": "Exige custo de Fadiga", "pontos": -25},
+    {"condicao": "Exige custo de outro recurso", "pontos": -20},
+    {"condicao": "Alvo pode realizar um teste para resistir", "pontos": -30}
+  ],
+  "limite_condicoes": "Até três Condições por poder",
+  "bonus": [
+    {"bonus": "+1", "pontos": 3},
+    {"bonus": "+2", "pontos": 7},
+    {"bonus": "+3", "pontos": 12},
+    {"bonus": "+4", "pontos": 17},
+    {"bonus": "+5", "pontos": 23},
+    {"bonus": "+6", "pontos": 28},
+    {"bonus": "+7", "pontos": 34},
+    {"bonus": "+8", "pontos": 44},
+    {"bonus": "+9", "pontos": 55},
+    {"bonus": "+10", "pontos": 85}
+  ],
+  "penalidades": [
+    {"bonus": "-1", "pontos": -3},
+    {"bonus": "-2", "pontos": -7},
+    {"bonus": "-3", "pontos": -12},
+    {"bonus": "-4", "pontos": -17},
+    {"bonus": "-5", "pontos": -23},
+    {"bonus": "-6", "pontos": -28},
+    {"bonus": "-7", "pontos": -34},
+    {"bonus": "-8", "pontos": -44},
+    {"bonus": "-9", "pontos": -55},
+    {"bonus": "-10", "pontos": -85}
+  ],
+  "pv_adicional": [
+    {"pv": "+5 PV", "pontos": 5},
+    {"pv": "+10 PV", "pontos": 10},
+    {"pv": "+25 PV", "pontos": 20},
+    {"pv": "+50 PV", "pontos": 45},
+    {"pv": "+100 PV", "pontos": 85}
+  ],
+  "rd_adicional": [
+    {"rd": "+1 RD", "pontos": 5},
+    {"rd": "+2 RD", "pontos": 10},
+    {"rd": "+3 RD", "pontos": 20},
+    {"rd": "+5 RD", "pontos": 35},
+    {"rd": "+10 RD", "pontos": 75}
+  ],
+  "outros_bonus": [
+    {"bonus": "Ataque Adicional", "pontos": 45, "nota": "45+"},
+    {"bonus": "Dano Adicional", "pontos": 40, "nota": "40+"},
+    {"bonus": "Deslocamento Adicional", "pontos": 45, "nota": "45+"},
+    {"bonus": "Usar Poder Sem Custo", "pontos": 50}
+  ]
+}

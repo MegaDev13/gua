@@ -203,6 +203,316 @@ function renderTabelaPorId(id, db, filterSystem) {
   if (db.tables[id]) {
     return renderTabelaGenerica(db.tables[id], id);
   }
+  // v3.3 novas tabelas
+  if (id === 'dano-estruturas' || id === 'estruturas-tabela') {
+    const t = db.estruturas?.dano_estruturas;
+    if (t?.tabela) {
+      const wrap = el('div', { class: 'highlight-box' },
+        el('div', { class: 'box-title' }, t.titulo || 'Dano em Estruturas — Limiar, PE'),
+        t.descricao ? el('p', { class: 'no-dropcap', style: 'font-size:.85rem;color:var(--ink-dim)' }, t.descricao) : '',
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Material'), el('th', {}, 'Limiar'), el('th', {}, 'PE Pequeno'), el('th', {}, 'PE Médio'), el('th', {}, 'PE Grande'), el('th', {}, 'PE Corrosivo')),
+            ...t.tabela.map(r => el('tr', {},
+              el('td', {}, r.material),
+              el('td', { class: 'num' }, String(r.limiar)),
+              el('td', { class: 'num' }, String(r.pe_pequeno)),
+              el('td', { class: 'num' }, String(r.pe_medio)),
+              el('td', { class: 'num' }, String(r.pe_grande)),
+              el('td', { class: 'num' }, String(r.pe_corrosivo))
+            ))
+          )
+        ),
+        t.notas ? el('ul', {}, ...t.notas.map(n => el('li', { style: 'font-size:.8rem' }, n))) : '',
+        t.regra_chave ? el('div', { class: 'pill gold small', style: 'margin-top:.5rem' }, t.regra_chave) : ''
+      );
+      return wrap;
+    }
+  }
+  if (id === 'estados-degradacao') {
+    const arr = db.estruturas?.estados_degradacao;
+    if (arr) {
+      return el('div', { class: 'rule-box' },
+        el('div', { class: 'box-title' }, 'Estados de Degradação da Estrutura'),
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Estado'), el('th', {}, 'PE Restante'), el('th', {}, 'Efeito')),
+            ...arr.map(r => el('tr', {},
+              el('td', {}, r.estado),
+              el('td', {}, r.pe_restante),
+              el('td', {}, r.efeito)
+            ))
+          )
+        )
+      );
+    }
+  }
+  if (id === 'nt-tabela' || id === 'nivel-tecnologia') {
+    const t = db.estruturas?.nivel_tecnologia;
+    if (t?.tabela) {
+      return el('div', { class: 'highlight-box' },
+        el('div', { class: 'box-title' }, t.titulo || 'Nível de Tecnologia NT 0-12'),
+        t.descricao ? el('p', { class: 'no-dropcap', style: 'font-size:.85rem;color:var(--ink-dim)' }, t.descricao) : '',
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'NT'), el('th', {}, 'Era'), el('th', {}, 'Início'), el('th', {}, 'Tecnologias')),
+            ...t.tabela.map(r => el('tr', {},
+              el('td', { class: 'num' }, `NT ${r.tl}`),
+              el('td', {}, r.era),
+              el('td', {}, r.inicio),
+              el('td', { style: 'font-size:.8rem' }, r.tecnologias || '')
+            ))
+          )
+        )
+      );
+    }
+  }
+  if (id === 'magia-mana' || id === 'niveis-mana') {
+    const mana = db.magiaCompleta?.mana;
+    if (mana?.niveis) {
+      return el('div', { class: 'rule-box' },
+        el('div', { class: 'box-title' }, mana.titulo || 'Níveis de Mana'),
+        mana.descricao ? el('p', { class: 'no-dropcap' }, mana.descricao) : '',
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Nível'), el('th', {}, 'Efeito')),
+            ...mana.niveis.map(n => el('tr', {}, el('td', {}, n.nivel), el('td', {}, n.efeito)))
+          )
+        ),
+        mana.nota ? el('p', { style: 'font-size:.8rem;color:var(--ink-dim);font-style:italic;margin-top:.5rem' }, mana.nota) : ''
+      );
+    }
+  }
+  if (id === 'magia-vocabulario') {
+    const vocab = db.magiaCompleta?.vocabulario;
+    if (vocab) {
+      return el('div', { class: 'rule-box' },
+        el('div', { class: 'box-title' }, 'Vocabulário de Magia'),
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Termo'), el('th', {}, 'Definição')),
+            ...vocab.map(v => el('tr', {}, el('td', {}, el('b', {}, v.termo)), el('td', {}, v.definicao)))
+          )
+        )
+      );
+    }
+  }
+  if (id === 'magia-classes') {
+    const classes = db.magiaCompleta?.classes_magia;
+    if (classes) {
+      return el('div', { class: 'rule-box' },
+        el('div', { class: 'box-title' }, 'Classes de Magia'),
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Classe'), el('th', {}, 'Descrição')),
+            ...classes.map(c => el('tr', {}, el('td', {}, el('b', {}, c.classe)), el('td', {}, c.descricao)))
+          )
+        )
+      );
+    }
+  }
+  if (id === 'magia-objetos') {
+    const obj = db.magiaCompleta?.objetos_encantados;
+    if (obj) {
+      const wrap = el('div', { class: 'highlight-box' },
+        el('div', { class: 'box-title' }, obj.titulo || 'Objetos Encantados'),
+        obj.descricao ? el('p', { class: 'no-dropcap' }, obj.descricao) : '',
+        obj.poder ? el('p', { style: 'font-size:.85rem' }, obj.poder) : '',
+        obj.custos ? el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Item'), el('th', {}, 'Custo')),
+            ...obj.custos.map(c => el('tr', {}, el('td', {}, c.item), el('td', { class: 'num' }, String(c.custo))))
+          )
+        ) : '',
+        obj.custo_fabricacao ? el('div', { class: 'pill gold small', style: 'margin-top:.5rem' }, obj.custo_fabricacao) : ''
+      );
+      return wrap;
+    }
+  }
+  if (id === 'poderes-efeitos') {
+    const efeitos = db.poderesCatalog?.efeitos;
+    if (efeitos) {
+      const wrap = el('div', { class: 'highlight-box' },
+        el('div', { class: 'box-title' }, 'Efeitos — Criando Poderes (pontos)'),
+        ...Object.entries(efeitos).map(([cat, lista]) =>
+          el('div', { style: 'margin-top:.8rem' },
+            el('h4', {}, cat),
+            el('div', { class: 'tbl-scroll' },
+              el('table', { class: 'tbl' },
+                el('tr', {}, el('th', {}, 'Característica'), el('th', {}, 'Pontos')),
+                ...lista.map(e => el('tr', {}, el('td', {}, e.caracteristica), el('td', { class: 'num' }, String(e.pontos))))
+              )
+            )
+          )
+        )
+      );
+      return wrap;
+    }
+  }
+  if (id === 'poderes-extensao') {
+    const ext = db.poderesCatalog?.extensao;
+    if (ext) {
+      const wrap = el('div', { class: 'highlight-box' },
+        el('div', { class: 'box-title' }, 'Extensão — Alcance, Área, Quantidade, Duração'),
+        ext.alcance ? el('div', {},
+          el('h4', {}, 'Alcance'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Extensão'), el('th', {}, 'Exemplo'), el('th', {}, 'Pontos')),
+              ...ext.alcance.map(a => el('tr', {}, el('td', {}, a.extensao), el('td', {}, a.exemplo), el('td', { class: 'num' }, String(a.pontos))))
+            )
+          )
+        ) : '',
+        ext.area ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'Área'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Área'), el('th', {}, 'Pontos')),
+              ...ext.area.map(a => el('tr', {}, el('td', {}, a.area), el('td', { class: 'num' }, String(a.pontos))))
+            )
+          )
+        ) : '',
+        ext.quantidade ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'Quantidade'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Qtd'), el('th', {}, 'Pontos')),
+              ...ext.quantidade.map(q => el('tr', {}, el('td', {}, q.quantidade), el('td', { class: 'num' }, String(q.pontos))))
+            )
+          )
+        ) : '',
+        ext.duracao ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'Duração'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Duração'), el('th', {}, 'Pontos')),
+              ...ext.duracao.map(d => el('tr', {}, el('td', {}, d.duracao), el('td', { class: 'num' }, String(d.pontos))))
+            )
+          )
+        ) : ''
+      );
+      return wrap;
+    }
+  }
+  if (id === 'poderes-potencia' || id === 'poderes-intensidade') {
+    const pot = db.poderesCatalog?.potencia;
+    if (pot) {
+      return el('div', { class: 'rule-box' },
+        el('div', { class: 'box-title' }, 'Potência — Intensidade, Dano, Força, Velocidade'),
+        pot.intensidade ? el('div', {},
+          el('h4', {}, 'Intensidade'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Intensidade'), el('th', {}, 'Pontos')),
+              ...pot.intensidade.map(i => el('tr', {}, el('td', {}, i.intensidade), el('td', { class: 'num' }, String(i.pontos))))
+            )
+          )
+        ) : '',
+        pot.dano ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'Dano'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Dano'), el('th', {}, 'Pontos')),
+              ...pot.dano.map(d => el('tr', {}, el('td', {}, d.dano), el('td', { class: 'num' }, String(d.pontos))))
+            )
+          )
+        ) : '',
+        pot.forca ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'Força'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Força'), el('th', {}, 'Pontos')),
+              ...pot.forca.map(f => el('tr', {}, el('td', {}, f.forca), el('td', { class: 'num' }, String(f.pontos))))
+            )
+          )
+        ) : '',
+        pot.velocidade ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'Velocidade'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Velocidade'), el('th', {}, 'Pontos')),
+              ...pot.velocidade.map(v => el('tr', {}, el('td', {}, v.velocidade), el('td', { class: 'num' }, String(v.pontos))))
+            )
+          )
+        ) : ''
+      );
+    }
+  }
+  if (id === 'poderes-condicoes') {
+    const cond = db.poderesCatalog?.condicoes;
+    if (cond) {
+      return el('div', { class: 'rule-box' },
+        el('div', { class: 'box-title' }, 'Condições — Limite máx 3 por poder'),
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Condição'), el('th', {}, 'Pontos')),
+            ...cond.map(c => el('tr', {}, el('td', {}, c.condicao), el('td', { class: 'num' }, String(c.pontos))))
+          )
+        )
+      );
+    }
+  }
+  if (id === 'poderes-bonus') {
+    const bonus = db.poderesCatalog?.bonus;
+    if (bonus) {
+      const wrap = el('div', { class: 'rule-box' },
+        el('div', { class: 'box-title' }, 'Bônus/Penalidades, PV, RD — Criando Poderes'),
+        bonus.penalidades ? el('div', {},
+          el('h4', {}, 'Penalidades'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Penalidade'), el('th', {}, 'Pontos')),
+              ...bonus.penalidades.map(p => el('tr', {}, el('td', {}, p.penalidade), el('td', { class: 'num' }, String(p.pontos))))
+            )
+          )
+        ) : '',
+        bonus.bonus ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'Bônus'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'Bônus'), el('th', {}, 'Pontos')),
+              ...bonus.bonus.map(b => el('tr', {}, el('td', {}, b.bonus), el('td', { class: 'num' }, String(b.pontos))))
+            )
+          )
+        ) : '',
+        bonus.pv ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'PV'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'PV'), el('th', {}, 'Pontos')),
+              ...bonus.pv.map(v => el('tr', {}, el('td', {}, v.pv), el('td', { class: 'num' }, String(v.pontos))))
+            )
+          )
+        ) : '',
+        bonus.rd ? el('div', {},
+          el('h4', { style: 'margin-top:.8rem' }, 'RD'),
+          el('div', { class: 'tbl-scroll' },
+            el('table', { class: 'tbl' },
+              el('tr', {}, el('th', {}, 'RD'), el('th', {}, 'Pontos')),
+              ...bonus.rd.map(r => el('tr', {}, el('td', {}, r.rd), el('td', { class: 'num' }, String(r.pontos))))
+            )
+          )
+        ) : ''
+      );
+      return wrap;
+    }
+  }
+  if (id === 'modelo-ficha') {
+    const mf = db.modeloFicha;
+    if (mf?.contas) {
+      return el('div', { class: 'highlight-box' },
+        el('div', { class: 'box-title' }, 'Modelo de Ficha — Contas'),
+        el('div', { class: 'tbl-scroll' },
+          el('table', { class: 'tbl' },
+            el('tr', {}, el('th', {}, 'Atributo'), el('th', {}, 'Fórmula'), el('th', {}, 'Descrição')),
+            ...Object.entries(mf.contas).map(([k, v]) => el('tr', {}, el('td', {}, el('b', {}, k)), el('td', {}, typeof v === 'string' ? v : JSON.stringify(v)), el('td', {}, '')))
+          )
+        ),
+        mf.modelo_texto ? el('pre', { style: 'white-space:pre-wrap;font-size:.8rem;background:var(--bg);padding:.8rem;border-radius:8px;margin-top:.8rem' }, mf.modelo_texto) : '',
+        mf.notas ? el('ul', {}, ...mf.notas.map(n => el('li', { style: 'font-size:.8rem' }, n))) : ''
+      );
+    }
+  }
   return null;
 }
 

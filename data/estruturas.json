@@ -1,0 +1,38 @@
+{
+  "_fonte": "SISTEMA DE DANO PARA ESTRUTURAS E OBJETOS + NT — GAU",
+  "dano_estruturas": {
+    "descricao": "A Dureza (Limiar) causa dano contra um personagem entra com contato de forma brusca ou de impacto com aquele material. PE (Ponto de Estrutura) representa quantidade de dano que material precisa receber para quebrar.",
+    "tabela": [
+      {"material": "Tecido / Papel", "limiar": "1d4-1", "pe_pequeno": 1, "pe_medio": 5, "pe_grande": 10, "ex_pequeno": "Fechadura", "ex_medio": "Porta", "ex_grande": "Parede"},
+      {"material": "Vidro / Cristal", "limiar": "1d6+1", "pe_pequeno": 1, "pe_medio": 2, "pe_grande": 5},
+      {"material": "Madeira Macia", "limiar": "2d6", "pe_pequeno": 5, "pe_medio": 15, "pe_grande": 30},
+      {"material": "Madeira Dura / Pedra Porosa", "limiar": "3d6-1", "pe_pequeno": 10, "pe_medio": 25, "pe_grande": 50},
+      {"material": "Pedra / Rocha", "limiar": "3d6", "pe_pequeno": 15, "pe_medio": 40, "pe_grande": 80},
+      {"material": "Ferro / Aço", "limiar": "3d6+1", "pe_pequeno": 20, "pe_medio": 60, "pe_grande": 120},
+      {"material": "Metais Nobres", "limiar": "4d6 a 6d6", "pe_pequeno": 40, "pe_medio": 100, "pe_grande": 250}
+    ]
+  },
+  "estados_degradacao": [
+    {"estado": "Intacto", "pe": "100% PE", "efeito": "Funciona perfeitamente."},
+    {"estado": "Danificado", "pe": "50% ou menos PE", "efeito": "Objeto perde metade da sua utilidade. Porta danificada concede bônus para testes de arrombamento. Espada danificada causa metade do dano ou tem chance de quebrar."},
+    {"estado": "Destruído", "pe": "0 PE", "efeito": "Objeto deixa de funcionar, vira detritos e não pode ser reparado sem magia forte ou ferramentas de artífice e muito tempo."}
+  ],
+  "nivel_tecnologia": {
+    "descricao": "Níveis tecnológicos são parte crucial do sistema G.A.U e do cenário dos Mundos Infinitos. Escala do NT 0 (Idade da Pedra) até NT tão alto quanto o Mestre desejar.",
+    "tabela": [
+      {"tl": 0, "era": "Idade da Pedra", "inicio": "Pré-história e posterior Contagem", "tecnologias": "tradição oral."},
+      {"tl": 1, "era": "Idade do Bronze", "inicio": "Aritmética", "tecnologias": "escrita."},
+      {"tl": 2, "era": "Idade do Ferro", "inicio": "Geometria", "tecnologias": "pergaminhos."},
+      {"tl": 3, "era": "Medieval", "inicio": "Álgebra", "tecnologias": "livros."},
+      {"tl": 4, "era": "Idade da Vela", "inicio": "Cálculo", "tecnologias": "tipo móvel."},
+      {"tl": 5, "era": "Revolução Industrial", "inicio": "Calculadoras mecânicas", "tecnologias": "telégrafo."},
+      {"tl": 6, "era": "Idade Mecanizada", "inicio": "Calculadoras elétricas", "tecnologias": "telefone e rádio"},
+      {"tl": 7, "era": "Idade Nuclear", "inicio": "Computadores mainframe", "tecnologias": "televisão."},
+      {"tl": 8, "era": "Era Digital", "inicio": "Computadores pessoais", "tecnologias": "redes globais."},
+      {"tl": 9, "era": "Idade da Microtecnologia", "inicio": "Inteligência artificial", "tecnologias": "virtualidade em tempo real."},
+      {"tl": 10, "era": "Idade Robótica", "inicio": "A nanotecnologia ou outros avanços começam a confundir as distinções entre tecnologias..."},
+      {"tl": 11, "era": "Era da Matéria Exótica", "inicio": "", "tecnologias": ""},
+      {"tl": 12, "era": "O que o GM quiser!", "inicio": "", "tecnologias": ""}
+    ]
+  }
+}
