@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* Testes do GUA Rule Engine — executar: node tests/run.mjs
  * Casos verificam as fórmulas contra EXEMPLOS DO PRÓPRIO MATERIAL (páginas citadas). */
-import DB from '../app/engine/db.js';
+import DB, { Database } from '../app/engine/db.js';
 import { Dice } from '../app/engine/dice.js';
 import { custoAtributo, danoBasico, velocidadeBasica } from '../app/engine/attributes.js';
 import { nivelParaPontos, custoNivel, melhorDefault, nivelEfetivo, parseDefaults } from '../app/engine/skills.js';
@@ -24,7 +24,7 @@ import { computeAll } from '../app/engine/engine.js';
 import {
   modeloDePericias, custoPublicado, nivelComprado, custoDaPericiaGAU, custoPericiasGAU,
   limitePontosNaCriacao, defaultGAU, nivelEfetivoGAU, periciasGAU, validarPericiasGAU,
-  regraDeFamiliaridade, nivelDaEntrada, podeComprarNivelGAU,
+  regraDeFamiliaridade, nivelDaEntrada, podeComprarNivelGAU, tabelaCustos,
 } from '../app/engine/skills.js';
 
 let pass = 0, fail = 0; const failures = [];
@@ -719,6 +719,40 @@ t('compra G.A.U.: pré-requisito em texto é lembrado sem bloquear (Cirurgia exi
 t('compra G.A.U: NT mínimo só bloqueia quando a ficha declara NT',
   podeComprarNivelGAU(DB, pcG, { id: (DB.skills.find(s => s.ntMinimo) || {}).id }, 1, { disponiveis: 50 }).avisos.length >= 1
   && podeComprarNivelGAU(DB, { ...pcG, nt: 1 }, { id: (DB.skills.find(s => Number(s.ntMinimo) > 1) || {}).id }, 1, { disponiveis: 50 }).ok === false);
+
+/* ============================================ resiliência: banco de regras não carregado */
+const dbVazio = { tables: {}, skills: [], advantages: [], disadvantages: [], pericias: {}, regras: {} };
+t('banco vazio: custoAtributo devolve null em vez de quebrar', custoAtributo(dbVazio, 12) === null);
+t('banco vazio: danoBasico sinaliza a tabela ausente', danoBasico(dbVazio, 12).gdp === null && /não carregou/.test(danoBasico(dbVazio, 12).fonte));
+t('banco vazio: tabela de custos de perícias fica vazia', Object.keys(tabelaCustos(dbVazio, 'Física')).length === 0);
+const migradaSemBanco = migrarPersonagem(dbVazio, {
+  versao: 3, nome: 'Sem Banco', atributos: { ST: 10, DX: 12, IQ: 11, HT: 10 }, pontos: { total: 100 },
+  pericias: [{ id: 'espadas-curtas', pontos: 2 }], vantagens: [{ id: 'sorte' }],
+});
+t('banco vazio: a migração não quebra e preserva as perícias antigas',
+  migradaSemBanco.pericias[0].pontos === 2 && migradaSemBanco.versao === 4);
+t('banco vazio: a migração registra que a conversão ficou para depois',
+  migradaSemBanco.historico.some(h => /não carregado/.test(h.texto || '')));
+t('banco vazio: nenhuma entrada de carregamento passa despercebida (DB.erros vazio quando tudo carregou)',
+  Object.keys(DB.erros).length === 0);
+
+/* falha de rede em data/*.json: o banco marca o erro, tenta de novo e nada quebra */
+const dbFalho = new Database();
+let chamadas = 0;
+const fetchFalho = async caminho => {
+  chamadas++;
+  if (caminho.includes('tables')) return { ok: false, status: 503, text: async () => '' };
+  const fs = await import('fs');
+  return { ok: true, status: 200, text: async () => fs.readFileSync(new URL(`../data/${caminho.split('/').pop()}`, import.meta.url), 'utf-8') };
+};
+await dbFalho.load(fetchFalho, { tentativas: 2 });
+t('banco com falha: registra o arquivo que não carregou', Object.keys(dbFalho.erros).join(',') === 'tables');
+t('banco com falha: tenta de novo o arquivo faltante (2 tentativas)', chamadas >= 20);
+t('banco com falha: getters devolvem estruturas vazias, não undefined',
+  Array.isArray(dbFalho.skills) && dbFalho.skills.length === 176 && typeof dbFalho.tables === 'object');
+t('banco com falha: fórmulas dependentes da tabela devolvem null', custoAtributo(dbFalho, 12) === null);
+const recarregado = await dbFalho.load(fetchFalho, { tentativas: 1 });
+t('banco com falha: load() é repetível e só tenta o que faltou', recarregado.carregado === true);
 
 console.log(`\n===== RESULTADO: ${pass} passou, ${fail} falhou =====`);
 if (failures.length) { console.log(failures.join('\n')); process.exit(1); }

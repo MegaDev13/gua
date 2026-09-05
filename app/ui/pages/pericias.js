@@ -171,7 +171,14 @@ function linhaPericia(db, pc, skill, entry, effective, { gau, snap, disponiveis,
       if (atual) {
         const nivel = (check.nivel ?? 1);
         if (nivel <= 0) character.pericias = character.pericias.filter(item => item !== atual);
-        else atual.nivel = nivel;
+        else {
+          /* entrada vinda do modelo legado: guarda os pontos antigos antes de anotar o nível */
+          if (!Number.isFinite(atual.nivel) && Number.isFinite(atual.pontos)) {
+            atual.pontosLegados = atual.pontos;
+            delete atual.pontos;
+          }
+          atual.nivel = nivel;
+        }
       } else if (delta > 0) {
         (character.pericias ||= []).push({ id: skill.id, nivel: 1, especialidade: null });
       }

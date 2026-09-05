@@ -6,7 +6,8 @@
  */
 /* ---------- DOM falso ---------- */
 class FakeNode {
-  constructor(tag) { this.tagName = tag; this.nodeType = 1; this.children = []; this.attrs = {}; this.dataset = {}; this.style = {}; this.className = ''; this.listeners = {}; this._innerHTML = ''; this.checked = false; this.value = ''; this.textContent = ''; }
+  constructor(tag) { this.tagName = tag; this.nodeType = 1; this.children = []; this.attrs = {}; this.dataset = {}; this.style = {}; this.className = ''; this.listeners = {}; this._innerHTML = ''; this.checked = false; this.value = ''; this.textContent = ''; this.disabled = false;
+    this.classList = { add() {}, remove() {}, toggle() {}, contains: () => false }; }
   append(...cs) { for (const c of cs.flat(Infinity)) { if (c === null || c === undefined || c === false) continue; this.children.push(c); } }
   setAttribute(k, v) { this.attrs[k] = String(v); }
   removeAttribute(k) { delete this.attrs[k]; }
@@ -26,14 +27,17 @@ class FakeNode {
     return out;
   }
 }
+const nosPorId = new Map();
 globalThis.document = {
   createElement: t => new FakeNode(t),
   createTextNode: t => ({ nodeType: 3, text: String(t) }),
-  getElementById: () => new FakeNode('div'),
+  /* nós estáveis: o bootstrap (app/main.js) escreve e depois lê o mesmo #main */
+  getElementById: id => { if (!nosPorId.has(id)) nosPorId.set(id, new FakeNode('div')); return nosPorId.get(id); },
   querySelector: () => null,
   querySelectorAll: () => [],
   addEventListener() {}, removeEventListener() {},
   body: new FakeNode('body'),
+  title: '',
 };
 globalThis.window = undefined;
 const mem = {};
@@ -203,6 +207,24 @@ const secoesEsperadas = ['COMPRANDO PERÍCIAS', 'Familiaridade', 'Os grupos de p
 const semSecao = secoesEsperadas.filter(trecho => !textoLivroPericias.includes(trecho));
 if (semSecao.length) { falhas++; console.error(`✗ livro/pericias: seções ausentes — ${semSecao.join(', ')}`); }
 else console.log(`✓ livro/pericias    ${secoesEsperadas.length} seções G.A.U. renderizadas`);
+
+/* ---------- bootstrap (app/main.js): DB.load → store.inicializar → nav → primeira rota */
+globalThis.window = { addEventListener() {}, scrollTo() {}, scrollY: 0 };
+globalThis.location = { hash: '#/pericias', reload() {} };
+globalThis.requestAnimationFrame = fn => fn();
+try {
+  await import('../app/main.js');
+  await new Promise(resolver => setTimeout(resolver, 60));
+  const noMain = document.getElementById('main');
+  const textoMain = noMain.text();
+  if (/Erro ao renderizar/.test(textoMain)) throw new Error(textoMain.slice(0, 160));
+  if (noMain.count() < 10) throw new Error(`a rota inicial renderizou apenas ${noMain.count()} nós`);
+  if (Object.keys(DB.erros).length) throw new Error(`bancos com erro: ${JSON.stringify(DB.erros)}`);
+  console.log(`✓ bootstrap        main.js: DB.load + store.inicializar + rota #/pericias (${noMain.count()} nós)`);
+} catch (e) {
+  falhas++;
+  console.error(`✗ bootstrap: ${e.message}`);
+}
 
 console.log(falhas ? `\nFALHAS: ${falhas}` : '\nUI OK — todas as páginas e capítulos renderizam.');
 process.exit(falhas ? 1 : 0);

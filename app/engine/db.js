@@ -18,30 +18,48 @@ const FILES = [
 class Database {
   constructor() { this._data = {}; this._loaded = false; }
 
-  async load(fetchImpl) {
-    if (this._loaded) return this;
+  /**
+   * Carrega data/*.json. É tolerante a falhas (cada arquivo vira `{ _erro }` e aparece em `DB.erros`),
+   * idempotente e **repetível**: uma segunda chamada só tenta de novo os arquivos que falharam —
+   * uma oscilação de rede/proxy não deixa o banco de regras pela metade.
+   */
+  async load(fetchImpl, { tentativas = 2 } = {}) {
     for (const name of FILES) {
-      try {
-        let text;
-        if (typeof window !== 'undefined' || fetchImpl) {
-          const f = fetchImpl || window.fetch;
-          const r = await f(this._path(name));
-          if (!r.ok) throw new Error(`${r.status}`);
-          text = await r.text();
-        } else {
-          const fs = await import('fs');
-          const path = await import('path');
-          const { fileURLToPath } = await import('url');
-          const here = path.dirname(fileURLToPath(import.meta.url));
-          text = fs.readFileSync(path.join(here, '..', '..', 'data', `${name}.json`), 'utf-8');
+      if (this._data[name] && !this._data[name]._erro) continue;
+      for (let tentativa = 1; tentativa <= tentativas; tentativa++) {
+        try {
+          let text;
+          if (typeof window !== 'undefined' || fetchImpl) {
+            const f = fetchImpl || window.fetch;
+            const r = await f(this._path(name));
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            text = await r.text();
+          } else {
+            const fs = await import('fs');
+            const path = await import('path');
+            const { fileURLToPath } = await import('url');
+            const here = path.dirname(fileURLToPath(import.meta.url));
+            text = fs.readFileSync(path.join(here, '..', '..', 'data', `${name}.json`), 'utf-8');
+          }
+          const parsed = JSON.parse(text);
+          if (!parsed || parsed._erro) throw new Error('conteúdo inválido');
+          this._data[name] = parsed;
+          break;
+        } catch (e) {
+          this._data[name] = { _erro: `Falha ao carregar data/${name}.json: ${e.message}` };
+          if (tentativa < tentativas) await new Promise(r => setTimeout(r, 120 * tentativa));
         }
-        this._data[name] = JSON.parse(text);
-      } catch (e) {
-        this._data[name] = { _erro: `Falha ao carregar data/${name}.json: ${e.message}` };
       }
     }
     this._loaded = true;
     return this;
+  }
+
+  /** Recarrega tudo do zero (usado pelo aviso de "banco de regras incompleto"). */
+  async recarregar(fetchImpl) {
+    this._data = {};
+    this._loaded = false;
+    return this.load(fetchImpl, { tentativas: 3 });
   }
 
   _path(name) {
@@ -92,9 +110,12 @@ class Database {
   magic(id) { return this.spells.find(s => s.id === id) || null; }
   /** Nó da árvore de manobras G.A.U. */
   maneuver(id) { return this.maneuvers?.manobras?.find(m => m.id === id) || null; }
+  /** O banco terminou de carregar? (usado para não migrar fichas com dados ausentes) */
+  get carregado() { return this._loaded; }
   /** Erros de carregamento (para diagnóstico em testes). */
   get erros() { return Object.fromEntries(Object.entries(this._data).filter(([, v]) => v && v._erro)); }
 }
 
+export { Database };
 export const DB = new Database();
 export default DB;

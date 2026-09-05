@@ -9,18 +9,12 @@ const KEY = 'gua.characters.v1';
 const KEY_CUR = 'gua.current.v1';
 
 function loadAll() {
+  /* Só lê. A migração das fichas acontece em store.inicializar(), depois de DB.load() —
+     migrar aqui rodaria com o banco vazio (data/*.json ainda não buscado). */
   try {
     const raw = localStorage.getItem(KEY);
     const lista = raw ? JSON.parse(raw) : [];
-    // Fichas antigas (v1, 3d) são trazidas para o modelo G.A.U. (v2) sem perda de dados.
-    let migrou = false;
-    const atualizadas = lista.map(p => {
-      if (p?.versao === VERSAO_FICHA) return p;
-      migrou = true;
-      return migrarPersonagem(DB, p);
-    });
-    if (migrou) localStorage.setItem(KEY, JSON.stringify(atualizadas));
-    return atualizadas;
+    return Array.isArray(lista) ? lista : [];
   } catch { return []; }
 }
 
@@ -28,6 +22,7 @@ const state = {
   personagens: loadAll(),
   atualId: localStorage.getItem(KEY_CUR) || null,
   listeners: [],
+  inicializado: false,
 };
 
 function persist() {
@@ -38,6 +33,29 @@ function persist() {
 export const store = {
   get personagens() { return state.personagens; },
   get atual() { return state.personagens.find(p => p.id === state.atualId) || null; },
+
+  /**
+   * Migra as fichas salvas para a versão atual — chamado pelo bootstrap DEPOIS de `await DB.load()`.
+   * Uma ficha que falha na migração é mantida como estava (nunca é descartada).
+   */
+  inicializar() {
+    if (state.inicializado) return 0;
+    state.inicializado = true;
+    let migradas = 0;
+    state.personagens = state.personagens.map(p => {
+      if (!p || p.versao === VERSAO_FICHA) return p;
+      try {
+        const nova = migrarPersonagem(DB, p);
+        migradas++;
+        return nova;
+      } catch (erro) {
+        if (typeof console !== 'undefined') console.error(`Falha ao migrar a ficha "${p?.nome || p?.id}":`, erro);
+        return p;
+      }
+    });
+    if (migradas) persist();
+    return migradas;
+  },
 
   subscribe(fn) { state.listeners.push(fn); },
   emit(what) { state.listeners.forEach(fn => fn(what)); },
@@ -93,15 +111,14 @@ export const store = {
   },
 
   importar(json) {
-    const data = typeof json === 'string' ? JSON.parse(json) : json;
-    if (!data || !data.atributos || !data.nome) throw new Error('Arquivo não parece uma ficha GUA válida.');
-    data.id = `pc-${Date.now().toString(36)}`;
-    const ficha = data.versao === VERSAO_FICHA ? data : migrarPersonagem(DB, data);
+    const dados = typeof json === 'string' ? JSON.parse(json) : json;
+    if (!dados || !dados.atributos || !dados.nome) throw new Error('Arquivo não parece uma ficha GUA válida.');
+    dados.id = `pc-${Date.now().toString(36)}`;
+    const ficha = dados.versao === VERSAO_FICHA ? dados : migrarPersonagem(DB, dados);
     state.personagens.push(ficha);
-    data = ficha;
-    state.atualId = data.id;
+    state.atualId = ficha.id;
     persist(); this.emit('chars'); this.emit('char');
-    return data;
+    return ficha;
   },
 
   exportarAtual() {

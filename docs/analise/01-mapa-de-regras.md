@@ -348,6 +348,14 @@ Registrados em `data/rules.json → conflitos` (com a resolução adotada e a fo
 - **Consumidores:** `character.js` (custo de perícias na contagem de pontos, validação e **`VERSAO_FICHA` 4** com conversão automática `pontos → nivel` preservando `pontosLegados`), `engine.js` (`computeAll` expõe `pericias` no modelo ativo e o bloco `periciasGAU` com custo, partes e limite de criação), `exportar.js` (coluna de custo na ficha exportada), `book-index.js` (documentos de perícia enriquecidos + regras do capítulo, grupos, divergências e lacunas).
 - **Interface:** aba **Perícias** com painel de compra (pontos gastos, perícias sem custo publicado), barra do limite de criação, painel de familiaridade, stepper de nível (+1/−1), alternador 🔧 de equipamento não familiar, escolha de especialização, breakdown clicável do nível efetivo e filtros por grupo, natureza, custo publicado, atributo-base, treinamento, familiaridade, nível e tags. O capítulo *Perícias* do livro tem 13 seções (das regras de compra ao catálogo com verbetes por grupo).
 
+## 31. Inicialização e resiliência do banco de regras
+
+A ordem de boot é **`DB.load()` → `store.inicializar()` → `route()`** (`app/main.js`):
+
+- `DB.load(fetchImpl, { tentativas })` busca cada `data/*.json` com nova tentativa em caso de falha, **não repete** o que já carregou (é chamável de novo) e guarda o motivo em `_data[nome]._erro`, exposto por `DB.erros`. `DB.recarregar()` refaz tudo do zero — é o que o botão *↻ Tentar novamente* do aviso chama.
+- Se algum arquivo não carregar, o bootstrap exibe um **aviso nomeando os arquivos** (`data/tables.json` etc.) em vez de deixar a falha aparecer dentro de uma fórmula. As fórmulas que dependem de tabela devolvem `null`/`—`: `custoAtributo`, `danoBasico` (`fonte` explica que a tabela não carregou) e `tabelaCustos` (mapa vazio → `nivelParaPontos`/`custoNivel` = `null`).
+- **A migração de fichas nunca roda com o banco vazio.** `app/ui/store.js` apenas lê o `localStorage` no import; quem converte as fichas é `store.inicializar()`, chamado depois de `await DB.load()`. Uma ficha que falha na migração é **mantida como estava** (com erro no console), e a conversão de perícias `pontos → nivel` (v4) só acontece quando `data/tables.json` está disponível — caso contrário fica para a próxima abertura, registrada no histórico, e `nivelDaEntrada` continua aceitando a entrada antiga em tempo de jogo.
+
 ---
 
 ## LACUNAS — "REGRA NÃO DEFINIDA / MATERIAL NÃO FORNECIDO"

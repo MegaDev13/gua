@@ -26,7 +26,7 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 | ⚙️ **Rule Engine** | **23 módulos** ES puros (`app/engine/`) — **100% dos cálculos** vivem aqui; a interface não contém fórmulas |
 | ☷ **FilterEngine** | Filtros reutilizáveis com `(A OU B) E C`, NOT, intervalos, relações com o personagem, favoritos e combinações salvas |
 | 🗄️ **Banco único** | **17 arquivos** `data/*.json` servem ao livro **e** à ficha (fonte única da verdade) |
-| ✅ **Testes** | **300** testes do engine + **17** do FilterEngine + smoke test de **13 páginas**, **13 capítulos × 4 rotas**, **2 modos de combate**, interações da aba Dados, painel G.A.U. de perícias, capítulo *Perícias* e integridade de todas as rotas do índice |
+| ✅ **Testes** | **311** testes do engine + **17** do FilterEngine + smoke test de **13 páginas**, **13 capítulos × 4 rotas**, **2 modos de combate**, interações da aba Dados, painel G.A.U. de perícias, capítulo *Perícias*, **bootstrap completo (`app/main.js`)** e integridade de todas as rotas do índice |
 | 💾 **Dados do jogador** | localStorage do navegador — nada sai do dispositivo; import/export JSON, backup completo, PDF e PNG |
 
 ### Conteúdo do banco (extraído do material)
@@ -109,6 +109,7 @@ app/main.js          ← SPA hash-routing (Livro · Ficha · Combate), sem frame
 ```
 
 - Mudou um atributo → secundários, parâmetros, perícias, dano, carga, deslocamento, defesas, fadiga, poderes e magia **recalculam sozinhos**.
+- **Inicialização à prova de falha**: `DB.load()` busca `data/*.json` com nova tentativa, é repetível (só recarrega o que falhou) e registra cada arquivo com problema em `DB.erros`; se algo não carregar, a página mostra **qual arquivo falhou** e um botão *↻ Tentar novamente* — as fórmulas devolvem `null`/`—` em vez de quebrar, e a migração das fichas só roda **depois** do banco carregado (`store.inicializar()`), nunca contra dados ausentes.
 - Ação impossível é **bloqueada com o motivo exato** ("Mana Nula: nenhuma mágica funciona", "personagem Mundano não realiza testes de categoria superior", "Dinheiro insuficiente: tem $500, preço $550 (**faltam $50**)").
 - Valores intermediários **nunca arredondados**, exceto onde o material manda.
 - Todo número calculado tem tooltip **"como este valor foi calculado"**.
@@ -122,7 +123,7 @@ app/main.js          ← SPA hash-routing (Livro · Ficha · Combate), sem frame
 ### Testes
 
 ```bash
-node tests/run.mjs        # 300 testes do engine vs. exemplos do próprio material
+node tests/run.mjs        # 311 testes do engine vs. exemplos do próprio material
 node tests/filters.mjs    # 17 testes de AND/OR/NOT, texto, intervalos e presets
 node tests/smoke_ui.mjs   # 13 páginas, 13 capítulos × 4 rotas, 2 modos de combate,
                           # interações da aba Dados, painel G.A.U. de perícias e integridade das 1098 rotas do índice

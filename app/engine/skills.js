@@ -15,8 +15,9 @@ function colIndex(dificuldade, tipo) {
 
 /** Mapa completo offset→custo (inclui progressão acima de +5). */
 export function tabelaCustos(db, tipo) {
-  const ct = db.tables.custoPericias;
-  const raw = tipo === 'Física' ? ct.fisicas : ct.mentais;
+  const ct = db?.tables?.custoPericias;
+  const raw = tipo === 'Física' ? ct?.fisicas : ct?.mentais;
+  if (!raw?.linhas) return {}; // data/tables.json não carregou — custos ficam indefinidos, nunca inventados
   const cols = tipo === 'Física' ? DIF_FIS : DIF_MEN;
   const extra = tipo === 'Física' ? 8 : (raw.acrescimoPorNivelMuitoDificil ?? raw.acrescimoPorNivel);
   const map = {};
@@ -563,7 +564,7 @@ export function podeComprarNivelGAU(db, personagem, entrada, delta = 1, { dispon
   const erros = [];
   const avisos = [];
   const skill = db.skill(entrada?.id) || entrada || {};
-  const nivelAtual = nivelComprado(entrada);
+  const nivelAtual = nivelDaEntrada(db, personagem, entrada);   // aceita fichas legadas (pontos → NH)
   const temEntrada = Array.isArray(personagem?.pericias) && personagem.pericias.some(e => e.id === skill.id);
   const nivelFinal = temEntrada && nivelAtual !== null ? nivelAtual + delta : (delta > 0 ? 1 : null);
 

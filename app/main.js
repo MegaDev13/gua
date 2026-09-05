@@ -1,6 +1,7 @@
 /* GUA — bootstrap e roteador (hash). Sem frameworks; ES modules nativos. */
 import DB from './engine/db.js';
 import { store } from './ui/store.js';
+import { VERSAO_FICHA } from './engine/character.js';
 import { el, toast } from './ui/ui.js';
 import { renderPersonagem } from './ui/pages/personagem.js';
 import { renderAtributos } from './ui/pages/atributos.js';
@@ -100,8 +101,40 @@ document.getElementById('btnMenu').onclick = () => {
   nav.hidden = !nav.hidden;
 };
 
+/* Banco de regras incompleto: avisa em vez de quebrar dentro de uma fórmula.
+ * DB.load() não derruba a página se um data/*.json falhar — os valores dependentes
+ * ficam "—" e o usuário vê exatamente qual arquivo não carregou. */
+function avisarFalhaDeDados(falhas) {
+  const nomes = falhas.map(([arquivo]) => `data/${arquivo}.json`);
+  toast(`Falha ao carregar ${nomes.length} arquivo(s) de regras: ${nomes.join(', ')}.`, 'bad');
+  const banner = el('div', { class: 'panel', role: 'alert', style: 'margin:.75rem 1rem;border:1px solid var(--bad)' },
+    el('strong', {}, '⚠ Banco de regras incompleto'),
+    el('p', { class: 'fonte', style: 'margin:.3rem 0' },
+      `Estes arquivos não carregaram: ${nomes.join(', ')}. Os valores que dependem deles aparecem como "—" — nada é inventado. `
+      + 'Recarregue a página; se o erro continuar, o servidor que entrega a pasta data/ está fora do ar.'),
+    el('ul', { class: 'fonte' }, ...falhas.map(([arquivo, info]) => el('li', {}, `data/${arquivo}.json — ${info?._erro || 'erro desconhecido'}`))),
+    el('div', { class: 'btn-row' },
+      el('button', {
+        class: 'btn',
+        onclick: async evento => {
+          evento.target.disabled = true;
+          evento.target.textContent = '↻ Recarregando regras…';
+          await DB.recarregar();
+          location.reload();
+        },
+      }, '↻ Tentar novamente')));
+  const topo = document.querySelector('header.topbar');
+  if (topo?.after) topo.after(banner);
+  else document.getElementById('main')?.prepend(banner);
+}
+
 (async () => {
   await DB.load();
+  const falhas = Object.entries(DB.erros || {});
+  if (falhas.length) avisarFalhaDeDados(falhas);
+  /* migração das fichas salvas — só agora, com data/*.json carregado */
+  const migradas = store.inicializar();
+  if (migradas && !falhas.length) toast(`${migradas} ficha(s) migrada(s) para o modelo atual (v${VERSAO_FICHA}).`, 'ok');
   montarNav();
   montarSeletor();
   store.subscribe(event => {

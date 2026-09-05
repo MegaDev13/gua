@@ -97,21 +97,39 @@ export function migrarPersonagem(db, personagem) {
         + `${mudados} id(s) normalizado(s), ${antes - migrado.vantagens.length} entrada(s) inválida(s) removida(s).`,
     });
   }
-  /* v4: perícias — converte entradas do modelo legado (pontos investidos) para o modelo G.A.U. (nível). */
-  const periciasAntigas = (migrado.pericias || []).filter(e => !Number.isFinite(e?.nivel) && Number.isFinite(e?.pontos));
+  /* v4: perícias — converte entradas do modelo legado (pontos investidos) para o modelo G.A.U. (nível).
+     Só com o banco carregado: sem data/tables.json o NH legado não pode ser calculado, e a conversão
+     fica adiada (a ficha continua válida — nivelDaEntrada aceita entradas antigas em tempo de jogo). */
+  const dbPronto = !!db?.tables?.custoPericias;
+  const periciasAntigas = dbPronto
+    ? (migrado.pericias || []).filter(e => !Number.isFinite(e?.nivel) && Number.isFinite(e?.pontos))
+    : [];
   if (periciasAntigas.length) {
-    migrado.pericias = (migrado.pericias || []).map(entrada => {
-      if (Number.isFinite(entrada?.nivel) || !Number.isFinite(entrada?.pontos)) return entrada;
-      const nivel = nivelDaEntrada(db, migrado, entrada);
-      if (nivel === null || nivel === undefined) return entrada;
-      const nova = { ...entrada, nivel, pontosLegados: entrada.pontos };
-      delete nova.pontos;
-      return nova;
-    });
+    try {
+      migrado.pericias = (migrado.pericias || []).map(entrada => {
+        if (Number.isFinite(entrada?.nivel) || !Number.isFinite(entrada?.pontos)) return entrada;
+        const nivel = nivelDaEntrada(db, migrado, entrada);
+        if (nivel === null || nivel === undefined) return entrada;
+        const nova = { ...entrada, nivel, pontosLegados: entrada.pontos };
+        delete nova.pontos;
+        return nova;
+      });
+      migrado.historico.push({
+        quando: new Date().toISOString(), tipo: 'migracao',
+        texto: `Perícias convertidas para o modelo G.A.U. (v${VERSAO_FICHA}): ${periciasAntigas.length} entrada(s) passaram de `
+          + 'pontos investidos para nível comprado (o NH legado foi adotado como nível; os pontos antigos ficaram em `pontosLegados`).',
+      });
+    } catch (erro) {
+      /* nunca perde a ficha: mantém as entradas como estavam e registra o motivo */
+      migrado.historico.push({
+        quando: new Date().toISOString(), tipo: 'migracao',
+        texto: `Conversão de perícias adiada (${erro?.message || 'erro desconhecido'}) — as entradas antigas continuam na ficha e valem como nível pelo NH legado.`,
+      });
+    }
+  } else if (!dbPronto && (migrado.pericias || []).some(e => Number.isFinite(e?.pontos))) {
     migrado.historico.push({
       quando: new Date().toISOString(), tipo: 'migracao',
-      texto: `Perícias convertidas para o modelo G.A.U. (v${VERSAO_FICHA}): ${periciasAntigas.length} entrada(s) passaram de `
-        + 'pontos investidos para nível comprado (o NH legado foi adotado como nível; os pontos antigos ficaram em `pontosLegados`).',
+      texto: 'Banco de regras não carregado nesta inicialização: a conversão das perícias ficou para a próxima abertura.',
     });
   }
   if (migrado.config && migrado.config.modeloPericias == null) {

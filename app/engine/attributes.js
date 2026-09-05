@@ -11,13 +11,15 @@ export const ATRIBUTOS = [
 
 /** Custo em pontos de um valor de atributo (p. 1-2). */
 export function custoAtributo(db, valor) {
-  const t = db.tables.custoAtributos.tabela;
+  const t = db?.tables?.custoAtributos?.tabela;
+  if (!t) return null; // data/tables.json não carregou — nada é inventado
   return t[String(valor)] !== undefined ? t[String(valor)] : null; // >20: REGRA NÃO DEFINIDA
 }
 
 /** Dano básico por ST (p. 190). Fadiga NÃO altera o dano básico (p. 298). */
 export function danoBasico(db, st) {
-  const t = db.tables.danoBasico.tabela;
+  const t = db?.tables?.danoBasico?.tabela;
+  if (!t) return { gdp: null, bal: null, extrapolado: false, fonte: 'tables.danoBasico não carregou (data/tables.json)' };
   if (t[String(st)]) return { gdp: t[String(st)].gdp, bal: t[String(st)].bal, extrapolado: false, fonte: 'tables.danoBasico (p. 190)' };
   // Progressão "óbvia" (p. 190) acima de 20 — marcada como estimativa
   const passos = st - 20;
