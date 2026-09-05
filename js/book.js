@@ -788,15 +788,27 @@ function renderFilters(filterSystem) {
 
 function renderCapa(db) {
   const book = db.book;
+  const numCaps = (book.capitulos || []).filter(c=>c.id!=='capa').length;
+  const numArmas = db.getAllWeapons().length;
+  const numVant = (db.vantagens?.vantagens?.length||0);
+  const numDesv = (db.desvantagens?.desvantagens?.length||0);
+  const numPer = (db.periciasCatalog?.pericias?.length||0);
   return el('div', { class: 'capa-hero animate-fadeInUp' },
     el('img', { src: book.capa || 'book/images/capa.svg', alt: 'Capa GAU', class: 'capa-logo' }),
     el('h1', { class: 'capa-title' }, book.titulo || 'GAU'),
     el('p', { class: 'capa-subtitle' }, book.subtitulo || 'Sistema Universal'),
     el('div', { class: 'capa-meta' },
-      el('span', { class: 'meta-item' }, '📖 4 Capítulos'),
+      el('span', { class: 'meta-item' }, `📖 ${numCaps} Capítulos v3.3`),
       el('span', { class: 'meta-item' }, '⚔️ Árvores Táticas'),
       el('span', { class: 'meta-item' }, '🎲 d20 Margens'),
-      el('span', { class: 'meta-item' }, '🗡️ 64 Armas')
+      el('span', { class: 'meta-item' }, `🗡️ ${numArmas} Armas`),
+      el('span', { class: 'meta-item' }, `✨ ${numVant} Vantagens`),
+      el('span', { class: 'meta-item' }, `💀 ${numDesv} Desvant`),
+      el('span', { class: 'meta-item' }, `📜 ${numPer} Perícias`),
+      el('span', { class: 'meta-item' }, '🏗️ Estruturas PE'),
+      el('span', { class: 'meta-item' }, '🔮 Magia Full'),
+      el('span', { class: 'meta-item' }, '🧠 Poderes Modular'),
+      el('span', { class: 'meta-item' }, '🌀 NT 0-12')
     ),
     el('div', { class: 'capa-actions' },
       el('a', { href: '#/livro/testes', class: 'btn primary large' }, '📖 Entrar no Grimório'),
