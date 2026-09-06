@@ -317,6 +317,261 @@ const semPontos = secoesPontos.filter(trecho => !textoLivroCriacao.includes(trec
 if (semPontos.length) { falhas++; console.error(`✗ livro/criacao: pontos ausentes — ${semPontos.join(', ')}`); }
 else console.log(`✓ livro/criacao     ${secoesPontos.length} trechos do sistema de pontos renderizados`);
 
+/* ---------- COMPRAS FUNCIONAM: cliques reais em cada aba que gasta pontos
+ * Uma compra só falha de verdade quando o handler roda — um import esquecido, por exemplo,
+ * renderiza a página inteira sem erro e só quebra no clique. Por isso estes testes clicam. */
+{
+  const problemas = [];
+  const botaoPorTexto = (raiz, texto) => coletarNos(raiz, n => n.tagName === 'button' && n.text().trim() === texto)[0];
+  const secao = (raiz, inicio) => coletarNos(raiz, n => n.tagName === 'section' && n.text().trim().startsWith(inicio))[0];
+
+  store.criar('Compras', 400);
+  store.update(p => {
+    p.atributos = { ST: 10, DX: 10, IQ: 10, HT: 10 };
+    p.vantagens = []; p.desvantagens = []; p.peculiaridades = []; p.pericias = []; p.magias = []; p.poderes = [];
+    p.aparenciaNivel = 'comum'; p.statusSocial = 0;
+    p.config.emCriacao = false; p.config.modeloPericias = 'gau'; p.config.permitirEstourarPontos = false;
+  });
+
+  /* ---- vantagens: adquirir, subir nível, remover; desvantagem devolve pontos */
+  const van = await import('../app/ui/pages/vantagens.js');
+  const desenharVantagens = () => { const no = new FakeNode('main'); van.renderVantagens(no, { db: DB, params: [], ir() {} }); return no; };
+  let pagina = desenharVantagens();
+  const adquirir = botaoPorTexto(pagina, 'Adquirir');
+  try { disparar(adquirir, 'click'); } catch (e) { problemas.push(`vantagens/adquirir lançou "${e.message}"`); }
+  if (!store.atual.vantagens.length) problemas.push('vantagens: "Adquirir" não comprou nada');
+  const gastoComVantagem = store.atual.vantagens.length ? 400 - store.atual.pontos.total : null;
+
+  /* subir nível (botão "nível N +") e remover */
+  pagina = desenharVantagens();
+  const subir = coletarNos(pagina, n => n.tagName === 'button' && /^nível \d+ \+$/.test(n.text().trim()))[0]
+    || coletarNos(pagina, n => n.tagName === 'button' && n.text().trim() === '▶')[0];
+  if (subir) {
+    const antes = JSON.stringify(store.atual.vantagens);
+    try { disparar(subir, 'click'); } catch (e) { problemas.push(`vantagens/nível lançou "${e.message}"`); }
+    if (JSON.stringify(store.atual.vantagens) === antes) problemas.push('vantagens: o botão de nível não alterou a ficha');
+  } else problemas.push('vantagens: nenhum botão de nível apareceu para uma vantagem escalonável');
+
+  pagina = desenharVantagens();
+  const remover = botaoPorTexto(pagina, 'Remover');
+  const quantidadeAntes = store.atual.vantagens.length;
+  try { disparar(remover, 'click'); } catch (e) { problemas.push(`vantagens/remover lançou "${e.message}"`); }
+  if (store.atual.vantagens.length !== quantidadeAntes - 1) problemas.push('vantagens: "Remover" não devolveu a vantagem');
+
+  /* desvantagem: adicionar devolve pontos ao mesmo orçamento */
+  pagina = desenharVantagens();
+  const colunaDesvantagens = secao(pagina, 'Desvantagens');
+  const adquirirDesvantagem = colunaDesvantagens ? botaoPorTexto(colunaDesvantagens, 'Adquirir') : null;
+  if (!adquirirDesvantagem) problemas.push('vantagens: a coluna de desvantagens não ofereceu "Adquirir"');
+  else {
+    const livresAntes = (await import('../app/engine/points.js')).orcamentoDePontos(DB, store.atual).disponiveis;
+    try { disparar(adquirirDesvantagem, 'click'); } catch (e) { problemas.push(`desvantagens/adquirir lançou "${e.message}"`); }
+    const orcamento = (await import('../app/engine/points.js')).orcamentoDePontos(DB, store.atual);
+    if (!store.atual.desvantagens.length) problemas.push('desvantagens: "Adquirir" não adicionou nada');
+    else if (orcamento.disponiveis <= livresAntes) problemas.push(`desvantagens: não devolveu pontos (${livresAntes} → ${orcamento.disponiveis})`);
+  }
+
+  /* peculiaridade pelo catálogo */
+  pagina = desenharVantagens();
+  const peculiaridade = DB.peculiaridades.peculiaridades[0];
+  const botaoPeculiaridade = coletarNos(pagina, n => n.tagName === 'button' && n.text().trim() === peculiaridade.nome)[0];
+  if (!botaoPeculiaridade) problemas.push(`peculiaridades: "${peculiaridade.nome}" não apareceu no catálogo`);
+  else {
+    try { disparar(botaoPeculiaridade, 'click'); } catch (e) { problemas.push(`peculiaridades/catálogo lançou "${e.message}"`); }
+    if (!store.atual.peculiaridades.includes(peculiaridade.nome)) problemas.push('peculiaridades: o clique no catálogo não gravou nada');
+  }
+
+  /* detalhe da vantagem (👁) e peculiaridades: texto livre + remoção */
+  pagina = desenharVantagens();
+  try {
+    disparar(coletarNos(pagina, n => n.tagName === 'button' && n.text().trim() === '👁')[0], 'click');
+    if (!document.getElementById('modal-root').children.length) problemas.push('vantagens: o 👁 não abriu o detalhe');
+    document.getElementById('modal-root').innerHTML = '';
+  } catch (e) { problemas.push(`vantagens/detalhe lançou "${e.message}"`); }
+
+  pagina = desenharVantagens();
+  const campoLivre = coletarNos(pagina, n => n.tagName === 'input' && /Detesta dizer/.test(String(n.attrs?.placeholder || '')))[0];
+  if (!campoLivre) problemas.push('peculiaridades: o campo de texto livre não apareceu');
+  else {
+    const quantidade = store.atual.peculiaridades.length;
+    campoLivre.value = 'Mania de conferir o mapa duas vezes';
+    try {
+      disparar(campoLivre, 'keydown');
+      disparar(botaoPorTexto(pagina, '＋ Adicionar'), 'click');
+    } catch (e) { problemas.push(`peculiaridades/texto livre lançou "${e.message}"`); }
+    if (store.atual.peculiaridades.length !== quantidade + 1) problemas.push('peculiaridades: o texto livre não foi gravado');
+    pagina = desenharVantagens();
+    try { disparar(coletarNos(pagina, n => n.tagName === 'button' && n.text().trim() === '✕')[0], 'click'); }
+    catch (e) { problemas.push(`peculiaridades/remover lançou "${e.message}"`); }
+    if (store.atual.peculiaridades.length !== quantidade) problemas.push('peculiaridades: o ✕ não removeu');
+  }
+
+  /* ---- atributos: comprar e ser bloqueado quando não cabe */
+  const atr = await import('../app/ui/pages/atributos.js');
+  const desenharAtributos = () => { const no = new FakeNode('main'); atr.renderAtributos(no, { db: DB, params: [], ir() {} }); return no; };
+  const campoST = coletarNos(desenharAtributos(), n => n.attrs?.['aria-label'] === 'Valor de Força')[0];
+  if (!campoST) problemas.push('atributos: o campo de ST não apareceu');
+  else {
+    campoST.value = '12';
+    try { disparar(campoST, 'change'); } catch (e) { problemas.push(`atributos/ST lançou "${e.message}"`); }
+    if (store.atual.atributos.ST !== 12) problemas.push(`atributos: ST ficou ${store.atual.atributos.ST}, esperava 12`);
+  }
+
+  /* personagem sem pontos: a compra é barrada e o campo volta ao valor anterior */
+  store.criar('Sem pontos', 25);
+  store.update(p => { p.atributos = { ST: 10, DX: 10, IQ: 10, HT: 10 }; p.config.permitirEstourarPontos = false; });
+  const campoApertado = coletarNos(desenharAtributos(), n => n.attrs?.['aria-label'] === 'Valor de Força')[0];
+  campoApertado.value = '18';
+  try { disparar(campoApertado, 'change'); } catch (e) { problemas.push(`atributos/bloqueio lançou "${e.message}"`); }
+  if (store.atual.atributos.ST !== 10) problemas.push(`atributos: o bloqueio não impediu a compra (ST ${store.atual.atributos.ST})`);
+  if (String(campoApertado.value) !== '10') problemas.push(`atributos: o campo não voltou ao valor anterior (ficou "${campoApertado.value}")`);
+
+  /* ---- magias: investir +1 ponto */
+  store.criar('Mago', 400);
+  const spell = DB.spells[0];
+  store.update(p => { p.atributos = { ST: 10, DX: 10, IQ: 14, HT: 10 }; p.magias = [{ id: spell.id, pontos: 1 }]; });
+  const mag = await import('../app/ui/pages/magias.js');
+  const paginaMagias = new FakeNode('main');
+  mag.renderMagias(paginaMagias, { db: DB, params: [], ir() {} });
+  const investir = coletarNos(paginaMagias, n => n.tagName === 'button' && n.text().trim() === '+1 pt')[0];
+  if (!investir) problemas.push('magias: o botão "+1 pt" não apareceu');
+  else {
+    try { disparar(investir, 'click'); } catch (e) { problemas.push(`magias/+1pt lançou "${e.message}"`); }
+    if (store.atual.magias.find(m => m.id === spell.id)?.pontos !== 2) problemas.push('magias: "+1 pt" não investiu o ponto');
+  }
+
+  /* ---- perícias: o +1 da linha (o lote já tem teste próprio) */
+  store.criar('Perito', 400);
+  store.update(p => { p.atributos = { ST: 10, DX: 10, IQ: 10, HT: 10 }; p.pericias = []; p.config.emCriacao = false; });
+  const paginaPericias2 = new FakeNode('main');
+  paginaPericias.renderPericias(paginaPericias2, { db: DB, params: [], ir() {} });
+  const maisUm = coletarNos(paginaPericias2, n => n.tagName === 'button' && n.text().trim() === '＋')[0];
+  if (!maisUm) problemas.push('pericias: o botão "＋" da linha não apareceu');
+  else {
+    try { disparar(maisUm, 'click'); } catch (e) { problemas.push(`pericias/＋ lançou "${e.message}"`); }
+    if (store.atual.pericias.length !== 1) problemas.push(`pericias: "＋" não comprou a perícia (${store.atual.pericias.length} na ficha)`);
+  }
+
+  /* ---- poderes: editar e salvar passa pelo travamento do orçamento único */
+  const { novoPoder } = await import('../app/engine/powers.js');
+  store.criar('Herói', 400);
+  const poder = novoPoder('Lança de Fogo');
+  poder.efeito = { grupo: 'manipulacao', id: 'criar' };
+  poder.extensao = { alcance: '10m', area: null, alvos: '1-alvo', duracao: '1-segundo' };
+  poder.potencia = { intensidade: 'forte', dano: 'dano-alto', forca: [], velocidade: [] };
+  poder.condicoes = ['requer-contato'];
+  poder.pv = 'pv-10';
+  poder.rd = 'rd-2';
+  store.update(p => { p.atributos = { ST: 10, DX: 10, IQ: 10, HT: 10 }; p.poderes = [poder]; });
+  const pod = await import('../app/ui/pages/poderes.js');
+  const mainPoderes = document.getElementById('main');   // rerender() procura este nó
+  mainPoderes.innerHTML = '';
+  pod.renderPoderes(mainPoderes, { db: DB, params: [], ir() {} });
+  const editar = botaoPorTexto(mainPoderes, 'Editar');
+  try {
+    disparar(editar, 'click');
+    const salvar = botaoPorTexto(document.getElementById('main'), 'Salvar poder');
+    if (!salvar) problemas.push('poderes: o editor não ofereceu "Salvar poder"');
+    else {
+      disparar(salvar, 'click');
+      if ((store.atual.poderes || []).length !== 1) problemas.push(`poderes: salvar perdeu o poder (${(store.atual.poderes || []).length})`);
+      else if (!store.atual.historico.some(h => /orçamento único/.test(h.texto || ''))) problemas.push('poderes: o histórico não registrou o orçamento único');
+    }
+  } catch (e) { problemas.push(`poderes/editar+salvar lançou "${e.message}"`); }
+
+  /* ---- pontos: presets e ±10/±50 nas abas Personagem e Configurações */
+  store.criar('Ajustável', 100);
+  store.update(p => { p.atributos = { ST: 10, DX: 10, IQ: 10, HT: 10 }; p.vantagens = []; p.desvantagens = []; p.pericias = []; p.magias = []; p.poderes = []; });
+  for (const [rotulo, caminho, render, chip] of [
+    ['personagem', '../app/ui/pages/personagem.js', 'renderPersonagem', 'Divino · 1000'],
+    ['config', '../app/ui/pages/config.js', 'renderConfig', 'Divino — 1000'],
+  ]) {
+    const modulo = await import(caminho);
+    const no = new FakeNode('main');
+    store.update(p => { p.pontos.total = 100; });   // mesmo ponto de partida nas duas abas
+    try { modulo[render](no, { db: DB, params: [], ir() {} }); } catch (e) { problemas.push(`${rotulo}: render lançou "${e.message}"`); continue; }
+    const preset = coletarNos(no, n => n.tagName === 'button' && n.text().trim() === chip)[0];
+    if (!preset) { problemas.push(`${rotulo}: o preset "${chip}" não apareceu`); continue; }
+    try { disparar(preset, 'click'); } catch (e) { problemas.push(`${rotulo}/preset lançou "${e.message}"`); }
+    if (store.atual.pontos.total !== 1000) problemas.push(`${rotulo}: o preset não definiu o total (ficou ${store.atual.pontos.total})`);
+    const menos = coletarNos(no, n => n.tagName === 'button' && n.text().trim() === '−50')[0];
+    try { disparar(menos, 'click'); } catch (e) { problemas.push(`${rotulo}/−50 lançou "${e.message}"`); }
+    if (store.atual.pontos.total !== 950) problemas.push(`${rotulo}: o −50 não ajustou o total (ficou ${store.atual.pontos.total})`);
+  }
+  /* modo do orçamento separado (select) na aba Configurações */
+  {
+    const modulo = await import('../app/ui/pages/config.js');
+    const no = new FakeNode('main');
+    modulo.renderConfig(no, { db: DB, params: [], ir() {} });
+    const selecaoOrcamento = coletarNos(no, n => n.tagName === 'select' && /Como os pontos são distribuídos/.test(String(n.attrs?.title || '')))[0];
+    if (!selecaoOrcamento) problemas.push('config: o seletor do modo de orçamento não apareceu');
+    else {
+      selecaoOrcamento.value = 'separado';
+      try { disparar(selecaoOrcamento, 'change'); } catch (e) { problemas.push(`config/orçamento lançou "${e.message}"`); }
+      if (store.atual.config.orcamentoPontos !== 'separado') problemas.push('config: o modo separado não foi gravado');
+      store.update(p => { p.config.orcamentoPontos = 'unificado'; });
+    }
+  }
+
+  if (problemas.length) { falhas += problemas.length; for (const problema of problemas) console.error(`✗ compras: ${problema}`); }
+  else console.log('✓ compras           cliques reais: vantagem (adquirir/nível/remover), desvantagem devolve pontos, peculiaridade, atributo (compra e bloqueio), magia +1, perícia ＋, poder editar+salvar');
+}
+
+/* ---------- todas as páginas com um personagem COMPLETO (ramos que só existem com dados)
+ * A aba Vantagens já quebrou por ler um campo que só aparece quando há vantagens com efeitos
+ * ativos. Renderizar tudo com a ficha cheia impede que um ramo condicional passe sem teste. */
+{
+  const { novoPoder } = await import('../app/engine/powers.js');
+  const poderCheio = novoPoder('Lança de Fogo');
+  poderCheio.efeito = { grupo: 'manipulacao', id: 'criar' };
+  poderCheio.extensao = { alcance: '10m', area: null, alvos: '1-alvo', duracao: '1-segundo' };
+  poderCheio.potencia = { intensidade: 'forte', dano: 'dano-alto', forca: [], velocidade: [] };
+  poderCheio.condicoes = ['requer-contato'];
+  poderCheio.pv = 'pv-10';
+  poderCheio.rd = 'rd-2';
+  const escalonavel = DB.advantages.find(item => (item.niveis || []).length >= 2);
+  const comCustoVariavel = DB.advantages.find(item => item.niveis?.some(n => n.custo === 0));
+
+  store.criar('Completo', 400);
+  store.update(p => {
+    p.atributos = { ST: 12, DX: 13, IQ: 14, HT: 12 };
+    p.idade = 30; p.nt = 8; p.aparenciaNivel = 'atraente'; p.statusSocial = 2; p.mano = 'canhoto';
+    p.vantagens = [
+      { id: 'visao-noturna', nome: 'Visão Noturna' },
+      escalonavel ? { id: escalonavel.id, nome: escalonavel.nome, nivel: escalonavel.niveis.at(-1).nome } : null,
+      comCustoVariavel ? { id: comCustoVariavel.id, nome: comCustoVariavel.nome, nivel: comCustoVariavel.niveis.find(n => n.custo === 0)?.nome } : null,
+      { id: 'memoria-eidetica', nome: 'Memória Eidética', nivel: '1º nível' },
+    ].filter(Boolean);
+    p.desvantagens = [{ id: 'curiosidade', nome: 'Curiosidade', niveis: 2 }, { id: 'miopia', nome: 'Miopia' }];
+    p.peculiaridades = ['Supersticioso', 'Fala Sozinho'];
+    p.pericias = [{ id: 'espadas-curtas', nivel: 4 }, { id: 'medicina', nivel: 2, familiarizado: false }, { id: 'caligrafia', nivel: 1 }];
+    p.magias = [{ id: DB.spells[0].id, pontos: 2 }];
+    p.poderes = [poderCheio];
+    p.inventario = [{ id: 'arma-espada', nome: 'Espada curta', categoria: 'arma', dano: 'Bal+1', tipoDano: 'corte', stMin: 8, custo: 400, peso: 1.5, periciaId: 'espadas-curtas', qtd: 1, equipado: true }];
+    p.riqueza = { nivel: 'Rico', multiplicador: 5, recursosBase: 1000, dinheiro: 5000 };
+    p.combate ||= {};
+    p.pontosDePoder = { total: 150 };
+  });
+
+  let quebras = 0;
+  for (const modelo of ['gau', 'legado']) {
+    store.update(p => { p.config.modeloPericias = modelo; p.config.modoCombate = modelo; p.config.emCriacao = modelo === 'gau'; });
+    for (const [nome, caminho] of paginas) {
+      const modulo = await import(caminho);
+      const no = new FakeNode('main');
+      try {
+        Object.values(modulo)[0](no, { db: DB, params: nome === 'livro' ? ['vantagens'] : [], ir() {} });
+        if (no.count() < 10) throw new Error(`só ${no.count()} nós`);
+      } catch (e) {
+        quebras++; falhas++;
+        console.error(`✗ ficha cheia/${modelo}/${nome}: ${e.message}`);
+      }
+    }
+  }
+  if (!quebras) console.log(`✓ ficha cheia       ${paginas.length} páginas × 2 modelos com a ficha completa (vantagens, desvantagens, peculiaridades, perícias, magias, poder, equipamento)`);
+  store.update(p => { p.config.modeloPericias = 'gau'; p.config.modoCombate = 'gau'; p.config.emCriacao = false; });
+}
+
 /* ---------- orçamento único na UI (widget, painel de pontos, catálogo de peculiaridades) */
 const esperadoNaUI = [
   ['personagem', ['Pontos de Personagem', 'Faixa de campanha', 'Divino · 1000', 'Extras ganhos', 'orçamento único', 'Aplicar']],

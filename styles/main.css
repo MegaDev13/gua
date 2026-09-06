@@ -821,11 +821,11 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; text
 /* ---------------------------------------------------------------- perícias: texto inteiro + compra em lote */
 .tabela-pericias th.sel, .tabela-pericias td.sel { width: 30px; text-align: center; padding-right: .2rem; }
 .tabela-pericias tr.marcada > td { background: rgba(231, 200, 122, .07); }
-.descricao-pericia {
+.descricao-pericia, .texto-expansivel {
   cursor: pointer; max-width: 48ch; margin-top: .15rem;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.descricao-pericia.expandida { display: block; -webkit-line-clamp: unset; overflow: visible; max-width: none; }
+.descricao-pericia.expandida, .texto-expansivel.expandida { display: block; -webkit-line-clamp: unset; overflow: visible; max-width: none; }
 .pericias-toolbar { margin-bottom: .55rem; flex-wrap: wrap; gap: .5rem; }
 .barra-lote {
   position: fixed; left: 50%; bottom: .9rem; transform: translateX(-50%); z-index: 55;

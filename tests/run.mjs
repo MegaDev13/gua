@@ -18,6 +18,7 @@ import {
   bonusDePanico, bonusDeVontade, resistenciaAMagia, resistenciaPsiquica, atributosEfetivos, iqEfetivo,
   modificadoresGerais, danoExtra, acoesExtras, imunidades, ignoraPenalidadeDeLuz,
   multiplicadorDePericiasMentais, sorte, statusDerivado, validarVantagens, custoDasVantagens,
+  resumoDasVantagens,
 } from '../app/engine/vantagens.js';
 const validarVantagemOk = (db, pc) => validarVantagens(db, pc).ok === true;
 import { computeAll } from '../app/engine/engine.js';
@@ -931,6 +932,22 @@ t('resumoDePontos: marca estouro e quanto falta', (() => {
   pc.atributos.ST = 15;
   const resumo = resumoDePontos(DB, pc);
   return resumo.estourado === true && resumo.livres < 0 && resumo.faltam === -resumo.livres;
+})());
+
+/* ------------------------------- contrato lido pela aba Vantagens (regressão de UI)
+ * A aba lia validacao.problemas — campo que nunca existiu — e quebrava com
+ * "Cannot read properties of undefined" assim que o personagem tinha vantagens com efeitos. */
+t('validarVantagens: devolve { ok, erros[], avisos[] }', (() => {
+  const pc = novoPersonagem('Validação', 200, DB);
+  pc.vantagens.push({ id: 'visao-noturna', nome: 'Visão Noturna' });
+  const v = validarVantagens(DB, pc);
+  return v.ok === true && Array.isArray(v.erros) && Array.isArray(v.avisos) && !('problemas' in v);
+})());
+t('resumoDasVantagens: todos os campos que a aba mostra existem', (() => {
+  const pc = novoPersonagem('Resumo', 200, DB);
+  pc.vantagens.push({ id: 'visao-noturna', nome: 'Visão Noturna' }, { id: 'memoria-eidetica', nome: 'Memória Eidética', nivel: '1º nível' });
+  const r = resumoDasVantagens(DB, pc);
+  return ['quantidade', 'custo', 'atributos', 'sentidos', 'defesasAtivas', 'defesasPorFlanco', 'rd', 'vontade', 'panico', 'resistenciaMagica', 'resistenciaPsiquica', 'periciasMentais', 'iqEfetivo', 'acoes', 'imunidades', 'modificadoresGerais', 'dano', 'sorte', 'statusDerivado', 'validacao', 'soNaCriacao'].every(chave => chave in r);
 })());
 
 /* ---------------------------------------------------------- compra de perícias EM LOTE

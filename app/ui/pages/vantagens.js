@@ -5,6 +5,25 @@ import { store } from '../store.js';
 import { computeAll } from '../../engine/engine.js';
 import { parseCusto, MAX_PECULIARIDADES, custoTrait } from '../../engine/traits.js';
 import { resumoDasVantagens, validarVantagens, nivelDaVantagem } from '../../engine/vantagens.js';
+import { simularGasto } from '../../engine/points.js';
+
+/* Descrição publicada inteira na linha: recolhida em 2 linhas, clique expande/recolhe. */
+const expandidas = new Set();
+function textoExpansivel(texto, chave) {
+  const conteudo = String(texto || '');
+  if (!conteudo) return '';
+  const aberta = expandidas.has(chave);
+  return el('div', {
+    class: `meta texto-expansivel${aberta ? ' expandida' : ''}`,
+    title: aberta ? 'Clique para recolher o texto' : 'Clique para ler o texto inteiro',
+    onclick: evento => {
+      if (expandidas.has(chave)) expandidas.delete(chave);
+      else expandidas.add(chave);
+      const alvo = evento?.currentTarget;
+      if (alvo?.classList?.toggle) alvo.classList.toggle('expandida');
+    },
+  }, conteudo);
+}
 
 const GRUPOS = {
   classica: 'Clássica', social: 'Variável', nova: 'Nova (2026)',
@@ -130,6 +149,8 @@ export function renderVantagens(main, { db }) {
 
   const resumo = resumoDasVantagens(db, pc);
   const validacao = validarVantagens(db, pc);
+  /* validarVantagens devolve { ok, erros, avisos } — os dois viram a lista de problemas da aba */
+  const problemas = [...(validacao.erros || []), ...(validacao.avisos || [])];
   const partesTexto = partes => (partes || [])
     .map(parte => `${parte.fonte || parte.nome || '?'} ${Number(parte.valor) >= 0 ? '+' : ''}${parte.valor}`)
     .join(' · ');
@@ -176,9 +197,9 @@ export function renderVantagens(main, { db }) {
       resumo.periciasMentais?.multiplicador > 1 ? el('p', { class: 'fonte', style: 'margin:.2rem 0 0' }, `Memória Eidética: testes mentais contam como ${resumo.periciasMentais.multiplicador}× a margem de sucesso.`) : '',
       resumo.sorte ? el('p', { class: 'fonte', style: 'margin:.2rem 0 0' }, `Sorte: ${resumo.sorte.nome} — ${resumo.sorte.jogadas} jogada(s) por teste, 1× a cada ${resumo.sorte.intervaloMinutos} min.`) : '',
       resumo.statusDerivado?.nivel ? el('p', { class: 'fonte', style: 'margin:.2rem 0 0' }, `Hierarquia Militar nível ${resumo.statusDerivado.nivel} → Status +${resumo.statusDerivado.status}.`) : '',
-      validacao.problemas.length ? el('div', { class: 'callout bad', style: 'margin-top:.6rem' },
-        el('strong', {}, 'Conflitos e requisitos:'),
-        el('ul', { style: 'margin:.3rem 0 0 1.1rem' }, ...validacao.problemas.map(problema => el('li', {}, problema)))) : '',
+      problemas.length ? el('div', { class: validacao.ok ? 'callout' : 'callout bad', style: 'margin-top:.6rem' },
+        el('strong', {}, validacao.ok ? 'Requisitos e avisos:' : 'Conflitos e requisitos:'),
+        el('ul', { style: 'margin:.3rem 0 0 1.1rem' }, ...problemas.map(problema => el('li', {}, problema)))) : '',
     ) : '',
     el('div', { class: 'grid cols-2 trait-columns' },
       el('section', {}, el('h2', {}, 'Vantagens (p. 17–40)'), advantageFilters.node, listAdvantages),
@@ -257,7 +278,7 @@ function traitRow(db, definition, kind) {
     el('div', { class: 'grow' },
       el('div', { class: 'name' }, definition.nome,
         definition.grupo === 'nova' ? el('span', { class: 'pill good', title: 'Vantagens novas — acréscimos do material GAU' }, 'Nova') : ''),
-      el('div', { class: 'meta' }, (definition.descricao || '').slice(0, 150)),
+      textoExpansivel(definition.descricao || '', `${kind}-${definition.id}`),
       (definition.efeitos || []).length ? el('div', { class: 'chips', style: 'margin-top:.25rem' },
         ...definition.efeitos.map(efeito => el('span', { class: 'chip', title: efeito.descricao || efeito.condicao || '' }, rotuloDeEfeito(efeito)))) : '',
       (definition.requisitos || []).length ? el('div', { class: 'fonte', style: 'margin-top:.2rem' }, `Requisitos: ${definition.requisitos.join('; ')}`) : '',
