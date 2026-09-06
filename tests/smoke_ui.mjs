@@ -201,6 +201,103 @@ const faltandoPericias = esperadosPericias.filter(trecho => !textoGau.includes(t
 if (faltandoPericias.length) { falhas += faltandoPericias.length; console.error(`✗ pericias/G.A.U.: conteúdo ausente — ${faltandoPericias.join(', ')}`); }
 else console.log(`✓ pericias/G.A.U.   painel de compra, limite de criação e familiaridade (${mainGau.count()} nós)`);
 
+/* ---------- Perícias: descrição inteira na linha + compra em lote ---------- */
+const coletarNos = (no, pred, lista = []) => {
+  if (!no || typeof no !== 'object') return lista;
+  if (pred(no)) lista.push(no);
+  for (const filho of no.children || []) coletarNos(filho, pred, lista);
+  return lista;
+};
+const disparar = (no, tipo) => { for (const fn of no?.listeners?.[tipo] || []) fn({ type: tipo, target: no, currentTarget: no, preventDefault() {}, stopPropagation() {} }); };
+{
+  store.update(p => {
+    p.pontos = { total: 150, extrasGanhos: 0 };
+    p.pericias = [];
+    p.atributos = { ST: 10, DX: 10, IQ: 10, HT: 10 };
+    p.vantagens = []; p.desvantagens = []; p.peculiaridades = []; p.poderes = []; p.magias = [];
+    p.aparenciaNivel = 'comum'; p.statusSocial = 0;
+    p.config.emCriacao = false; p.config.modeloPericias = 'gau'; p.config.permitirEstourarPontos = false;
+  });
+  const mainLote = new FakeNode('main');
+  paginaPericias.renderPericias(mainLote, { db: DB, params: [], ir() {} });
+
+  /* 1) o texto publicado aparece inteiro na linha (sem corte em 110 caracteres) */
+  const descricoes = coletarNos(mainLote, no => String(no.className || '').includes('descricao-pericia'));
+  const longa = DB.skills.find(skill => (skill.descricao || '').length > 110);
+  const inteira = descricoes.some(no => no.text() === longa.descricao);
+  if (!descricoes.length) { falhas++; console.error('✗ pericias/texto: nenhuma descrição renderizada'); }
+  else if (!inteira) { falhas++; console.error(`✗ pericias/texto: a descrição de "${longa.nome}" (${longa.descricao.length} chars) não aparece inteira`); }
+  else console.log(`✓ pericias/texto     descrição inteira na linha (${longa.descricao.length} chars em "${longa.nome}")`);
+
+  /* 2) marcar 5 perícias faz aparecer a barra com custo e o botão de compra */
+  const caixas = coletarNos(mainLote, no => no.attrs?.type === 'checkbox'
+    && String(no.attrs['aria-label'] || '').startsWith('Marcar ') && !/todas/i.test(no.attrs['aria-label']));
+  for (const caixa of caixas.slice(0, 5)) { caixa.checked = true; disparar(caixa, 'change'); }
+  const barra = coletarNos(mainLote, no => String(no.className || '').includes('barra-lote'))[0];
+  const botaoComprar = coletarNos(barra, no => no.tagName === 'button' && /^Comprar \d+$/.test(no.text()))[0];
+  if (caixas.length < 5) { falhas++; console.error(`✗ pericias/lote: só ${caixas.length} caixas de seleção na tabela`); }
+  else if (!barra || barra.hidden) { falhas++; console.error('✗ pericias/lote: a barra de compra em lote não apareceu'); }
+  else if (!botaoComprar) { falhas++; console.error(`✗ pericias/lote: sem botão de compra (${barra.text().slice(0, 90)})`); }
+  else if (!/pts/.test(barra.text()) || !/restam/.test(barra.text())) {
+    falhas++; console.error(`✗ pericias/lote: a barra não mostra custo/restam (${barra.text().slice(0, 90)})`);
+  } else {
+    /* 3) confirmar no modal grava as 5 de uma vez */
+    disparar(botaoComprar, 'click');
+    const confirmar = coletarNos(document.getElementById('modal-root'), no => no.tagName === 'button' && /^Comprar \d+ \(/.test(no.text()))[0];
+    if (!confirmar) { falhas++; console.error('✗ pericias/lote: a confirmação do lote não apareceu'); }
+    else {
+      disparar(confirmar, 'click');
+      const pc = store.atual;
+      const problemas = [];
+      if (pc.pericias.length !== 5) problemas.push(`${pc.pericias.length} perícias na ficha, esperava 5`);
+      if (!pc.pericias.every(entrada => entrada.nivel === 1)) problemas.push('nem todas entraram no nível 1');
+      if (pc.pontos.total !== 150) problemas.push(`o total de pontos mudou (${pc.pontos.total})`);
+      if (!barra.hidden) problemas.push('a barra continuou visível depois da compra');
+      if (!pc.historico.some(h => /Compra em lote/.test(h.texto || ''))) problemas.push('o histórico não registrou o lote');
+      if (problemas.length) { falhas++; console.error(`✗ pericias/lote: ${problemas.join('; ')}`); }
+      else console.log(`✓ pericias/lote      5 perícias compradas de uma vez (${barra.text ? 'barra limpa' : ''} + histórico)`);
+    }
+  }
+}
+
+/* ---------- a pesquisa/filtro sobrevive à re-renderização (comprar não apaga nada) ---------- */
+{
+  const contador = no => coletarNos(no, n => String(n.className || '').includes('filter-count')).map(n => n.textContent).join(' ');
+  const mainA = new FakeNode('main');
+  paginaPericias.renderPericias(mainA, { db: DB, params: [], ir() {} });
+  const pesquisaA = coletarNos(mainA, no => no.attrs?.type === 'search')[0];
+  /* o painel liga a pesquisa por propriedade (oninput), não por addEventListener */
+  pesquisaA.value = 'espada';
+  if (typeof pesquisaA.oninput === 'function') pesquisaA.oninput({ target: pesquisaA, currentTarget: pesquisaA });
+  for (const fn of pesquisaA.listeners.input || []) fn({ target: pesquisaA, currentTarget: pesquisaA });
+  const resultadosA = contador(mainA);
+
+  /* re-renderiza a aba inteira, como acontece depois de cada compra */
+  const mainB = new FakeNode('main');
+  paginaPericias.renderPericias(mainB, { db: DB, params: [], ir() {} });
+  const pesquisaB = coletarNos(mainB, no => no.attrs?.type === 'search')[0];
+  const problemas = [];
+  if (pesquisaB?.value !== 'espada') problemas.push(`a pesquisa voltou como "${pesquisaB?.value}"`);
+  if (contador(mainB) !== resultadosA) problemas.push(`a contagem mudou de "${resultadosA}" para "${contador(mainB)}"`);
+  if (!/\d+ resultados?/.test(resultadosA) || resultadosA.startsWith(`${DB.skills.length} `)) problemas.push(`a pesquisa não filtrou (${resultadosA})`);
+  if (problemas.length) { falhas++; console.error(`✗ pericias/filtro: ${problemas.join('; ')}`); }
+  else console.log(`✓ pericias/filtro    pesquisa preservada após re-renderizar (${resultadosA})`);
+
+  const resetar = coletarNos(mainB, no => no.tagName === 'button' && /Resetar filtros/.test(no.text()))[0];
+  disparar(resetar, 'click');
+
+  /* o modelo legado continua renderizando (texto inteiro, sem a coluna de lote) */
+  store.update(p => { p.config.modeloPericias = 'legado'; });
+  const mainLegado = new FakeNode('main');
+  paginaPericias.renderPericias(mainLegado, { db: DB, params: [], ir() {} });
+  store.update(p => { p.config.modeloPericias = 'gau'; });
+  if (mainLegado.count() < 200) { falhas++; console.error(`✗ pericias/legado: só ${mainLegado.count()} nós`); }
+  else if (coletarNos(mainLegado, no => String(no.className || '').includes('barra-lote')).length &&
+           coletarNos(mainLegado, no => no.attrs?.type === 'checkbox' && /comprar em lote/i.test(String(no.attrs['aria-label'] || ''))).length) {
+    falhas++; console.error('✗ pericias/legado: a compra em lote apareceu no modelo legado');
+  } else console.log(`✓ pericias/legado    modelo 3d6 renderiza inteiro (${mainLegado.count()} nós, sem lote)`);
+}
+
 /* ---------- Capítulo Perícias do livro (seções G.A.U.) */
 const mainLivroPericias = new FakeNode('main');
 livro.renderLivro(mainLivroPericias, { db: DB, params: ['ler', 'pericias'], ir() {} });

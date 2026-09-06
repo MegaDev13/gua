@@ -10,6 +10,29 @@ import {
 const clone = value => JSON.parse(JSON.stringify(value));
 const storage = () => typeof localStorage !== 'undefined' ? localStorage : null;
 
+/* Estado do painel por id, em memória: sobrevive à re-renderização da página.
+ * Sem isto, cada compra (que re-renderiza a aba) apagava a pesquisa e os filtros —
+ * o que tornava impossível marcar e adicionar várias perícias/vantagens de uma vez. */
+const estadosDePainel = new Map();
+
+function estadoInicial(config, schema) {
+  const vazio = emptyFilterState(schema);
+  const salvo = config.id ? estadosDePainel.get(config.id) : null;
+  if (!salvo) return vazio;
+  try {
+    const restaurado = clone(vazio);
+    restaurado.text = typeof salvo.text === 'string' ? salvo.text : '';
+    for (const group of schema) {
+      const valor = salvo.groups?.[group.key];
+      if (valor === undefined || valor === null) continue;
+      if (group.type === 'boolean' || group.type === 'relation') restaurado.groups[group.key] = valor === true;
+      else if (group.type === 'range') restaurado.groups[group.key] = { min: valor.min ?? null, max: valor.max ?? null };
+      else restaurado.groups[group.key] = { include: [...(valor.include || [])], exclude: [...(valor.exclude || [])] };
+    }
+    return restaurado;
+  } catch { return vazio; }
+}
+
 export function createFavoriteStore(namespace) {
   const key = `gua.favorites.${namespace}.v1`;
   const load = () => {
@@ -40,15 +63,16 @@ export function createFilterPanel(config) {
     searchFields: config.searchFields,
     context: config.context,
   });
-  let state = emptyFilterState(schema);
+  let state = estadoInicial(config, schema);
   let current = engine.items;
 
   const root = el('section', { class: 'filter-system no-print', 'aria-label': config.title || 'Filtros' });
   const search = el('input', {
-    type: 'search', class: 'filter-search',
+    type: 'search', class: 'filter-search', value: state.text || '',
     placeholder: config.searchPlaceholder || 'Pesquisar por nome, descrição ou característica…',
     'aria-label': 'Pesquisar',
   });
+  search.value = state.text || '';   // propriedade, além do atributo: o texto volta visível
   const count = el('strong', { class: 'filter-count', 'aria-live': 'polite' }, `${engine.items.length} resultados`);
   const active = el('div', { class: 'filter-active', 'aria-label': 'Filtros ativos' });
   const groupsNode = el('div', { class: 'filter-groups' });
@@ -56,6 +80,7 @@ export function createFilterPanel(config) {
 
   const apply = () => {
     state.text = search.value || '';
+    if (config.id) estadosDePainel.set(config.id, clone(state));
     current = engine.filter(state, config.context);
     count.textContent = `${current.length} ${current.length === 1 ? 'resultado' : 'resultados'}`;
     drawActive();
@@ -65,6 +90,7 @@ export function createFilterPanel(config) {
 
   const reset = () => {
     state = emptyFilterState(schema);
+    if (config.id) estadosDePainel.delete(config.id);
     search.value = '';
     drawGroups();
     apply();

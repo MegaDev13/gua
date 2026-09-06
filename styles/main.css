@@ -817,3 +817,26 @@ a.btn { display: inline-flex; align-items: center; justify-content: center; text
 
 /* rótulos dentro de linhas de botões (painéis de pontos: "Total", "Extras ganhos", "Orçamento") */
 .btn-row > .label { font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-dim); white-space: nowrap; }
+
+/* ---------------------------------------------------------------- perícias: texto inteiro + compra em lote */
+.tabela-pericias th.sel, .tabela-pericias td.sel { width: 30px; text-align: center; padding-right: .2rem; }
+.tabela-pericias tr.marcada > td { background: rgba(231, 200, 122, .07); }
+.descricao-pericia {
+  cursor: pointer; max-width: 48ch; margin-top: .15rem;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.descricao-pericia.expandida { display: block; -webkit-line-clamp: unset; overflow: visible; max-width: none; }
+.pericias-toolbar { margin-bottom: .55rem; flex-wrap: wrap; gap: .5rem; }
+.barra-lote {
+  position: fixed; left: 50%; bottom: .9rem; transform: translateX(-50%); z-index: 55;
+  display: flex; align-items: center; gap: .65rem; padding: .45rem .8rem;
+  border: 1px solid var(--border2); border-radius: 12px; background: rgba(22, 17, 11, .96);
+  box-shadow: var(--shadow); max-width: calc(100vw - 2rem); flex-wrap: wrap; justify-content: center;
+}
+.barra-lote[hidden] { display: none; }
+.barra-lote .bl-titulo { font-weight: 700; color: var(--gold2); white-space: nowrap; }
+.barra-lote .bl-custo { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.barra-lote .bl-custo small { color: var(--ink-dim); }
+.bl-campo { display: flex; align-items: center; gap: .3rem; font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-dim); white-space: nowrap; }
+.lista-plano { max-height: 46vh; overflow: auto; }
+@media (max-width: 700px) { .barra-lote { left: .5rem; right: .5rem; bottom: .5rem; transform: none; } }

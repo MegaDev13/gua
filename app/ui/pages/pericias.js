@@ -12,13 +12,27 @@ import { computeAll } from '../../engine/engine.js';
 import {
   attrPadrao, podeComprarMelhoria, modeloDePericias, custoPublicado, nivelEfetivoGAU,
   custoDaPericiaGAU, podeComprarNivelGAU, regraDeFamiliaridade,
+  planejarCompraEmLoteGAU, aplicarNivelDePericiaGAU,
 } from '../../engine/skills.js';
 import { simularGasto } from '../../engine/points.js';
 
 const SEM_CUSTO = 'Sem custo publicado';
 
+/* estado da aba (não faz parte da ficha — sobrevive à re-renderização após cada compra) */
+let selecao = new Set();          // perícias marcadas para a compra em lote
+const descricaoAberta = new Set(); // linhas com o texto completo aberto
+let textoCompleto = false;        // interruptor global: todas as descrições inteiras
+let ultimaLista = [];             // itens do filtro atual (para "marcar todas as filtradas")
+let niveisDoLote = 1;             // quantos níveis comprar de cada perícia marcada
+let personagemDaSelecao = null;   // trocar de personagem descarta a marcação anterior
+
 export function renderPericias(main, { db }) {
   const pc = store.atual;
+  if (personagemDaSelecao !== pc?.id) {
+    personagemDaSelecao = pc?.id ?? null;
+    selecao = new Set();
+    descricaoAberta.clear();
+  }
   const snap = computeAll(db, pc);
   const gau = modeloDePericias(db, pc) === 'gau';
   const fam = regraDeFamiliaridade(db);
@@ -58,10 +72,131 @@ export function renderPericias(main, { db }) {
   });
 
   const tbody = el('tbody');
+  const caixaTodas = el('input', {
+    type: 'checkbox', 'aria-label': 'Marcar todas as perícias do filtro atual',
+    title: 'Marcar/desmarcar todas as perícias visíveis',
+    onchange: evento => {
+      for (const item of ultimaLista) {
+        if (evento.target.checked) selecao.add(item._skill.id);
+        else selecao.delete(item._skill.id);
+      }
+      desenhar(ultimaLista);
+    },
+  });
+  const thTodas = el('th', { class: 'sel' }, caixaTodas);
+
+  /* ---------------------------------------------- compra em lote (várias perícias de uma vez) */
+  const barraLote = el('div', { class: 'barra-lote', hidden: true });
+  const entradaNiveis = el('input', {
+    type: 'number', min: 1, max: 20, step: 1, value: niveisDoLote, style: 'width:62px',
+    'aria-label': 'Níveis a comprar em cada perícia marcada',
+    onchange: evento => {
+      niveisDoLote = Math.max(1, Math.min(20, parseInt(evento.target.value, 10) || 1));
+      evento.target.value = String(niveisDoLote);
+      atualizarBarraLote();
+    },
+  });
+  const planoDoLote = () => planejarCompraEmLoteGAU(db, pc, [...selecao], {
+    niveis: niveisDoLote,
+    disponiveis: snap.contagem?.disponiveis ?? null,
+    limiteCriacao: pc.config?.emCriacao ? (limite?.limite ?? null) : null,
+  });
+
+  function atualizarBarraLote() {
+    barraLote.innerHTML = '';
+    if (!gau || selecao.size === 0) { barraLote.hidden = true; return; }
+    const plano = planoDoLote();
+    const fora = plano.bloqueadas.length + plano.semPontos.length;
+    barraLote.hidden = false;
+    barraLote.append(
+      el('span', { class: 'bl-titulo' }, `${selecao.size} marcada${selecao.size > 1 ? 's' : ''}`),
+      el('label', { class: 'bl-campo' }, 'níveis', entradaNiveis),
+      el('span', { class: 'bl-custo' }, `${plano.custoTotal} pts`,
+        plano.disponiveisDepois === null ? '' : el('small', {}, ` · restam ${plano.disponiveisDepois}`)),
+      el('button', {
+        class: 'btn small primary', disabled: plano.quantidade === 0,
+        title: plano.quantidade ? `Comprar ${plano.quantidade} perícia(s) por ${plano.custoTotal} pontos` : 'Nenhuma marcada pode ser comprada agora',
+        onclick: comprarLote,
+      }, plano.quantidade ? `Comprar ${plano.quantidade}` : 'Nada a comprar'),
+      fora ? el('button', { class: 'btn small ghost', title: 'Ver o que ficou de fora e o motivo de cada uma', onclick: () => mostrarPlano(planoDoLote()) }, `${fora} de fora`) : '',
+      el('button', { class: 'btn small ghost', title: 'Desmarcar tudo', onclick: () => { selecao.clear(); desenhar(ultimaLista); } }, 'Limpar'),
+    );
+  }
+
+  function comprarLote() {
+    const plano = planoDoLote();
+    if (!plano.quantidade) { toast('Nenhuma perícia marcada pode ser comprada agora — veja o motivo em "de fora".', 'bad'); return; }
+    if (plano.quantidade > 3 || plano.bloqueadas.length || plano.semPontos.length) return mostrarPlano(plano, true);
+    return aplicarLote(plano);
+  }
+
+  function aplicarLote(plano) {
+    const mutar = character => {
+      for (const item of plano.plano) aplicarNivelDePericiaGAU(character, item.id, item.nivelFinal);
+      character.config ||= {};
+      if (character.config.modeloPericias !== 'gau') character.config.modeloPericias = 'gau';
+    };
+    /* orçamento único: o lote inteiro tem de caber nos pontos do personagem */
+    const teste = simularGasto(db, pc, mutar, `${plano.quantidade} perícias (${plano.custoTotal} pts)`);
+    if (!teste.ok) { toast(teste.motivo, 'bad'); return; }
+    store.update(mutar);
+    const nomes = plano.plano.slice(0, 8).map(item => `${item.nome} ${item.nivelFinal}`).join(', ');
+    store.historico('pericia', `Compra em lote: ${plano.quantidade} perícia(s) — ${nomes}`
+      + `${plano.quantidade > 8 ? ` e mais ${plano.quantidade - 8}` : ''} (custo ${plano.custoTotal} pts).`);
+    for (const item of plano.plano) selecao.delete(item.id);
+    toast(`${plano.quantidade} perícia(s) comprada(s) por ${plano.custoTotal} pts${plano.disponiveisDepois === null ? '' : ` — restam ${plano.disponiveisDepois}`}.`, 'ok');
+    desenhar(ultimaLista);
+  }
+
+  function mostrarPlano(plano, comConfirmacao = false) {
+    const linhas = plano.plano.map(item => el('div', { class: 'row' },
+      el('span', { class: 'grow' }, item.nome,
+        el('span', { class: 'pill', style: 'margin-left:.4rem' }, `nível ${item.nivelFinal}`),
+        (item.avisos || []).length ? el('div', { class: 'meta fonte' }, item.avisos.join(' · ')) : ''),
+      el('span', { class: 'num' }, `${item.custo} pts`)));
+    const fora = [...plano.bloqueadas, ...plano.semPontos].map(item => el('div', { class: 'row' },
+      el('span', { class: 'grow' }, item.nome, el('div', { class: 'meta fonte' }, item.motivo)),
+      el('span', { class: 'pill bad' }, 'fora')));
+    const janela = modal(comConfirmacao ? 'Confirmar compra em lote' : 'O que ficou de fora do lote', el('div', {},
+      el('p', {}, el('b', {}, `${plano.quantidade} perícia(s)`), ` · ${plano.custoTotal} pontos`
+        + (plano.disponiveisDepois === null ? '' : ` · restam ${plano.disponiveisDepois} do orçamento do personagem`)),
+      el('div', { class: 'list lista-plano' },
+        ...(linhas.length ? linhas : [el('div', { class: 'row' }, 'Nenhuma perícia marcada pode ser comprada agora.')])),
+      fora.length ? el('details', { style: 'margin-top:.6rem', open: comConfirmacao },
+        el('summary', { class: 'fonte' }, `${fora.length} fora do lote — motivo de cada uma`),
+        el('div', { class: 'list lista-plano' }, ...fora)) : ''), {
+      acoes: comConfirmacao
+        ? [el('button', { class: 'btn primary', disabled: plano.quantidade === 0, onclick: () => { janela.close(); aplicarLote(plano); } }, `Comprar ${plano.quantidade} (${plano.custoTotal} pts)`),
+           el('button', { class: 'btn ghost', onclick: () => janela.close() }, 'Cancelar')]
+        : [el('button', { class: 'btn ghost', onclick: () => janela.close() }, 'Fechar')],
+    });
+    return undefined;
+  }
+
+  const marcarTexto = el('input', {
+    type: 'checkbox', checked: textoCompleto, 'aria-label': 'Mostrar o texto completo das descrições',
+    onchange: evento => { textoCompleto = evento.target.checked; desenhar(ultimaLista); },
+  });
+  const toolbar = el('div', { class: 'btn-row pericias-toolbar' },
+    el('label', { class: 'bl-campo', style: 'cursor:pointer' }, marcarTexto, 'texto completo'),
+    gau ? el('button', {
+      class: 'btn small', title: 'Marcar todas as perícias do filtro atual para comprar de uma vez',
+      onclick: () => { for (const item of ultimaLista) selecao.add(item._skill.id); desenhar(ultimaLista); },
+    }, '☑ Marcar filtradas') : '',
+    el('button', { class: 'btn small ghost', title: 'Desmarcar todas', onclick: () => { selecao.clear(); desenhar(ultimaLista); } }, 'Limpar marcação'),
+    el('span', { class: 'fonte' }, `${catalog.length} no catálogo · ${(pc.pericias || []).length} na ficha`
+      + (gau ? ` · ${disponiveis ?? '—'} pts livres` : '')),
+  );
+
   function desenhar(items) {
+    ultimaLista = items;
     tbody.innerHTML = '';
-    const rows = items.map(item => linhaPericia(db, pc, item._skill, item._entry, item._effective, { gau, snap, disponiveis, limite }));
-    tbody.append(...(rows.length ? rows : [el('tr', {}, el('td', { colspan: 7, style: 'text-align:center' }, 'Nenhuma perícia corresponde aos filtros.'))]));
+    const rows = items.map(item => linhaPericia(db, pc, item._skill, item._entry, item._effective, {
+      gau, snap, disponiveis, limite, aoSelecionar: atualizarBarraLote,
+    }));
+    tbody.append(...(rows.length ? rows : [el('tr', {}, el('td', { colspan: gau ? 8 : 7, style: 'text-align:center' }, 'Nenhuma perícia corresponde aos filtros.'))]));
+    caixaTodas.checked = items.length > 0 && items.every(item => selecao.has(item._skill.id));
+    atualizarBarraLote();
   }
 
   const filters = createFilterPanel({
@@ -98,12 +233,15 @@ export function renderPericias(main, { db }) {
     gau ? painelGAU(db, snap, limite, fam, pc) : painelLegado(db),
     filters.node,
     el('div', { class: 'panel' },
-      el('div', { class: 'tbl-scroll' }, el('table', { class: 'tbl' },
+      toolbar,
+      el('div', { class: 'tbl-scroll' }, el('table', { class: 'tbl tabela-pericias' },
         el('thead', {}, el('tr', {},
-          (gau ? ['Perícia', 'Grupo', 'Custo', 'Pré-definido', 'Nível', 'Modificadores', 'Ações']
+          ...(gau ? [thTodas] : []),
+          ...(gau ? ['Perícia', 'Grupo', 'Custo', 'Pré-definido', 'Nível', 'Modificadores', 'Ações']
                : ['Perícia', 'Tipo', 'Nível', 'Pontos', 'Default', 'Pré-req.', 'Ações']).map(title => el('th', {}, title)))),
         tbody))),
-    el('p', { class: 'fonte' }, 'Dentro de cada filtro as opções são combinadas com OU; grupos diferentes são combinados com E. O nível continua sendo calculado exclusivamente pelo Rule Engine.'),
+    el('p', { class: 'fonte' }, 'Dentro de cada filtro as opções são combinadas com OU; grupos diferentes são combinados com E. Marque várias perícias e compre todas de uma vez na barra inferior — o nível continua sendo calculado exclusivamente pelo Rule Engine.'),
+    barraLote,
   );
 }
 
@@ -150,8 +288,32 @@ function painelLegado(db) {
       'Perícias por pontos investidos na tabela de dificuldade. Para voltar ao modelo G.A.U., ajuste config.modeloPericias em Configurações.'));
 }
 
+/* ---------------------------------------------------------------- descrição na linha
+ * O texto publicado aparece INTEIRO: 2 linhas recolhidas e clique para expandir (sem cortar
+ * conteúdo). O interruptor "texto completo" acima da tabela expande todas de uma vez. */
+/** Texto publicado inteiro, recolhido em 2 linhas até o clique (ou até ligar "texto completo"). */
+function textoExpansivel(texto, chave, extra = '') {
+  const conteudo = String(texto || '');
+  if (!conteudo) return '';
+  const aberta = textoCompleto || descricaoAberta.has(chave);
+  return el('div', {
+    class: `meta fonte descricao-pericia${extra ? ` ${extra}` : ''}${aberta ? ' expandida' : ''}`,
+    title: aberta ? 'Clique para recolher o texto' : 'Clique para ler o texto inteiro',
+    onclick: evento => {
+      if (descricaoAberta.has(chave)) descricaoAberta.delete(chave);
+      else descricaoAberta.add(chave);
+      const alvo = evento?.currentTarget;
+      if (alvo?.classList?.toggle) alvo.classList.toggle('expandida');
+    },
+  }, conteudo);
+}
+
+function descricaoPericia(skill) {
+  return textoExpansivel(skill.descricao || '', skill.id);
+}
+
 /* ---------------------------------------------------------------- linha da tabela */
-function linhaPericia(db, pc, skill, entry, effective, { gau, snap, disponiveis, limite }) {
+function linhaPericia(db, pc, skill, entry, effective, { gau, snap, disponiveis, limite, aoSelecionar }) {
   if (!gau) return linhaLegada(db, pc, skill, entry, effective, snap);
 
   const nivelComprado = effective?.nivelComprado ?? null;
@@ -208,12 +370,22 @@ function linhaPericia(db, pc, skill, entry, effective, { gau, snap, disponiveis,
     atual.familiarizado = atual.familiarizado === false;
   });
 
-  return el('tr', {},
+  return el('tr', { class: selecao.has(skill.id) ? 'marcada' : '' },
+    ...(gau ? [el('td', { class: 'sel' }, el('input', {
+      type: 'checkbox', checked: selecao.has(skill.id),
+      'aria-label': `Marcar ${skill.nome} para comprar em lote`,
+      title: 'Marcar para comprar várias de uma vez',
+      onchange: evento => {
+        if (evento.target.checked) selecao.add(skill.id);
+        else selecao.delete(skill.id);
+        if (aoSelecionar) aoSelecionar();
+      },
+    }))] : []),
     el('td', {}, el('strong', {}, skill.nome + (skill.ntMinimo ? `/NT ${skill.ntMinimo}` : '')),
       skill.especializacao ? el('span', { class: 'pill warn', title: `Especialização: ${skill.especializacao}` }, skill.especializacao) : '',
       entry?.especialidade ? el('span', { class: 'pill' }, entry.especialidade) : '',
       skill.testeSecreto ? el('span', { class: 'pill', title: 'O MJ rola em segredo.' }, '🕶 segredo') : '',
-      el('div', { class: 'meta fonte' }, (skill.descricao || '').slice(0, 110) + ((skill.descricao || '').length > 110 ? '…' : ''))),
+      descricaoPericia(skill)),
     el('td', { class: 'fonte' }, skill.grupo || '—'),
     el('td', { class: 'num' }, publicado === null
       ? el('span', { class: 'pill warn', title: skill._avisoCusto || 'A publicação informa a dificuldade, não o custo em pontos.' }, skill.custoTexto || SEM_CUSTO)
@@ -275,7 +447,7 @@ function linhaLegada(db, pc, skill, entry, effective, snap) {
   return el('tr', {},
     el('td', {}, el('strong', {}, skill.nome + (skill.ntMinimo ? `/NT ${skill.ntMinimo}` : '')),
       skill.especializacao ? el('span', { class: 'pill warn', title: `Especialização ${skill.especializacao}` }, skill.especializacao) : '',
-      el('div', { class: 'meta fonte' }, (skill.descricao || '').slice(0, 110) + '…')),
+      descricaoPericia(skill)),
     el('td', {}, `${skill.tipo === 'Física' ? 'Fís' : 'Men'}/${skill.dificuldade} · ${base}`),
     el('td', {}, entry
       ? (effective ? valorCalculado(level, [
@@ -286,8 +458,9 @@ function linhaLegada(db, pc, skill, entry, effective, snap) {
         ]) : level)
       : (defaultValue ? valorCalculado(defaultValue.valor, [{ fonte: `Default: ${defaultValue.origem}` }]) : '—')),
     el('td', { class: 'num' }, entry ? String(entry.pontos) : '—'),
-    el('td', { style: 'font-size:.75rem;color:var(--ink-dim)' }, (skill.defaults || []).join(' | ').replace(/Pré-definido:? como:? ?/g, '').slice(0, 90)),
-    el('td', {}, prereqs ? el('span', { class: 'pill warn', title: prereqs }, prereqs.slice(0, 80)) : el('span', { class: 'pill' }, '—')),
+    el('td', { style: 'font-size:.75rem;color:var(--ink-dim)' },
+      textoExpansivel((skill.defaults || []).join(' | ').replace(/Pré-definido:? como:? ?/g, ''), `legados-${skill.id}`)),
+    el('td', {}, prereqs ? textoExpansivel(prereqs, `prereqs-${skill.id}`) : el('span', { class: 'pill' }, '—')),
     el('td', {}, el('div', { class: 'btn-row', style: 'margin:0' },
       el('button', { class: 'btn small', onclick: () => comprar(.5), title: 'Comprar ½ ponto' }, '+½'),
       el('button', { class: 'btn small', onclick: () => comprar(1), title: 'Comprar 1 ponto' }, '+1'),

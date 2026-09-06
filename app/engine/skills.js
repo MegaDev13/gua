@@ -610,3 +610,98 @@ export function podeComprarNivelGAU(db, personagem, entrada, delta = 1, { dispon
   }
   return { ok: erros.length === 0, erros, avisos, custo, nivel: nivelFinal };
 }
+
+/**
+ * Grava um nível de perícia na ficha (modelo G.A.U.), criando a entrada quando necessário.
+ * Entrada vinda do modelo legado: os pontos antigos são preservados em `pontosLegados`.
+ */
+export function aplicarNivelDePericiaGAU(personagem, id, nivel) {
+  personagem.pericias ||= [];
+  const atual = personagem.pericias.find(item => item.id === id);
+  if (nivel === null || nivel === undefined) return { id, nivel: null, removida: false };
+  if (nivel <= 0) {
+    if (atual) personagem.pericias = personagem.pericias.filter(item => item !== atual);
+    return { id, nivel: 0, removida: true };
+  }
+  if (atual) {
+    if (!Number.isFinite(atual.nivel) && Number.isFinite(atual.pontos)) {
+      atual.pontosLegados = atual.pontos;
+      delete atual.pontos;
+    }
+    atual.nivel = nivel;
+    return { id, nivel, removida: false };
+  }
+  personagem.pericias.push({ id, nivel, especialidade: null });
+  return { id, nivel, removida: false };
+}
+
+/**
+ * Plano de COMPRA EM LOTE (modelo G.A.U.): percorre os ids na ordem pedida comprando até
+ * `niveis` passos de cada um, respeitando pré-requisitos publicados, NT mínimo, limite de
+ * criação (2 × idade) e os pontos disponíveis do orçamento (único) do personagem.
+ *
+ * Não grava nada: devolve o plano para a UI aplicar numa única escrita (e mostrar o motivo
+ * de cada perícia que não entrou). Como a verificação roda sobre um rascunho acumulativo,
+ * uma perícia comprada no mesmo lote já serve de pré-requisito para a seguinte.
+ */
+export function planejarCompraEmLoteGAU(db, personagem, ids, {
+  niveis = 1, disponiveis = null, limiteCriacao = null, considerarOrcamento = true,
+} = {}) {
+  const passos = Math.max(1, Math.round(Number(niveis) || 1));
+  let rascunho;
+  try { rascunho = JSON.parse(JSON.stringify(personagem)); } catch { rascunho = { pericias: [] }; }
+  rascunho.pericias ||= [];
+  const plano = [];
+  const bloqueadas = [];
+  const semPontos = [];
+  let custoTotal = 0;
+
+  for (const id of ids) {
+    const skill = db?.skill?.(id) || (db?.skills || []).find(item => item.id === id);
+    if (!skill) { bloqueadas.push({ id, nome: String(id), motivo: 'Perícia não encontrada no catálogo.' }); continue; }
+    const entrada = () => rascunho.pericias.find(item => item.id === id);
+    const aviso = [];
+    let custo = 0;
+    let passosDados = 0;
+    let nivelFinal = nivelDaEntrada(db, rascunho, entrada() || { id });
+    let motivoBloqueio = null;
+    let motivoPontos = null;
+
+    for (let passo = 1; passo <= passos; passo++) {
+      const restantes = considerarOrcamento && disponiveis !== null ? disponiveis - custoTotal - custo : null;
+      const check = podeComprarNivelGAU(db, rascunho, entrada() || { id }, 1, { disponiveis: restantes, limiteCriacao });
+      if (!check.ok) {
+        const motivo = check.erros[0] || 'Compra bloqueada pela regra publicada.';
+        if (/pontos insuficientes/i.test(motivo)) motivoPontos ||= motivo;
+        else motivoBloqueio ||= motivo;
+        break;
+      }
+      aplicarNivelDePericiaGAU(rascunho, id, check.nivel);
+      custo += Math.max(0, Number(check.custo) || 0);
+      passosDados++;
+      nivelFinal = check.nivel;
+      for (const texto of check.avisos || []) if (!aviso.includes(texto)) aviso.push(texto);
+    }
+
+    if (passosDados) {
+      custoTotal += custo;
+      plano.push({ id, nome: skill.nome || id, nivelFinal, passos: passosDados, custo, avisos: aviso });
+    } else if (motivoBloqueio) {
+      bloqueadas.push({ id, nome: skill.nome || id, motivo: motivoBloqueio });
+    } else if (motivoPontos) {
+      semPontos.push({ id, nome: skill.nome || id, motivo: motivoPontos });
+    } else {
+      bloqueadas.push({ id, nome: skill.nome || id, motivo: 'Nada a comprar (nível já é o máximo pedido).' });
+    }
+    if (passosDados && passosDados < passos && motivoPontos) {
+      semPontos.push({ id, nome: skill.nome || id, motivo: `${motivoPontos} (comprado ${passosDados} de ${passos} nível(is)).` });
+    }
+  }
+
+  return {
+    plano, bloqueadas, semPontos, custoTotal, passos,
+    quantidade: plano.length,
+    disponiveisAntes: disponiveis,
+    disponiveisDepois: disponiveis === null ? null : disponiveis - custoTotal,
+  };
+}

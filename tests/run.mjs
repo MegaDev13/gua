@@ -25,6 +25,7 @@ import {
   modeloDePericias, custoPublicado, nivelComprado, custoDaPericiaGAU, custoPericiasGAU,
   limitePontosNaCriacao, defaultGAU, nivelEfetivoGAU, periciasGAU, validarPericiasGAU,
   regraDeFamiliaridade, nivelDaEntrada, podeComprarNivelGAU, tabelaCustos,
+  planejarCompraEmLoteGAU, aplicarNivelDePericiaGAU,
 } from '../app/engine/skills.js';
 
 let pass = 0, fail = 0; const failures = [];
@@ -932,5 +933,79 @@ t('resumoDePontos: marca estouro e quanto falta', (() => {
   return resumo.estourado === true && resumo.livres < 0 && resumo.faltam === -resumo.livres;
 })());
 
+/* ---------------------------------------------------------- compra de perícias EM LOTE
+ * "Adicionar todas" da aba Perícias: o plano é calculado sobre um rascunho acumulativo,
+ * respeitando pré-requisitos, NT mínimo, limite de criação e o orçamento único. */
+t('lote: compra várias perícias de uma vez somando os custos publicados', (() => {
+  const pc = novoPersonagem('Lote', 150, DB);
+  const plano = planejarCompraEmLoteGAU(DB, pc, ['natacao', 'primeiros-socorros', 'espadas-curtas'], { niveis: 1, disponiveis: 150 });
+  return plano.quantidade === 3 && plano.custoTotal === 7 && plano.disponiveisDepois === 143
+    && plano.plano.every(item => item.nivelFinal === 1);
+})());
+t('lote: o plano não toca no personagem', (() => {
+  const pc = novoPersonagem('Intacto', 150, DB);
+  planejarCompraEmLoteGAU(DB, pc, ['natacao', 'escudo'], { niveis: 1, disponiveis: 150 });
+  return (pc.pericias || []).length === 0;
+})());
+t('lote: níveis pedidos viram custo publicado + (nível − 1)', (() => {
+  const plano = planejarCompraEmLoteGAU(DB, novoPersonagem('Especialista', 150, DB), ['natacao'], { niveis: 5, disponiveis: 150 });
+  return plano.plano[0].nivelFinal === 5 && plano.custoTotal === 6;
+})());
+t('lote: o orçamento disponível corta a compra e aponta quem ficou de fora', (() => {
+  const plano = planejarCompraEmLoteGAU(DB, novoPersonagem('Apertado', 150, DB),
+    ['natacao', 'primeiros-socorros', 'espadas-curtas', 'escudo'], { niveis: 1, disponiveis: 5 });
+  return plano.quantidade === 2 && plano.custoTotal === 4 && plano.disponiveisDepois === 1
+    && plano.semPontos.length === 2 && /Pontos insuficientes/.test(plano.semPontos[0].motivo);
+})());
+t('lote: pré-requisito comprado no MESMO lote libera a perícia seguinte', (() => {
+  const pc = novoPersonagem('Químico', 400, DB);
+  const sozinha = planejarCompraEmLoteGAU(DB, pc, ['bioquimica'], { niveis: 1, disponiveis: 400 });
+  const emLote = planejarCompraEmLoteGAU(DB, pc, ['quimica', 'bioquimica'], { niveis: 12, disponiveis: 400 });
+  return sozinha.quantidade === 0 && /[Pp]ré-requisito/.test(sozinha.bloqueadas[0].motivo)
+    && emLote.quantidade === 2 && emLote.plano.some(item => item.id === 'bioquimica' && item.nivelFinal === 12);
+})());
+t('lote: NT mínimo acima da ficha bloqueia com o motivo publicado', (() => {
+  const pc = novoPersonagem('Medieval', 150, DB);
+  pc.nt = 3;
+  const plano = planejarCompraEmLoteGAU(DB, pc, ['operacao-de-computadores', 'natacao'], { niveis: 1, disponiveis: 150 });
+  return plano.quantidade === 1 && plano.bloqueadas.length === 1 && /NT 7/.test(plano.bloqueadas[0].motivo);
+})());
+t('lote: limite de criação (2 × idade) corta o lote', (() => {
+  const pc = novoPersonagem('Jovem', 150, DB);
+  pc.idade = 3;
+  const plano = planejarCompraEmLoteGAU(DB, pc, ['natacao', 'primeiros-socorros', 'espadas-curtas'],
+    { niveis: 1, disponiveis: 150, limiteCriacao: 6 });
+  return plano.quantidade === 2 && plano.custoTotal === 4
+    && plano.bloqueadas.some(item => /Limite de criação/.test(item.motivo));
+})());
+t('lote: perícia sem custo publicado entra anotada, sem cobrar pontos', (() => {
+  const plano = planejarCompraEmLoteGAU(DB, novoPersonagem('Artista', 150, DB), ['caligrafia'], { niveis: 1, disponiveis: 150 });
+  return plano.quantidade === 1 && plano.custoTotal === 0 && plano.plano[0].avisos.length > 0;
+})());
+t('lote: id desconhecido não derruba o plano', (() => {
+  const plano = planejarCompraEmLoteGAU(DB, novoPersonagem('X', 150, DB), ['nao-existe', 'natacao'], { niveis: 1, disponiveis: 150 });
+  return plano.quantidade === 1 && plano.bloqueadas.some(item => /não encontrada/.test(item.motivo));
+})());
+t('lote: aplicado na ficha, o custo real confere com o plano', (() => {
+  const pc = novoPersonagem('Conferência', 150, DB);
+  const ids = ['natacao', 'primeiros-socorros', 'espadas-curtas', 'escudo'];
+  const plano = planejarCompraEmLoteGAU(DB, pc, ids, { niveis: 2, disponiveis: 150 });
+  for (const item of plano.plano) aplicarNivelDePericiaGAU(pc, item.id, item.nivelFinal);
+  const contagem = contagemDePontos(DB, pc);
+  return contagem.gastos === plano.custoTotal
+    && contagem.partes.some(parte => parte.tipo === 'pericias' && parte.custo === plano.custoTotal)
+    && pc.pericias.length === plano.quantidade;
+})());
+t('aplicarNivelDePericiaGAU: cria, sobe, remove e preserva os pontos legados', (() => {
+  const pc = novoPersonagem('Aplicar', 150, DB);
+  aplicarNivelDePericiaGAU(pc, 'natacao', 1);
+  aplicarNivelDePericiaGAU(pc, 'natacao', 4);
+  pc.pericias.push({ id: 'escudo', pontos: 3 });
+  aplicarNivelDePericiaGAU(pc, 'escudo', 2);
+  const legado = pc.pericias.find(entrada => entrada.id === 'escudo');
+  aplicarNivelDePericiaGAU(pc, 'natacao', 0);
+  return pc.pericias.find(entrada => entrada.id === 'natacao') === undefined
+    && legado.nivel === 2 && legado.pontosLegados === 3 && legado.pontos === undefined;
+})());
 console.log(`\n===== RESULTADO: ${pass} passou, ${fail} falhou =====`);
 if (failures.length) { console.log(failures.join('\n')); process.exit(1); }
