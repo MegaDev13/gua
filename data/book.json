@@ -5,7 +5,7 @@
  "descricao": "Um guia de mesa para criar personagens, resolver ações e consultar regras sem interromper a aventura. Esta edição digital compartilha a mesma base de dados e os mesmos cálculos da ficha — agora sob a modulação G.A.U em d20.",
  "edicao": "Edição Digital 2.0 — Modulação G.A.U (d20)",
  "versao": "2.0.0",
- "atualizadoEm": "2026-09-05",
+ "atualizadoEm": "2026-09-09",
  "capituloFonte": "docs/analise/02-modulacao-gau-d20.md",
  "capa": "book/images/capa-livro.jpg",
  "ilustracoes": {
@@ -36,7 +36,8 @@
   "Pontos de personagem: total configurável com 9 presets (25 Fraco → 1.000 Divino), campo livre, ajustes de 10 e 50 pontos e faixas de campanha",
   "Orçamento único: atributos, perícias, vantagens, poderes e mágicas saem do MESMO total — desvantagens e peculiaridades devolvem pontos; manobras e empunhadura são grátis",
   "Travamento de gasto: compra que estoura o orçamento é bloqueada com o motivo (config.permitirEstourarPontos libera com aviso); modo 'separado' mantém o orçamento próprio de pontos de poder",
-  "Catálogo de peculiaridades escolhível (52: 32 do material-base p. 88–89 + 20 de campanha) e desvantagens ampliadas para 106 entradas"
+  "Catálogo de peculiaridades escolhível (52: 32 do material-base p. 88–89 + 20 de campanha) e desvantagens ampliadas para 106 entradas",
+  "Condições do construtor de poderes rebalanceadas (tabela Condição | Pontos atualizada em data/poderes.json → livro e construtor) e ficha preserva foco/rolagem ao digitar"
  ],
  "capitulos": [
   {

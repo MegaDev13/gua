@@ -296,7 +296,7 @@ t('armas.json: ≥ 60 armas', arsenal(DB).length >= 60, `got ${arsenal(DB).lengt
 t('estruturas.json: 7 materiais', (DB.estruturas?.estruturas?.materiais || []).length === 7);
 t('proezas.json: tabela de pânico 4…40+', (DB.proezas?.panico?.rolagem?.tabela || []).length === 33);
 t('poderes.json: 9 grupos de efeito', (DB.poderes?.modulos?.efeitos?.grupos || []).length === 9);
-t('poderes.json: 31 condições', (DB.poderes?.modulos?.condicoes?.itens || []).length >= 30);
+t('poderes.json: catálogo de condições com ≥ 30 entradas', (DB.poderes?.modulos?.condicoes?.itens || []).length >= 30);
 t('maneuvers.json: 6 manobras básicas', (DB.maneuvers?.manobras || []).length === 6);
 t('maneuvers.json: árvore com ≥ 50 nós', listaManobras(DB).length >= 50, `got ${listaManobras(DB).length}`);
 t('book.json: 13 capítulos', (DB.book?.capitulos || []).length === 13);
@@ -430,7 +430,7 @@ poder.potencia = { intensidade: 'forte', dano: 'dano-alto', forca: [], velocidad
 poder.condicoes = ['requer-contato'];
 poder.pv = 'pv-10';
 poder.rd = 'rd-2';
-t('poder: custo = 10+15+5+5+25+20−10+10+10 = 90', custoDoPoder(DB, poder).total === 90, `veio ${custoDoPoder(DB, poder).total}`);
+t('poder: custo = 10+15+5+5+25+20−5+10+10 = 95', custoDoPoder(DB, poder).total === 95, `veio ${custoDoPoder(DB, poder).total}`);
 t('poder: válido dentro do orçamento de 150', validarPoder(DB, poder, { orcamento: 150 }).ok === true);
 t('poder: efeito exige Extensão e Potência', (() => {
   const incompleto = novoPoder('Sem extensão');
@@ -852,8 +852,8 @@ t('orçamento único: ST 12 sai do total do personagem', comAtributo.gastos === 
 t('orçamento único: livres = total − gastos', comAtributo.disponiveis === comAtributo.total - comAtributo.gastos);
 heroi.poderes = [JSON.parse(JSON.stringify(poder))];
 const comPoder = orcamentoDePontos(DB, heroi);
-t('orçamento único: poder de 90 pts sai do MESMO total (gastou em atributo → sobra menos no poder)',
-  comPoder.gastos === custoST12 + 90 && comPoder.disponiveis === 150 - custoST12 - 90,
+t('orçamento único: poder de 95 pts sai do MESMO total (gastou em atributo → sobra menos no poder)',
+  comPoder.gastos === custoST12 + 95 && comPoder.disponiveis === 150 - custoST12 - 95,
   `gastos ${comPoder.gastos}, livres ${comPoder.disponiveis}`);
 t('orçamento único: pontosDePoder aponta para o que resta do personagem',
   comPoder.poderes.unificado === true && comPoder.poderes.disponiveisDoPersonagem === comPoder.disponiveis);
@@ -863,7 +863,7 @@ t('orçamento único: modo "separado" devolve o orçamento próprio ao poder', (
   heroi.config.orcamentoPontos = 'separado';
   const separado = orcamentoDePontos(DB, heroi);
   const ok = separado.modo === 'separado' && separado.gastos === custoST12
-    && separado.poderes.unificado === false && separado.poderes.disponiveis === separado.poderes.total - 90;
+    && separado.poderes.unificado === false && separado.poderes.disponiveis === separado.poderes.total - 95;
   heroi.config.orcamentoPontos = 'unificado';
   return ok;
 })());
@@ -921,9 +921,9 @@ t('validar: no modo separado o teto do poder volta a ser o orçamento de poder',
 /* resumo do widget do topo */
 t('resumoDePontos: alimenta o widget (total, gastos, livres, %, faixa)', (() => {
   const resumo = resumoDePontos(DB, heroi);
-  return resumo.total === 150 && resumo.gastos === custoST12 + 90
-    && resumo.livres === 150 - custoST12 - 90 && resumo.estourado === false
-    && resumo.porcentagemUsada === Math.round(((custoST12 + 90) / 150) * 100)
+  return resumo.total === 150 && resumo.gastos === custoST12 + 95
+    && resumo.livres === 150 - custoST12 - 95 && resumo.estourado === false
+    && resumo.porcentagemUsada === Math.round(((custoST12 + 95) / 150) * 100)
     && resumo.incrementos.join() === '10,50' && resumo.presets.length === 9
     && resumo.escala.pontos === '100 a 150';
 })());

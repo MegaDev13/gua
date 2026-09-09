@@ -40,12 +40,23 @@ const SYSTEMS = [
   { id: 'combate', nome: 'Combate', icon: '⚔', href: 'combate' },
 ];
 
-function route() {
+function route(opts = {}) {
   const hash = location.hash.replace(/^#\/?/, '') || 'personagem';
   const [pageId, ...resto] = hash.split('/');
   const page = PAGES.find(candidate => candidate.id === pageId) || PAGES[0];
   const main = document.getElementById('main');
   const activeSystem = page.area;
+
+  /* Re-render por edição (store.update → 'char'): preserva foco e rolagem para o site
+     NÃO "pular a tela" enquanto o usuário digita ou mexe num campo. Navegação real
+     (mudar de página) continua rolando para o topo. */
+  const preserve = !!opts.preserve;
+  const activeEl = document.activeElement || null;
+  const activePath = activeEl && activeEl.dataset ? activeEl.dataset.path : null;
+  const caretStart = activeEl && typeof activeEl.selectionStart === 'number' ? activeEl.selectionStart : null;
+  const caretEnd = activeEl && typeof activeEl.selectionEnd === 'number' ? activeEl.selectionEnd : null;
+  const activeRange = caretStart != null ? [caretStart, caretEnd != null ? caretEnd : caretStart] : null;
+  const prevScrollY = preserve ? window.scrollY : 0;
 
   document.querySelectorAll('.tab').forEach(tab => tab.toggleAttribute('aria-current', tab.dataset.page === page.id));
   document.querySelectorAll('.system-link').forEach(link => link.toggleAttribute('aria-current', link.dataset.system === activeSystem));
@@ -70,7 +81,24 @@ function route() {
     main.append(el('div', { class: 'panel' }, `Erro ao renderizar ${page.nome}: ${error.message}`));
     console.error(error);
   }
-  if (page.area !== 'livro') window.scrollTo(0, 0);
+  if (page.area !== 'livro') {
+    if (preserve) {
+      /* Refoca o mesmo campo recriado (mesmo data-path) e devolve o caret; a rolagem
+         é restaurada por último, para focus() não deslocar a página. */
+      if (activePath) {
+        const alvo = main.querySelector(`[data-path="${activePath}"]`);
+        if (alvo) {
+          alvo.focus();
+          if (activeRange && typeof alvo.setSelectionRange === 'function') {
+            try { alvo.setSelectionRange(activeRange[0], activeRange[1]); } catch (_) {}
+          }
+        }
+      }
+      window.scrollTo(0, prevScrollY);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
 }
 
 function montarNav() {
@@ -186,8 +214,9 @@ function avisarFalhaDeDados(falhas) {
   store.subscribe(event => {
     if (event === 'chars') montarSeletor();
     montarWidgetPontos();
-    route();
+    /* 'char' = edição de ficha (ex.: digitar). Preserva foco/rolagem para não pular a tela. */
+    route({ preserve: event === 'char' });
   });
-  window.addEventListener('hashchange', route);
+  window.addEventListener('hashchange', () => route());
   route();
 })();

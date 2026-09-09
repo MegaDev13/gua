@@ -41,7 +41,7 @@ Livro de regras digital **+** ficha de personagem automatizada, construídos sob
 | `data/maneuvers.json` | **Árvore de manobras (55 nós)**, defesas ativas, Grau de Dano, localização de acerto, luminosidade, empunhaduras, combate montado/veículos |
 | `data/armas.json` | **64 armas** em 3 eras (medieval, moderna, futurista) + tabela **PREC** + dano de arremesso |
 | `data/estruturas.json` | Dano em estruturas/objetos: 7 materiais (Limiar de Dano e PE por tamanho), estados de degradação e **13 níveis de tecnologia (NT 0–12+)** |
-| `data/poderes.json` | Construtor modular: **78 efeitos** (9 grupos), **40 extensões**, **21 potências**, **31 condições**, bônus/penalidades/PV/RD, dimensionalidade e hax |
+| `data/poderes.json` | Construtor modular: **78 efeitos** (9 grupos), **40 extensões**, **21 potências**, **30 condições**, bônus/penalidades/PV/RD, dimensionalidade e hax |
 | `data/magia.json` | Sistema mágico completo: aptidão, aprendizado, pré-requisitos, mana, rituais por NH, tempo, custo de energia, duração, classes, toque do mago, cajado/vara, cerimonial, objetos encantados e entidades |
 | `data/advantages.json` | **65 vantagens** da publicação oficial (38 clássicas + 6 de custo variável + **21 novas** de 16/08/2026), com custos, **efeitos estruturados** consumidos pelo motor, níveis (Rijeza, Memória Eidética, Sorte, Aptidão Mágica, Abascanto, Riqueza, Status, Aparência…), requisitos, incompatibilidades e unicidade |
 | `data/vantagens.json` | Regras do capítulo: definição e momento de compra, custos, **NOVAS VANTAGENS**, **Aliado** (poder × freqüência 3d), **Patrono** (escalas 10/15/25/30, equipamento, qualidades), **Riqueza**, exemplo de seleção de Dai Blackthorn, conflitos e **migração de ids** de fichas salvas |

@@ -110,16 +110,16 @@ export function renderPersonagem(main, { db }) {
 }
 
 function campo(label, path, valor, placeholder = '') {
-  const input = el('textarea', { placeholder, onchange: e => setPath(path, e.target.value) }, valor || '');
+  const input = el('textarea', { placeholder, dataset: { path }, oninput: e => setPath(path, e.target.value) }, valor || '');
   if (['nome', 'conceito', 'jogador'].includes(path)) {
     return el('label', { class: 'field' }, label,
-      el('input', { value: valor || '', placeholder, oninput: e => setPath(path, e.target.value) }));
+      el('input', { value: valor || '', placeholder, dataset: { path }, oninput: e => setPath(path, e.target.value) }));
   }
   return el('label', { class: 'field' }, label, input);
 }
 function campoIdade(pc) {
   return el('label', { class: 'field' }, 'Idade (limite de perícias na criação = 2× idade)',
-    el('input', { type: 'number', min: 1, value: pc.idade ?? '', oninput: e => store.update(p => p.idade = parseInt(e.target.value, 10) || null) }));
+    el('input', { type: 'number', min: 1, value: pc.idade ?? '', dataset: { path: 'idade' }, oninput: e => store.update(p => p.idade = parseInt(e.target.value, 10) || null) }));
 }
 function setPath(path, valor) {
   store.update(p => {
