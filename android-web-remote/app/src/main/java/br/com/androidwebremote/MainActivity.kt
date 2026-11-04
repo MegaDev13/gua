@@ -9,6 +9,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -28,8 +30,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             var tick by remember { mutableIntStateOf(0) }
-            LaunchedEffect(Unit) { while (true) { delay(500); tick++ } }
-            MaterialTheme { Column(Modifier.padding(20.dp).fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            LaunchedEffect(Unit) { Diagnostics.checkUpdates(); while (true) { delay(500); tick++ } }
+            MaterialTheme { Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text("ANDROID WEB REMOTE", style = MaterialTheme.typography.headlineSmall)
                 Text("Experimental • somente rede local confiável")
                 Text(if (tick >= 0) State.message else "")
@@ -44,6 +46,15 @@ class MainActivity : ComponentActivity() {
                     OutlinedButton(onClick = { State.reset() }) { Text("Recusar e trocar código") }
                 }
                 OutlinedButton(onClick = { stopService(Intent(this@MainActivity, RemoteService::class.java)) }, enabled = State.running) { Text("Encerrar sessão") }
+                HorizontalDivider()
+                Text("Diagnóstico e atualizações", style = MaterialTheme.typography.titleMedium)
+                Text(State.updateStatus)
+                OutlinedButton(onClick = { Diagnostics.checkUpdates() }) { Text("Verificar atualizações") }
+                OutlinedButton(onClick = {
+                    val report = Diagnostics.report(this@MainActivity)
+                    val share = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, report)
+                    startActivity(Intent.createChooser(share, "Compartilhar diagnóstico"))
+                }) { Text("Compartilhar relatório de diagnóstico") }
                 Text("Selecione compartilhar a tela inteira. Rotação e conexões via internet ainda não são suportadas.")
             } }
         }

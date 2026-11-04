@@ -16,8 +16,14 @@ object State {
     @Volatile var width = 1
     @Volatile var height = 1
     @Volatile var message = "Desconectado"
+    @Volatile var lastError = "Nenhum"
+    @Volatile var framesProduced = 0L
+    @Volatile var lastFrameAt = 0L
+    @Volatile var lastInput = "Nenhum comando recebido"
+    @Volatile var lastBrowserAt = 0L
+    @Volatile var updateStatus = "Verificação ainda não realizada"
     @Synchronized fun reset() {
-        frame = null; pending = false; approved = false; token = ""; failures = 0
+        frame = null; pending = false; approved = false; token = ""; failures = 0; framesProduced = 0; lastFrameAt = 0; lastBrowserAt = 0; lastInput = "Nenhum comando recebido"
         code = (10000000 + random.nextInt(90000000)).toString()
         expires = System.currentTimeMillis() + 5 * 60_000L
     }

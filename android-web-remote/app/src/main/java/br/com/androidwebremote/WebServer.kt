@@ -37,6 +37,7 @@ class WebServer(private val context: Context) : NanoHTTPD(8080) {
             return if (State.approved && System.currentTimeMillis() < State.expires) response(Response.Status.OK, "text/plain", State.token) else response(Response.Status.ACCEPTED, "text/plain", "Aguardando aprovação")
         }
         if (!State.authorized(session.headers["x-session-token"])) return fail()
+        State.lastBrowserAt = System.currentTimeMillis()
         if (session.method == Method.GET && path == "/frame") {
             val bytes = State.frame ?: return response(Response.Status.ACCEPTED, "text/plain", "Aguardando quadro")
             return newFixedLengthResponse(Response.Status.OK, "image/jpeg", ByteArrayInputStream(bytes), bytes.size.toLong()).apply { addHeader("Cache-Control", "no-store"); addHeader("X-Content-Type-Options", "nosniff") }
@@ -56,6 +57,7 @@ class WebServer(private val context: Context) : NanoHTTPD(8080) {
                 "text" -> if (!svc.text((p["text"]?.firstOrNull() ?: "").take(2000))) return response(Response.Status.BAD_REQUEST, "text/plain", "Campo não aceita edição")
                 else -> return fail()
             }
+            State.lastInput = "Comando processado: " + (p["action"]?.firstOrNull() ?: "desconhecido")
             return response(Response.Status.OK, "text/plain", "OK")
         }
         if (session.method == Method.POST && path == "/disconnect") { State.reset(); return response(Response.Status.OK, "text/plain", "Sessão revogada") }

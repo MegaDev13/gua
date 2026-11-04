@@ -49,7 +49,7 @@ class RemoteService : Service() {
                         val bmp = Bitmap.createBitmap(w + pad / plane.pixelStride, h, Bitmap.Config.ARGB_8888)
                         bmp.copyPixelsFromBuffer(plane.buffer)
                         val crop = Bitmap.createBitmap(bmp, 0, 0, w, h)
-                        val out = ByteArrayOutputStream(); crop.compress(Bitmap.CompressFormat.JPEG, 65, out); State.frame = out.toByteArray()
+                        val out = ByteArrayOutputStream(); crop.compress(Bitmap.CompressFormat.JPEG, 65, out); State.frame = out.toByteArray(); State.framesProduced++; State.lastFrameAt = System.currentTimeMillis()
                         if (crop !== bmp) crop.recycle(); bmp.recycle()
                     }
                 } finally { image.close() }
@@ -59,7 +59,7 @@ class RemoteService : Service() {
             display = projection!!.createVirtualDisplay("Android Web Remote", w, h, metrics.densityDpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, reader!!.surface, null, null)
             server = WebServer(this).also { it.start() }
             State.running = true; State.message = "Servidor ativo: aguardando navegador"
-        } catch (e: Exception) { State.message = "Falha ao iniciar: ${e.message}"; stopSelf() }
+        } catch (e: Exception) { State.lastError = "Falha ao iniciar (${e.javaClass.simpleName})"; State.message = State.lastError; stopSelf() }
         return START_NOT_STICKY
     }
     override fun onDestroy() {
