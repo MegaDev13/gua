@@ -9,6 +9,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
@@ -31,9 +39,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             var tick by remember { mutableIntStateOf(0) }
             LaunchedEffect(Unit) { Diagnostics.checkUpdates(); while (true) { delay(500); tick++ } }
-            MaterialTheme { Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                Text("ANDROID WEB REMOTE", style = MaterialTheme.typography.headlineSmall)
-                Text("Experimental • somente rede local confiável")
+            MaterialTheme(colorScheme = darkColorScheme(primary = Color(0xFF70E0EB), background = Color(0xFF0B1222), surface = Color(0xFF111C31), onSurface = Color(0xFFE8F2FF))) {
+              Surface(Modifier.fillMaxSize()) {
+              Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Column(Modifier.fillMaxWidth().background(Brush.linearGradient(listOf(Color(0xFF1B3556), Color(0xFF151E38))), RoundedCornerShape(24.dp)).padding(22.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Image(painterResource(R.drawable.ic_remote), contentDescription = "Ícone Web Remote", modifier = Modifier.size(64.dp))
+                    Text("ANDROID", color = Color(0xFF88EAF0), style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.Bold)
+                    Text("Web Remote", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+                    Text("Seu celular ao alcance do navegador", color = Color(0xFFC0D3E9), style = MaterialTheme.typography.bodyMedium)
+                }
+                Text("EXPERIMENTAL • REDE LOCAL", color = Color(0xFF83DEEA), style = MaterialTheme.typography.labelMedium)
                 Text(if (tick >= 0) State.message else "")
                 Text("Endereço: http://${localIp()}:8080")
                 Text("Código temporário: ${if (State.running) State.code else "—"}")
@@ -56,7 +71,7 @@ class MainActivity : ComponentActivity() {
                     startActivity(Intent.createChooser(share, "Compartilhar diagnóstico"))
                 }) { Text("Compartilhar relatório de diagnóstico") }
                 Text("Selecione compartilhar a tela inteira. Rotação e conexões via internet ainda não são suportadas.")
-            } }
+            } } }
         }
     }
     private fun localIp(): String = try {
