@@ -2,8 +2,9 @@ name: Build Android Web Remote
 on:
   push:
     branches: [android-web-remote-build]
+  workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,6 +12,11 @@ jobs:
     defaults:
       run:
         working-directory: android-web-remote
+    env:
+      AWR_KEYSTORE_BASE64: ${{ secrets.AWR_KEYSTORE_BASE64 }}
+      AWR_STORE_PASSWORD: ${{ secrets.AWR_STORE_PASSWORD }}
+      AWR_KEY_ALIAS: ${{ secrets.AWR_KEY_ALIAS }}
+      AWR_KEY_PASSWORD: ${{ secrets.AWR_KEY_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -20,11 +26,40 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-      - name: Build debug APK
-        run: gradle --no-daemon --stacktrace assembleDebug
-      - uses: actions/upload-artifact@v4
+      - name: Compile and sign when the signing secrets exist
+        id: build
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "$AWR_KEYSTORE_BASE64" && -n "$AWR_STORE_PASSWORD" && -n "$AWR_KEY_ALIAS" && -n "$AWR_KEY_PASSWORD" ]]; then
+            export AWR_KEYSTORE_PATH="$RUNNER_TEMP/awr-signing.jks"
+            trap 'rm -f "$AWR_KEYSTORE_PATH"' EXIT
+            printf '%s' "$AWR_KEYSTORE_BASE64" | base64 --decode > "$AWR_KEYSTORE_PATH"
+            gradle --no-daemon assembleRelease
+            cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/android-web-remote.apk"
+            echo 'signed=true' >> "$GITHUB_OUTPUT"
+          else
+            gradle --no-daemon assembleDebug
+            cp app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/android-web-remote-debug.apk"
+            echo 'signed=false' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Save APK as build artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: android-web-remote-debug
-          path: android-web-remote/app/build/outputs/apk/debug/app-debug.apk
+          name: android-web-remote-build
+          path: ${{ runner.temp }}/android-web-remote*.apk
           if-no-files-found: error
           retention-days: 7
+      - name: Publish signed update
+        if: steps.build.outputs.signed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag=android-web-remote-latest
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$tag" "$RUNNER_TEMP/android-web-remote.apk" --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$tag" "$RUNNER_TEMP/android-web-remote.apk" --target "$GITHUB_SHA" --title 'Android Web Remote' --notes 'Versão experimental para testes em rede local.' --latest=false --repo "$GITHUB_REPOSITORY"
+          fi

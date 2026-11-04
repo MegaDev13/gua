@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             var tick by remember { mutableIntStateOf(0) }
-            LaunchedEffect(Unit) { Diagnostics.checkUpdates(); while (true) { delay(500); tick++ } }
+            LaunchedEffect(Unit) { Updater.check(this@MainActivity); while (true) { delay(500); tick++ } }
             MaterialTheme(colorScheme = darkColorScheme(primary = Color(0xFF70E0EB), background = Color(0xFF0B1222), surface = Color(0xFF111C31), onSurface = Color(0xFFE8F2FF))) {
               Surface(Modifier.fillMaxSize()) {
               Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -64,7 +64,10 @@ class MainActivity : ComponentActivity() {
                 HorizontalDivider()
                 Text("Diagnóstico e atualizações", style = MaterialTheme.typography.titleMedium)
                 Text(State.updateStatus)
-                OutlinedButton(onClick = { Diagnostics.checkUpdates() }) { Text("Verificar atualizações") }
+                OutlinedButton(onClick = { Updater.check(this@MainActivity) }) { Text("Verificar atualizações") }
+                if (Updater.ready) {
+                    Button(onClick = { Updater.install(this@MainActivity) }) { Text("Instalar atualização") }
+                }
                 OutlinedButton(onClick = {
                     val report = Diagnostics.report(this@MainActivity)
                     val share = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, report)

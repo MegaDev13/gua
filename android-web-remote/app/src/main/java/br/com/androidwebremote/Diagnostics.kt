@@ -40,25 +40,4 @@ Atualizações: ${State.updateStatus}
 Observação: o relatório descreve sinais observados e não garante que a imagem ou os gestos funcionem corretamente no navegador. Não inclui imagem, conteúdo digitado, IP, código de pareamento ou token.
 """.trimIndent()
     }
-    fun checkUpdates() {
-        State.updateStatus = "Consultando GitHub..."
-        Thread {
-            var connection: HttpURLConnection? = null
-            try {
-                val url = URL("https://api.github.com/repos/MegaDev13/gua/actions/workflows/android-web-remote.yml/runs?branch=android-web-remote-build&status=success&per_page=1")
-                connection = url.openConnection() as HttpURLConnection
-                connection.connectTimeout = 10000; connection.readTimeout = 10000
-                connection.setRequestProperty("Accept", "application/vnd.github+json")
-                connection.setRequestProperty("User-Agent", "AndroidWebRemote-Diagnostics")
-                if (connection.responseCode != 200) throw IllegalStateException("Resposta HTTP ${connection.responseCode}")
-                val raw = connection.inputStream.bufferedReader().use { it.readText() }
-                val runs = JSONObject(raw).getJSONArray("workflow_runs")
-                if (runs.length() == 0) { State.updateStatus = "Nenhuma compilação bem-sucedida encontrada"; return@Thread }
-                val revision = runs.getJSONObject(0).getString("head_sha")
-                State.updateStatus = if (BuildConfig.BUILD_REVISION == "local") "Versão instalada sem revisão de compilação; não é possível comparar" else if (revision == BuildConfig.BUILD_REVISION) "Esta é a última compilação bem-sucedida" else "Há uma compilação mais recente; instalação automática ainda não disponível"
-            } catch (e: Exception) {
-                State.updateStatus = "Não foi possível consultar atualizações (${e.javaClass.simpleName})"
-            } finally { connection?.disconnect() }
-        }.start()
-    }
 }
